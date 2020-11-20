@@ -65,6 +65,7 @@
     packages = with pkgs; [
       neofetch
       htop
+      brave
       discord-ptb
       dmenu
       st

@@ -122,7 +122,6 @@
     git
     xdo 
     vim
-    brave
     lxappearance
     shotgun
     hacksaw
