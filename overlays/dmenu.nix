@@ -4,8 +4,8 @@ self: super:
     src = super.fetchFromGitHub {
       owner = "fortuneteller2k";
       repo = "dmenu";
-      rev = "7a8c35cc845eff23baae89ccb25a04e98524e555";
-      sha256 = "0ikjrif5x927gkqshkl0v5a386zkrrncch27z6n3xbjcl4c0lmx6";
+      rev = "b6c45ad9d7eb2156ace1f97e0fb71a9ce68976ba";
+      sha256 = "0ygbwx1ky6gf9z01vinmypv8iksrbq7hlqxaphq1mg1n5g39nrx7";
     };
     patches = [];
   });
