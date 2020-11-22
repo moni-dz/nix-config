@@ -27,7 +27,7 @@
 
     starship = {
       enable = true;
-      settings.format = "[fortuneteller2k](bold purple) at [nixos](bold blue) in $directory$git_branch$git_commit$character ";
+      settings.format = "[fortuneteller2k](bold purple) at [nixos](bold blue) in $directory$nix_shell$git_branch$git_commit$character ";
     };
   };
 
