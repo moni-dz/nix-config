@@ -157,7 +157,7 @@
     background = "#00000000";
     foreground = "\${colors.x7}";
     width = "100%";
-    height = 17;
+    height = 19;
     wm-name = "spectrwm";
     enable-ipc = true;
     font-0 = "FantasqueSansMono Nerd Font:size=12:style=Medium;3";
