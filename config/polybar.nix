@@ -40,7 +40,7 @@
     label-urgent-foreground = "\${colors.x0}";
     label-urgent-padding = 1;
     format = "   <label-state>";
-    format-background = "\${colors.x2}";
+    format-background = "\${colors.x5}";
     format-foreground = "\${colors.x0}";
   };
 
@@ -60,7 +60,7 @@
     enable-scroll = false;
     format = "<ramp> <label>";
     format-foreground = "\${colors.x0}";
-    format-background = "\${colors.x3}";
+    format-background = "\${colors.x5}";
     label = "%percentage%% ";
     ramp-0 = "  ";
     ramp-1 = "  ";
@@ -75,13 +75,13 @@
     adapter = "ACAD";
     format-charging = "<ramp-capacity> <label-charging>";
     format-charging-foreground = "\${colors.x0}";
-    format-charging-background = "\${colors.x3}";
+    format-charging-background = "\${colors.x5}";
     format-discharging = "<ramp-capacity> <label-discharging>";
     format-discharging-foreground = "\${colors.x0}";
-    format-discharging-background = "\${colors.x3}";
+    format-discharging-background = "\${colors.x5}";
     format-full = "<label-full>";
     format-full-foreground = "\${colors.x0}";
-    format-full-background = "\${colors.x3}";
+    format-full-background = "\${colors.x5}";
     label-charging = "%percentage%% ";
     label-discharging = "%percentage%% ";
     label-full = "  %percentage%% ";
@@ -104,10 +104,10 @@
     interval = 10;
     format-volume = " <ramp-volume> <label-volume> ";
     format-volume-foreground = "\${colors.x0}";
-    format-volume-background = "\${colors.x4}";
-    label-muted = " 婢  Muted";
+    format-volume-background = "\${colors.x5}";
+    label-muted = " 婢  Muted ";
     label-muted-foreground = "\${colors.x0}";
-    label-muted-background = "\${colors.x4}";
+    label-muted-background = "\${colors.x5}";
     ramp-volume-0 = "  ";
     ramp-volume-1 = "  ";
     ramp-volume-2 = "  ";
@@ -121,7 +121,7 @@
     click-left = "\"PATH=/home/fortuneteller2k/.nix-profile/bin networkmanager_dmenu &\"";
     format = "<label>";
     format-foreground = "\${colors.x0}";
-    format-background = "\${colors.x4}";
+    format-background = "\${colors.x5}";
     label = "%output% ";
   };
 
@@ -136,53 +136,18 @@
     label = "%date% %time%";
   };
 
-  "module/sep_1" = {
-    type = "custom/text";
-    content = "";
-    content-foreground = "\${colors.x2}";
-    content-background = "\${colors.x0}";
-  };
-
-  "module/wspc_1" = {
-    type = "custom/text";
-    content = " ";
-    content-foreground = "\${colors.x3}";
-    content-background = "\${colors.x3}";
-  };
-
-  "module/sep_2" = {
-    type = "custom/text";
-    content = "";
-    content-foreground = "\${colors.x3}";
-    content-background = "\${colors.x0}";
-  };
-
-  "module/wspc_2" = {
-    type = "custom/text";
-    content = " ";
-    content-foreground = "\${colors.x4}";
-    content-background = "\${colors.x4}";
-  };
-
-  "module/sep_3" = {
-    type = "custom/text";
-    content = "";
-    content-foreground = "\${colors.x4}";
-    content-background = "\${colors.x3}";
-  };
-
-  "module/wspc_3" = {
+  "module/wspc" = {
     type = "custom/text";
     content = " ";
     content-foreground = "\${colors.x5}";
     content-background = "\${colors.x5}";
   };
 
-  "module/sep_4" = {
+  "module/wspc_b" = {
     type = "custom/text";
-    content = "";
-    content-foreground = "\${colors.x5}";
-    content-background = "\${colors.x4}";
+    content = " ";
+    content-foreground = "#00000000";
+    content-background = "#00000000";
   };
 
   "bar/main" = {
@@ -196,13 +161,13 @@
     wm-name = "spectrwm";
     enable-ipc = true;
     font-0 = "FantasqueSansMono Nerd Font:size=12:style=Medium;3";
-    modules-left = "ewmh xwindow sep_1";
-    modules-right = "sep_2 backlight wspc_1 battery sep_3 pulseaudio wspc_2 network sep_4 date wspc_3";
+    modules-left = "wspc ewmh";
+    modules-right = "backlight wspc_b wspc battery wspc_b pulseaudio wspc_b wspc network wspc_b date wspc";
     modules-center = "";
     locale = "en_US.UTF-8";
     module-margin-left = 0;
     module-margin-right = 0;
-    padding = 0;
+    padding = 1;
     separator = "";
   };
 }
