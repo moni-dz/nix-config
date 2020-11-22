@@ -14,6 +14,15 @@
   # Allow nonfree software
   nixpkgs.config.allowUnfree = true;
 
+  nix = {
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 7d";
+    };
+    autoOptimiseStore = true;
+  };
+
   # Use the grub EFI boot loader.
   boot = {
     kernelParams = [
