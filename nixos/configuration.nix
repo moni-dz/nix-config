@@ -120,6 +120,7 @@
   users.users.fortuneteller2k = {
     isNormalUser = true;
     home = "/home/fortuneteller2k";
+    shell = pkgs.zsh;
     extraGroups = [ "wheel" "networkmanager" "video" "audio" ]; # Enable ‘sudo’ for the user.
   };
 
@@ -137,9 +138,12 @@
     xclip
     pcmanfm
     cmake
+    ripgrep
+    fd
+    nixfmt
+    shellcheck
     gcc
     gnumake
-    dracula-theme
     libtool
     xidlehook
     xss-lock
@@ -147,9 +151,18 @@
   ];
 
   programs = {
-    bash.interactiveShellInit = "eval \"$(starship init bash)\"";
     slock.enable = true; # screen locker
+    zsh = {
+      enable = true;
+      syntaxHighlighting.enable = true;
+      interactiveShellInit = ''
+        . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
+        eval $(starship init zsh)
+      '';
+    };
   };
+
+  services.dbus.packages = with pkgs; [ gnome3.dconf ];
   
   # Font packages and configuration
   fonts = {

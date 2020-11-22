@@ -13,6 +13,11 @@
       extraPackages = epkgs: [ epkgs.vterm ];
     };
 
+    vscode = {
+      enable = true;
+      package = pkgs.vscodium;
+    };
+
     alacritty = {
       enable = true;
       settings = {
@@ -59,10 +64,25 @@
     };
   };
 
+  gtk = {
+    enable = true;
+    font.name = "Inter V";
+    iconTheme = {
+      package = pkgs.papirus-icon-theme;
+      name = "Papirus-Dark";
+    };
+    theme = {
+      package = pkgs.dracula-theme;
+      name = "Dracula";
+    };
+  };
+
   # Home Manager needs a bit of information about you and the
   # paths it should manage.
   home = {
     packages = with pkgs; [
+      rustup
+      rust-analyzer
       neofetch
       htop
       brave
@@ -78,8 +98,8 @@
       emacs-all-the-icons-fonts
     ];
 
-    username = "fortuneteller2k";
-    homeDirectory = "/home/fortuneteller2k";
+    username = builtins.getEnv "USER";
+    homeDirectory = builtins.getEnv "HOME";
 
     sessionVariables = {
       EDITOR = "emacsclient -nc";
