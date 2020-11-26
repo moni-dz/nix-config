@@ -16,6 +16,12 @@
     vscode = {
       enable = true;
       package = pkgs.vscodium;
+      userSettings = {
+        "editor.tabSize" = 2;
+        "editor.fontLigatures" = true;
+        "rust-client.engine" = "rls";
+        "rust.rust-analyzer.path" = "/home/fortuneteller2k/.nix-profile/bin/rust-analyzer";
+      };
     };
 
     alacritty = {
@@ -36,6 +42,18 @@
     };
   };
 
+  systemd.user.services = {
+    emacs = {
+      Service = {
+        Type = "simple";
+        ExecStart = "${pkgs.emacsGccPgtk}/bin/emacs --fg-daemon";
+        ExecStop = "${pkgs.emacsGccPgtk}/bin/emacsclient --eval (kill-emacs)";
+        Restart = "on-failure";
+      };
+      Install.WantedBy = [ "graphical-session.target" ];
+    };
+  };
+
   services = {
     sxhkd = {
       enable = true;
@@ -44,23 +62,10 @@
         "Print" = "~/.config/spectrwm/scripts/screenshot.sh wind";
       };
     };
-
     polybar = {
       enable = true;
       script = "polybar main &";
       config = (import ./config/polybar.nix);
-    };
-  };
-
-  systemd.user.services = {
-    emacs = {
-      Service = {
-        Type = "forking";
-        ExecStart = "${pkgs.emacsGccPgtk}/bin/emacs --daemon";
-        ExecStop = "${pkgs.emacsGccPgtk}/bin/emacsclient --eval (kill-emacs)";
-        Restart = "always";
-      };
-      Install.WantedBy = [ "graphical-session.target" ];
     };
   };
 
@@ -86,13 +91,16 @@
       neofetch
       htop
       brave
-      discord-ptb
+      discord
       dmenu
-      st
+      geogebra6
+      sxiv
       tabbed
+      texlive.combined.scheme-medium
       networkmanager_dmenu
       obs-studio
       mpv
+      gimp
       papirus-icon-theme
       (zathura.override { useMupdf = false; })
       emacs-all-the-icons-fonts
@@ -103,6 +111,7 @@
 
     sessionVariables = {
       EDITOR = "emacsclient -nc";
+      PATH = "$PATH:$HOME/.config/emacs/bin";
     };
 
     # This value determines the Home Manager release that your
