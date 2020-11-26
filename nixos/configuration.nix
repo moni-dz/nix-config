@@ -25,6 +25,7 @@
 
   # Use the grub EFI boot loader.
   boot = {
+    kernelPackages = pkgs.linuxPackages_zen;
     kernelParams = [
       "quiet"
       "mitigations=off"
@@ -155,10 +156,16 @@
     zsh = {
       enable = true;
       syntaxHighlighting.enable = true;
+      autosuggestions.enable = true;
       interactiveShellInit = ''
         . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
         eval $(starship init zsh)
       '';
+      shellAliases = {
+        ls = "ls --color=auto";
+        la = "ls -la --color=auto";
+        l = "ls -l --color=auto";
+      };
     };
   };
 
