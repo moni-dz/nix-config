@@ -41,6 +41,7 @@
         gfxmodeEfi = "1366x768";
       };
     };
+    plymouth.enable = true;
   };
  
   # Set your time zone.
@@ -81,7 +82,6 @@
       # Enable touchpad support (enabled default in most desktopManager).
       libinput.enable = true;
     };
-
     picom = {
       enable = true;
       backend = "glx";
@@ -96,14 +96,14 @@
         "0:_NET_WM_STATE@[4]:32a *= '_NET_WM_STATE_HIDDEN'"
       ];      
     };
-
     openssh.enable = true;
   };
 
-  # Enable sound.
-  sound.enable = true;
-  hardware = { 
-    pulseaudio.enable = true; # Use pulseaudio for sound
+  # Sound support (ALSA)
+  sound.enable = true;  
+
+  hardware = {
+    pulseaudio.enable = true; # Sound support (PulseAudio)
     acpilight.enable = true; # Backlight control
     opengl = {
       enable = true;
@@ -169,8 +169,10 @@
     };
   };
 
-  services.dbus.packages = with pkgs; [ gnome3.dconf ];
-  
+  services = {
+    dbus.packages = with pkgs; [ gnome3.dconf ];
+  };
+
   # Font packages and configuration
   fonts = {
     fonts = with pkgs; [
@@ -179,7 +181,6 @@
       fantasque-sans-mono
       twemoji-color-font
     ];
-
     fontconfig = {
       enable = true;
       defaultFonts = {

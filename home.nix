@@ -6,21 +6,26 @@
   # Let Home Manager install and manage itself.
   programs = { 
     home-manager.enable = true;
-
     emacs = {
       enable = true;
       package = pkgs.emacsGccPgtk;
       extraPackages = epkgs: [ epkgs.vterm ];
     };
-
     vscode = {
       enable = true;
       package = pkgs.vscodium;
       userSettings = {
         "editor.tabSize" = 2;
         "editor.fontLigatures" = true;
+        "editor.semanticHighlighting.enabled" = "true";
+        "rust-client.autoStartRls" = true;
         "rust-client.engine" = "rls";
-        "rust.rust-analyzer.path" = "/home/fortuneteller2k/.nix-profile/bin/rust-analyzer";
+        "workbench.colorTheme" = "Horizon Bold";
+        "rust.racer_completion" = true;
+        "rust.clippy_preference" = "on";
+        "rust.all_features" = true;
+        "files.autoSave" = "afterDelay";
+        "workbench.iconTheme" = "vscode-icons";
       };
     };
 
@@ -35,7 +40,6 @@
         colors = (import ./config/alacritty-colors.nix);
       };
     };
-
     starship = {
       enable = true;
       settings.format = "[fortuneteller2k](bold purple) at [nixos](bold blue) in $directory$nix_shell$git_branch$git_commit$character ";
@@ -87,11 +91,19 @@
   home = {
     packages = with pkgs; [
       rustup
-      rust-analyzer
+      nodejs
+      nodePackages.typescript
+      nodePackages.npm
       neofetch
       htop
+      exa
+      go
       brave
+      hyperfine
       discord
+      ripcord
+      st
+      nix-top
       dmenu
       geogebra6
       sxiv
@@ -105,15 +117,12 @@
       (zathura.override { useMupdf = false; })
       emacs-all-the-icons-fonts
     ];
-
     username = builtins.getEnv "USER";
     homeDirectory = builtins.getEnv "HOME";
-
     sessionVariables = {
       EDITOR = "emacsclient -nc";
       PATH = "$PATH:$HOME/.config/emacs/bin";
     };
-
     # This value determines the Home Manager release that your
     # configuration is compatible with. This helps avoid breakage
     # when a new Home Manager release introduces backwards
@@ -124,6 +133,5 @@
     # changes in each release.
     stateVersion = "21.03";
   };
-
   fonts.fontconfig.enable = true;
 }
