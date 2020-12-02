@@ -9,7 +9,7 @@ self: super:
     };
     cargoDeps = old.cargoDeps.overrideAttrs (_: {
       inherit src;
-      outputHash = "01hd6qjh8q7s94i7l226xwfa1277l8lb3681sx34z64xz57wq6sv";
+      outputHash = "1g0414pn5h9a0xacksgls7nq1p64x8sv4y042d5y3wf7xmyd0y9w";
     });
   });
 }
