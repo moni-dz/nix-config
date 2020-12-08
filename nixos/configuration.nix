@@ -27,7 +27,6 @@
   boot = {
     kernelPackages = pkgs.linuxPackages_zen;
     kernelParams = [
-      "quiet"
       "mitigations=off"
       "acpi_backlight=vendor"
     ];
@@ -41,7 +40,6 @@
         gfxmodeEfi = "1366x768";
       };
     };
-    plymouth.enable = true;
   };
  
   # Set your time zone.
@@ -75,8 +73,16 @@
     xserver = {
       # Enable selected window managers.
       enable = true;
-      displayManager.lightdm.enable = true;
-      windowManager.spectrwm.enable = true;
+      displayManager = {
+        gdm.enable = true;
+        defaultSession = "none+xmonad";
+      };
+      windowManager = {
+        xmonad = {
+          enable = true;
+          enableContribAndExtras = true;
+        };
+      };
       # Configure keymap in X11
       layout = "us";
       # Enable touchpad support (enabled default in most desktopManager).
@@ -96,14 +102,23 @@
         "0:_NET_WM_STATE@[4]:32a *= '_NET_WM_STATE_HIDDEN'"
       ];      
     };
+    chrony = {
+      enable = true;
+      servers = [
+        "ntp.pagasa.dost.gov.ph"
+        "0.nixos.pool.ntp.org"
+        "1.nixos.pool.ntp.org"
+        "2.nixos.pool.ntp.org"
+        "3.nixos.pool.ntp.org"
+      ];
+    };
     openssh.enable = true;
   };
 
-  # Sound support (ALSA)
-  sound.enable = true;  
-
-  hardware = {
-    pulseaudio.enable = true; # Sound support (PulseAudio)
+  # Enable sound.
+  sound.enable = true;
+  hardware = { 
+    pulseaudio.enable = true; # Use pulseaudio for sound
     acpilight.enable = true; # Backlight control
     opengl = {
       enable = true;
@@ -139,13 +154,23 @@
     xclip
     pcmanfm
     cmake
+    unzip
     ripgrep
     fd
     nixfmt
     shellcheck
     gcc
+    rustup
+    rust-analyzer-unwrapped
+    elixir
+    nodejs
+    nodePackages.typescript
+    nodePackages.npm
+    go
+    gimp
     gnumake
     libtool
+    xorg.xkill
     xidlehook
     xss-lock
     nitrogen
@@ -157,37 +182,33 @@
       enable = true;
       syntaxHighlighting.enable = true;
       autosuggestions.enable = true;
-      interactiveShellInit = ''
-        . "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"
-        eval $(starship init zsh)
-      '';
+      interactiveShellInit = ''. "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"'';
+      promptInit = "eval $(starship init zsh)";
       shellAliases = {
-        ls = "ls --color=auto";
-        la = "ls -la --color=auto";
-        l = "ls -l --color=auto";
+        ls = "exa";
+        la = "exa -la";
+        l = "exa -l";
       };
     };
   };
 
-  services = {
-    dbus.packages = with pkgs; [ gnome3.dconf ];
-  };
-
+  services.dbus.packages = with pkgs; [ gnome3.dconf ];
+  
   # Font packages and configuration
   fonts = {
     fonts = with pkgs; [
       nerdfonts
       inter
       fantasque-sans-mono
-      twemoji-color-font
+      noto-fonts-emoji
     ];
     fontconfig = {
       enable = true;
       defaultFonts = {
-        serif = [ "Inter V" ];
+        serif = [ "Inter" ];
         sansSerif = [ "Inter" ];
         monospace = [ "FantasqueSansMono Nerd Font" ];
-        emoji = [ "Twitter Color Emoji" ];
+        emoji = [ "Noto Color Emoji" ];
       };
     };
   };
@@ -203,4 +224,3 @@
     autoUpgrade.enable = true;
   };
 }
-
