@@ -17,18 +17,13 @@
       userSettings = {
         "editor.tabSize" = 2;
         "editor.fontLigatures" = true;
-        "editor.semanticHighlighting.enabled" = "true";
-        "rust-client.autoStartRls" = true;
-        "rust-client.engine" = "rls";
+        "editor.semanticHighlighting.enabled" = true;
+        "rust-analyzer.serverPath" = "/run/current-system/sw/bin/rust-analyzer";
         "workbench.colorTheme" = "Horizon Bold";
-        "rust.racer_completion" = true;
-        "rust.clippy_preference" = "on";
-        "rust.all_features" = true;
         "files.autoSave" = "afterDelay";
         "workbench.iconTheme" = "vscode-icons";
       };
     };
-
     alacritty = {
       enable = true;
       settings = {
@@ -42,7 +37,10 @@
     };
     starship = {
       enable = true;
-      settings.format = "[fortuneteller2k](bold purple) at [nixos](bold blue) in $directory$nix_shell$git_branch$git_commit$character ";
+      settings = {
+        format = "[fortuneteller2k](bold purple) at [nixos](bold blue) in $all ";
+        line_break.disabled = true;
+      };
     };
   };
 
@@ -60,10 +58,45 @@
 
   services = {
     sxhkd = {
-      enable = true;
+      enable = false;
       extraPath = "/run/current-system/sw/bin";
       keybindings = {
         "Print" = "~/.config/spectrwm/scripts/screenshot.sh wind";
+      };
+    };
+    dunst = {
+      enable = true;
+      iconTheme = {
+        name = "Papirus";
+        size = "32x32";
+        package = pkgs.papirus-icon-theme;
+      };
+      settings = {
+        global = {
+          padding = 24;
+          markup = "full";
+          alignment = "center";
+          word_wrap = "yes";
+          horizontal_padding = 24;
+          frame_width = 6;
+          format = "<b>%s</b>: %b";
+          geometry = "300x5-14+40";
+          transparency = 10;
+          frame_color = "#ee64ae";
+          font = "FantasqueSansMono Nerd Font Mono 10";
+          timeout = 10;
+        };
+        urgency_normal = {
+          foreground = "#fdf0ed";
+          background = "#16161c";
+          frame-color = "#ee64ae";
+          timeout = 15;
+        };
+        urgency_critical = {
+          foreground = "#16161c";
+          background = "#e95678";
+          frame-color = "#16161c";
+        };
       };
     };
     polybar = {
@@ -75,7 +108,7 @@
 
   gtk = {
     enable = true;
-    font.name = "Inter V";
+    font.name = "Inter";
     iconTheme = {
       package = pkgs.papirus-icon-theme;
       name = "Papirus-Dark";
@@ -90,19 +123,15 @@
   # paths it should manage.
   home = {
     packages = with pkgs; [
-      rustup
-      nodejs
-      nodePackages.typescript
-      nodePackages.npm
       neofetch
       htop
       exa
-      go
       brave
       hyperfine
       discord
+      discord-canary
+      vimb
       ripcord
-      st
       nix-top
       dmenu
       geogebra6
@@ -112,7 +141,6 @@
       networkmanager_dmenu
       obs-studio
       mpv
-      gimp
       papirus-icon-theme
       (zathura.override { useMupdf = false; })
       emacs-all-the-icons-fonts

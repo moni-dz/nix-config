@@ -3,12 +3,9 @@ with import <nixpkgs> {};
 self: super:
 {
   polybar = super.polybar.overrideAttrs (old: {
-    src = super.fetchFromGitHub {
-      owner = "polybar";
-      repo = "polybar";
-      rev = "14a948d75d2fe6dae4d95afa06f18dbdfb147243";
-      sha256 = "0pa9hps1zwbf567gjd9wjax8qnamyhl6naam04s2hz1apk7pci5b";
-      fetchSubmodules = true;
+    src = super.fetchurl {
+      url = "https://github.com/polybar/polybar/releases/download/3.5.0/polybar-3.5.0.tar";
+      sha256 = "e8c1798c195854852fc7c99703287294123381101b371f171d4aa540aeb17afd";
     };
 
     buildInputs = [

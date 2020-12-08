@@ -13,7 +13,7 @@
   "module/ewmh" = {
     type = "internal/xworkspaces";
     show-all = true;
-    pin-workspaces = true;
+    pin-workspaces = false;
     enable-click = true;
     enable-scroll = true;
     icon-0 = "A;α";
@@ -151,7 +151,7 @@
   };
 
   "bar/main" = {
-    override-redirect = true;
+    override-redirect = false;
     pseudo-transparency = true;
     fixed-center = true;
     background = "#00000000";
