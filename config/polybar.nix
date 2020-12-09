@@ -40,18 +40,8 @@
     label-urgent-foreground = "\${colors.x0}";
     label-urgent-padding = 1;
     format = "   <label-state>";
-    format-background = "\${colors.x5}";
+    format-background = "\${colors.x3}";
     format-foreground = "\${colors.x0}";
-  };
-
-  "module/xwindow" = {
-    type = "internal/xwindow";
-    format = "<label>";
-    format-foreground = "\${colors.x0}";
-    format-background = "\${colors.x2}";
-    format-padding = 1;
-    label = "%title%";
-    label-maxlen = 40;
   };
 
   "module/backlight" = {
@@ -60,7 +50,7 @@
     enable-scroll = false;
     format = "<ramp> <label>";
     format-foreground = "\${colors.x0}";
-    format-background = "\${colors.x5}";
+    format-background = "\${colors.x3}";
     label = "%percentage%% ";
     ramp-0 = "  ";
     ramp-1 = "  ";
@@ -75,13 +65,13 @@
     adapter = "ACAD";
     format-charging = "<ramp-capacity> <label-charging>";
     format-charging-foreground = "\${colors.x0}";
-    format-charging-background = "\${colors.x5}";
+    format-charging-background = "\${colors.x3}";
     format-discharging = "<ramp-capacity> <label-discharging>";
     format-discharging-foreground = "\${colors.x0}";
-    format-discharging-background = "\${colors.x5}";
+    format-discharging-background = "\${colors.x3}";
     format-full = "<label-full>";
     format-full-foreground = "\${colors.x0}";
-    format-full-background = "\${colors.x5}";
+    format-full-background = "\${colors.x3}";
     label-charging = "%percentage%% ";
     label-discharging = "%percentage%% ";
     label-full = "  %percentage%% ";
@@ -104,10 +94,10 @@
     interval = 10;
     format-volume = " <ramp-volume> <label-volume> ";
     format-volume-foreground = "\${colors.x0}";
-    format-volume-background = "\${colors.x5}";
+    format-volume-background = "\${colors.x3}";
     label-muted = " 婢  Muted ";
     label-muted-foreground = "\${colors.x0}";
-    label-muted-background = "\${colors.x5}";
+    label-muted-background = "\${colors.x3}";
     ramp-volume-0 = "  ";
     ramp-volume-1 = "  ";
     ramp-volume-2 = "  ";
@@ -120,7 +110,7 @@
     tail = true;
     format = "<label>";
     format-foreground = "\${colors.x0}";
-    format-background = "\${colors.x5}";
+    format-background = "\${colors.x3}";
     label = "%output% ";
   };
 
@@ -131,15 +121,15 @@
     time = "%I:%M %p";
     format = "<label>";
     format-foreground = "\${colors.x0}";
-    format-background = "\${colors.x5}";
+    format-background = "\${colors.x3}";
     label = "%date% %time%";
   };
 
   "module/wspc" = {
     type = "custom/text";
     content = " ";
-    content-foreground = "\${colors.x5}";
-    content-background = "\${colors.x5}";
+    content-foreground = "\${colors.x3}";
+    content-background = "\${colors.x3}";
   };
 
   "module/wspc_b" = {
@@ -157,7 +147,7 @@
     foreground = "\${colors.x7}";
     width = "100%";
     height = 19;
-    wm-name = "spectrwm";
+    wm-name = "xmonad";
     enable-ipc = true;
     font-0 = "FantasqueSansMono Nerd Font:size=12:style=Medium;3";
     modules-left = "wspc ewmh";

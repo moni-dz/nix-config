@@ -200,7 +200,7 @@
       nerdfonts
       inter
       fantasque-sans-mono
-      noto-fonts-emoji
+      twemoji-color-font
     ];
     fontconfig = {
       enable = true;
@@ -208,7 +208,7 @@
         serif = [ "Inter" ];
         sansSerif = [ "Inter" ];
         monospace = [ "FantasqueSansMono Nerd Font" ];
-        emoji = [ "Noto Color Emoji" ];
+        emoji = [ "Twitter Color Emoji" ];
       };
     };
   };
