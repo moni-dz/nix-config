@@ -129,16 +129,12 @@
       brave
       hyperfine
       discord
-      discord-canary
       vimb
       ripcord
       nix-top
-      dmenu
       geogebra6
       sxiv
-      tabbed
       texlive.combined.scheme-medium
-      networkmanager_dmenu
       obs-studio
       mpv
       papirus-icon-theme

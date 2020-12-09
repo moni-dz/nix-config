@@ -118,7 +118,6 @@
     exec = "\"PATH=/run/current-system/sw/bin /home/fortuneteller2k/.config/scripts/network.sh\"";
     interval = 10;
     tail = true;
-    click-left = "\"PATH=/home/fortuneteller2k/.nix-profile/bin networkmanager_dmenu &\"";
     format = "<label>";
     format-foreground = "\${colors.x0}";
     format-background = "\${colors.x5}";
