@@ -31,6 +31,7 @@
           normal.family = "FantasqueSansMono Nerd Font";
           size = 10.0;
         };
+        background_opacity = 0.95;
         cursor.style = "Beam";
         colors = (import ./config/alacritty-colors.nix);
       };
@@ -57,13 +58,6 @@
   };
 
   services = {
-    sxhkd = {
-      enable = false;
-      extraPath = "/run/current-system/sw/bin";
-      keybindings = {
-        "Print" = "~/.config/spectrwm/scripts/screenshot.sh wind";
-      };
-    };
     dunst = {
       enable = true;
       iconTheme = {
@@ -129,9 +123,9 @@
       brave
       hyperfine
       discord
-      vimb
-      ripcord
+      discocss
       nix-top
+      speedtest-cli
       geogebra6
       sxiv
       texlive.combined.scheme-medium

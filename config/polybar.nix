@@ -25,6 +25,7 @@
     icon-6 = "G;η";
     icon-7 = "H;θ";
     icon-8 = "I;ι";
+    icon-9 = "J;κ";
     label-dimmed = "%index%";
     label-dimmed-padding = 1;
     label-active = "*";
@@ -140,7 +141,7 @@
   };
 
   "bar/main" = {
-    override-redirect = false;
+    override-redirect = true;
     pseudo-transparency = true;
     fixed-center = true;
     background = "#00000000";
