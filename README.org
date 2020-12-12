@@ -1,1 +1,7 @@
 #+TITLE: NixOS configuration
+
+#+begin_src sh
+git clone https://github.com/fortuneteller2k/nix-config ~/.config/nixpkgs
+sudo ln -sf ~/.config/nixpkgs/nixos /etc/nixos
+sudo nixos-rebuild switch
+#+end_src
