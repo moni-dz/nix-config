@@ -1,9 +1,21 @@
 #+TITLE: NixOS configuration
 
+* Installation
 #+begin_src sh
 cd ~/.config
 git clone https://github.com/fortuneteller2k/nix-config
 sudo ln -sf ~/.config/nix-config/nixos /etc/nixos
-sudo ln -sf ~/.config/nix-config/nixpkgs ~/.config/nixpkgs
-sudo nixos-rebuild switch
+ln -sf ~/.config/nix-config/nixpkgs ~/.config/nixpkgs
+sudo nixos-rebuild switch --flake '/etc/nixos#nixos'
 #+end_src
+
+* Description
+NixOS configuration that I use daily.
+
+=nixos= contains the system-wide configuration, symlinked to =/etc/nixos=
+=nixpkgs= contains the user configuration, symlinked to =$XDG_CONFIG_HOME/nixpkgs=
+
+See also:
+ * [[https://github.com/nix-community/home-manager][home-manager]]
+ * [[https://nixos.wiki/wiki/Flakes][flakes]]
+ * [[https://app.cachix.org/cache/nix-community][cachix]]
