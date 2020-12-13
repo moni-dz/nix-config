@@ -9,7 +9,7 @@
     emacs = {
       enable = true;
       package = pkgs.emacsPgtkGcc;
-      extraPackages = epkgs: [ epkgs.vterm ];
+      extraPackages = epkgs: with epkgs; [ vterm pdf-tools ];
     };
     vscode = {
       enable = true;
