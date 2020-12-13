@@ -30,6 +30,7 @@
   nix = {
     package = pkgs.nixFlakes;
     extraOptions = ''experimental-features = nix-command flakes'';
+    trustedUsers = [ "root" "fortuneteller2k" ];
     gc = {
       automatic = true;
       dates = "weekly";
@@ -118,6 +119,7 @@
           background-frame = false;
           background-fixed = false;
         };
+        blur-background-exclude = [ "window_type = 'dock'" "window_type = 'desktop'" ];
       };
     };
     chrony = {

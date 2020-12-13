@@ -8,7 +8,7 @@
     home-manager.enable = true;
     emacs = {
       enable = true;
-      package = pkgs.emacsGccPgtk;
+      package = pkgs.emacsPgtkGcc;
       extraPackages = epkgs: [ epkgs.vterm ];
     };
     vscode = {
@@ -49,8 +49,8 @@
     emacs = {
       Service = {
         Type = "simple";
-        ExecStart = "${pkgs.emacsGccPgtk}/bin/emacs --fg-daemon";
-        ExecStop = "${pkgs.emacsGccPgtk}/bin/emacsclient --eval (kill-emacs)";
+        ExecStart = "${pkgs.emacsPgtkGcc}/bin/emacs --fg-daemon";
+        ExecStop = "${pkgs.emacsPgtkGcc}/bin/emacsclient --eval (kill-emacs)";
         Restart = "on-failure";
       };
       Install.WantedBy = [ "graphical-session.target" ];
