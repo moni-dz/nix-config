@@ -20,7 +20,10 @@
         {
           nixpkgs = {
             config.allowUnfree = true;
-            overlays = [ inputs.emacs-overlay.overlay ];
+            overlays = with inputs; [
+              emacs-overlay.overlay
+              nur.overlay
+            ];
           };
         }
         ./configuration.nix
