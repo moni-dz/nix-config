@@ -1,8 +1,6 @@
 { config, pkgs, ... }:
 
 {
-  nixpkgs.config.allowUnfree = true;  
-
   # Let Home Manager install and manage itself.
   programs = { 
     home-manager.enable = true;
@@ -135,8 +133,8 @@
       (zathura.override { useMupdf = false; })
       emacs-all-the-icons-fonts
     ];
-    username = builtins.getEnv "USER";
-    homeDirectory = builtins.getEnv "HOME";
+    username = "fortuneteller2k";
+    homeDirectory = "/home/fortuneteller2k";
     sessionVariables = {
       EDITOR = "emacsclient -nc";
       PATH = "$PATH:$HOME/.config/emacs/bin";
