@@ -13,21 +13,21 @@
     nur.url = "github:nix-community/NUR";
   };
 
-  outputs = inputs: {
-    nixosConfigurations.nixos = inputs.nixpkgs.lib.nixosSystem {
+  outputs = inputs @ { self, nixpkgs, home-manager, emacs-overlay, nur }: {
+    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
         {
           nixpkgs = {
             config.allowUnfree = true;
-            overlays = with inputs; [
+            overlays = [
               emacs-overlay.overlay
               nur.overlay
             ];
           };
         }
         ./configuration.nix
-        inputs.home-manager.nixosModules.home-manager {
+        home-manager.nixosModules.home-manager {
           home-manager = {
             useGlobalPkgs = true;
             useUserPackages = true;
