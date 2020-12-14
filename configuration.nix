@@ -178,7 +178,6 @@
     zip
     ripgrep
     fd
-    python3
     nixfmt
     shellcheck
     gcc
