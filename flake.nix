@@ -19,11 +19,7 @@
         {
           nixpkgs = {
             config.allowUnfree = true;
-            overlays = [
-              inputs.emacs-overlay.overlay
-              ./overlays/polybar.nix
-              ./overlays/papirus-icon-theme.nix
-            ];
+            overlays = [ inputs.emacs-overlay.overlay ];
           };
         }
         ./configuration.nix
@@ -31,7 +27,7 @@
           home-manager = {
             useGlobalPkgs = true;
             useUserPackages = true;
-            users.fortuneteller2k = import ../nixpkgs/home.nix;
+            users.fortuneteller2k = import ./home.nix;
           };
         }
       ];

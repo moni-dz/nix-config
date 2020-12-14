@@ -95,6 +95,16 @@
       enable = true;
       script = "polybar main &";
       config = (import ./config/polybar.nix);
+      package = pkgs.polybar.override {
+        i3Support = false;
+        i3GapsSupport = false;
+        alsaSupport = false;
+        iwSupport = false;
+        githubSupport = false;
+        mpdSupport = false;
+        nlSupport = false;
+        pulseSupport = true;
+      };
     };
   };
 

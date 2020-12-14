@@ -4,16 +4,14 @@
 #+begin_src sh
 cd ~/.config
 git clone https://github.com/fortuneteller2k/nix-config
-sudo ln -sf ~/.config/nix-config/nixos /etc/nixos
-ln -sf ~/.config/nix-config/nixpkgs ~/.config/nixpkgs
-sudo nixos-rebuild switch --flake '/etc/nixos#nixos'
+sudo ln -sf ~/.config/nix-config /etc/nixos
+sudo nixos-rebuild switch
 #+end_src
 
 * Description
 NixOS configuration that I use daily.
 
-=nixos= contains the system-wide configuration, symlinked to =/etc/nixos=
-=nixpkgs= contains the user configuration, symlinked to =$XDG_CONFIG_HOME/nixpkgs=
+=nix-config= contains the system-wide *AND* home configuration, symlinked to =/etc/nixos=
 
 See also:
  * [[https://github.com/nix-community/home-manager][home-manager]]

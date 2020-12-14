@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, options, home, ... }:
+{ config, pkgs, options, ... }:
 
 {
   imports =
@@ -202,7 +202,6 @@
       enable = true;
       syntaxHighlighting.enable = true;
       autosuggestions.enable = true;
-      interactiveShellInit = ''. "${home.sessionVariables}/etc/profile.d/hm-session-vars.sh"'';
       promptInit = "eval $(starship init zsh)";
       shellAliases = {
         ls = "exa";
