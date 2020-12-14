@@ -177,6 +177,7 @@
     unzip
     ripgrep
     fd
+    python3
     nixfmt
     shellcheck
     gcc
@@ -210,7 +211,6 @@
         ls = "exa";
         la = "exa -la";
         l = "exa -l";
-        nix = "nix --command \"zsh\"";
       };
     };
   };
