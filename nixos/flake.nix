@@ -19,7 +19,11 @@
         {
           nixpkgs = {
             config.allowUnfree = true;
-            overlays = [ inputs.emacs-overlay.overlay ];
+            overlays = [
+              inputs.emacs-overlay.overlay
+              ./overlays/polybar.nix
+              ./overlays/papirus-icon-theme.nix
+            ];
           };
         }
         ./configuration.nix

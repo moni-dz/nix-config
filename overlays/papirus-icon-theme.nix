@@ -1,7 +1,7 @@
-self: super:
+final: prev:
 {
-  papirus-icon-theme = super.papirus-icon-theme.overrideAttrs (old: {
-    src = super.fetchFromGitHub {
+  papirus-icon-theme = prev.papirus-icon-theme.overrideAttrs (old: {
+    src = prev.fetchFromGitHub {
       owner = "PapirusDevelopmentTeam";
       repo = "papirus-icon-theme";
       rev = "20201031";
