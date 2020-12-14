@@ -175,6 +175,7 @@
     pcmanfm
     cmake
     unzip
+    zip
     ripgrep
     fd
     python3
