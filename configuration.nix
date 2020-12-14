@@ -203,11 +203,14 @@
       syntaxHighlighting.enable = true;
       autosuggestions.enable = true;
       promptInit = "eval $(starship init zsh)";
+      interactiveShellInit = ''
+        export PATH=$PATH:$HOME/.config/emacs/bin
+      '';
       shellAliases = {
         ls = "exa";
         la = "exa -la";
         l = "exa -l";
-        nix-shell = "nix-shell --command \"zsh\"";
+        nix = "nix --command \"zsh\"";
       };
     };
   };

@@ -1,8 +1,7 @@
 { config, pkgs, ... }:
 
 {
-  # Let Home Manager install and manage itself.
-  programs = { 
+  programs = {
     home-manager.enable = true;
     emacs = {
       enable = true;
@@ -24,15 +23,7 @@
     };
     alacritty = {
       enable = true;
-      settings = {
-        font = {
-          normal.family = "FantasqueSansMono Nerd Font";
-          size = 10.0;
-        };
-        background_opacity = 0.95;
-        cursor.style = "Beam";
-        colors = (import ./config/alacritty-colors.nix);
-      };
+      settings = (import ./config/alacritty.nix);
     };
     starship = {
       enable = true;
@@ -63,33 +54,7 @@
         size = "32x32";
         package = pkgs.papirus-icon-theme;
       };
-      settings = {
-        global = {
-          padding = 24;
-          markup = "full";
-          alignment = "center";
-          word_wrap = "yes";
-          horizontal_padding = 24;
-          frame_width = 6;
-          format = "<b>%s</b>: %b";
-          geometry = "300x5-14+40";
-          transparency = 10;
-          frame_color = "#fab795";
-          font = "FantasqueSansMono Nerd Font Mono 10";
-          timeout = 10;
-        };
-        urgency_normal = {
-          foreground = "#fdf0ed";
-          background = "#16161c";
-          frame-color = "#ee64ae";
-          timeout = 15;
-        };
-        urgency_critical = {
-          foreground = "#16161c";
-          background = "#e95678";
-          frame-color = "#16161c";
-        };
-      };
+      settings = (import ./config/dunst.nix);
     };
     polybar = {
       enable = true;
@@ -121,8 +86,6 @@
     };
   };
 
-  # Home Manager needs a bit of information about you and the
-  # paths it should manage.
   home = {
     packages = with pkgs; [
       neofetch
@@ -145,18 +108,6 @@
     ];
     username = "fortuneteller2k";
     homeDirectory = "/home/fortuneteller2k";
-    sessionVariables = {
-      EDITOR = "emacsclient -nc";
-      PATH = "$PATH:$HOME/.config/emacs/bin";
-    };
-    # This value determines the Home Manager release that your
-    # configuration is compatible with. This helps avoid breakage
-    # when a new Home Manager release introduces backwards
-    # incompatible changes.
-    #
-    # You can update Home Manager without changing this value. See
-    # the Home Manager release notes for a list of state version
-    # changes in each release.
     stateVersion = "21.03";
   };
   fonts.fontconfig.enable = true;
