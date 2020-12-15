@@ -91,6 +91,7 @@
         "3.nixos.pool.ntp.org"
       ];
     };
+    tlp.enable = true;
     openssh.enable = true;
   };
 
@@ -108,12 +109,19 @@
     };
   };
 
-  security.sudo.wheelNeedsPassword = false;
+  security = {
+    sudo.enable = false;
+    doas = {
+      enable = true;
+      wheelNeedsPassword = false;
+    };
+  };
 
   users.users.fortuneteller2k = {
     isNormalUser = true;
     home = "/home/fortuneteller2k";
     shell = pkgs.zsh;
+    group = "fortuneteller2k";
     extraGroups = [ "wheel" "networkmanager" "video" "audio" ];
   };
 
@@ -123,7 +131,6 @@
     git
     xdo 
     vim
-    lxappearance
     shotgun
     hacksaw
     xclip
@@ -149,12 +156,15 @@
     libtool
     xorg.xkill
     xidlehook
-    xss-lock
     nitrogen
   ];
 
   programs = {
     slock.enable = true;
+    xss-lock = {
+      enable = true;
+      lockerCommand = "${pkgs.slock}/bin/slock";
+    };
     zsh = {
       enable = true;
       syntaxHighlighting.enable = true;
@@ -201,6 +211,9 @@
 
   system = {
     stateVersion = "20.09";
-    autoUpgrade.enable = true;
+    autoUpgrade = {
+      enable = true;
+      flags = [ "--update-input" "nixpkgs" "--commit-lock-file" ];
+    };
   };
 }
