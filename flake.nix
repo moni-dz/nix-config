@@ -26,12 +26,12 @@
             ];
           };
         }
-        ./configuration.nix
+        ./nixos/configuration.nix
         home-manager.nixosModules.home-manager {
           home-manager = {
             useGlobalPkgs = true;
             useUserPackages = true;
-            users.fortuneteller2k = import ./home.nix;
+            users.fortuneteller2k = import ./home-manager/home.nix;
           };
         }
       ];
