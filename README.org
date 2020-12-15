@@ -9,11 +9,16 @@ sudo nixos-rebuild switch
 #+end_src
 
 * Description
-NixOS configuration that I use daily.
-
-=nix-config= contains the system-wide *AND* home configuration, symlinked to =/etc/nixos=
+NixOS configuration that I use daily, it contains the system-wide *AND* home configuration, symlinked to =/etc/nixos=
 
 See also:
  * [[https://github.com/nix-community/home-manager][home-manager]]
  * [[https://nixos.wiki/wiki/Flakes][flakes]]
  * [[https://app.cachix.org/cache/nix-community][cachix]]
+
+** Useful Commands
+| command                               | description                             |
+|---------------------------------------+-----------------------------------------|
+| =sudo nixos-rebuild switch=             | update and switch to the new generation |
+| =nix flake update --update-input flake= | update flake and update lockfile        |
+| =nix flake update --recreate-lock-file= | update all flakes and update lockfile   |
