@@ -8,6 +8,8 @@ sudo ln -sf ~/.config/nix-config /etc/nixos
 sudo nixos-rebuild switch
 #+end_src
 
+#+RESULTS:
+
 * Description
 NixOS configuration that I use daily, it contains the system-wide *AND* home configuration, symlinked to =/etc/nixos=
 
@@ -15,6 +17,13 @@ See also:
  * [[https://github.com/nix-community/home-manager][home-manager]]
  * [[https://nixos.wiki/wiki/Flakes][flakes]]
  * [[https://app.cachix.org/cache/nix-community][cachix]]
+
+Resources and configurations I used to base on:
+ * [[https://github.com/hlissner/dotfiles][hlissner/dotfiles]]
+ * [[https://github.com/colemickens/nixos-flake-example][colemickens/nixos-flake-example]]
+ * [[https://github.com/nrdxp/nixflk][nrdxp/nixflk]]
+ * [[https://git.sr.ht/~dunklecat/nixos-config/tree/master/flake.nix][dunklecat/nixos-config]]
+ * [[https://www.youtube.com/watch?v=UeBX7Ide5a0][Nix Flakes talk by Eelco Dolstra on NixCon]]
 
 ** Useful Commands
 | command                               | description                             |
