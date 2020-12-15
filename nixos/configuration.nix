@@ -121,7 +121,6 @@
     isNormalUser = true;
     home = "/home/fortuneteller2k";
     shell = pkgs.zsh;
-    group = "fortuneteller2k";
     extraGroups = [ "wheel" "networkmanager" "video" "audio" ];
   };
 
