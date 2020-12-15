@@ -89,6 +89,8 @@
       discocss
       nix-top
       speedtest-cli
+      graphviz
+      inkscape
       geogebra6
       sxiv
       texlive.combined.scheme-medium
