@@ -110,6 +110,7 @@
   };
 
   security = {
+    sudo.wheelNeedsPassword = false;
     doas = {
       enable = true;
       wheelNeedsPassword = false;
