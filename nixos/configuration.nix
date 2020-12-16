@@ -143,6 +143,9 @@
     python3
     shellcheck
     gcc
+    ghc
+    stack
+    haskell-language-server
     rust
     rustup
     rust-analyzer-unwrapped
