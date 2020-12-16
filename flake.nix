@@ -12,7 +12,7 @@
     nixos-hardware.url = github:NixOS/nixos-hardware/master;
   };
 
-  outputs = inputs @ { self, nixpkgs, home, emacs-overlay, nur }: {
+  outputs = inputs @ { self, nixpkgs, home, emacs-overlay, nur, nixos-hardware }: {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
