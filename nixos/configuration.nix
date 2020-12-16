@@ -157,6 +157,9 @@
     xorg.xkill
     xidlehook
     nitrogen
+    ghc
+    stack
+    haskell-language-server
   ];
 
   programs = {
