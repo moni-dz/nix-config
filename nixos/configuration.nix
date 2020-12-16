@@ -126,6 +126,8 @@
 
   environment.systemPackages = with pkgs; [
     wget
+    byobu
+    curl
     coreutils
     git
     xdo 
