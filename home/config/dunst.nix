@@ -15,7 +15,7 @@
   };
   urgency_normal = {
     foreground = "#fdf0ed";
-    background = "#16161c";
+    background = "#26bbd9";
     frame-color = "#ee64ae";
     timeout = 15;
   };
