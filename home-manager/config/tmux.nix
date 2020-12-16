@@ -2,7 +2,6 @@
 bind k send-keys -t.- 'tmkill' Enter
 set -sg escape-time 0
 set -g base-index 1
-set -g mouse on
 set -g status-bg black
 set -g status-fg white
 set -g status-right ""
