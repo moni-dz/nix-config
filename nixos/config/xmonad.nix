@@ -1,4 +1,7 @@
 ''
+-- fortuneteller2k's XMonad config
+-- This file is managed by NixOS, don't edit it directly!
+
 import XMonad
 
 import XMonad.Actions.CycleWS

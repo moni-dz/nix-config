@@ -9,7 +9,7 @@
     format = "<b>%s</b>: %b";
     geometry = "300x5-14+40";
     transparency = 10;
-    frame_color = "#fab795";
+    frame_color = "#26bbd9";
     font = "FantasqueSansMono Nerd Font Mono 10";
     timeout = 10;
   };
