@@ -12,6 +12,7 @@
       enable = true;
       keyMode = "vi";
       shell = "${pkgs.zsh}/bin/zsh";
+      terminal = "screen-256color";
       extraConfig = (import ./config/tmux.nix);
     };
     vscode = {
