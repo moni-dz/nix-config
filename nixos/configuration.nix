@@ -70,6 +70,7 @@
         xmonad = {
           enable = true;
           enableContribAndExtras = true;
+          config = (import ./config/xmonad.nix);
         };
       };
       layout = "us";
