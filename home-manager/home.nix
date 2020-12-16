@@ -8,6 +8,12 @@
       package = pkgs.emacsPgtkGcc;
       extraPackages = epkgs: with epkgs; [ vterm pdf-tools ];
     };
+    tmux = {
+      enable = true;
+      keyMode = "vi";
+      shell = "${pkgs.zsh}/bin/zsh";
+      extraConfig = (import ./config/tmux.nix);
+    };
     vscode = {
       enable = true;
       package = pkgs.vscodium;

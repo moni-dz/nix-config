@@ -126,7 +126,6 @@
 
   environment.systemPackages = with pkgs; [
     wget
-    byobu
     curl
     coreutils
     git
@@ -179,6 +178,10 @@
             command nix "$@"
           fi
         }
+
+         if [ -z "$TMUX" ]; then
+           tmux
+         fi
 
         export PATH=$PATH:$HOME/.config/emacs/bin
       '';
