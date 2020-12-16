@@ -15,7 +15,7 @@
         "type": "github"
       }
     },
-    "home-manager": {
+    "home": {
       "inputs": {
         "nixpkgs": [
           "nixpkgs"
@@ -69,7 +69,7 @@
     "root": {
       "inputs": {
         "emacs-overlay": "emacs-overlay",
-        "home-manager": "home-manager",
+        "home": "home",
         "nixpkgs": "nixpkgs",
         "nur": "nur"
       }

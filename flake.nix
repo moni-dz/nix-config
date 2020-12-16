@@ -5,7 +5,7 @@
     nixpkgs = {
       url = "github:nixos/nixpkgs/nixpkgs-unstable";
     };
-    home-manager = {
+    home = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -13,7 +13,7 @@
     nur.url = "github:nix-community/NUR";
   };
 
-  outputs = inputs @ { self, nixpkgs, home-manager, emacs-overlay, nur }: {
+  outputs = inputs @ { self, nixpkgs, home, emacs-overlay, nur }: {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
@@ -27,11 +27,11 @@
           };
         }
         ./nixos/configuration.nix
-        home-manager.nixosModules.home-manager {
+        home.nixosModules.home-manager {
           home-manager = {
             useGlobalPkgs = true;
             useUserPackages = true;
-            users.fortuneteller2k = import ./home-manager/home.nix;
+            users.fortuneteller2k = import ./home/home.nix;
           };
         }
       ];
