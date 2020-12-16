@@ -41,7 +41,7 @@
     label-urgent-foreground = "\${colors.x0}";
     label-urgent-padding = 1;
     format = "   <label-state>";
-    format-background = "\${colors.x3}";
+    format-background = "\${colors.x4}";
     format-foreground = "\${colors.x0}";
   };
 
@@ -51,7 +51,7 @@
     enable-scroll = false;
     format = "<ramp> <label>";
     format-foreground = "\${colors.x0}";
-    format-background = "\${colors.x3}";
+    format-background = "\${colors.x4}";
     label = "%percentage%% ";
     ramp-0 = "  ";
     ramp-1 = "  ";
@@ -66,13 +66,13 @@
     adapter = "ACAD";
     format-charging = "<ramp-capacity> <label-charging>";
     format-charging-foreground = "\${colors.x0}";
-    format-charging-background = "\${colors.x3}";
+    format-charging-background = "\${colors.x4}";
     format-discharging = "<ramp-capacity> <label-discharging>";
     format-discharging-foreground = "\${colors.x0}";
-    format-discharging-background = "\${colors.x3}";
+    format-discharging-background = "\${colors.x4}";
     format-full = "<label-full>";
     format-full-foreground = "\${colors.x0}";
-    format-full-background = "\${colors.x3}";
+    format-full-background = "\${colors.x4}";
     label-charging = "%percentage%% ";
     label-discharging = "%percentage%% ";
     label-full = "  %percentage%% ";
@@ -95,10 +95,10 @@
     interval = 10;
     format-volume = " <ramp-volume> <label-volume> ";
     format-volume-foreground = "\${colors.x0}";
-    format-volume-background = "\${colors.x3}";
+    format-volume-background = "\${colors.x4}";
     label-muted = " 婢  Muted ";
     label-muted-foreground = "\${colors.x0}";
-    label-muted-background = "\${colors.x3}";
+    label-muted-background = "\${colors.x4}";
     ramp-volume-0 = "  ";
     ramp-volume-1 = "  ";
     ramp-volume-2 = "  ";
@@ -111,7 +111,7 @@
     tail = true;
     format = "<label>";
     format-foreground = "\${colors.x0}";
-    format-background = "\${colors.x3}";
+    format-background = "\${colors.x4}";
     label = "%output% ";
   };
 
@@ -122,15 +122,15 @@
     time = "%I:%M %p";
     format = "<label>";
     format-foreground = "\${colors.x0}";
-    format-background = "\${colors.x3}";
+    format-background = "\${colors.x4}";
     label = "%date% %time%";
   };
 
   "module/wspc" = {
     type = "custom/text";
     content = " ";
-    content-foreground = "\${colors.x3}";
-    content-background = "\${colors.x3}";
+    content-foreground = "\${colors.x4}";
+    content-background = "\${colors.x4}";
   };
 
   "module/wspc_b" = {
