@@ -81,6 +81,7 @@
   home = {
     packages = with pkgs; [
       neofetch
+      peek
       htop
       exa
       brave
