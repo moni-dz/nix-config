@@ -182,10 +182,6 @@
           fi
         }
 
-         if [ -z "$TMUX" ]; then
-           tmux
-         fi
-
         export TERM=xterm-256color
         export PATH=$PATH:$HOME/.config/emacs/bin
       '';
