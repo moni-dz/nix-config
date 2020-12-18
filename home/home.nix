@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   programs = {
@@ -80,6 +80,7 @@
 
   home = {
     packages = with pkgs; [
+      gitAndTools.gh
       neofetch
       peek
       htop

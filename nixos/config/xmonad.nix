@@ -61,7 +61,7 @@ keybindings =
   , ("M-S-q",                      io (exitWith ExitSuccess))
   , ("M-S-<Delete>",               spawn "slock")
   , ("M-S-c",                      withFocused $ \w -> spawn ("xkill -id " ++ show w))
-  , ("M-S-r",                      spawn $ "xmonad --recompile && xmonad --restart")
+  , ("M-S-r",                      spawn $ "xmonad --restart")
   , ("M-S-<Left>",                 shiftToPrev >> prevWS)
   , ("M-S-<Right>",                shiftToNext >> nextWS)
   , ("M-<Left>",                   windows W.focusUp)
@@ -124,6 +124,7 @@ tabTheme = def
   , activeTextColor     = "#16161c"
   , inactiveTextColor   = "#fdf0ed"
   , urgentTextColor     = "#16161c"
+  , decoWidth           = 5
   }
 
 windowRules = placeHook (smart (0.5, 0.5))
@@ -152,7 +153,7 @@ cfg = docks $ ewmh $ def
   , borderWidth        = 1
   , modMask            = mod1Mask
   , workspaces         = ws
-  , normalBorderColor  = "#16161c"
+  , normalBorderColor  = "#2e303e"
   , focusedBorderColor = "#26bbd9"
   , layoutHook         = layouts
   , manageHook         = windowRules

@@ -62,6 +62,7 @@
   services = {
     xserver = {
       enable = true;
+      dpi = 96;
       displayManager = {
         gdm.enable = true;
         defaultSession = "none+xmonad";
@@ -156,6 +157,7 @@
     gnumake
     libtool
     xorg.xkill
+    xorg.xdpyinfo
     xidlehook
     nitrogen
     ghc
@@ -205,6 +207,7 @@
     ];
     fontconfig = {
       enable = true;
+      dpi = 96;
       defaultFonts = {
         serif = [ "Inter" ];
         sansSerif = [ "Inter" ];
