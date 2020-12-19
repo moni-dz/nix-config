@@ -152,7 +152,7 @@
     enable-ipc = true;
     font-0 = "FantasqueSansMono Nerd Font:size=12;3";
     modules-left = "wspc ewmh";
-    modules-right = "backlight wspc_b wspc battery wspc_b pulseaudio wspc_b wspc network wspc_b date wspc";
+    modules-right = "wspc battery wspc_b pulseaudio wspc_b wspc network wspc_b date wspc";
     modules-center = "";
     locale = "en_US.UTF-8";
     module-margin-left = 0;
