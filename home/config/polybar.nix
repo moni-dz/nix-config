@@ -141,7 +141,7 @@
   };
 
   "bar/main" = {
-    override-redirect = false;
+    override-redirect = true;
     pseudo-transparency = true;
     fixed-center = true;
     background = "#00000000";
