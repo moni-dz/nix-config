@@ -22,6 +22,7 @@
             overlays = [
               emacs-overlay.overlay
               nur.overlay
+              ./overlays/slock.nix
             ];
           };
         }
