@@ -24,6 +24,10 @@
         line_break.disabled = true;
       };
     };
+    qutebrowser = {
+      enable = true;
+      extraConfig = (import ./config/qutebrowser.nix);
+    };
   };
 
   systemd.user.services = {
