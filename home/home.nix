@@ -20,7 +20,7 @@
     starship = {
       enable = true;
       settings = {
-        format = "[fortuneteller2k](bold purple) at [nixos](bold blue) in $all ";
+        format = "[fortuneteller2k](bold purple) at [superfluous](bold blue) in $all ";
         line_break.disabled = true;
       };
     };

@@ -13,7 +13,7 @@
   };
 
   outputs = inputs @ { self, nixpkgs, home, emacs-overlay, nur, nixos-hardware }: {
-    nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
+    nixosConfigurations.superfluous = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
         {
@@ -39,6 +39,6 @@
       specialArgs = { inherit inputs; };
     };
 
-    nixos = self.nixosConfigurations.nixos.config.system.build.toplevel;
+    superfluous = self.nixosConfigurations.superfluous.config.system.build.toplevel;
   };
 }
