@@ -22,7 +22,6 @@
             overlays = [
               emacs-overlay.overlay
               nur.overlay
-              #(import ./overlays/alacritty-ligatures.nix)
               (import ./overlays/slock.nix)
             ];
           };

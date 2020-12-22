@@ -43,7 +43,7 @@ keybindings =
   , ("M-d",                        shellPrompt promptConfig)
   , ("M-q",                        kill)
   , ("M-w",                        spawn "emacsclient -nc")
-  , ("M-<F2>",                     spawn "brave")
+  , ("M-<F2>",                     spawn "qutebrowser")
   , ("M-e",                        sendMessage ToggleLayout)
   , ("M-<Tab>",                    sendMessage NextLayout)
   , ("M-n",                        refresh)
