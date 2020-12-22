@@ -1,7 +1,7 @@
 {
   font = {
     normal.family = "FantasqueSansMono Nerd Font";
-    size = 10.5;
+    size = 9.5;
   };
   background_opacity = 0.95;
   cursor.style = "Beam";
