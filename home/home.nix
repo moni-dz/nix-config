@@ -81,6 +81,7 @@
   home = {
     packages = with pkgs; [
       gitAndTools.gh
+      qutebrowser
       neofetch
       peek
       htop
