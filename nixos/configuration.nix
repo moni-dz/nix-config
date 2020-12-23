@@ -141,6 +141,7 @@
     fd
     nixfmt
     python3
+    pypy3
     shellcheck
     gcc
     rustup
