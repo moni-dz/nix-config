@@ -23,6 +23,7 @@
               emacs-overlay.overlay
               nur.overlay
               (import ./overlays/slock.nix)
+              (import ./overlays/qutebrowser.nix)
             ];
           };
         }

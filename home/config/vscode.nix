@@ -6,4 +6,7 @@
   "workbench.colorTheme" = "Horizon Bold";
   "files.autoSave" = "afterDelay";
   "workbench.iconTheme" = "vscode-icons";
+  "colorize.include" = [
+    "*.nix"
+  ];
 }
