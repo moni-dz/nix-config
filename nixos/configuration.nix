@@ -155,7 +155,6 @@
     nodejs
     nodePackages.typescript
     nodePackages.npm
-    nixpkgs-review
     go
     gimp
     gnumake
