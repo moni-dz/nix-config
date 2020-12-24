@@ -26,6 +26,16 @@ c.statusbar.padding = {
     'left': 6,
 }
 
+c.url.searchengines = {
+    'DEFAULT': 'https://google.com/search?q={}',
+    'google': 'https://google.com/search?q={}',
+    'ddg': 'https://duckduckgo.com/?q={}',
+}
+
+c.url.start_pages = ['https://google.com']
+
+black = "#16161c"
+
 base00 = "#1C1E26"
 base01 = "#232530"
 base02 = "#2E303E"
@@ -320,5 +330,7 @@ c.colors.tabs.selected.even.bg = base02
 
 # Background color for webpages if unset (or empty to use the theme's
 # color).
-# c.colors.webpage.bg = base00
+c.colors.webpage.bg = base00
+
+config.set("colors.webpage.darkmode.enabled", True)
 ''
