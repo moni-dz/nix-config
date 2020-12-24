@@ -124,6 +124,7 @@
   };
 
   environment.systemPackages = with pkgs; [
+    cachix
     wget
     curl
     coreutils
