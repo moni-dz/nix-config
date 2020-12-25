@@ -36,19 +36,15 @@
     };
   };
 
-  systemd.user.services = {
-    emacs = {
-      Service = {
-        Type = "simple";
-        ExecStart = "${pkgs.emacsPgtkGcc}/bin/emacs --fg-daemon";
-        ExecStop = "${pkgs.emacsPgtkGcc}/bin/emacsclient --eval (kill-emacs)";
-        Restart = "on-failure";
-      };
-      Install.WantedBy = [ "graphical-session.target" ];
-    };
-  };
-
   services = {
+    emacs = {
+      enable = true;
+      client = {
+        enable = true;
+        arguments = [ "-n" "-c" ];
+      };
+      socketActivation.enable = true;
+    };
     dunst = {
       enable = true;
       iconTheme = {
