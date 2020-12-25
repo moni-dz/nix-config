@@ -91,8 +91,9 @@
           background-frame = false;
           background-fixed = false;
         };
-        blur-exclude = [
-          "class_g = 'Polybar'"
+        blur-background-exclude = [
+          "window_type = 'dock'"
+          "window_type = 'desktop'"
         ];
       };
     };
