@@ -91,6 +91,9 @@
           background-frame = false;
           background-fixed = false;
         };
+        blur-exclude = [
+          "class_g = 'Polybar'"
+        ];
       };
     };
     chrony = {
