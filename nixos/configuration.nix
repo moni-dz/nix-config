@@ -5,7 +5,6 @@
     ./hardware-configuration.nix
     ./cachix.nix
   ];
-
   nix = {
     package = pkgs.nixFlakes;
     extraOptions = ''experimental-features = nix-command flakes'';
@@ -17,7 +16,6 @@
     };
     autoOptimiseStore = true;
   };
-
   boot = {
     kernelPackages = pkgs.linuxPackages_zen;
     kernelParams = [
@@ -36,9 +34,7 @@
       };
     };
   };
- 
   time.timeZone = "Asia/Manila";
-
   networking = {
     hostName = "superfluous";
     nameservers = [ "1.1.1.1" "1.0.0.1" ];
@@ -52,14 +48,11 @@
       wlo1.useDHCP = true;
     };
   };
-
   i18n.defaultLocale = "en_US.UTF-8";
-
   console = {
     font = "Lat2-Terminus16";
     keyMap = "us";
   };
-
   services = {
     xserver = {
       enable = true;
@@ -110,9 +103,7 @@
     tlp.enable = true;
     openssh.enable = true;
   };
-
   sound.enable = true;
-
   hardware = { 
     pulseaudio.enable = true;
     acpilight.enable = true;
@@ -124,7 +115,6 @@
       ];
     };
   };
-
   security = {
     sudo.wheelNeedsPassword = false;
     doas = {
@@ -132,14 +122,12 @@
       wheelNeedsPassword = false;
     };
   };
-
   users.users.fortuneteller2k = {
     isNormalUser = true;
     home = "/home/fortuneteller2k";
     shell = pkgs.zsh;
     extraGroups = [ "wheel" "networkmanager" "video" "audio" ];
   };
-
   environment.systemPackages = with pkgs; [
     cachix
     wget
@@ -151,7 +139,10 @@
     shotgun
     hacksaw
     xclip
-    pcmanfm
+    spaceFM
+    python39Packages.grip
+    pandoc
+    jq
     cmake
     unzip
     zip
@@ -180,7 +171,6 @@
     stack
     haskell-language-server
   ];
-
   programs = {
     slock.enable = true;
     xss-lock = {
@@ -211,9 +201,7 @@
       };
     };
   };
-
   services.dbus.packages = with pkgs; [ gnome3.dconf ];
-  
   fonts = {
     fonts = with pkgs; [
       nerdfonts
@@ -232,7 +220,6 @@
       };
     };
   };
-
   system = {
     stateVersion = "20.09";
     autoUpgrade = {

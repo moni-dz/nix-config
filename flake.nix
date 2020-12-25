@@ -27,6 +27,7 @@
               nur.overlay
               (import ./overlays/slock.nix)
               (import ./overlays/picom-next.nix)
+              (import ./overlays/alacritty-ligatures.nix)
             ];
           };
         }
