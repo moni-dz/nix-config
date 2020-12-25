@@ -84,6 +84,7 @@
 
   home = {
     packages = with pkgs; [
+      w3m
       gitAndTools.gh
       qutebrowser
       neofetch
