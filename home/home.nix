@@ -30,7 +30,9 @@
     };
     zathura = {
       enable = true;
-      pkg = (pkgs.zathura.override { useMupdf = false; });
+      package = pkgs.zathura.override {
+        useMupdf = false;
+      };
       extraConfig = "map <C-i> recolor";
       options = (import ./config/zathura.nix);
     };
