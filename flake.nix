@@ -34,7 +34,7 @@
           home-manager = {
             useGlobalPkgs = true;
             useUserPackages = true;
-            users.fortuneteller2k = import ./home/home.nix;
+            users.fortuneteller2k = import ./home/fortuneteller2k.nix;
           };
         }
       ];
