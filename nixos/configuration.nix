@@ -153,6 +153,7 @@
     pypy3
     shellcheck
     gcc
+    ccls
     rustup
     rust-analyzer-unwrapped
     elixir
