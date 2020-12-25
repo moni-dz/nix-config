@@ -28,6 +28,12 @@
       enable = true;
       extraConfig = (import ./config/qutebrowser.nix);
     };
+    zathura = {
+      enable = true;
+      pkg = (pkgs.zathura.override { useMupdf = false; });
+      extraConfig = "map <C-i> recolor";
+      options = (import ./config/zathura.nix);
+    };
   };
 
   systemd.user.services = {
@@ -104,8 +110,8 @@
       texlive.combined.scheme-medium
       obs-studio
       mpv
+      hakuneko
       papirus-icon-theme
-      (zathura.override { useMupdf = false; })
       emacs-all-the-icons-fonts
     ];
     username = "fortuneteller2k";
