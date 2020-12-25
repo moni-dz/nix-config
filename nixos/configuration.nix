@@ -83,6 +83,15 @@
       experimentalBackends = true;
       backend = "glx";
       vSync = true;
+      options = {
+        blur = {
+          method = "dual_kawase";
+          strength = 5;
+          background = false;
+          background-frame = false;
+          background-fixed = false;
+        };
+      };
     };
     chrony = {
       enable = true;

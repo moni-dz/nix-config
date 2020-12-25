@@ -26,6 +26,7 @@
               emacs-overlay.overlay
               nur.overlay
               (import ./overlays/slock.nix)
+              (import ./overlays/picom-next.nix)
             ];
           };
         }
