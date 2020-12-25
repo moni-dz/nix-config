@@ -83,7 +83,7 @@
       experimentalBackends = true;
       backend = "glx";
       vSync = true;
-      options = {
+      settings = {
         blur = {
           method = "dual_kawase";
           strength = 5;
