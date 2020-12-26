@@ -27,13 +27,13 @@ c.statusbar.padding = {
 }
 
 c.url.searchengines = {
-    'DEFAULT': 'https://startpage.com/do/search?query={}',
+    'DEFAULT': 'https://google.com/search?q={}',
     'google': 'https://google.com/search?q={}',
     'startpage': 'https://startpage.com/do/search?query={}',
     'ddg': 'https://duckduckgo.com/?q={}',
 }
 
-c.url.start_pages = ['https://startpage.com']
+c.url.start_pages = ['https://google.com']
 
 black = "#16161c"
 
