@@ -33,7 +33,7 @@ c.url.searchengines = {
     'ddg': 'https://duckduckgo.com/?q={}',
 }
 
-c.url.start_pages = ['https://google.com']
+c.url.start_pages = ['https://fortuneteller2k.github.io/startpage/']
 
 black = "#16161c"
 
