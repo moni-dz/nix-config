@@ -29,7 +29,7 @@ c.statusbar.padding = {
 c.url.searchengines = {
     'DEFAULT': 'https://startpage.com/do/search?query={}',
     'google': 'https://google.com/search?q={}',
-    'startpage': 'https://startpage.com/do/search?query={}'
+    'startpage': 'https://startpage.com/do/search?query={}',
     'ddg': 'https://duckduckgo.com/?q={}',
 }
 
