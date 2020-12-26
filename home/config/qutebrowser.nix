@@ -204,22 +204,22 @@ c.colors.statusbar.normal.fg = base07
 c.colors.statusbar.normal.bg = base00
 
 # Foreground color of the statusbar in insert mode.
-c.colors.statusbar.insert.fg = base0D
+c.colors.statusbar.insert.fg = base08
 
 # Background color of the statusbar in insert mode.
 c.colors.statusbar.insert.bg = base00
 
 # Foreground color of the statusbar in passthrough mode.
-c.colors.statusbar.passthrough.fg = base00
+c.colors.statusbar.passthrough.fg = base0C
 
 # Background color of the statusbar in passthrough mode.
-c.colors.statusbar.passthrough.bg = base0C
+c.colors.statusbar.passthrough.bg = base00
 
 # Foreground color of the statusbar in private browsing mode.
 c.colors.statusbar.private.fg = base0E
 
 # Background color of the statusbar in private browsing mode.
-c.colors.statusbar.private.bg = base01
+c.colors.statusbar.private.bg = base00
 
 # Foreground color of the statusbar in command mode.
 c.colors.statusbar.command.fg = base0D
@@ -259,11 +259,11 @@ c.colors.statusbar.url.hover.fg = base05
 
 # Foreground color of the URL in the statusbar on successful load
 # (http).
-c.colors.statusbar.url.success.http.fg = base0C
+c.colors.statusbar.url.success.http.fg = "#F6661E"
 
 # Foreground color of the URL in the statusbar on successful load
 # (https).
-c.colors.statusbar.url.success.https.fg = green
+c.colors.statusbar.url.success.https.fg = "#07DA8C"
 
 # Foreground color of the URL in the statusbar when there's a warning.
 c.colors.statusbar.url.warn.fg = base0E
