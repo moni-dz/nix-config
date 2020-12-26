@@ -144,7 +144,7 @@ windowRules = placeHook (smart (0.5, 0.5))
 autostart = do
   spawnOnce "xsetroot -cursor_name left_ptr &"
   spawnOnce "systemctl --user restart polybar &"
-  spawnOnce "nitrogen --restore &"
+  spawnOnce "xwallpaper --focus /home/fortuneteller2k/Downloads/nixoshorizon.png &"
   spawnOnce "xidlehook --not-when-fullscreen --not-when-audio --timer 600 slock \'\' &"
   setWMName "LG3D"
 

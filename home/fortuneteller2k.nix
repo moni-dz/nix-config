@@ -86,6 +86,7 @@
 
   home = {
     packages = with pkgs; [
+      bpytop
       w3m
       gitAndTools.gh
       qutebrowser

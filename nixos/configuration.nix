@@ -167,7 +167,7 @@
     xorg.xkill
     xorg.xdpyinfo
     xidlehook
-    nitrogen
+    xwallpaper
     ghc
     stack
     haskell-language-server
