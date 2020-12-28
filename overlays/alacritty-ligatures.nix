@@ -4,7 +4,7 @@ final: prev: {
       owner = "zenixls2";
       repo = "alacritty";
       rev = "ligature";
-      sha256 = "sha256-g1GJ70OWmfpr3oopBbinOT7LUjehNCsW/6iQUQN+t7Q=";
+      sha256 = "sha256-HvWKFSm3/LTOzpZBI3ZPwocBhYj7dZHWuEfrLZqlmPE=";
     };
     installPhase =
       ''
@@ -31,7 +31,7 @@ final: prev: {
       '';
     cargoDeps = old.cargoDeps.overrideAttrs (_: {
       inherit src;
-      outputHash = "sha256-BajEa17IIaAL66i+n+fzQxXjdMunpdhGTG7P/IxABrg=";
+      outputHash = "sha256-IYrr2X2fUn2wxiM1sjnceaIGg+yKIfruz3BRMyI+yts=";
     });
   });
 }

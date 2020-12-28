@@ -4,7 +4,7 @@ final: prev: {
       owner = "yshui";
       repo = "picom";
       rev = "next";
-      sha256 = "sha256-bgsRA6i6R5JZWhZ2firy5JWs70DfyqYvatTgyA82ZOo=";
+      sha256 = "sha256-mx60aWR+4hlwMHwEhYSNXZfHfGog5c2aHolMtgkpVVY=";
     };
   });
 }
