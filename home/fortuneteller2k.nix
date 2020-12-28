@@ -110,6 +110,7 @@
       hakuneko
       papirus-icon-theme
       emacs-all-the-icons-fonts
+      ytmdl
     ];
     username = "fortuneteller2k";
     homeDirectory = "/home/fortuneteller2k";

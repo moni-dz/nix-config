@@ -91,6 +91,7 @@
         corner-radius = 10.0;
         rounded-corners-exclude = [
           "window_type = 'dock'"
+          "window_type = 'desktop'"
         ];
       };
     };
