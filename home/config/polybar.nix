@@ -8,6 +8,7 @@
     x5 = "\${xrdb:color5}";
     x6 = "\${xrdb:color6}";
     x7 = "\${xrdb:color7}";
+    primary = "\${colors.x1}";
   };
 
   "module/ewmh" = {
@@ -40,23 +41,20 @@
     label-urgent = "!!";
     label-urgent-foreground = "\${colors.x0}";
     label-urgent-padding = 1;
-    format = "   <label-state>";
-    format-background = "\${colors.x4}";
+    format = "\"    <label-state>\"";
+    format-background = "\${colors.primary}";
     format-foreground = "\${colors.x0}";
   };
 
-  "module/backlight" = {
-    type = "internal/backlight";
-    card = "radeon_bl0";
-    enable-scroll = false;
-    format = "<ramp> <label>";
+  "module/xmproc" = {
+    type = "custom/script";
+    exec = "/home/fortuneteller2k/.config/scripts/fifo-reader.sh";
+    exec-if = "[ -p /tmp/.polybar.fifo ]";
+    tail = true;
+    label = "   %output% ";
+    format = "<label>";
+    format-background = "\${colors.primary}";
     format-foreground = "\${colors.x0}";
-    format-background = "\${colors.x4}";
-    label = "%percentage%% ";
-    ramp-0 = "  ";
-    ramp-1 = "  ";
-    ramp-2 = "  ";
-    ramp-3 = "  ";
   };
 
   "module/battery" = {
@@ -66,26 +64,26 @@
     adapter = "ACAD";
     format-charging = "<ramp-capacity> <label-charging>";
     format-charging-foreground = "\${colors.x0}";
-    format-charging-background = "\${colors.x4}";
+    format-charging-background = "\${colors.primary}";
     format-discharging = "<ramp-capacity> <label-discharging>";
     format-discharging-foreground = "\${colors.x0}";
-    format-discharging-background = "\${colors.x4}";
+    format-discharging-background = "\${colors.primary}";
     format-full = "<label-full>";
     format-full-foreground = "\${colors.x0}";
-    format-full-background = "\${colors.x4}";
+    format-full-background = "\${colors.primary}";
     label-charging = "%percentage%% ";
     label-discharging = "%percentage%% ";
-    label-full = "  %percentage%% ";
-    ramp-capacity-0 = " ";
-    ramp-capacity-1 = " ";
-    ramp-capacity-2 = " ";
-    ramp-capacity-3 = " ";
-    ramp-capacity-4 = " ";
-    ramp-capacity-5 = " ";
-    ramp-capacity-6 = " ";
-    ramp-capacity-7 = " ";
-    ramp-capacity-8 = " ";
-    ramp-capacity-9 = " ";
+    label-full = "   %percentage%% ";
+    ramp-capacity-0 = "  ";
+    ramp-capacity-1 = "  ";
+    ramp-capacity-2 = "  ";
+    ramp-capacity-3 = "  ";
+    ramp-capacity-4 = "  ";
+    ramp-capacity-5 = "  ";
+    ramp-capacity-6 = "  ";
+    ramp-capacity-7 = "  ";
+    ramp-capacity-8 = "  ";
+    ramp-capacity-9 = "  ";
   };
 
   "module/pulseaudio" = {
@@ -95,10 +93,10 @@
     interval = 10;
     format-volume = " <ramp-volume> <label-volume> ";
     format-volume-foreground = "\${colors.x0}";
-    format-volume-background = "\${colors.x4}";
+    format-volume-background = "\${colors.primary}";
     label-muted = " 婢  Muted ";
     label-muted-foreground = "\${colors.x0}";
-    label-muted-background = "\${colors.x4}";
+    label-muted-background = "\${colors.primary}";
     ramp-volume-0 = "  ";
     ramp-volume-1 = "  ";
     ramp-volume-2 = "  ";
@@ -111,8 +109,8 @@
     tail = true;
     format = "<label>";
     format-foreground = "\${colors.x0}";
-    format-background = "\${colors.x4}";
-    label = "%output% ";
+    format-background = "\${colors.primary}";
+    label = " %output% ";
   };
 
   "module/date" = {
@@ -122,15 +120,15 @@
     time = "%I:%M %p";
     format = "<label>";
     format-foreground = "\${colors.x0}";
-    format-background = "\${colors.x4}";
-    label = "%date% %time%";
+    format-background = "\${colors.primary}";
+    label = "%date% %time% ";
   };
 
   "module/wspc" = {
     type = "custom/text";
     content = " ";
-    content-foreground = "\${colors.x4}";
-    content-background = "\${colors.x4}";
+    content-foreground = "\${colors.primary}";
+    content-background = "\${colors.primary}";
   };
 
   "module/wspc_b" = {
@@ -151,8 +149,8 @@
     wm-name = "xmonad";
     enable-ipc = true;
     font-0 = "FantasqueSansMono Nerd Font:size=12;3";
-    modules-left = "wspc ewmh";
-    modules-right = "wspc battery wspc_b pulseaudio wspc_b wspc network wspc_b date wspc";
+    modules-left = "wspc ewmh wspc_b xmproc";
+    modules-right = "battery wspc_b pulseaudio wspc_b network wspc_b date";
     modules-center = "";
     locale = "en_US.UTF-8";
     module-margin-left = 0;

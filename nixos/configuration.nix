@@ -88,11 +88,6 @@
           "window_type = 'dock'"
           "window_type = 'desktop'"
         ];
-        corner-radius = 10.0;
-        rounded-corners-exclude = [
-          "window_type = 'dock'"
-          "window_type = 'desktop'"
-        ];
       };
     };
     chrony = {
@@ -134,6 +129,7 @@
     extraGroups = [ "wheel" "networkmanager" "video" "audio" ];
   };
   environment.systemPackages = with pkgs; [
+    ffmpeg
     cachix
     wget
     curl

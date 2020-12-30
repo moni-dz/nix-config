@@ -5,7 +5,7 @@
     home-manager.enable = true;
     emacs = {
       enable = true;
-      package = pkgs.emacsPgtkGcc;
+      package = pkgs.emacsGit;
       extraPackages = epkgs: with epkgs; [ vterm pdf-tools ];
     };
     vscode = {
@@ -20,7 +20,7 @@
     starship = {
       enable = true;
       settings = {
-        format = "[fortuneteller2k](bold purple) at [superfluous](bold blue) in $all ";
+        format = "[fortuneteller2k](bold red) at [superfluous](bold blue) in $all ";
         line_break.disabled = true;
       };
     };
@@ -35,7 +35,6 @@
       options = (import ./config/zathura.nix);
     };
   };
-
   services = {
     emacs = {
       enable = true;
@@ -43,7 +42,6 @@
         enable = true;
         arguments = [ "-n" "-c" ];
       };
-      socketActivation.enable = true;
     };
     dunst = {
       enable = true;
@@ -70,7 +68,6 @@
       };
     };
   };
-
   gtk = {
     enable = true;
     font.name = "Inter";
@@ -83,9 +80,9 @@
       name = "Dracula";
     };
   };
-
   home = {
     packages = with pkgs; [
+      pfetch
       bpytop
       w3m
       gitAndTools.gh

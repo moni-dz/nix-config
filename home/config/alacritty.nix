@@ -28,4 +28,5 @@
       white = "0xfdf0ed";
     };
   };
+  ligature = true;
 }

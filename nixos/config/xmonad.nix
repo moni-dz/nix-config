@@ -6,6 +6,7 @@ import XMonad
 
 import XMonad.Actions.CycleWS
 
+import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.FadeInactive
 import XMonad.Hooks.InsertPosition
@@ -24,10 +25,13 @@ import XMonad.Prompt.FuzzyMatch
 import XMonad.Prompt.Shell
 
 import XMonad.Util.EZConfig
+import XMonad.Util.Run
 import XMonad.Util.SpawnOnce
 
 import Data.Char
 import Data.Monoid
+
+import System.IO
 import System.Exit
 
 import qualified XMonad.StackSet as W
@@ -87,9 +91,9 @@ promptConfig = def
   { font                = fontFamily
   , bgColor             = "#16161c"
   , fgColor             = "#fdf0ed"
-  , bgHLight            = "#26bbd9"
+  , bgHLight            = "#e95678"
   , fgHLight            = "#16161c"
-  , borderColor         = "#26bbd9"
+  , borderColor         = "#e95678"
   , promptBorderWidth   = 0
   , position            = Top
   , height              = 20
@@ -115,12 +119,12 @@ layouts = avoidStruts
 
 tabTheme = def
   { fontName            = fontFamily
-  , activeColor         = "#26bbd9"
+  , activeColor         = "#e95678"
   , inactiveColor       = "#16161c"
-  , urgentColor         = "#e95678"
-  , activeBorderColor   = "#26bbd9"
+  , urgentColor         = "#ee64ae"
+  , activeBorderColor   = "#e95678"
   , inactiveBorderColor = "#16161c"
-  , urgentBorderColor   = "#e95678"
+  , urgentBorderColor   = "#ee64ae"
   , activeTextColor     = "#16161c"
   , inactiveTextColor   = "#fdf0ed"
   , urgentTextColor     = "#16161c"
@@ -141,26 +145,32 @@ windowRules = placeHook (smart (0.5, 0.5))
   <+> manageDocks
   <+> manageHook defaultConfig
 
+polybarFifo xmproc = dynamicLogWithPP $ xmobarPP
+  { ppOutput = hPutStrLn xmproc
+  , ppLayout = wrap " " " "
+  , ppOrder  = \(_:l:_:_) -> [l]
+  }
+
 autostart = do
   spawnOnce "xsetroot -cursor_name left_ptr &"
   spawnOnce "systemctl --user restart polybar &"
-  spawnOnce "xwallpaper --focus /home/fortuneteller2k/Downloads/nixoshorizon.png &"
+  spawnOnce "xwallpaper --focus Downloads/lo-fi-cafe-2-1366×768.jpg &"
   spawnOnce "xidlehook --not-when-fullscreen --not-when-audio --timer 600 slock \'\' &"
   setWMName "LG3D"
 
-cfg = docks $ ewmh $ def
-  { focusFollowsMouse  = True
-  , borderWidth        = 1
-  , modMask            = mod1Mask
-  , workspaces         = ws
-  , normalBorderColor  = "#2e303e"
-  , focusedBorderColor = "#26bbd9"
-  , layoutHook         = layouts
-  , manageHook         = windowRules
-  , logHook            = fadeInactiveLogHook 0.95
-  , handleEventHook    = fullscreenEventHook <+> ewmhDesktopsEventHook
-  , startupHook        = autostart
-  } `additionalKeysP` keybindings
-
-main = xmonad cfg -- "that was easy, xmonad rocks!"
+main = do
+  xmproc <- spawnPipe "/home/fortuneteller2k/.config/scripts/polybar-fifo.sh"
+  xmonad $ docks $ ewmh $ def { focusFollowsMouse  = True
+                              , clickJustFocuses   = True
+                              , borderWidth        = 2
+                              , modMask            = mod1Mask
+                              , workspaces         = ws
+                              , normalBorderColor  = "#2e303e"
+                              , focusedBorderColor = "#e95678"
+                              , layoutHook         = layouts
+                              , manageHook         = windowRules
+                              , logHook            = fadeInactiveLogHook 0.95 <+> polybarFifo xmproc
+                              , handleEventHook    = fullscreenEventHook <+> ewmhDesktopsEventHook
+                              , startupHook        = autostart
+                              } `additionalKeysP` keybindings -- "that was easy, xmonad rocks!"
 ''

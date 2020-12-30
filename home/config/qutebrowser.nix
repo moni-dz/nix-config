@@ -69,7 +69,7 @@ c.colors.completion.odd.bg = base01
 c.colors.completion.even.bg = base00
 
 # Foreground color of completion widget category headers.
-c.colors.completion.category.fg = base0C
+c.colors.completion.category.fg = base08
 
 # Background color of the completion widget category headers.
 c.colors.completion.category.bg = base00
@@ -135,7 +135,7 @@ c.colors.downloads.start.bg = base0D
 c.colors.downloads.stop.fg = base00
 
 # Color gradient stop for download backgrounds.
-c.colors.downloads.stop.bg = base0C
+c.colors.downloads.stop.bg = base08
 
 # Foreground color for downloads with errors.
 c.colors.downloads.error.fg = base08
@@ -276,7 +276,7 @@ c.colors.tabs.bar.bg = base00
 c.colors.tabs.indicator.start = base0D
 
 # Color gradient end for the tab indicator.
-c.colors.tabs.indicator.stop = base0C
+c.colors.tabs.indicator.stop = "#07da8c"
 
 # Color for the tab indicator on errors.
 c.colors.tabs.indicator.error = base08
