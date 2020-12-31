@@ -5,10 +5,8 @@
 cd ~/.config
 git clone https://github.com/fortuneteller2k/nix-config
 sudo ln -sf ~/.config/nix-config /etc/nixos
-sudo nixos-rebuild switch
+sudo nixos-install --flake
 #+end_src
-
-#+RESULTS:
 
 * Description
 NixOS configuration that I use daily, it contains the system-wide *AND* home configuration, symlinked to =/etc/nixos=
