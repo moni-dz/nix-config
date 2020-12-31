@@ -40,4 +40,9 @@ final: prev: {
     buildPythonPackage = prev.python38Packages.buildPythonPackage;
     fetchPypi = prev.python39Packages.fetchPypi;
   };
+  eww = prev.callPackage ../derivations/eww.nix {
+    rustPlatform = prev.rustPlatform;
+    fetchFromGitHub = prev.fetchFromGitHub;
+    glib = prev.glib;
+  };
 }

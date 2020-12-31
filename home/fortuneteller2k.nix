@@ -108,6 +108,7 @@
       papirus-icon-theme
       emacs-all-the-icons-fonts
       ytmdl
+      # eww
     ];
     username = "fortuneteller2k";
     homeDirectory = "/home/fortuneteller2k";

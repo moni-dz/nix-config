@@ -66,6 +66,10 @@
           enable = true;
           enableContribAndExtras = true;
           config = (import ./config/xmonad.nix);
+          extraPackages = haskellPackages: with haskellPackages; [
+            dbus
+            monad-logger
+          ];
         };
       };
       layout = "us";
@@ -169,6 +173,7 @@
     xorg.xdpyinfo
     xidlehook
     xwallpaper
+    xmonad-log
     ghc
     stack
     haskell-language-server

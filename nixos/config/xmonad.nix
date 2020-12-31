@@ -34,8 +34,11 @@ import Data.Monoid
 import System.IO
 import System.Exit
 
-import qualified XMonad.StackSet as W
-import qualified Data.Map        as M
+import qualified DBus                     as D
+import qualified DBus.Client              as D
+import qualified Codec.Binary.UTF8.String as UTF8
+import qualified XMonad.StackSet          as W
+import qualified Data.Map                 as M
 
 -- 10 workspaces should be enough
 ws = ["A","B","C","D","E","F","G","H","I","J"]
@@ -158,19 +161,42 @@ autostart = do
   spawnOnce "xidlehook --not-when-fullscreen --not-when-audio --timer 600 slock \'\' &"
   setWMName "LG3D"
 
-main = do
-  xmproc <- spawnPipe "/home/fortuneteller2k/.config/scripts/polybar-fifo.sh"
-  xmonad $ docks $ ewmh $ def { focusFollowsMouse  = True
-                              , clickJustFocuses   = True
-                              , borderWidth        = 2
-                              , modMask            = mod1Mask
-                              , workspaces         = ws
-                              , normalBorderColor  = "#2e303e"
-                              , focusedBorderColor = "#e95678"
-                              , layoutHook         = layouts
-                              , manageHook         = windowRules
-                              , logHook            = fadeInactiveLogHook 0.95 <+> polybarFifo xmproc
-                              , handleEventHook    = fullscreenEventHook <+> ewmhDesktopsEventHook
-                              , startupHook        = autostart
-                              } `additionalKeysP` keybindings -- "that was easy, xmonad rocks!"
+dbusClient = do
+    dbus <- D.connectSession
+    D.requestName dbus (D.busName_ "org.xmonad.log") opts
+    return dbus
+  where
+    opts = [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
+
+dbusOutput dbus str =
+  let
+    opath  = D.objectPath_ "/org/xmonad/Log"
+    iname  = D.interfaceName_ "org.xmonad.Log"
+    mname  = D.memberName_ "Update"
+    signal = D.signal opath iname mname
+    body   = [D.toVariant $ UTF8.decodeString str]
+  in
+    D.emit dbus $ signal { D.signalBody = body }
+
+polybarHook dbus = dynamicLogWithPP $ xmobarPP
+  { ppOutput = dbusOutput dbus
+  , ppOrder  = \(_:l:_:_) -> [l]
+  }
+
+main' dbus = xmonad . docks . ewmh $ def
+  { focusFollowsMouse  = True
+  , clickJustFocuses   = True
+  , borderWidth        = 2
+  , modMask            = mod1Mask
+  , workspaces         = ws
+  , normalBorderColor  = "#2e303e"
+  , focusedBorderColor = "#e95678"
+  , layoutHook         = layouts
+  , manageHook         = windowRules
+  , logHook            = fadeInactiveLogHook 0.95 <+> polybarHook dbus
+  , handleEventHook    = fullscreenEventHook <+> ewmhDesktopsEventHook
+  , startupHook        = autostart
+  } `additionalKeysP` keybindings -- "that was easy, xmonad rocks!"
+
+main = dbusClient >>= main'
 ''
