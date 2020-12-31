@@ -9,6 +9,8 @@
     x6 = "\${xrdb:color6}";
     x7 = "\${xrdb:color7}";
     primary = "\${colors.x1}";
+    transparent = "#00000000";
+    bg = "\${colors.transparent}";
   };
 
   "module/ewmh" = {
@@ -133,28 +135,28 @@
   "module/wspc_b" = {
     type = "custom/text";
     content = " ";
-    content-foreground = "#00000000";
-    content-background = "#00000000";
+    content-foreground = "\${colors.bg}";
+    content-background = "\${colors.bg}";
   };
 
   "bar/main" = {
     override-redirect = true;
     pseudo-transparency = true;
     fixed-center = true;
-    background = "#00000000";
+    background = "\${colors.bg}";
     foreground = "\${colors.x7}";
     width = "100%";
     height = 19;
     wm-name = "xmonad";
     enable-ipc = true;
+    border-size = 0;
+    padding = 1;
+    border-color = "\${colors.bg}";
     font-0 = "FantasqueSansMono Nerd Font:size=12;3";
     modules-left = "wspc ewmh wspc_b xmonad";
     modules-right = "battery wspc_b pulseaudio wspc_b network wspc_b date";
     modules-center = "";
     locale = "en_US.UTF-8";
-    module-margin-left = 0;
-    module-margin-right = 0;
-    padding = 1;
     separator = "";
   };
 }

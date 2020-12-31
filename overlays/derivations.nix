@@ -45,4 +45,9 @@ final: prev: {
     fetchFromGitHub = prev.fetchFromGitHub;
     glib = prev.glib;
   };
+  phocus = prev.callPackage ../derivations/phocus.nix {
+    sass = final.sass;
+    fetchFromGitHub = prev.fetchFromGitHub;
+    stdenv = final.stdenv;
+  };
 }
