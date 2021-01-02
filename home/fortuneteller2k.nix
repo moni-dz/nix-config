@@ -21,7 +21,7 @@
       enable = true;
       settings = {
         format = "[fortuneteller2k](bold red) at [superfluous](bold blue) in $all ";
-        line_break.disabled = true;
+        line_break.disabled = false;
       };
     };
     qutebrowser = {
@@ -82,6 +82,7 @@
   };
   home = {
     packages = with pkgs; [
+      weechat-unwrapped
       pfetch
       bpytop
       w3m
@@ -94,6 +95,7 @@
       brave
       hyperfine
       discord
+      #betterdiscordctl
       discocss
       nix-top
       speedtest-cli

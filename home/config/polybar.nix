@@ -52,7 +52,7 @@
     type = "custom/script";
     exec = "/run/current-system/sw/bin/xmonad-log";
     tail = true;
-    label = "   %output% ";
+    label = " :: %output% ";
     format = "<label>";
     format-background = "\${colors.primary}";
     format-foreground = "\${colors.x0}";
@@ -153,7 +153,7 @@
     padding = 1;
     border-color = "\${colors.bg}";
     font-0 = "FantasqueSansMono Nerd Font:size=12;3";
-    modules-left = "wspc ewmh wspc_b xmonad";
+    modules-left = "wspc ewmh xmonad";
     modules-right = "battery wspc_b pulseaudio wspc_b network wspc_b date";
     modules-center = "";
     locale = "en_US.UTF-8";

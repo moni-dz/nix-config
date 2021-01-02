@@ -1,8 +1,6 @@
-{ rustPlatform, lib, fetchFromGitHub, glib }:
+{ rustPlatform, lib, fetchFromGitHub, glib, cargo, rustc }:
 
-let
-  rpathLibs = [ glib ];
-in rustPlatform.buildRustPackage rec {
+rustPlatform.buildRustPackage rec {
   pname = "eww";
   version = "master";
 
@@ -13,14 +11,19 @@ in rustPlatform.buildRustPackage rec {
     sha256 = "sha256-9FUBSojGlJHpFXTPNjusTQ7DJ9pl6U10C3s78blN4Hc=";
   };
 
-  RUSTC_BOOTSTRAP = 1;
+  nativeBuildInputs = [
+    cargo
+    rustc
+    glib
+  ];
 
-  doCheck = false;
+  buildInputs = [
+    glib
+  ];
+
+  checkPhase = null;
 
   cargoSha256 = "sha256-bE8UZuYW2OwwJNTqjWt4vjTuL7RNHps052qjOQhwf48=";
-
-  nativeBuildInputs = rpathLibs;
-  buildInputs = rpathLibs;
 
   meta = with lib; {
     description = "A standalone widget system made in Rust to add AwesomeWM like widgets to any WM";

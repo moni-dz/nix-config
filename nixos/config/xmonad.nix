@@ -148,17 +148,12 @@ windowRules = placeHook (smart (0.5, 0.5))
   <+> manageDocks
   <+> manageHook defaultConfig
 
-polybarFifo xmproc = dynamicLogWithPP $ xmobarPP
-  { ppOutput = hPutStrLn xmproc
-  , ppLayout = wrap " " " "
-  , ppOrder  = \(_:l:_:_) -> [l]
-  }
-
 autostart = do
   spawnOnce "xsetroot -cursor_name left_ptr &"
   spawnOnce "systemctl --user restart polybar &"
   spawnOnce "xwallpaper --focus Downloads/lo-fi-cafe-2-1366×768.jpg &"
   spawnOnce "xidlehook --not-when-fullscreen --not-when-audio --timer 600 slock \'\' &"
+  spawnOnce "systemctl --user restart emacs &"
   setWMName "LG3D"
 
 dbusClient = do
@@ -196,7 +191,7 @@ main' dbus = xmonad . docks . ewmh $ def
   , logHook            = fadeInactiveLogHook 0.95 <+> polybarHook dbus
   , handleEventHook    = fullscreenEventHook <+> ewmhDesktopsEventHook
   , startupHook        = autostart
-  } `additionalKeysP` keybindings -- "that was easy, xmonad rocks!"
+  } `additionalKeysP` keybindings
 
-main = dbusClient >>= main'
+main = dbusClient >>= main' -- "that was easy, xmonad rocks!"
 ''
