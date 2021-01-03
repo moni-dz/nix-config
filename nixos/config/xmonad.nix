@@ -112,13 +112,14 @@ promptConfig = def
 
 layouts = avoidStruts
           $ spacingRaw False (Border 4 4 4 4) True (Border 4 4 4 4) True
-          $ toggleLayouts maximized tiled ||| noBorders (tabbed shrinkText tabTheme)
+          $ toggleLayouts maximized tiled ||| tabs
   where
      tiled = smartBorders (Tall nmaster delta ratio)
      nmaster = 1
      ratio = toRational (2/(1+sqrt(5)::Double)) -- inverse golden ratio
      delta = 3/100
      maximized = smartBorders Full
+     tabs = noBorders (tabbed shrinkText tabTheme)
 
 tabTheme = def
   { fontName            = fontFamily
@@ -131,7 +132,6 @@ tabTheme = def
   , activeTextColor     = "#16161c"
   , inactiveTextColor   = "#fdf0ed"
   , urgentTextColor     = "#16161c"
-  , decoWidth           = 5
   }
 
 windowRules = placeHook (smart (0.5, 0.5))
@@ -151,7 +151,7 @@ windowRules = placeHook (smart (0.5, 0.5))
 autostart = do
   spawnOnce "xsetroot -cursor_name left_ptr &"
   spawnOnce "systemctl --user restart polybar &"
-  spawnOnce "xwallpaper --focus Downloads/lo-fi-cafe-2-1366×768.jpg &"
+  spawnOnce "xwallpaper --zoom Downloads/horizonanime.jpg --trim 1366x768+500+470 &"
   spawnOnce "xidlehook --not-when-fullscreen --not-when-audio --timer 600 slock \'\' &"
   spawnOnce "systemctl --user restart emacs &"
   setWMName "LG3D"

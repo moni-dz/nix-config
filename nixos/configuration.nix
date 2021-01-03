@@ -133,6 +133,7 @@
     extraGroups = [ "wheel" "networkmanager" "video" "audio" ];
   };
   environment.systemPackages = with pkgs; [
+    envsubst
     ffmpeg
     cachix
     wget
@@ -177,6 +178,7 @@
     ghc
     stack
     haskell-language-server
+    font-manager
   ];
   programs = {
     slock.enable = true;
@@ -214,6 +216,7 @@
       nerdfonts
       inter
       fantasque-sans-mono
+      xorg.fontbh100dpi
       twemoji-color-font
     ];
     fontconfig = {

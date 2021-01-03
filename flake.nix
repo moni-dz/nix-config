@@ -1,18 +1,16 @@
 {
   description = "A minimal NixOS configuration using Nix Flakes.";
-
   inputs = {
     nixpkgs.url = github:nixos/nixpkgs/nixpkgs-unstable;
     home = {
       url = github:nix-community/home-manager;
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    emacs-overlay.url = github:nix-community/emacs-overlay;
+    emacs.url = github:nix-community/emacs-overlay;
     nur.url = github:nix-community/NUR;
-    nixos-hardware.url = github:NixOS/nixos-hardware/master;
+    hardware.url = github:NixOS/nixos-hardware/master;
   };
-
-  outputs = inputs @ { self, nixpkgs, home, emacs-overlay, nur, nixos-hardware }: {
+  outputs = inputs @ { self, nixpkgs, home, emacs, nur, hardware }: {
     nixosConfigurations.superfluous = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
@@ -23,7 +21,7 @@
               allowBroken = true;
             };
             overlays = [
-              emacs-overlay.overlay
+              emacs.overlay
               nur.overlay
               (import ./overlays/slock.nix)
               (import ./overlays/picom-next.nix)
@@ -44,7 +42,6 @@
       ];
       specialArgs = { inherit inputs; };
     };
-
     superfluous = self.nixosConfigurations.superfluous.config.system.build.toplevel;
   };
 }

@@ -76,8 +76,8 @@
       name = "Papirus-Dark";
     };
     theme = {
-      package = pkgs.dracula-theme;
-      name = "Dracula";
+      package = pkgs.phocus;
+      name = "fortuneteller2k_phocus";
     };
   };
   home = {
@@ -95,7 +95,7 @@
       brave
       hyperfine
       discord
-      #betterdiscordctl
+      betterdiscordctl
       discocss
       nix-top
       speedtest-cli

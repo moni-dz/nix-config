@@ -5,10 +5,10 @@ stdenv.mkDerivation rec {
   version = "master";
 
   src = fetchFromGitHub {
-    owner = "elkowar";
+    owner = "fortuneteller2k";
     repo = "gtk";
     rev = version;
-    sha256 = "sha256-igKcx0bNFjbquAXxvbTG6qe9Ic/ccJeIq9tdNblpOhw=";
+    sha256 = "sha256-jyiABd9ZTL1bWIYzFJ+NtGrQKLU3g3yiOr0PWWLII5k=";
   };
 
   nativeBuildInputs = [ sass ];
