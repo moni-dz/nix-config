@@ -20,7 +20,8 @@
     starship = {
       enable = true;
       settings = {
-        format = "[fortuneteller2k](bold red) at [superfluous](bold blue) in $all ";
+        format =
+          "[fortuneteller2k](bold red) at [superfluous](bold blue) in $all ";
         line_break.disabled = false;
       };
     };
@@ -85,7 +86,6 @@
       weechat-unwrapped
       pfetch
       bpytop
-      w3m
       gitAndTools.gh
       qutebrowser
       neofetch
@@ -107,10 +107,8 @@
       obs-studio
       mpv
       hakuneko
-      papirus-icon-theme
       emacs-all-the-icons-fonts
       ytmdl
-      # eww
     ];
     username = "fortuneteller2k";
     homeDirectory = "/home/fortuneteller2k";

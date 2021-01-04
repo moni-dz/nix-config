@@ -1,13 +1,10 @@
 { config, pkgs, options, ... }:
 
 {
-  imports = [
-    ./hardware-configuration.nix
-    ./cachix.nix
-  ];
+  imports = [ ./hardware-configuration.nix ./cachix.nix ];
   nix = {
     package = pkgs.nixFlakes;
-    extraOptions = ''experimental-features = nix-command flakes'';
+    extraOptions = "experimental-features = nix-command flakes";
     trustedUsers = [ "root" "fortuneteller2k" ];
     gc = {
       automatic = true;
@@ -54,6 +51,7 @@
     keyMap = "us";
   };
   services = {
+    dbus.packages = with pkgs; [ gnome3.dconf ];
     xserver = {
       enable = true;
       dpi = 96;
@@ -66,10 +64,7 @@
           enable = true;
           enableContribAndExtras = true;
           config = (import ./config/xmonad.nix);
-          extraPackages = haskellPackages: with haskellPackages; [
-            dbus
-            monad-logger
-          ];
+          extraPackages = hpkgs: with hpkgs; [ dbus monad-logger ];
         };
       };
       layout = "us";
@@ -88,10 +83,8 @@
           background-frame = false;
           background-fixed = false;
         };
-        blur-background-exclude = [
-          "window_type = 'dock'"
-          "window_type = 'desktop'"
-        ];
+        blur-background-exclude =
+          [ "window_type = 'dock'" "window_type = 'desktop'" ];
       };
     };
     chrony = {
@@ -108,15 +101,12 @@
     openssh.enable = true;
   };
   sound.enable = true;
-  hardware = { 
+  hardware = {
     pulseaudio.enable = true;
     acpilight.enable = true;
     opengl = {
       enable = true;
-      extraPackages = with pkgs; [
-        vaapiVdpau
-        libvdpau-va-gl
-      ];
+      extraPackages = with pkgs; [ vaapiVdpau libvdpau-va-gl ];
     };
   };
   security = {
@@ -139,8 +129,10 @@
     wget
     curl
     coreutils
+    util-linux
+    pciutils
     git
-    xdo 
+    xdo
     vim
     shotgun
     hacksaw
@@ -210,7 +202,6 @@
       };
     };
   };
-  services.dbus.packages = with pkgs; [ gnome3.dconf ];
   fonts = {
     fonts = with pkgs; [
       nerdfonts

@@ -13,7 +13,11 @@ final: prev: {
       install -D extra/linux/Alacritty.desktop -t $out/share/applications/
       install -D extra/logo/compat/alacritty-term.svg $out/share/icons/hicolor/scalable/apps/Alacritty.svg
       strip -S $out/bin/alacritty
-      patchelf --set-rpath "${prev.lib.makeLibraryPath old.buildInputs}:${prev.stdenv.cc.cc.lib}/lib${prev.stdenv.lib.optionalString prev.stdenv.is64bit "64"}" $out/bin/alacritty
+      patchelf --set-rpath "${
+        prev.lib.makeLibraryPath old.buildInputs
+      }:${prev.stdenv.cc.cc.lib}/lib${
+        prev.stdenv.lib.optionalString prev.stdenv.is64bit "64"
+      }" $out/bin/alacritty
       installShellCompletion --zsh extra/completions/_alacritty
       installShellCompletion --bash extra/completions/alacritty.bash
       installShellCompletion --fish extra/completions/alacritty.fish

@@ -43,7 +43,7 @@
     label-urgent = "!!";
     label-urgent-foreground = "\${colors.x0}";
     label-urgent-padding = 1;
-    format = "\"    <label-state>\"";
+    format = ''"    <label-state>"'';
     format-background = "\${colors.primary}";
     format-foreground = "\${colors.x0}";
   };
@@ -105,7 +105,8 @@
 
   "module/network" = {
     type = "custom/script";
-    exec = "\"PATH=/run/current-system/sw/bin /home/fortuneteller2k/.config/scripts/network.sh\"";
+    exec = ''
+      "PATH=/run/current-system/sw/bin /home/fortuneteller2k/.config/scripts/network.sh"'';
     interval = 10;
     tail = true;
     format = "<label>";
