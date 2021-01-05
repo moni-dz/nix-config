@@ -155,6 +155,7 @@
     rustup
     rust-analyzer-unwrapped
     elixir
+    ntfs3g
     nodejs
     nodePackages.typescript
     nodePackages.npm
@@ -191,9 +192,6 @@
             command nix "$@"
           fi
         }
-
-        export TERM=xterm-256color
-        export PATH=$PATH:$HOME/.config/emacs/bin
       '';
       shellAliases = {
         ls = "exa";
@@ -202,6 +200,7 @@
       };
     };
   };
+  powerManagement.powertop.enable = true;
   fonts = {
     fonts = with pkgs; [
       nerdfonts

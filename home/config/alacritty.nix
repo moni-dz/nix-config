@@ -1,4 +1,5 @@
 {
+  env.TERM = "xterm-256color";
   font = {
     normal.family = "FantasqueSansMono Nerd Font";
     size = 10.5;

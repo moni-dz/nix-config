@@ -333,5 +333,5 @@
   # color).
   c.colors.webpage.bg = base00
 
-  config.set("colors.webpage.darkmode.enabled", True)
+  # config.set("colors.webpage.darkmode.enabled", True)
 ''

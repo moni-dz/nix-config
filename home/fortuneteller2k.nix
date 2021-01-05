@@ -110,6 +110,7 @@
       emacs-all-the-icons-fonts
       ytmdl
     ];
+    sessionPath = [ "\${xdg.configHome}/emacs/bin" ];
     username = "fortuneteller2k";
     homeDirectory = "/home/fortuneteller2k";
     stateVersion = "21.03";
