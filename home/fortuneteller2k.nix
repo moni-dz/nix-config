@@ -111,6 +111,7 @@
       ytmdl
     ];
     sessionPath = [ "\${xdg.configHome}/emacs/bin" ];
+    sessionVariables.EDITOR = "emacsclient -nc";
     username = "fortuneteller2k";
     homeDirectory = "/home/fortuneteller2k";
     stateVersion = "21.03";
