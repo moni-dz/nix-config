@@ -192,6 +192,8 @@
             command nix "$@"
           fi
         }
+
+        export PATH=$PATH:$HOME/.config/emacs/bin
       '';
       shellAliases = {
         ls = "exa";
