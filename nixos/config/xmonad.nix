@@ -16,6 +16,7 @@
   import XMonad.Hooks.SetWMName
 
   import XMonad.Layout.NoBorders
+  import XMonad.Layout.ShowWName
   import XMonad.Layout.Spacing
   import XMonad.Layout.Tabbed
   import XMonad.Layout.ToggleLayouts
@@ -186,7 +187,7 @@
     , workspaces         = ws
     , normalBorderColor  = "#2e303e"
     , focusedBorderColor = "#e95678"
-    , layoutHook         = layouts
+    , layoutHook         = showWName layouts
     , manageHook         = windowRules
     , logHook            = fadeInactiveLogHook 0.95 <+> polybarHook dbus
     , handleEventHook    = fullscreenEventHook <+> ewmhDesktopsEventHook
