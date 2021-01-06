@@ -25,6 +25,7 @@
               nur.overlay
               (import ./overlays/slock.nix)
               (import ./overlays/picom-next.nix)
+              (import ./overlays/polybar.nix)
               (import ./overlays/alacritty-ligatures.nix)
               (import ./overlays/weechat-unwrapped.nix)
               (import ./overlays/derivations.nix)

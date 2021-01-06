@@ -56,7 +56,21 @@
       enable = true;
       dpi = 96;
       displayManager = {
-        gdm.enable = true;
+        lightdm = {
+          enable = true;
+          background = ./config/wallpapers/horizon.jpg;
+          greeters.gtk = {
+            enable = true;
+            iconTheme = {
+              name = "Papirus";
+              package = pkgs.papirus-icon-theme;
+            };
+            theme = {
+              name = "fortuneteller2k_phocus";
+              package = pkgs.phocus;
+            };
+          };
+        };
         defaultSession = "none+xmonad";
       };
       windowManager = {
@@ -133,11 +147,14 @@
     pciutils
     git
     xdo
+    xdotool
+    imagemagick
+    notify-desktop
     vim
     shotgun
     hacksaw
     xclip
-    spaceFM
+    pcmanfm
     python39Packages.grip
     pandoc
     jq
@@ -160,7 +177,6 @@
     nodePackages.typescript
     nodePackages.npm
     go
-    gimp
     gnumake
     libtool
     xorg.xkill

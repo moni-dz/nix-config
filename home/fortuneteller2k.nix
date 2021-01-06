@@ -89,6 +89,8 @@
       discocss
       nix-top
       speedtest-cli
+      gimp
+      krita
       graphviz
       inkscape
       geogebra6

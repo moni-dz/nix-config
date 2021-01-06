@@ -151,7 +151,7 @@
   autostart = do
     spawnOnce "xsetroot -cursor_name left_ptr &"
     spawnOnce "systemctl --user restart polybar &"
-    spawnOnce "xwallpaper --zoom Downloads/horizonanime.jpg --trim 1366x768+500+470 &"
+    spawnOnce "xwallpaper --zoom /etc/nixos/nixos/config/wallpapers/horizon.jpg &"
     spawnOnce "xidlehook --not-when-fullscreen --not-when-audio --timer 600 slock \'\' &"
     spawnOnce "systemctl --user restart emacs &"
     setWMName "LG3D"

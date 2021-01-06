@@ -8,7 +8,7 @@ stdenv.mkDerivation rec {
     owner = "fortuneteller2k";
     repo = "gtk";
     rev = version;
-    sha256 = "sha256-jyiABd9ZTL1bWIYzFJ+NtGrQKLU3g3yiOr0PWWLII5k=";
+    sha256 = "sha256-2E3rlNuOP7e2y4CWPPdd/1HK/b8NnjuR53M57IV+Yu8=";
   };
 
   nativeBuildInputs = [ sass ];
