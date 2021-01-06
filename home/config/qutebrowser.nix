@@ -331,7 +331,5 @@
 
   # Background color for webpages if unset (or empty to use the theme's
   # color).
-  c.colors.webpage.bg = base00
-
-  # config.set("colors.webpage.darkmode.enabled", True)
+  # c.colors.webpage.bg = base00
 ''

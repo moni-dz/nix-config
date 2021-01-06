@@ -5,7 +5,7 @@
     home-manager.enable = true;
     emacs = {
       enable = true;
-      package = pkgs.emacsGit;
+      package = pkgs.emacsPgtkGcc;
       extraPackages = epkgs: with epkgs; [ vterm pdf-tools ];
     };
     vscode = {
@@ -19,11 +19,8 @@
     };
     starship = {
       enable = true;
-      settings = {
-        format =
-          "[fortuneteller2k](bold red) at [superfluous](bold blue) in $all ";
-        line_break.disabled = false;
-      };
+      settings.format =
+        "[fortuneteller2k](bold red) at [superfluous](bold blue) in $all ";
     };
     qutebrowser = {
       enable = true;

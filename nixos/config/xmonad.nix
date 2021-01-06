@@ -126,12 +126,12 @@
     , activeColor         = "#e95678"
     , inactiveColor       = "#16161c"
     , urgentColor         = "#ee64ae"
-    , activeBorderColor   = "#e95678"
-    , inactiveBorderColor = "#16161c"
-    , urgentBorderColor   = "#ee64ae"
     , activeTextColor     = "#16161c"
     , inactiveTextColor   = "#fdf0ed"
     , urgentTextColor     = "#16161c"
+    , activeBorderWidth   = 0
+    , inactiveBorderWidth = 0
+    , urgentBorderWidth   = 0
     }
 
   windowRules = placeHook (smart (0.5, 0.5))

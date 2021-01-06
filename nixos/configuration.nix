@@ -25,9 +25,13 @@
     ];
     loader = {
       efi.canTouchEfiVariables = true;
-      systemd-boot = {
+      grub = {
         enable = true;
-        consoleMode = "max";
+        device = "nodev";
+        efiSupport = true;
+        useOSProber = true;
+        gfxmodeEfi = "1366x768";
+        extraConfig = ''GRUB_CMDLINE_LINUX="reboot=acpi"'';
       };
     };
   };
