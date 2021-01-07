@@ -15,6 +15,7 @@
   import XMonad.Hooks.Place
   import XMonad.Hooks.SetWMName
 
+  import XMonad.Layout.Grid
   import XMonad.Layout.NoBorders
   import XMonad.Layout.ShowWName
   import XMonad.Layout.Spacing
@@ -45,6 +46,7 @@
   ws = ["A","B","C","D","E","F","G","H","I","J"]
 
   fontFamily = "xft:FantasqueSansMono Nerd Font:size=10:antialias=true:hinting=true"
+  fontFamilyLarge = "xft:FantasqueSansMono Nerd Font:size=16:style=Bold:antialias=true:hinting=true"
 
   keybindings =
     [ ("M-<Return>",                 spawn "alacritty")
@@ -74,6 +76,7 @@
     , ("M-S-<Right>",                shiftToNext >> nextWS)
     , ("M-<Left>",                   windows W.focusUp)
     , ("M-<Right>",                  windows W.focusDown)
+    , ("M-S-<Tab>",                  sendMessage FirstLayout)
     , ("<XF86AudioMute>",            spawn "/home/fortuneteller2k/.config/scripts/volume.sh mute")
     , ("<XF86AudioRaiseVolume>",     spawn "/home/fortuneteller2k/.config/scripts/volume.sh up")
     , ("<XF86AudioLowerVolume>",     spawn "/home/fortuneteller2k/.config/scripts/volume.sh down")
@@ -113,14 +116,15 @@
 
   layouts = avoidStruts
             $ spacingRaw False (Border 4 4 4 4) True (Border 4 4 4 4) True
-            $ toggleLayouts maximized tiled ||| tabs
+            $ tiled ||| Mirror tiled ||| tabs ||| grid
     where
-       tiled = smartBorders (Tall nmaster delta ratio)
+       tiled = toggleLayouts maximized (smartBorders (Tall nmaster delta ratio))
        nmaster = 1
        ratio = toRational (2/(1+sqrt(5)::Double)) -- inverse golden ratio
        delta = 3/100
        maximized = smartBorders Full
        tabs = noBorders (tabbed shrinkText tabTheme)
+       grid = toggleLayouts maximized (smartBorders Grid)
 
   tabTheme = def
     { fontName            = fontFamily
@@ -133,6 +137,13 @@
     , activeBorderWidth   = 0
     , inactiveBorderWidth = 0
     , urgentBorderWidth   = 0
+    }
+
+  wnameTheme = def
+    { swn_font    = fontFamilyLarge
+    , swn_bgcolor = "#e95678"
+    , swn_color   = "#16161c"
+    , swn_fade    = 2
     }
 
   windowRules = placeHook (smart (0.5, 0.5))
@@ -187,7 +198,7 @@
     , workspaces         = ws
     , normalBorderColor  = "#2e303e"
     , focusedBorderColor = "#e95678"
-    , layoutHook         = showWName layouts
+    , layoutHook         = showWName' wnameTheme layouts
     , manageHook         = windowRules
     , logHook            = fadeInactiveLogHook 0.95 <+> polybarHook dbus
     , handleEventHook    = fullscreenEventHook <+> ewmhDesktopsEventHook

@@ -4,7 +4,7 @@ final: prev: {
       owner = "zenixls2";
       repo = "alacritty";
       rev = "ligature";
-      sha256 = "sha256-HvWKFSm3/LTOzpZBI3ZPwocBhYj7dZHWuEfrLZqlmPE=";
+      sha256 = "sha256-KJOJGBBUuoqx8/z45qC1rNZ3oySzcTi9XTojXxS4GeQ=";
     };
     doCheck = false; # NOTE: don't compile twice
     installPhase = ''
