@@ -8,6 +8,16 @@
       package = pkgs.emacsPgtkGcc;
       extraPackages = epkgs: with epkgs; [ vterm pdf-tools ];
     };
+    urxvt = {
+      enable = true;
+      fonts = [ "xft:monospace:size=10:antialias=true" ];
+      scroll.bar.enable = false;
+      iso14755 = false;
+      extraConfig = {
+        letterSpace = 0;
+        lineSpace = 0;
+      };
+    };
     vscode = {
       enable = true;
       package = pkgs.vscodium;
@@ -95,7 +105,7 @@
       sxiv
       texlive.combined.scheme-medium
       obs-studio
-      mpv
+      mpv-with-scripts
       hakuneko
       emacs-all-the-icons-fonts
       ytmdl
@@ -107,4 +117,5 @@
     stateVersion = "21.03";
   };
   fonts.fontconfig.enable = true;
+  xresources.extraConfig = (import ./config/xresources.nix);
 }
