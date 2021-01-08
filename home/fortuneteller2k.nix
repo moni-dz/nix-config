@@ -70,6 +70,7 @@
   };
   home = {
     packages = with pkgs; [
+      cmus
       weechat-unwrapped
       pfetch
       bpytop

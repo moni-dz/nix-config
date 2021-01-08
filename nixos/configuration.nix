@@ -228,6 +228,7 @@
       inter
       fantasque-sans-mono
       xorg.fontbh100dpi
+      mplus-outline-fonts
       twemoji-color-font
     ];
     fontconfig = {
