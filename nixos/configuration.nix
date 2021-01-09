@@ -88,23 +88,7 @@
       layout = "us";
       libinput.enable = true;
     };
-    picom = {
-      enable = true;
-      experimentalBackends = true;
-      backend = "glx";
-      vSync = true;
-      settings = {
-        blur = {
-          method = "dual_kawase";
-          strength = 5;
-          background = false;
-          background-frame = false;
-          background-fixed = false;
-        };
-        blur-background-exclude =
-          [ "window_type = 'dock'" "window_type = 'desktop'" ];
-      };
-    };
+    picom = (import ./config/picom.nix);
     chrony = {
       enable = true;
       servers = [
@@ -184,6 +168,7 @@
     libtool
     xorg.xkill
     xorg.xdpyinfo
+    xorg.xwininfo
     xidlehook
     xwallpaper
     xmonad-log
@@ -203,17 +188,7 @@
       syntaxHighlighting.enable = true;
       autosuggestions.enable = true;
       promptInit = "eval $(starship init zsh)";
-      interactiveShellInit = ''
-        function nix() {
-          if [[ "$1" == "develop" ]]; then
-            command nix develop "$2" -c zsh
-          else
-            command nix "$@"
-          fi
-        }
-
-        export PATH=$PATH:$HOME/.config/emacs/bin
-      '';
+      interactiveShellInit = "export PATH=$PATH:$HOME/.config/emacs/bin";
       shellAliases = {
         ls = "exa";
         la = "exa -la";

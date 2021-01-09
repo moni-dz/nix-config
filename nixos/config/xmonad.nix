@@ -148,14 +148,16 @@
 
   windowRules = placeHook (smart (0.5, 0.5))
     <+> composeAll
-    [ className =? "Gimp"                                   --> doFloat
-    , (className =? "Ripcord" <&&> title =? "Preferences")  --> doFloat
-    , className =? "Xmessage"                               --> doFloat
-    , className =? "Peek"                                   --> doFloat
-    , className =? "Xephyr"                                 --> doFloat
-    , resource  =? "desktop_window"                         --> doIgnore
-    , resource  =? "kdesktop"                               --> doIgnore
-    , isDialog                                              --> doF W.swapUp <+> doFloat ]
+    [ className  =? "Gimp"                                   --> doFloat
+    , (className =? "Ripcord" <&&> title =? "Preferences")   --> doFloat
+    , className  =? "Xmessage"                               --> doFloat
+    , className  =? "Peek"                                   --> doFloat
+    , className  =? "Xephyr"                                 --> doFloat
+    , className  =? "Sxiv"                                   --> doFloat
+    , className  =? "mpv"                                    --> doFloat
+    , resource   =? "desktop_window"                         --> doIgnore
+    , resource   =? "kdesktop"                               --> doIgnore
+    , isDialog                                               --> doF W.swapUp <+> doFloat ]
     <+> insertPosition End Newer -- same effect as attachaside patch in dwm
     <+> manageDocks
     <+> manageHook defaultConfig
