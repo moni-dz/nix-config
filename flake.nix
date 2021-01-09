@@ -28,6 +28,7 @@
               (import ./overlays/polybar.nix)
               (import ./overlays/alacritty-ligatures.nix)
               (import ./overlays/weechat-unwrapped.nix)
+              (import ./overlays/ncmpcpp.nix)
               (import ./overlays/derivations.nix)
             ];
           };

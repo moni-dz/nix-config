@@ -42,6 +42,9 @@
       extraConfig = "map <C-i> recolor";
       options = (import ./config/zathura.nix);
     };
+    ncmpcpp = {
+      enable = true;
+    };
   };
   services = {
     emacs = {
@@ -64,6 +67,16 @@
       enable = true;
       script = "polybar main &";
       config = (import ./config/polybar.nix);
+    };
+    mpd = {
+      enable = true;
+      musicDirectory = "/home/fortuneteller2k/Music";
+      extraConfig = ''
+        audio_output {
+          type  "pulse"
+          name  "mpd pulse-audio-output"
+        }
+      '';
     };
   };
   gtk = {

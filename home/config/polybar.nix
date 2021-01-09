@@ -48,6 +48,16 @@
     format-foreground = "\${colors.x0}";
   };
 
+  "module/mpd" = {
+    type = "internal/mpd";
+    host = "127.0.0.1";
+    port = "6600";
+    format-online = "<label-song>";
+    format-online-background = "\${colors.primary}";
+    format-online-foreground = "\${colors.x0}";
+    label-song = "ﱘ %title%";
+  };
+
   "module/xmonad" = {
     type = "custom/script";
     exec = "/run/current-system/sw/bin/xmonad-log";
@@ -154,7 +164,7 @@
     padding = 1;
     border-color = "\${colors.bg}";
     font-0 = "FantasqueSansMono Nerd Font:size=12;3";
-    modules-left = "wspc ewmh xmonad";
+    modules-left = "wspc ewmh xmonad wspc_b mpd";
     modules-right = "battery wspc_b pulseaudio wspc_b network wspc_b date";
     modules-center = "";
     locale = "en_US.UTF-8";

@@ -5,7 +5,7 @@ final: prev: {
     alsaSupport = false;
     iwSupport = false;
     githubSupport = false;
-    mpdSupport = false;
+    mpdSupport = true;
     nlSupport = false;
     pulseSupport = true;
   };
