@@ -32,7 +32,13 @@
               "https://nix-community.cachix.org"
             ];
           };
-          nixpkgs = {
+          nixpkgs = let
+            lib = nixpkgs.lib;
+            folder = ./overlays;
+            toPath = name: value: folder + ("/" + name);
+            filterCaches = key: value: value == "regular" && nixpkgs.lib.hasSuffix ".nix" key;
+            userOverlays = lib.lists.forEach (lib.mapAttrsToList toPath (lib.filterAttrs filterCaches (builtins.readDir folder))) import;
+          in {
             config = {
               allowUnfree = true;
               allowBroken = true;
@@ -40,14 +46,7 @@
             overlays = [
               emacs.overlay
               nur.overlay
-              (import ./overlays/slock.nix)
-              (import ./overlays/picom-jonaburg.nix)
-              (import ./overlays/polybar.nix)
-              (import ./overlays/alacritty-ligatures.nix)
-              (import ./overlays/weechat-unwrapped.nix)
-              (import ./overlays/ncmpcpp.nix)
-              (import ./overlays/derivations.nix)
-            ];
+            ] ++ userOverlays;
           };
         }
         ./nixos/configuration.nix
