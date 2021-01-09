@@ -55,7 +55,7 @@
     format-online = "<label-song>";
     format-online-background = "\${colors.primary}";
     format-online-foreground = "\${colors.x0}";
-    label-song = "ﱘ %title%";
+    label-song = " ﱘ %title% ";
   };
 
   "module/xmonad" = {
