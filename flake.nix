@@ -36,8 +36,8 @@
             lib = nixpkgs.lib;
             folder = ./overlays;
             toPath = name: value: folder + ("/" + name);
-            filterCaches = key: value: value == "regular" && nixpkgs.lib.hasSuffix ".nix" key;
-            userOverlays = lib.lists.forEach (lib.mapAttrsToList toPath (lib.filterAttrs filterCaches (builtins.readDir folder))) import;
+            filterOverlays = key: value: value == "regular" && nixpkgs.lib.hasSuffix ".nix" key;
+            userOverlays = lib.lists.forEach (lib.mapAttrsToList toPath (lib.filterAttrs filterOverlays (builtins.readDir folder))) import;
           in {
             config = {
               allowUnfree = true;
