@@ -40,7 +40,7 @@
     label-empty = "_";
     label-empty-foreground = "\${colors.x0}";
     label-empty-padding = 1;
-    label-urgent = "!!";
+    label-urgent = "!";
     label-urgent-foreground = "\${colors.x0}";
     label-urgent-padding = 1;
     format = ''"    <label-state>"'';
@@ -56,6 +56,7 @@
     format-online-background = "\${colors.primary}";
     format-online-foreground = "\${colors.x0}";
     label-song = " ﱘ  %title% ";
+    label-song-maxlen = 40;
   };
 
   "module/xmonad" = {
@@ -164,9 +165,9 @@
     padding = 1;
     border-color = "\${colors.bg}";
     font-0 = "FantasqueSansMono Nerd Font:size=12;3";
-    modules-left = "wspc ewmh xmonad wspc_b mpd";
+    modules-left = "wspc ewmh xmonad";
     modules-right = "battery wspc_b pulseaudio wspc_b network wspc_b date";
-    modules-center = "";
+    modules-center = "mpd";
     locale = "en_US.UTF-8";
     separator = "";
   };

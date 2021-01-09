@@ -44,6 +44,16 @@
     };
     ncmpcpp = {
       enable = true;
+      settings = {
+        visualizer_data_source = "/tmp/mpd.fifo";
+        visualizer_output_name = "mpd_visualizer_fifo";
+        visualizer_sync_interval = "30";
+        visualizer_in_stereo = "yes";
+        visualizer_type = "spectrum";
+        visualizer_look = "+|";
+        execute_on_song_change =
+          ''notify-desktop "Now Playing" "$(mpc --format '%title% \n%artist%' current)"'';
+      };
     };
   };
   services = {
@@ -73,8 +83,15 @@
       musicDirectory = "/home/fortuneteller2k/Music";
       extraConfig = ''
         audio_output {
-          type  "pulse"
-          name  "mpd pulse-audio-output"
+          type "pulse"
+          name "mpd pulse-audio-output"
+        }
+        audio_output {
+          type "fifo"
+          name "mpd_visualizer_fifo"
+          path "/tmp/mpd.fifo"
+          format "44100:16:2"
+          buffer_time "50000"
         }
       '';
     };
@@ -93,6 +110,7 @@
   };
   home = {
     packages = with pkgs; [
+      mpc_cli
       cmus
       weechat-unwrapped
       pfetch

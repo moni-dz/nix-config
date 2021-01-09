@@ -1,18 +1,8 @@
 { config, pkgs, options, ... }:
 
 {
-  imports = [ ./hardware-configuration.nix ./cachix.nix ];
-  nix = {
-    package = pkgs.nixFlakes;
-    extraOptions = "experimental-features = nix-command flakes";
-    trustedUsers = [ "root" "fortuneteller2k" ];
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 7d";
-    };
-    autoOptimiseStore = true;
-  };
+  imports = [ ./hardware-configuration.nix ];
+  nix.package = pkgs.nixFlakes;
   boot = {
     kernelPackages = pkgs.linuxPackages_zen;
     kernelParams = [
@@ -127,7 +117,6 @@
   environment.systemPackages = with pkgs; [
     envsubst
     ffmpeg
-    cachix
     wget
     curl
     coreutils
