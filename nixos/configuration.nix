@@ -184,6 +184,22 @@
         l = "exa -l";
       };
     };
+    sway = {
+      enable = true;
+      wrapperFeatures.gtk = true;
+      extraPackages = with pkgs; [
+        swaylock
+        swayidle
+        swaybg
+        wl-clipboard
+        mako
+        brightnessctl
+        grim
+        slurp
+        waybar
+        wofi
+      ];
+    };
   };
   powerManagement.powertop.enable = true;
   fonts = {
