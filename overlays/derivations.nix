@@ -52,4 +52,9 @@ final: prev: {
     fetchFromGitHub = prev.fetchFromGitHub;
     stdenv = final.stdenv;
   };
+  zls = prev.callPackage ../derivations/zls.nix {
+    zig = prev.zig;
+    stdenv = final.stdenv;
+    fetchFromGithub = prev.fetchFromGitHub;
+  };
 }

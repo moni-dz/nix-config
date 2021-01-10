@@ -165,6 +165,7 @@
     stack
     haskell-language-server
     font-manager
+    zig
   ];
   programs = {
     slock.enable = true;
