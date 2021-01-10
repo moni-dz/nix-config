@@ -30,7 +30,7 @@
     starship = {
       enable = true;
       settings.format =
-        "[fortuneteller2k](bold red) at [superfluous](bold blue) in $all ";
+        "[fortuneteller2k](bold red) at [superfluous](bold blue) in $all";
     };
     qutebrowser = {
       enable = true;
@@ -110,6 +110,7 @@
   };
   home = {
     packages = with pkgs; [
+      st
       mpc_cli
       cmus
       weechat-unwrapped
