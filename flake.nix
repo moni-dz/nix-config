@@ -1,7 +1,7 @@
 {
   description = "A minimal NixOS configuration using Nix Flakes.";
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/master";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     wayland.url = "github:colemickens/nixpkgs-wayland";
     home = {
       url = "github:nix-community/home-manager";
@@ -39,17 +39,17 @@
             lib = nixpkgs.lib;
             folder = ./overlays;
             toPath = name: value: folder + ("/" + name);
-            filterOverlays = key: value: value == "regular" && nixpkgs.lib.hasSuffix ".nix" key;
-            userOverlays = lib.lists.forEach (lib.mapAttrsToList toPath (lib.filterAttrs filterOverlays (builtins.readDir folder))) import;
+            filterOverlays = key: value:
+              value == "regular" && nixpkgs.lib.hasSuffix ".nix" key;
+            userOverlays = lib.lists.forEach (lib.mapAttrsToList toPath
+              (lib.filterAttrs filterOverlays (builtins.readDir folder)))
+              import;
           in {
             config = {
               allowUnfree = true;
               allowBroken = true;
             };
-            overlays = [
-              emacs.overlay
-              nur.overlay
-            ] ++ userOverlays;
+            overlays = [ emacs.overlay nur.overlay ] ++ userOverlays;
           };
         }
         ./nixos/configuration.nix

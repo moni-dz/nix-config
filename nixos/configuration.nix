@@ -197,6 +197,7 @@
         brightnessctl
         grim
         slurp
+        sway-contrib.grimshot
         waybar
         wofi
       ];

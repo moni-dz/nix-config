@@ -49,7 +49,7 @@
   fontFamilyLarge = "xft:FantasqueSansMono Nerd Font:size=16:style=Bold:antialias=true:hinting=true"
 
   keybindings =
-    [ ("M-<Return>",                 spawn "st")
+    [ ("M-<Return>",                 spawn "alacritty")
     , ("M-d",                        shellPrompt promptConfig)
     , ("M-q",                        kill)
     , ("M-w",                        spawn "emacsclient -nc")

@@ -1,7 +1,7 @@
 {
   env.TERM = "xterm-256color";
   font = {
-    normal.family = "FantasqueSansMono Nerd Font";
+    normal.family = "FantasqueSansMono Nerd Font Mono";
     size = 10.5;
   };
   background_opacity = 0.95;

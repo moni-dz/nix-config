@@ -57,4 +57,10 @@ final: prev: {
     stdenv = final.stdenv;
     fetchFromGithub = prev.fetchFromGitHub;
   };
+  river = prev.callPackage ../derivations/river.nix {
+    stdenv = final.stdenv;
+    pkgs = prev;
+  };
+  scroll =
+    prev.callPackage ../derivations/scroll.nix { stdenv = final.stdenv; };
 }

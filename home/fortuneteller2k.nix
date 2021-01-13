@@ -30,7 +30,7 @@
     starship = {
       enable = true;
       settings.format =
-        "[fortuneteller2k](bold red) at [superfluous](bold blue) in $all";
+        "[fortuneteller2k](bold red) at [superfluous](bold blue) in $all ";
     };
     qutebrowser = {
       enable = true;
@@ -51,9 +51,25 @@
         visualizer_in_stereo = "yes";
         visualizer_type = "spectrum";
         visualizer_look = "+|";
-        execute_on_song_change =
-          ''notify-desktop "Now Playing" "$(mpc --format '%title% \n%artist%' current)"'';
+        execute_on_song_change = ''
+          notify-desktop "Now Playing" "$(mpc --format '%title% \n%artist%' current)"'';
       };
+    };
+    mako = {
+      enable = true;
+      extraConfig = (import ./config/mako.nix);
+    };
+    waybar = {
+      enable = true;
+      settings = [{
+        layer = "top";
+        position = "top";
+        height = 18;
+        modules-left = [ "sway/workspaces" "sway/mode" ];
+        modules-right = [ "battery" "pulseaudio" "network" "clock" ];
+        modules = (import ./config/waybar-modules.nix);
+      }];
+      style = (import ./config/waybar-style.nix);
     };
   };
   services = {
@@ -96,6 +112,11 @@
       '';
     };
   };
+  wayland.windowManager.sway = {
+    enable = true;
+    package = null;
+    extraConfig = (import ./config/sway.nix);
+  };
   gtk = {
     enable = true;
     font.name = "Inter";
@@ -111,6 +132,7 @@
   home = {
     packages = with pkgs; [
       st
+      scroll
       mpc_cli
       cmus
       weechat-unwrapped
