@@ -120,7 +120,7 @@
        nmaster = 1
        ratio = 1/2
        delta = 3/100
-       maximized = gaps 8 0 $ smartBorders Full
+       maximized = smartBorders Full
        tabs = gaps 8 0 $ noBorders (tabbed shrinkText tabTheme)
        grid = gaps 4 4 $ toggleLayouts maximized (smartBorders Grid)
        gaps n k = spacingRaw False (Border n n n n) True (Border k k k k) True
