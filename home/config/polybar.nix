@@ -158,7 +158,7 @@
     background = "\${colors.bg}";
     foreground = "\${colors.x7}";
     width = "100%";
-    height = 19;
+    height = 20;
     wm-name = "xmonad";
     enable-ipc = true;
     border-size = 0;

@@ -114,17 +114,16 @@
     , maxComplRows        = Just 5
     }
 
-  layouts = avoidStruts
-            $ spacingRaw False (Border 4 4 4 4) True (Border 4 4 4 4) True
-            $ tiled ||| Mirror tiled ||| tabs ||| grid
+  layouts = avoidStruts $ tiled ||| Mirror tiled ||| tabs ||| grid
     where
-       tiled = toggleLayouts maximized (smartBorders (Tall nmaster delta ratio))
+       tiled = gaps 4 4 $ toggleLayouts maximized (smartBorders (Tall nmaster delta ratio))
        nmaster = 1
-       ratio = toRational (2/(1+sqrt(5)::Double)) -- inverse golden ratio
+       ratio = 1/2
        delta = 3/100
-       maximized = smartBorders Full
-       tabs = noBorders (tabbed shrinkText tabTheme)
-       grid = toggleLayouts maximized (smartBorders Grid)
+       maximized = gaps 8 0 $ smartBorders Full
+       tabs = gaps 8 0 $ noBorders (tabbed shrinkText tabTheme)
+       grid = gaps 4 4 $ toggleLayouts maximized (smartBorders Grid)
+       gaps n k = spacingRaw False (Border n n n n) True (Border k k k k) True
 
   tabTheme = def
     { fontName            = fontFamily
