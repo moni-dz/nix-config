@@ -143,6 +143,9 @@
       pfetch
       bpytop
       gitAndTools.gh
+      firefox
+      firefox-wayland
+      shadowfox
       qutebrowser
       neofetch
       peek
