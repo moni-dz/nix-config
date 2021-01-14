@@ -3,11 +3,11 @@
 
 buildPythonPackage rec {
   pname = "ytmdl";
-  version = "2020.11.20.post1";
+  version = "2021.1.14.post1";
 
   src = fetchPypi {
     inherit pname version;
-    sha256 = "sha256-vMlMZo8AVX1wjgRL48Ty+/GlWhF0jpySduXt2vNRk9w=";
+    sha256 = "sha256-8/ZOUm9+amnim+L6Ju0cgJAgmvnRxao3rzV6BryCfvk=";
   };
 
   doCheck = false; # NOTE: disable to prevent false fails
