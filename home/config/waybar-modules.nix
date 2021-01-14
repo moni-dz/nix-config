@@ -14,10 +14,6 @@
       "κ" = [ ];
     };
   };
-  "tray" = {
-    icon-size = 24;
-    spacing = 6;
-  };
   "clock" = {
     interval = 10;
     format = "{:  %B %d %Y %I:%M %p}";
