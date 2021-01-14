@@ -115,6 +115,10 @@
   wayland.windowManager.sway = {
     enable = true;
     package = null;
+    config = { 
+      keybindings = { };
+      bars = [ { command = "${pkgs.waybar}/bin/waybar"; } ];
+    };
     extraConfig = (import ./config/sway.nix);
   };
   gtk = {

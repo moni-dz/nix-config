@@ -3,9 +3,9 @@
 stdenv.mkDerivation rec {
   name = "river";
 
-  src = builtins.fetchGit {
+  src = pkgs.fetchgit {
     url = "https://github.com/ifreund/river";
-    sha256 = lib.fakeSha256;
+    sha256 = "sha256-aVx7o6mjZ5oRKn0KWUCJAismRv8Bu1CdIbQofgja8rc=";
     fetchSubmodules = true;
   };
 
@@ -23,7 +23,7 @@ stdenv.mkDerivation rec {
   ];
 
   preBuild = "export HOME=$TMPDIR;";
-  installPhase = "zig build -Drelease-safe -Dxwayland --prefix $out install";
+  installPhase = "zig build -Drelease-safe --prefix $out install";
 
   nativeBuildInputs = with pkgs; [ pkgconfig ];
 

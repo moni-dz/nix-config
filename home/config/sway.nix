@@ -119,6 +119,8 @@
   # Toggle waybar
   bindsym $mod+b exec pkill -USR1 waybar
 
+  bindsym $mod+Shift+q exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+
   default_border pixel 2
 
   gaps              inner 8
@@ -148,10 +150,6 @@
   client.urgent           $color10  $color10  $color0  $color5
 
   output "*" bg ~/.config/nix-config/nixos/config/wallpapers/horizon.jpg fill
-
-  bar {
-      swaybar_command waybar
-  }
 
   exec swayidle -w \
       timeout 600 'swaymsg "output * dpms off"' \

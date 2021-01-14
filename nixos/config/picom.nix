@@ -1,5 +1,6 @@
 {
   enable = true;
+  refreshRate = 60;
   experimentalBackends = true;
   backend = "glx";
   vSync = true;

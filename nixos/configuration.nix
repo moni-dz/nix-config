@@ -50,6 +50,11 @@
       enable = true;
       dpi = 96;
       displayManager = {
+        session = [ { 
+          manage = "window";
+          name = "river";
+          start = "${pkgs.river}/bin/river";
+        } ];
         lightdm = {
           enable = true;
           background = ./config/wallpapers/horizon.jpg;
@@ -78,7 +83,7 @@
       layout = "us";
       libinput.enable = true;
     };
-    picom = (import ./config/picom.nix);
+    picom = (import ./config/picom-vsync.nix);
     chrony = {
       enable = true;
       servers = [
