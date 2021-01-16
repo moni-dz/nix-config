@@ -141,8 +141,6 @@
       pfetch
       bpytop
       gitAndTools.gh
-      firefox
-      shadowfox
       qutebrowser
       neofetch
       peek

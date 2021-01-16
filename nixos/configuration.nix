@@ -49,6 +49,7 @@
     xserver = {
       enable = true;
       dpi = 96;
+      config = (import ./config/xorg-amd-tearfree.nix);
       displayManager = {
         session = [ { 
           manage = "window";
