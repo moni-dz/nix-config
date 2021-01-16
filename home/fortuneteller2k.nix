@@ -5,7 +5,7 @@
     home-manager.enable = true;
     emacs = {
       enable = true;
-      package = pkgs.emacsPgtkGcc;
+      package = pkgs.emacsGit;
       extraPackages = epkgs: with epkgs; [ vterm pdf-tools ];
     };
     urxvt = {
@@ -47,7 +47,6 @@
       settings = {
         visualizer_data_source = "/tmp/mpd.fifo";
         visualizer_output_name = "mpd_visualizer_fifo";
-        visualizer_sync_interval = "30";
         visualizer_in_stereo = "yes";
         visualizer_type = "spectrum";
         visualizer_look = "+|";
@@ -74,7 +73,7 @@
   };
   services = {
     emacs = {
-      enable = true;
+      enable = false;
       client = {
         enable = true;
         arguments = [ "-n" "-c" ];
@@ -107,7 +106,6 @@
           name "mpd_visualizer_fifo"
           path "/tmp/mpd.fifo"
           format "44100:16:2"
-          buffer_time "50000"
         }
       '';
     };

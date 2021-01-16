@@ -21,7 +21,7 @@
         efiSupport = true;
         useOSProber = true;
         gfxmodeEfi = "1366x768";
-        extraConfig = ''GRUB_CMDLINE_LINUX="reboot=acpi"'';
+        extraConfig = ''GRUB_CMDLINE_LINUX="reboot=bios"'';
       };
     };
   };
@@ -100,7 +100,6 @@
   sound.enable = true;
   hardware = {
     pulseaudio.enable = true;
-    acpilight.enable = true;
     opengl = {
       enable = true;
       extraPackages = with pkgs; [ vaapiVdpau libvdpau-va-gl ];
@@ -126,6 +125,7 @@
     curl
     coreutils
     util-linux
+    brightnessctl
     pciutils
     git
     xdo
@@ -183,11 +183,14 @@
       syntaxHighlighting.enable = true;
       autosuggestions.enable = true;
       promptInit = "eval $(starship init zsh)";
-      interactiveShellInit = "export PATH=$PATH:$HOME/.config/emacs/bin";
+      interactiveShellInit = ''
+        eval $(dircolors /etc/nixos/nixos/config/LS_COLORS)
+        export PATH=$PATH:$HOME/.config/emacs/bin
+      '';
       shellAliases = {
-        ls = "exa";
-        la = "exa -la";
-        l = "exa -l";
+        ls = "exa --icons";
+        la = "exa --icons -la";
+        l = "exa --icons -l";
       };
     };
     sway = {
@@ -199,7 +202,6 @@
         swaybg
         wl-clipboard
         mako
-        brightnessctl
         grim
         slurp
         sway-contrib.grimshot

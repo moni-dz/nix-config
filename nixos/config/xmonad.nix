@@ -52,7 +52,7 @@
     [ ("M-<Return>",                 spawn "alacritty")
     , ("M-d",                        shellPrompt promptConfig)
     , ("M-q",                        kill)
-    , ("M-w",                        spawn "emacsclient -nc")
+    , ("M-w",                        spawn "emacs")
     , ("M-<F2>",                     spawn "qutebrowser")
     , ("M-e",                        sendMessage ToggleLayout)
     , ("M-<Tab>",                    sendMessage NextLayout)
@@ -80,8 +80,11 @@
     , ("<XF86AudioMute>",            spawn "/home/fortuneteller2k/.config/scripts/volume.sh mute")
     , ("<XF86AudioRaiseVolume>",     spawn "/home/fortuneteller2k/.config/scripts/volume.sh up")
     , ("<XF86AudioLowerVolume>",     spawn "/home/fortuneteller2k/.config/scripts/volume.sh down")
-    , ("<XF86MonBrightnessUp>",      spawn "xbacklight -inc 10")
-    , ("<XF86MonBrightnessDown>",    spawn "xbacklight -dec 10")
+    , ("<XF86AudioPlay>",            spawn "mpc toggle")
+    , ("<XF86AudioPrev>",            spawn "mpc prev")
+    , ("<XF86AudioNext>",            spawn "mpc next")
+    , ("<XF86MonBrightnessUp>",      spawn "brightnessctl s +10%")
+    , ("<XF86MonBrightnessDown>",    spawn "brightnessctl s 10%-")
     ]
     ++
     [ (otherModMasks ++ "M-" ++ key, action tag)
@@ -93,6 +96,11 @@
       toggleFloat w = windows (\s -> if M.member w (W.floating s)
                                 then W.sink w s
                                 else (W.float w (W.RationalRect 0.15 0.15 0.7 0.7) s))
+
+  mouseBindings =
+    [
+
+    ]
 
   promptConfig = def
     { font                = fontFamily
@@ -116,10 +124,7 @@
 
   layouts = avoidStruts $ tiled ||| Mirror tiled ||| tabs ||| grid
     where
-       tiled = gaps 4 4 $ toggleLayouts maximized (smartBorders (Tall nmaster delta ratio))
-       nmaster = 1
-       ratio = 1/2
-       delta = 3/100
+       tiled = gaps 4 4 $ toggleLayouts maximized (smartBorders (Tall 1 (3/100) (1/2)))
        maximized = smartBorders Full
        tabs = gaps 8 0 $ noBorders (tabbed shrinkText tabTheme)
        grid = gaps 4 4 $ toggleLayouts maximized (smartBorders Grid)

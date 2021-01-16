@@ -40,7 +40,7 @@
             folder = ./overlays;
             toPath = name: value: folder + ("/" + name);
             filterOverlays = key: value:
-              value == "regular" && nixpkgs.lib.hasSuffix ".nix" key;
+              value == "regular" && lib.hasSuffix ".nix" key;
             userOverlays = lib.lists.forEach (lib.mapAttrsToList toPath
               (lib.filterAttrs filterOverlays (builtins.readDir folder)))
               import;

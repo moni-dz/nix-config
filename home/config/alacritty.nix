@@ -7,7 +7,10 @@
   background_opacity = 0.95;
   cursor.style = "Beam";
   colors = {
-    primary.background = "0x16161c";
+    primary = {
+      background = "0x16161c";
+      foreground = "0xfdf0ed";
+    };
     normal = {
       black = "0x232530";
       red = "0xe95678";
