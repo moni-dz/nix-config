@@ -84,7 +84,7 @@
       layout = "us";
       libinput.enable = true;
     };
-    picom = (import ./config/picom-vsync.nix);
+    picom = (import ./config/picom-minimal.nix);
     chrony = {
       enable = true;
       servers = [
