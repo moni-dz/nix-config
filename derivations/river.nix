@@ -5,7 +5,7 @@ stdenv.mkDerivation rec {
 
   src = pkgs.fetchgit {
     url = "https://github.com/ifreund/river";
-    sha256 = "sha256-aVx7o6mjZ5oRKn0KWUCJAismRv8Bu1CdIbQofgja8rc=";
+    sha256 = "sha256-KPrUMhbMAQ8NQd1rpF4/YDFC7L928NN/EruyS2hdgh4=";
     fetchSubmodules = true;
   };
 

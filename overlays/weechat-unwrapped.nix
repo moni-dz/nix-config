@@ -4,7 +4,7 @@ final: prev: {
       owner = "weechat";
       repo = "weechat";
       rev = "master";
-      sha256 = "sha256-pPU+vyQC+Cx7TxW0DU2x7J5T2G3oDrkKYpPQK/iWv3c=";
+      sha256 = "sha256-BWjDVC2ekwvbplYYZVL4NtmK7cELNjvYxsatekUT5Jc=";
     };
   });
 }
