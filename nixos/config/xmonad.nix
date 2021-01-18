@@ -20,6 +20,7 @@
   import XMonad.Layout.ShowWName
   import XMonad.Layout.Spacing
   import XMonad.Layout.Tabbed
+  import XMonad.Layout.ThreeColumns
   import XMonad.Layout.ToggleLayouts
 
   import XMonad.Prompt
@@ -97,11 +98,6 @@
                                 then W.sink w s
                                 else (W.float w (W.RationalRect 0.15 0.15 0.7 0.7) s))
 
-  mouseBindings =
-    [
-
-    ]
-
   promptConfig = def
     { font                = fontFamily
     , bgColor             = "#16161c"
@@ -122,12 +118,13 @@
     , maxComplRows        = Just 5
     }
 
-  layouts = avoidStruts $ tiled ||| Mirror tiled ||| tabs ||| grid
+  layouts = avoidStruts $ tiled ||| Mirror tiled ||| tabs ||| centeredMaster ||| grid
     where
        tiled = gaps 4 4 $ toggleLayouts maximized (smartBorders (Tall 1 (3/100) (1/2)))
-       maximized = smartBorders Full
+       centeredMaster = gaps 4 4 $ toggleLayouts maximized (smartBorders (ThreeColMid 1 (3/100) (1/2)))
        tabs = gaps 8 0 $ noBorders (tabbed shrinkText tabTheme)
        grid = gaps 4 4 $ toggleLayouts maximized (smartBorders Grid)
+       maximized = smartBorders Full
        gaps n k = spacingRaw False (Border n n n n) True (Border k k k k) True
 
   tabTheme = def
@@ -171,7 +168,6 @@
     spawnOnce "systemctl --user restart polybar &"
     spawnOnce "xwallpaper --zoom /etc/nixos/nixos/config/wallpapers/horizon.jpg &"
     spawnOnce "xidlehook --not-when-fullscreen --not-when-audio --timer 600 slock \'\' &"
-    spawnOnce "systemctl --user restart emacs &"
     setWMName "LG3D"
 
   dbusClient = do

@@ -151,9 +151,12 @@
     content-background = "\${colors.bg}";
   };
 
+  "settings" = {
+    pseudo-transparency = true;
+  };
+
   "bar/main" = {
     override-redirect = true;
-    pseudo-transparency = true;
     fixed-center = true;
     background = "\${colors.bg}";
     foreground = "\${colors.x7}";

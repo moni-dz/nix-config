@@ -72,13 +72,6 @@
     };
   };
   services = {
-    emacs = {
-      enable = false;
-      client = {
-        enable = true;
-        arguments = [ "-n" "-c" ];
-      };
-    };
     dunst = {
       enable = true;
       iconTheme = {
@@ -149,6 +142,7 @@
       brave
       hyperfine
       discord
+      ripcord
       betterdiscordctl
       discocss
       nix-top

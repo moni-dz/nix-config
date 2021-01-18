@@ -21,7 +21,7 @@
         efiSupport = true;
         useOSProber = true;
         gfxmodeEfi = "1366x768";
-        extraConfig = ''GRUB_CMDLINE_LINUX="reboot=bios"'';
+        extraConfig = ''GRUB_CMDLINE_LINUX="reboot=acpi"'';
       };
     };
   };
@@ -29,6 +29,7 @@
   networking = {
     hostName = "superfluous";
     nameservers = [ "1.1.1.1" "1.0.0.1" ];
+    dhcpcd.enable = false;
     networkmanager = {
       enable = true;
       dns = "none";
@@ -84,7 +85,7 @@
       layout = "us";
       libinput.enable = true;
     };
-    picom = (import ./config/picom-minimal.nix);
+    picom.enable = false;
     chrony = {
       enable = true;
       servers = [
@@ -219,6 +220,7 @@
       fantasque-sans-mono
       xorg.fontbh100dpi
       mplus-outline-fonts
+      symbola
       twemoji-color-font
     ];
     fontconfig = {
@@ -233,7 +235,7 @@
     };
   };
   system = {
-    stateVersion = "20.09";
+    stateVersion = "21.03";
     autoUpgrade = {
       enable = true;
       flags = [ "--update-input" "nixpkgs" "--commit-lock-file" ];
