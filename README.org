@@ -1,20 +1,18 @@
 #+TITLE: NixOS configuration
 
-* Installation
+** Installation
+Get the latest NixOS image [[https://nixos.org/download.html][here]], then run the following commands
 #+begin_src sh
-cd ~/.config
-git clone https://github.com/fortuneteller2k/nix-config
-sudo ln -sf ~/.config/nix-config /etc/nixos
+git clone https://github.com/fortuneteller2k/nix-config /etc/nixos
 sudo nixos-install --flake
 #+end_src
 
-* Description
+** Description
 NixOS configuration that I use daily, it contains the system-wide *AND* home configuration, symlinked to =/etc/nixos=
 
 See also:
  * [[https://github.com/nix-community/home-manager][home-manager]]
  * [[https://nixos.wiki/wiki/Flakes][flakes]]
- * [[https://app.cachix.org/cache/nix-community][cachix]]
 
 Resources and configurations I used to base on:
  * [[https://github.com/hlissner/dotfiles][hlissner/dotfiles]]
@@ -23,7 +21,7 @@ Resources and configurations I used to base on:
  * [[https://git.sr.ht/~dunklecat/nixos-config/tree/master/flake.nix][dunklecat/nixos-config]]
  * [[https://www.youtube.com/watch?v=UeBX7Ide5a0][Nix Flakes talk by Eelco Dolstra on NixCon]]
 
-** Useful Commands
+*** Useful Commands
 | command                               | description                             |
 |---------------------------------------+-----------------------------------------|
 | =sudo nixos-rebuild switch=             | update and switch to the new generation |
