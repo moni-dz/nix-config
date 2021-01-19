@@ -85,7 +85,6 @@
       layout = "us";
       libinput.enable = true;
     };
-    picom.enable = false;
     chrony = {
       enable = true;
       servers = [
@@ -101,6 +100,7 @@
   };
   sound.enable = true;
   hardware = {
+    bluetooth.enable = true;
     pulseaudio.enable = true;
     opengl = {
       enable = true;
@@ -108,6 +108,7 @@
     };
   };
   security = {
+    rtkit.enable = true;
     sudo.wheelNeedsPassword = false;
     doas = {
       enable = true;
@@ -121,58 +122,56 @@
     extraGroups = [ "wheel" "networkmanager" "video" "audio" ];
   };
   environment.systemPackages = with pkgs; [
-    envsubst
-    ffmpeg
-    wget
-    curl
-    coreutils
-    util-linux
     brightnessctl
-    pciutils
+    busybox
+    ccls
+    cmake
+    curl
+    elixir
+    envsubst
+    fd
+    ffmpeg
+    font-manager
+    gcc
+    ghc
     git
+    gnumake
+    go
+    hacksaw
+    haskell-language-server
+    imagemagick
+    jq
+    libtool
+    nixfmt
+    nodePackages.npm
+    nodePackages.typescript
+    nodejs
+    notify-desktop
+    ntfs3g
+    pandoc
+    pcmanfm
+    python3
+    python39Packages.grip
+    ripgrep
+    rust-analyzer-unwrapped
+    rustup
+    shellcheck
+    shotgun
+    stack
+    unzip
+    vim
+    wget
+    xclip
     xdo
     xdotool
-    imagemagick
-    notify-desktop
-    vim
-    shotgun
-    hacksaw
-    xclip
-    pcmanfm
-    python39Packages.grip
-    pandoc
-    jq
-    cmake
-    unzip
-    zip
-    ripgrep
-    fd
-    nixfmt
-    python3
-    shellcheck
-    gcc
-    ccls
-    rustup
-    rust-analyzer-unwrapped
-    elixir
-    ntfs3g
-    nodejs
-    nodePackages.typescript
-    nodePackages.npm
-    go
-    gnumake
-    libtool
-    xorg.xkill
-    xorg.xdpyinfo
-    xorg.xwininfo
     xidlehook
-    xwallpaper
     xmonad-log
-    ghc
-    stack
-    haskell-language-server
-    font-manager
+    xorg.xdpyinfo
+    xorg.xkill
+    xorg.xwininfo
+    xwallpaper
     zig
+    zip
   ];
   programs = {
     slock.enable = true;

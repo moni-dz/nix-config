@@ -126,38 +126,38 @@
   };
   home = {
     packages = with pkgs; [
-      st
-      scroll
-      mpc_cli
-      cmus
-      weechat-unwrapped
-      pfetch
-      bpytop
-      gitAndTools.gh
-      qutebrowser
-      neofetch
-      peek
-      htop
-      exa
-      brave
-      hyperfine
-      discord
-      ripcord
       betterdiscordctl
+      bpytop
+      brave
+      cmus
       discocss
-      nix-top
-      speedtest-cli
-      gimp
-      krita
-      graphviz
-      inkscape
+      discord
+      emacs-all-the-icons-fonts
+      exa
       geogebra6
+      gimp
+      gitAndTools.gh
+      graphviz
+      hakuneko
+      htop
+      hyperfine
+      inkscape
+      krita
+      mpc_cli
+      mpv-with-scripts
+      neofetch
+      nix-top
+      obs-studio
+      peek
+      pfetch
+      qutebrowser
+      ripcord
+      scroll
+      speedtest-cli
+      st
       sxiv
       texlive.combined.scheme-medium
-      obs-studio
-      mpv-with-scripts
-      hakuneko
-      emacs-all-the-icons-fonts
+      weechat-unwrapped
       ytmdl
     ];
     sessionPath = [ "\${xdg.configHome}/emacs/bin" ];
