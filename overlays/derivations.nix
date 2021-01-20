@@ -50,19 +50,19 @@ final: prev: {
     pkg-config = prev.pkg-config;
   };
   phocus = prev.callPackage ../derivations/phocus.nix {
-    sass = final.sass;
+    sass = prev.sass;
     fetchFromGitHub = prev.fetchFromGitHub;
-    stdenv = final.stdenv;
+    stdenv = prev.stdenv;
   };
   zls = prev.callPackage ../derivations/zls.nix {
     zig = prev.zig;
-    stdenv = final.stdenv;
+    stdenv = prev.stdenv;
     fetchFromGithub = prev.fetchFromGitHub;
   };
   river = prev.callPackage ../derivations/river.nix {
-    stdenv = final.stdenv;
+    stdenv = prev.stdenv;
     pkgs = prev;
   };
   scroll =
-    prev.callPackage ../derivations/scroll.nix { stdenv = final.stdenv; };
+    prev.callPackage ../derivations/scroll.nix { stdenv = prev.stdenv; };
 }
