@@ -1,4 +1,4 @@
-{ rustPlatform, lib, fetchFromGitHub, pkgs }:
+{ rustPlatform, lib, fetchFromGitHub, rust, gtk3, cairo, glib, pkg-config }:
 
 rustPlatform.buildRustPackage rec {
   pname = "eww";
@@ -11,19 +11,10 @@ rustPlatform.buildRustPackage rec {
     sha256 = "sha256-QlFHqQaUaG/2sSfObOkuXVBJk45tLxEJS70LTqs7VHY=";
   };
 
-  nativeBuildInputs = with pkgs; [
-    pkgs.latest.rustChannels.nightly.rust
-    pkg-config
-  ];
-
-  buildInputs = with pkgs; [
-    gtk3
-    cairo
-    glib
-  ];
-
+  nativeBuildInputs = [ rust pkg-config ];
+  buildInputs = [ gtk3 cairo glib ];
+  
   checkPhase = null;
-
   cargoSha256 = "sha256-I/oEDh2anNyI9qm9bpkgcWAKV3rNgob4nJNZskVLnk4=";
 
   meta = with lib; {
