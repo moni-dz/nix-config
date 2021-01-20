@@ -179,6 +179,7 @@
       enable = true;
       lockerCommand = "${pkgs.slock}/bin/slock";
     };
+    bash.interactiveShellInit = "export HISTFILE=$HOME/.config/.bash_history";
     zsh = {
       enable = true;
       syntaxHighlighting.enable = true;
@@ -187,11 +188,15 @@
       interactiveShellInit = ''
         eval $(dircolors /etc/nixos/nixos/config/LS_COLORS)
         export PATH=$PATH:$HOME/.config/emacs/bin
+        export ZDOTDIR=$HOME/.config/zsh
+        export HISTFILE=$ZDOTDIR/.zsh_history
+        compinit -d $ZDOTDIR/.zcompdump
       '';
       shellAliases = {
         ls = "exa --icons";
         la = "exa --icons -la";
         l = "exa --icons -l";
+        srv = "systemctl";
       };
     };
     sway = {

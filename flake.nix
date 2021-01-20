@@ -7,11 +7,12 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    rust.url = "github:oxalica/rust-overlay";
     emacs.url = "github:nix-community/emacs-overlay";
     nur.url = "github:nix-community/NUR";
     hardware.url = "github:NixOS/nixos-hardware/master";
   };
-  outputs = inputs@{ self, nixpkgs, wayland, home, emacs, nur, hardware }: {
+  outputs = { self, nixpkgs, wayland, home, emacs, nur, hardware, rust }@inputs: {
     nixosConfigurations.superfluous = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
@@ -49,7 +50,11 @@
               allowUnfree = true;
               allowBroken = true;
             };
-            overlays = [ emacs.overlay nur.overlay ] ++ userOverlays;
+            overlays = [
+              emacs.overlay
+              nur.overlay
+              rust.overlay
+            ] ++ userOverlays;
           };
         }
         ./nixos/configuration.nix

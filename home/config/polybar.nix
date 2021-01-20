@@ -114,16 +114,18 @@
     ramp-volume-2 = "  ";
   };
 
-  "module/network" = {
-    type = "custom/script";
-    exec = ''
-      "PATH=/run/current-system/sw/bin /home/fortuneteller2k/.config/scripts/network.sh"'';
+  "module/wireless" = {
+    type = "internal/network";
+    interface = "wlo1";
     interval = 10;
-    tail = true;
-    format = "<label>";
-    format-foreground = "\${colors.x0}";
-    format-background = "\${colors.primary}";
-    label = " %output% ";
+    format-connected = "<label-connected>";
+    format-connected-foreground = "\${colors.x0}";
+    format-connected-background = "\${colors.primary}";
+    format-disconnected = "<label-disconnected> ";
+    format-disconnected-foreground = "\${colors.x0}";
+    format-disconnected-background = "\${colors.primary}";
+    label-connected = "   %essid% ";
+    label-disconnected = "   Disconnected ";
   };
 
   "module/date" = {
@@ -169,8 +171,8 @@
     border-color = "\${colors.bg}";
     font-0 = "FantasqueSansMono Nerd Font:size=12;3";
     modules-left = "wspc ewmh xmonad";
-    modules-right = "battery wspc_b pulseaudio wspc_b network wspc_b date";
     modules-center = "mpd";
+    modules-right = "battery wspc_b pulseaudio wspc_b wireless wspc_b date";
     locale = "en_US.UTF-8";
     separator = "";
   };

@@ -43,9 +43,7 @@ final: prev: {
   eww = prev.callPackage ../derivations/eww.nix {
     rustPlatform = prev.rustPlatform;
     fetchFromGitHub = prev.fetchFromGitHub;
-    glib = prev.glib;
-    cargo = prev.cargo;
-    rustc = prev.rustc;
+    pkgs = prev;
   };
   phocus = prev.callPackage ../derivations/phocus.nix {
     sass = final.sass;

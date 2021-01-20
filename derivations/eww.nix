@@ -1,4 +1,4 @@
-{ rustPlatform, lib, fetchFromGitHub, glib, cargo, rustc }:
+{ rustPlatform, lib, fetchFromGitHub, pkgs }:
 
 rustPlatform.buildRustPackage rec {
   pname = "eww";
@@ -8,16 +8,23 @@ rustPlatform.buildRustPackage rec {
     owner = "elkowar";
     repo = pname;
     rev = version;
-    sha256 = "sha256-9FUBSojGlJHpFXTPNjusTQ7DJ9pl6U10C3s78blN4Hc=";
+    sha256 = "sha256-QlFHqQaUaG/2sSfObOkuXVBJk45tLxEJS70LTqs7VHY=";
   };
 
-  nativeBuildInputs = [ cargo rustc glib ];
+  nativeBuildInputs = with pkgs; [
+    pkgs.latest.rustChannels.nightly.rust
+    pkg-config
+  ];
 
-  buildInputs = [ glib ];
+  buildInputs = with pkgs; [
+    gtk3
+    cairo
+    glib
+  ];
 
   checkPhase = null;
 
-  cargoSha256 = "sha256-bE8UZuYW2OwwJNTqjWt4vjTuL7RNHps052qjOQhwf48=";
+  cargoSha256 = "sha256-I/oEDh2anNyI9qm9bpkgcWAKV3rNgob4nJNZskVLnk4=";
 
   meta = with lib; {
     description =

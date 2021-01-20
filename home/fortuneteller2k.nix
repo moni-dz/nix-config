@@ -133,6 +133,7 @@
       discocss
       discord
       emacs-all-the-icons-fonts
+      eww
       exa
       geogebra6
       gimp

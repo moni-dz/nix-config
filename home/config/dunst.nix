@@ -5,23 +5,27 @@
     alignment = "center";
     word_wrap = "yes";
     horizontal_padding = 24;
-    frame_width = 0;
+    frame_width = 2;
     format = "<b>%s</b>: %b";
-    geometry = "300x5-14+40";
-    transparency = 10;
-    frame_color = "#e95678";
     font = "FantasqueSansMono Nerd Font Mono 10";
-    timeout = 10;
+    frame_color = "#29d398";
+    geometry = "300x5-10+30";
+  };
+  urgency_low = {
+    foreground = "#fdf0ed";
+    background = "#16161c";
+    frame_color = "#29d398";
+    timeout = 15;
   };
   urgency_normal = {
     foreground = "#fdf0ed";
     background = "#16161c";
-    frame-color = "#26bbd9";
-    timeout = 15;
+    frame_color = "#fab795";
+    timeout = 30;
   };
   urgency_critical = {
-    foreground = "#16161c";
-    background = "#e95678";
-    frame-color = "#16161c";
+    foreground = "#fdf0ed";
+    background = "#16161c";
+    frame_color = "#e95678";
   };
 }

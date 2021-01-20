@@ -3,7 +3,7 @@ final: prev: {
     i3Support = false;
     i3GapsSupport = false;
     alsaSupport = false;
-    iwSupport = false;
+    iwSupport = true;
     githubSupport = false;
     mpdSupport = true;
     nlSupport = false;
