@@ -131,7 +131,7 @@
   "module/date" = {
     type = "internal/date";
     interval = 1;
-    date = "   %B %d %Y";
+    date = "   %b %d %Y";
     time = "%I:%M %p";
     format = "<label>";
     format-foreground = "\${colors.x0}";

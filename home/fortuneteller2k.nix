@@ -18,6 +18,15 @@
         lineSpace = 0;
       };
     };
+    neovim = {
+      enable = true;
+      package = pkgs.neovim-unwrapped;
+      viAlias = true;
+      vimAlias = true;
+      vimdiffAlias = true;
+      extraPackages = [ pkgs.fzf ];
+      extraConfig = (import ./config/neovim.nix);
+    };
     vscode = {
       enable = true;
       package = pkgs.vscodium;
@@ -138,6 +147,7 @@
       geogebra6
       gimp
       gitAndTools.gh
+      gnvim
       graphviz
       hakuneko
       htop

@@ -159,7 +159,6 @@
     shotgun
     stack
     unzip
-    vim
     wget
     xclip
     xdo
@@ -190,7 +189,6 @@
         export PATH=$PATH:$HOME/.config/emacs/bin
         export ZDOTDIR=$HOME/.config/zsh
         export HISTFILE=$ZDOTDIR/.zsh_history
-        compinit -d $ZDOTDIR/.zcompdump
       '';
       shellAliases = {
         ls = "exa --icons";

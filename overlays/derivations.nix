@@ -43,7 +43,7 @@ final: prev: {
   eww = prev.callPackage ../derivations/eww.nix {
     rustPlatform = prev.rustPlatform;
     fetchFromGitHub = prev.fetchFromGitHub;
-    rust = prev.latest.rustChannels.nightly.rust;
+    rust = prev.rust-bin.nightly."2021-01-19".rust;
     gtk3 = prev.gtk3;
     cairo = prev.cairo;
     glib = prev.glib;
