@@ -2,6 +2,7 @@
   syntax on
   set nu
   set guicursor=a:ver25-iCursor
+  set guifont=monospace:h11
   set termguicolors
 
   if empty(stdpath('data') . '/plugged')
@@ -15,9 +16,11 @@
     Plug 'itchyny/lightline.vim'
     Plug 'ntk148v/vim-horizon'
     Plug 'LnL7/vim-nix'
+    Plug 'ziglang/zig.vim'
+    Plug 'elixir-lang/vim-elixir'
+    Plug 'neoclide/coc.nvim', {'branch': 'release'} 
   call plug#end()
 
-  au VimEnter * PlugInstall
   colorscheme horizon
   let g:lightline = {'colorscheme' : 'horizon'}
 ''

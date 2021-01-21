@@ -140,6 +140,7 @@
     hacksaw
     haskell-language-server
     imagemagick
+    jp2a
     jq
     libtool
     nixfmt
@@ -189,6 +190,7 @@
         export PATH=$PATH:$HOME/.config/emacs/bin
         export ZDOTDIR=$HOME/.config/zsh
         export HISTFILE=$ZDOTDIR/.zsh_history
+        export MANPAGER='nvim +Man!'
       '';
       shellAliases = {
         ls = "exa --icons";
@@ -224,6 +226,7 @@
       mplus-outline-fonts
       symbola
       twemoji-color-font
+      scientifica
     ];
     fontconfig = {
       enable = true;

@@ -1,19 +1,18 @@
-{ stdenv, lib, fetchFromGitHub, zig }:
+{ stdenv, lib, fetchgit, zig }:
 
 stdenv.mkDerivation rec {
   pname = "zls";
-  version = "master";
+  version = "0.1.0";
 
-  src = fetchFromGitHub {
-    owner = "zigtools";
-    repo = pname;
-    rev = version;
-    sha256 = lib.fakeSha256;
+  src = fetchgit {
+    url = "https://github.com/zigtools/zls"; 
+    sha256 = "sha256-tLGsSvfp780cNgTME7IgfRfPRbjNvYKCwoNYiAKewSI=";
     fetchSubmodules = true;
   };
 
   buildInputs = [ zig ];
 
+  preBuild = "export HOME=$TMPDIR;";
   installPhase = ''
     zig build -Drelease-safe
     zig build config

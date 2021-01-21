@@ -24,7 +24,7 @@
       viAlias = true;
       vimAlias = true;
       vimdiffAlias = true;
-      extraPackages = [ pkgs.fzf ];
+      withNodeJs = true;
       extraConfig = (import ./config/neovim.nix);
     };
     vscode = {
@@ -57,8 +57,8 @@
         visualizer_data_source = "/tmp/mpd.fifo";
         visualizer_output_name = "mpd_visualizer_fifo";
         visualizer_in_stereo = "yes";
-        visualizer_type = "spectrum";
-        visualizer_look = "+|";
+        visualizer_type = "ellipse";
+        visualizer_look = "+*";
         execute_on_song_change = ''
           notify-desktop "Now Playing" "$(mpc --format '%title% \n%artist%' current)"'';
       };
@@ -90,6 +90,7 @@
       };
       settings = (import ./config/dunst.nix);
     };
+    pulseeffects.enable = true;
     polybar = {
       enable = true;
       script = "polybar main &";
@@ -144,6 +145,7 @@
       emacs-all-the-icons-fonts
       eww
       exa
+      fzf
       geogebra6
       gimp
       gitAndTools.gh
@@ -164,6 +166,7 @@
       qutebrowser
       ripcord
       scroll
+      sonata
       speedtest-cli
       st
       sxiv

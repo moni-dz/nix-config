@@ -38,7 +38,12 @@ final: prev: {
     youtube-search = final.youtube-search;
     python38Packages = prev.python38Packages;
     buildPythonPackage = prev.python38Packages.buildPythonPackage;
-    fetchPypi = prev.python39Packages.fetchPypi;
+    fetchPypi = prev.python38Packages.fetchPypi;
+  };
+  wdpass = prev.callPackage ../derivations/wdpass.nix {
+    python38Packages = prev.python38Packages;
+    buildPythonPackage = prev.python38Packages.buildPythonPackage;
+    fetchPypi = prev.python38Packages.fetchPypi;
   };
   eww = prev.callPackage ../derivations/eww.nix {
     rustPlatform = prev.rustPlatform;
@@ -57,7 +62,11 @@ final: prev: {
   zls = prev.callPackage ../derivations/zls.nix {
     zig = prev.zig;
     stdenv = prev.stdenv;
-    fetchFromGithub = prev.fetchFromGitHub;
+    fetchgit = prev.fetchgit;
+  };
+  scientifica = prev.callPackage ../derivations/scientifica.nix {
+    stdenv = prev.stdenv;
+    fetchzip = prev.fetchzip;
   };
   river = prev.callPackage ../derivations/river.nix {
     stdenv = prev.stdenv;
