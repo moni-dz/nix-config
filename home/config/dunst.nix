@@ -9,7 +9,7 @@
     format = "<b>%s</b>: %b";
     font = "FantasqueSansMono Nerd Font Mono 10";
     frame_color = "#29d398";
-    geometry = "300x5-10+30";
+    geometry = "300x5-8+25";
   };
   urgency_low = {
     foreground = "#fdf0ed";

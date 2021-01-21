@@ -95,13 +95,25 @@
         "3.nixos.pool.ntp.org"
       ];
     };
+    pipewire = {
+      enable = true;
+      socketActivation = false;
+      alsa = {
+        enable = true;
+        support32Bit = true;
+      };
+      pulse.enable = true;
+    };
     tlp.enable = true;
     openssh.enable = true;
   };
+  systemd.user.services = {
+    pipewire.wantedBy = [ "default.target" ];
+    pipewire-pulse.wantedBy = [ "default.target" ];
+  };
   sound.enable = true;
   hardware = {
-    bluetooth.enable = true;
-    pulseaudio.enable = true;
+    pulseaudio.enable = pkgs.lib.mkForce false;
     opengl = {
       enable = true;
       extraPackages = with pkgs; [ vaapiVdpau libvdpau-va-gl ];
@@ -151,6 +163,7 @@
     ntfs3g
     pandoc
     pcmanfm
+    pulseaudio
     python3
     python39Packages.grip
     ripgrep

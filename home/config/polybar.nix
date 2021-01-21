@@ -63,7 +63,7 @@
     type = "custom/script";
     exec = "/run/current-system/sw/bin/xmonad-log";
     tail = true;
-    label = " :: %output% ";
+    label = " : %output% ";
     format = "<label>";
     format-background = "\${colors.primary}";
     format-foreground = "\${colors.x0}";
@@ -163,13 +163,13 @@
     background = "\${colors.bg}";
     foreground = "\${colors.x7}";
     width = "100%";
-    height = 20;
+    height = 17;
     wm-name = "xmonad";
     enable-ipc = true;
     border-size = 0;
     padding = 1;
     border-color = "\${colors.bg}";
-    font-0 = "FantasqueSansMono Nerd Font:size=12;3";
+    font-0 = "FantasqueSansMono Nerd Font:size=10.5;2";
     modules-left = "wspc ewmh xmonad";
     modules-center = "mpd";
     modules-right = "battery wspc_b pulseaudio wspc_b wireless wspc_b date";

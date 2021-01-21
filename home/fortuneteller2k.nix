@@ -90,7 +90,6 @@
       };
       settings = (import ./config/dunst.nix);
     };
-    pulseeffects.enable = true;
     polybar = {
       enable = true;
       script = "polybar main &";
