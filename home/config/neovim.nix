@@ -1,6 +1,7 @@
 ''
   syntax on
   set nu
+  set mouse=a
   set guicursor=a:ver25-iCursor
   set guifont=monospace:h11
   set termguicolors
@@ -17,6 +18,7 @@
     Plug 'ntk148v/vim-horizon'
     Plug 'LnL7/vim-nix'
     Plug 'ziglang/zig.vim'
+    Plug 'lervag/vimtex'
     Plug 'elixir-lang/vim-elixir'
     Plug 'neoclide/coc.nvim', {'branch': 'release'} 
   call plug#end()

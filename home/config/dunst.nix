@@ -1,15 +1,18 @@
 {
   global = {
-    padding = 24;
+    padding = 12;
     markup = "full";
     alignment = "center";
     word_wrap = "yes";
-    horizontal_padding = 24;
+    horizontal_padding = 12;
     frame_width = 2;
     format = "<b>%s</b>: %b";
     font = "FantasqueSansMono Nerd Font Mono 10";
     frame_color = "#29d398";
-    geometry = "300x5-8+25";
+    separator_color = "auto";
+    icon_position = "left";
+    max_icon_size = 40;
+    geometry = "350x5-8+25";
   };
   urgency_low = {
     foreground = "#fdf0ed";

@@ -72,7 +72,7 @@
     , ("M-S-q",                      io (exitWith ExitSuccess))
     , ("M-S-<Delete>",               spawn "slock")
     , ("M-S-c",                      withFocused $ \w -> spawn ("xkill -id " ++ show w))
-    , ("M-S-r",                      spawn $ "xmonad --restart")
+    , ("M-S-r",                      spawn $ "xmonad --restart && systemctl --user restart polybar")
     , ("M-S-<Left>",                 shiftToPrev >> prevWS)
     , ("M-S-<Right>",                shiftToNext >> nextWS)
     , ("M-<Left>",                   windows W.focusUp)

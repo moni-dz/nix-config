@@ -1,5 +1,6 @@
 {
   "colors" = {
+    xbg = "\${xrdb:background}";
     x0 = "\${xrdb:color0}";
     x1 = "\${xrdb:color1}";
     x2 = "\${xrdb:color2}";
@@ -32,20 +33,20 @@
     label-dimmed = "%index%";
     label-dimmed-padding = 1;
     label-active = "*";
-    label-active-foreground = "\${colors.x0}";
+    label-active-foreground = "\${colors.xbg}";
     label-active-padding = 1;
     label-occupied = "%icon%";
-    label-occupied-foreground = "\${colors.x0}";
+    label-occupied-foreground = "\${colors.xbg}";
     label-occupied-padding = 1;
     label-empty = "_";
-    label-empty-foreground = "\${colors.x0}";
+    label-empty-foreground = "\${colors.xbg}";
     label-empty-padding = 1;
     label-urgent = "!";
-    label-urgent-foreground = "\${colors.x0}";
+    label-urgent-foreground = "\${colors.xbg}";
     label-urgent-padding = 1;
     format = ''"    <label-state>"'';
     format-background = "\${colors.primary}";
-    format-foreground = "\${colors.x0}";
+    format-foreground = "\${colors.xbg}";
   };
 
   "module/mpd" = {
@@ -54,7 +55,7 @@
     port = "6600";
     format-online = "<label-song>";
     format-online-background = "\${colors.primary}";
-    format-online-foreground = "\${colors.x0}";
+    format-online-foreground = "\${colors.xbg}";
     label-song = " ﱘ  %title% ";
     label-song-maxlen = 40;
   };
@@ -63,10 +64,10 @@
     type = "custom/script";
     exec = "/run/current-system/sw/bin/xmonad-log";
     tail = true;
-    label = " : %output% ";
+    label = ": %output% ";
     format = "<label>";
     format-background = "\${colors.primary}";
-    format-foreground = "\${colors.x0}";
+    format-foreground = "\${colors.xbg}";
   };
 
   "module/battery" = {
@@ -75,13 +76,13 @@
     battery = "BAT0";
     adapter = "ACAD";
     format-charging = "<ramp-capacity> <label-charging>";
-    format-charging-foreground = "\${colors.x0}";
+    format-charging-foreground = "\${colors.xbg}";
     format-charging-background = "\${colors.primary}";
     format-discharging = "<ramp-capacity> <label-discharging>";
-    format-discharging-foreground = "\${colors.x0}";
+    format-discharging-foreground = "\${colors.xbg}";
     format-discharging-background = "\${colors.primary}";
     format-full = "<label-full>";
-    format-full-foreground = "\${colors.x0}";
+    format-full-foreground = "\${colors.xbg}";
     format-full-background = "\${colors.primary}";
     label-charging = "%percentage%% ";
     label-discharging = "%percentage%% ";
@@ -104,10 +105,10 @@
     use-ui-max = true;
     interval = 10;
     format-volume = " <ramp-volume> <label-volume> ";
-    format-volume-foreground = "\${colors.x0}";
+    format-volume-foreground = "\${colors.xbg}";
     format-volume-background = "\${colors.primary}";
     label-muted = " 婢  Muted ";
-    label-muted-foreground = "\${colors.x0}";
+    label-muted-foreground = "\${colors.xbg}";
     label-muted-background = "\${colors.primary}";
     ramp-volume-0 = "  ";
     ramp-volume-1 = "  ";
@@ -119,10 +120,10 @@
     interface = "wlo1";
     interval = 10;
     format-connected = "<label-connected>";
-    format-connected-foreground = "\${colors.x0}";
+    format-connected-foreground = "\${colors.xbg}";
     format-connected-background = "\${colors.primary}";
     format-disconnected = "<label-disconnected> ";
-    format-disconnected-foreground = "\${colors.x0}";
+    format-disconnected-foreground = "\${colors.xbg}";
     format-disconnected-background = "\${colors.primary}";
     label-connected = "   %essid% ";
     label-disconnected = "   Disconnected ";
@@ -134,7 +135,7 @@
     date = "   %b %d %Y";
     time = "%I:%M %p";
     format = "<label>";
-    format-foreground = "\${colors.x0}";
+    format-foreground = "\${colors.xbg}";
     format-background = "\${colors.primary}";
     label = "%date% %time% ";
   };
@@ -164,10 +165,10 @@
     foreground = "\${colors.x7}";
     width = "100%";
     height = 17;
+    padding = 1;
     wm-name = "xmonad";
     enable-ipc = true;
     border-size = 0;
-    padding = 1;
     border-color = "\${colors.bg}";
     font-0 = "FantasqueSansMono Nerd Font:size=10.5;2";
     modules-left = "wspc ewmh xmonad";

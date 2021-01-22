@@ -52,11 +52,6 @@
       dpi = 96;
       config = (import ./config/xorg-amd-tearfree.nix);
       displayManager = {
-        session = [ { 
-          manage = "window";
-          name = "river";
-          start = "${pkgs.river}/bin/river";
-        } ];
         lightdm = {
           enable = true;
           background = ./config/wallpapers/horizon.jpg;
@@ -83,7 +78,11 @@
         };
       };
       layout = "us";
-      libinput.enable = true;
+      libinput = {
+        enable = true;
+        mouse.accelProfile = "flat";
+        touchpad.naturalScrolling = true;  
+      };
     };
     chrony = {
       enable = true;
@@ -135,9 +134,9 @@
   };
   environment.systemPackages = with pkgs; [
     brightnessctl
-    busybox
     ccls
     cmake
+    coreutils
     curl
     elixir
     envsubst

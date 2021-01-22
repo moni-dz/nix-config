@@ -53,15 +53,7 @@
     };
     ncmpcpp = {
       enable = true;
-      settings = {
-        visualizer_data_source = "/tmp/mpd.fifo";
-        visualizer_output_name = "mpd_visualizer_fifo";
-        visualizer_in_stereo = "yes";
-        visualizer_type = "ellipse";
-        visualizer_look = "+*";
-        execute_on_song_change = ''
-          notify-desktop "Now Playing" "$(mpc --format '%title% \n%artist%' current)"'';
-      };
+      settings = (import ./config/ncmpcpp.nix);
     };
     mako = {
       enable = true;
@@ -142,7 +134,6 @@
       discocss
       discord
       emacs-all-the-icons-fonts
-      eww
       exa
       fzf
       geogebra6
@@ -170,7 +161,6 @@
       st
       sxiv
       texlive.combined.scheme-medium
-      weechat-unwrapped
       ytmdl
     ];
     sessionPath = [ "\${xdg.configHome}/emacs/bin" ];
