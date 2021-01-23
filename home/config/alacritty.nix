@@ -4,7 +4,10 @@
     normal.family = "FantasqueSansMono Nerd Font Mono";
     size = 10.5;
   };
-  background_opacity = 0.95;
+  window.padding = {
+    x = 8;
+    y = 8;
+  };
   cursor.style = "Beam";
   colors = {
     primary = {
@@ -32,5 +35,4 @@
       white = "0xfdf0ed";
     };
   };
-  ligature = true;
 }

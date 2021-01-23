@@ -8,7 +8,6 @@
 
   import XMonad.Hooks.DynamicLog
   import XMonad.Hooks.EwmhDesktops
-  import XMonad.Hooks.FadeInactive
   import XMonad.Hooks.InsertPosition
   import XMonad.Hooks.ManageDocks
   import XMonad.Hooks.ManageHelpers
@@ -70,7 +69,7 @@
     , ("M-<Print>",                  spawn "/home/fortuneteller2k/.config/scripts/screenshot.sh area")
     , ("M-S-s",                      spawn "/home/fortuneteller2k/.config/scripts/screenshot.sh full")
     , ("M-S-q",                      io (exitWith ExitSuccess))
-    , ("M-S-<Delete>",               spawn "slock")
+    , ("M-S-<Delete>",               spawn "i3lock-fancy -nf Fantasque-Sans-Mono-Bold-Nerd-Font-Complete -- shotgun")
     , ("M-S-c",                      withFocused $ \w -> spawn ("xkill -id " ++ show w))
     , ("M-S-r",                      spawn $ "xmonad --restart && systemctl --user restart polybar")
     , ("M-S-<Left>",                 shiftToPrev >> prevWS)
@@ -167,7 +166,8 @@
     spawnOnce "xsetroot -cursor_name left_ptr &"
     spawnOnce "systemctl --user restart polybar &"
     spawnOnce "xwallpaper --zoom /etc/nixos/nixos/config/wallpapers/horizon.jpg &"
-    spawnOnce "xidlehook --not-when-fullscreen --not-when-audio --timer 600 slock \'\' &"
+    spawnOnce "xidlehook --not-when-fullscreen --not-when-audio --timer 600 'i3lock-fancy -nf Fantasque-Sans-Mono-Bold-Nerd-Font-Complete -- shotgun' \'\' &"
+    spawnOnce "notify-desktop -u low 'xmonad' '(re)started successfully'"
     setWMName "LG3D"
 
   dbusClient = do
@@ -202,7 +202,7 @@
     , focusedBorderColor = "#e95678"
     , layoutHook         = showWName' wnameTheme layouts
     , manageHook         = windowRules
-    , logHook            = fadeInactiveLogHook 0.95 <+> polybarHook dbus
+    , logHook            = polybarHook dbus
     , handleEventHook    = fullscreenEventHook <+> ewmhDesktopsEventHook
     , startupHook        = autostart
     } `additionalKeysP` keybindings

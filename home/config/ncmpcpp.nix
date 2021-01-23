@@ -8,5 +8,5 @@
   visualizer_look = "+*";
   visualizer_autoscale = "yes";
   execute_on_song_change = ''
-    notify-desktop "Now Playing" "$(mpc --format '\n%title%\n%artist%' current)"'';
+    notify-desktop "Now Playing" "$(mpc --format '\n%title% - %artist%' current)"'';
 }

@@ -5,8 +5,7 @@
     home-manager.enable = true;
     emacs = {
       enable = true;
-      package = pkgs.emacsGit;
-      extraPackages = epkgs: with epkgs; [ vterm pdf-tools ];
+      package = pkgs.emacsPgtk;
     };
     urxvt = {
       enable = true;
@@ -38,9 +37,8 @@
     };
     starship = {
       enable = true;
-      settings.format =
-        "[fortuneteller2k](bold red) at [superfluous](bold blue) in $all ";
-    };
+      settings = (import ./config/starship.nix);
+    }; 
     qutebrowser = {
       enable = true;
       extraConfig = (import ./config/qutebrowser.nix);

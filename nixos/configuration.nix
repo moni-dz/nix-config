@@ -21,7 +21,6 @@
         efiSupport = true;
         useOSProber = true;
         gfxmodeEfi = "1366x768";
-        extraConfig = ''GRUB_CMDLINE_LINUX="reboot=acpi"'';
       };
     };
   };
@@ -138,6 +137,7 @@
     cmake
     coreutils
     curl
+    dragon-drop
     elixir
     envsubst
     fd
@@ -150,6 +150,7 @@
     go
     hacksaw
     haskell-language-server
+    i3lock-fancy
     imagemagick
     jp2a
     jq
@@ -186,10 +187,10 @@
     zip
   ];
   programs = {
-    slock.enable = true;
     xss-lock = {
       enable = true;
-      lockerCommand = "${pkgs.slock}/bin/slock";
+      lockerCommand = 
+      "${pkgs.i3lock-fancy}/bin/i3lock-fancy -nf Fantasque-Sans-Mono-Bold-Nerd-Font-Complete -- shotgun";
     };
     bash.interactiveShellInit = "export HISTFILE=$HOME/.config/.bash_history";
     zsh = {
@@ -197,19 +198,8 @@
       syntaxHighlighting.enable = true;
       autosuggestions.enable = true;
       promptInit = "eval $(starship init zsh)";
-      interactiveShellInit = ''
-        eval $(dircolors /etc/nixos/nixos/config/LS_COLORS)
-        export PATH=$PATH:$HOME/.config/emacs/bin
-        export ZDOTDIR=$HOME/.config/zsh
-        export HISTFILE=$ZDOTDIR/.zsh_history
-        export MANPAGER='nvim +Man!'
-      '';
-      shellAliases = {
-        ls = "exa --icons";
-        la = "exa --icons -la";
-        l = "exa --icons -l";
-        srv = "systemctl";
-      };
+      interactiveShellInit = (import ./config/zshrc.nix);
+      shellAliases = (import ./config/zsh-aliases.nix);
     };
     sway = {
       enable = true;
