@@ -12,4 +12,7 @@
     disabled = false;
   };
   directory.format = "in [$path]($style)[$read_only]($read_only_style) ";
+  nix_shell.symbol = "🌨  ";
+  nodejs.symbol = "⬢  ";
+  package.symbol = "📦  ";	
 }

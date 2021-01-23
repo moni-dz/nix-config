@@ -192,7 +192,10 @@
       lockerCommand = 
       "${pkgs.i3lock-fancy}/bin/i3lock-fancy -nf Fantasque-Sans-Mono-Bold-Nerd-Font-Complete -- shotgun";
     };
-    bash.interactiveShellInit = "export HISTFILE=$HOME/.config/.bash_history";
+    bash = {
+      promptInit = ''eval "$(${pkgs.starship}/bin/starship init bash)"'';
+      interactiveShellInit = "export HISTFILE=$HOME/.config/.bash_history";
+    };
     zsh = {
       enable = true;
       syntaxHighlighting.enable = true;
