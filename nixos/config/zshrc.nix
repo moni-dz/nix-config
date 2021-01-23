@@ -1,7 +1,11 @@
 ''
   function nix() {
     if [[ "$1" == "develop" ]]; then
-      command nix develop "$2" -c zsh
+      if [[ ! -z "$2" ]]; then
+        command nix develop "$2" -c zsh
+      else
+        command nix develop -c zsh
+      fi
     else
       command nix "$@"
     fi
