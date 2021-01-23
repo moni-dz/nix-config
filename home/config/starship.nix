@@ -1,5 +1,4 @@
 {
-  add_newline = false;
   format = "$all ";
   username = {
     style_user = "bold red";
@@ -9,7 +8,7 @@
   };
   hostname = {
     ssh_only = false;
-    format = "at [$hostname](bold red) ";
+    format = "at [$hostname](bold blue) ";
     disabled = false;
   };
   directory.format = "in [$path]($style)[$read_only]($read_only_style) ";
