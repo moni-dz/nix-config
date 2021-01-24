@@ -174,6 +174,7 @@
     stack
     unzip
     wget
+    xarchiver
     xclip
     xdo
     xdotool
@@ -230,6 +231,8 @@
       xorg.fontbh100dpi
       mplus-outline-fonts
       symbola
+      input-fonts
+      output-fonts
       twemoji-color-font
       scientifica
     ];

@@ -167,7 +167,7 @@
     spawnOnce "systemctl --user restart polybar &"
     spawnOnce "xwallpaper --zoom /etc/nixos/nixos/config/wallpapers/horizon.jpg &"
     spawnOnce "xidlehook --not-when-fullscreen --not-when-audio --timer 600 'i3lock-fancy -nf Fantasque-Sans-Mono-Bold-Nerd-Font-Complete -- shotgun' \'\' &"
-    spawnOnce "notify-desktop -u low 'xmonad' '(re)started successfully'"
+    spawnOnce "notify-desktop -u low 'xmonad' 'started successfully'"
     setWMName "LG3D"
 
   dbusClient = do

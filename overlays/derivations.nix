@@ -72,6 +72,11 @@ final: prev: {
     stdenv = prev.stdenv;
     pkgs = prev;
   };
+  output-fonts = prev.callPackage ../derivations/output-fonts.nix {
+    stdenv = prev.stdenv;
+    unzip = prev.unzip;
+    requireFile = prev.requireFile;
+  };
   scroll =
     prev.callPackage ../derivations/scroll.nix { stdenv = prev.stdenv; };
 }
