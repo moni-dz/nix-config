@@ -20,7 +20,6 @@ stdenv.mkDerivation {
     mkdir -p $out/share/fonts/truetype
     mkdir -p $out/share/fonts/opentype
     find Output_Desktop -name "*.otf" -exec cp -a {} "$out"/share/fonts/opentype/ \;
-    find Output_Desktop -name "*.ttf" -exec cp -a {} "$out"/share/fonts/truetype/ \;
     mkdir -p "$out"/share/doc
     cp -a *.txt "$out"/share/doc
   '';

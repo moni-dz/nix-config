@@ -24,6 +24,7 @@
       };
     };
   };
+  zramSwap.enable = true;
   time.timeZone = "Asia/Manila";
   networking = {
     hostName = "superfluous";
@@ -150,7 +151,7 @@
     go
     hacksaw
     haskell-language-server
-    i3lock-fancy
+    i3lock-fancy-rapid
     imagemagick
     jp2a
     jq
@@ -171,6 +172,7 @@
     rustup
     shellcheck
     shotgun
+    slock
     stack
     unzip
     wget
@@ -188,10 +190,10 @@
     zip
   ];
   programs = {
+    slock.enable = true;
     xss-lock = {
       enable = true;
-      lockerCommand = 
-      "${pkgs.i3lock-fancy}/bin/i3lock-fancy -nf Fantasque-Sans-Mono-Bold-Nerd-Font-Complete -- shotgun";
+      lockerCommand = "${pkgs.slock}/bin/slock";
     };
     bash = {
       promptInit = ''eval "$(${pkgs.starship}/bin/starship init bash)"'';
@@ -240,9 +242,18 @@
       enable = true;
       dpi = 96;
       defaultFonts = {
-        serif = [ "Inter" ];
-        sansSerif = [ "Inter" ];
-        monospace = [ "FantasqueSansMono Nerd Font" ];
+        serif = [
+          "Inter"
+          "Output Sans Semi-Condensed"
+        ];
+        sansSerif = [
+          "Inter"
+          "Output Sans Semi-Condensed"
+        ];
+        monospace = [
+          "FantasqueSansMono Nerd Font"
+          "Input Mono Condensed"
+        ];
         emoji = [ "Twitter Color Emoji" ];
       };
     };

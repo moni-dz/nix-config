@@ -69,7 +69,7 @@
     , ("M-<Print>",                  spawn "/home/fortuneteller2k/.config/scripts/screenshot.sh area")
     , ("M-S-s",                      spawn "/home/fortuneteller2k/.config/scripts/screenshot.sh full")
     , ("M-S-q",                      io (exitWith ExitSuccess))
-    , ("M-S-<Delete>",               spawn "i3lock-fancy -nf Fantasque-Sans-Mono-Bold-Nerd-Font-Complete -- shotgun")
+    , ("M-S-<Delete>",               spawn "slock")
     , ("M-S-c",                      withFocused $ \w -> spawn ("xkill -id " ++ show w))
     , ("M-S-r",                      spawn $ "xmonad --restart && systemctl --user restart polybar")
     , ("M-S-<Left>",                 shiftToPrev >> prevWS)
@@ -166,7 +166,7 @@
     spawnOnce "xsetroot -cursor_name left_ptr &"
     spawnOnce "systemctl --user restart polybar &"
     spawnOnce "xwallpaper --zoom /etc/nixos/nixos/config/wallpapers/horizon.jpg &"
-    spawnOnce "xidlehook --not-when-fullscreen --not-when-audio --timer 600 'i3lock-fancy -nf Fantasque-Sans-Mono-Bold-Nerd-Font-Complete -- shotgun' \'\' &"
+    spawnOnce "xidlehook --not-when-fullscreen --not-when-audio --timer 120 slock \'\' &"
     spawnOnce "notify-desktop -u low 'xmonad' 'started successfully'"
     setWMName "LG3D"
 

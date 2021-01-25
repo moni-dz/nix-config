@@ -77,6 +77,15 @@ final: prev: {
     unzip = prev.unzip;
     requireFile = prev.requireFile;
   };
+  sacad = prev.callPackage ../derivations/sacad.nix {
+    python38Packages = prev.python38Packages;
+    fetchPypi = prev.python38Packages.fetchPypi;
+    web_cache = final.web_cache;
+  };
+  web_cache = prev.callPackage ../derivations/web-cache.nix {
+    python38Packages = prev.python38Packages;
+    fetchPypi = prev.python38Packages.fetchPypi;
+  };
   scroll =
     prev.callPackage ../derivations/scroll.nix { stdenv = prev.stdenv; };
 }

@@ -40,12 +40,11 @@
             ];
           };
           nixpkgs = let
-            lib = nixpkgs.lib;
             folder = ./overlays;
             toPath = name: value: folder + ("/" + name);
-            filterOverlays = key: value:
+            filterOverlays = key: value: with nixpkgs.lib;
               value == "regular" && lib.hasSuffix ".nix" key;
-            userOverlays = lib.lists.forEach (lib.mapAttrsToList toPath
+            userOverlays = with nixpkgs.lib; lib.lists.forEach (lib.mapAttrsToList toPath
               (lib.filterAttrs filterOverlays (builtins.readDir folder)))
               import;
           in {

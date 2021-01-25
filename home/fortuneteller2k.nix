@@ -131,6 +131,7 @@
       cmus
       discocss
       discord
+      element-desktop
       emacs-all-the-icons-fonts
       exa
       fzf
@@ -153,12 +154,13 @@
       pfetch
       qutebrowser
       ripcord
-      scroll
-      sonata
+      sacad
+      scroll 
       speedtest-cli
       st
       sxiv
       texlive.combined.scheme-medium
+      ueberzug
       ytmdl
     ];
     sessionPath = [ "\${xdg.configHome}/emacs/bin" ];
