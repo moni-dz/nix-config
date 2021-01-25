@@ -128,8 +128,6 @@
       betterdiscordctl
       bpytop
       brave
-      cmus
-      discocss
       discord
       element-desktop
       emacs-all-the-icons-fonts
