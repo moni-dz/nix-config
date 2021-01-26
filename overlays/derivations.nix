@@ -49,10 +49,7 @@ final: prev: {
     rustPlatform = prev.rustPlatform;
     fetchFromGitHub = prev.fetchFromGitHub;
     rust = prev.rust-bin.nightly."2021-01-19".rust;
-    gtk3 = prev.gtk3;
-    cairo = prev.cairo;
-    glib = prev.glib;
-    pkg-config = prev.pkg-config;
+    pkgs = prev;
   };
   phocus = prev.callPackage ../derivations/phocus.nix {
     sass = prev.sass;

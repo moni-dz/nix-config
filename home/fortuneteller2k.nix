@@ -125,6 +125,7 @@
   };
   home = {
     packages = with pkgs; [
+      bat
       betterdiscordctl
       bpytop
       brave

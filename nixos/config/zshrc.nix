@@ -1,5 +1,7 @@
 ''
   eval $(dircolors /etc/nixos/nixos/config/LS_COLORS)
+  export QT_QPA_PLATFORMTHEME=qt5ct
+  export BAT_THEME="ansi-dark"
   export PATH=$PATH:$HOME/.config/emacs/bin:$HOME/.config/scripts
   export ZDOTDIR=$HOME/.config/zsh
   export HISTFILE=$ZDOTDIR/.zsh_history

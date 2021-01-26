@@ -5,6 +5,7 @@
   import XMonad
 
   import XMonad.Actions.CycleWS
+  import XMonad.Actions.TiledWindowDragging
 
   import XMonad.Hooks.DynamicLog
   import XMonad.Hooks.EwmhDesktops
@@ -13,7 +14,9 @@
   import XMonad.Hooks.ManageHelpers
   import XMonad.Hooks.Place
   import XMonad.Hooks.SetWMName
+  import XMonad.Hooks.WindowSwallowing
 
+  import XMonad.Layout.DraggingVisualizer
   import XMonad.Layout.Grid
   import XMonad.Layout.NoBorders
   import XMonad.Layout.ShowWName
@@ -41,6 +44,9 @@
   import qualified Codec.Binary.UTF8.String as UTF8
   import qualified XMonad.StackSet          as W
   import qualified Data.Map                 as M
+
+  -- mod key
+  modkey = mod1Mask
 
   -- 10 workspaces should be enough
   ws = ["A","B","C","D","E","F","G","H","I","J"]
@@ -97,6 +103,8 @@
                                 then W.sink w s
                                 else (W.float w (W.RationalRect 0.15 0.15 0.7 0.7) s))
 
+  mousebindings = [ ((modkey .|. shiftMask, button1), dragWindow) ]
+
   promptConfig = def
     { font                = fontFamily
     , bgColor             = "#16161c"
@@ -119,10 +127,10 @@
 
   layouts = avoidStruts $ tiled ||| Mirror tiled ||| tabs ||| centeredMaster ||| grid
     where
-       tiled = gaps 4 4 $ toggleLayouts maximized (smartBorders (Tall 1 (3/100) (1/2)))
-       centeredMaster = gaps 4 4 $ toggleLayouts maximized (smartBorders (ThreeColMid 1 (3/100) (1/2)))
+       tiled = gaps 4 4 $ draggingVisualizer $ toggleLayouts maximized (smartBorders (Tall 1 (3/100) (1/2)))
+       centeredMaster = gaps 4 4 $ draggingVisualizer $ toggleLayouts maximized (smartBorders (ThreeColMid 1 (3/100) (1/2)))
        tabs = gaps 8 0 $ noBorders (tabbed shrinkText tabTheme)
-       grid = gaps 4 4 $ toggleLayouts maximized (smartBorders Grid)
+       grid = gaps 4 4 $ draggingVisualizer $ toggleLayouts maximized (smartBorders Grid)
        maximized = smartBorders Full
        gaps n k = spacingRaw False (Border n n n n) True (Border k k k k) True
 
@@ -192,20 +200,25 @@
     , ppOrder  = \(_:l:_:_) -> [l]
     }
 
-  main' dbus = xmonad . docks . ewmh $ def
+  eventHook = swallowEventHook (className =? "Alacritty") (return True)
+              <+> ewmhDesktopsEventHook
+
+  main' dbus = xmonad . docks . ewmhFullscreen . ewmh $ def
     { focusFollowsMouse  = True
     , clickJustFocuses   = True
     , borderWidth        = 2
-    , modMask            = mod1Mask
+    , modMask            = modkey
     , workspaces         = ws
     , normalBorderColor  = "#2e303e"
     , focusedBorderColor = "#e95678"
     , layoutHook         = showWName' wnameTheme layouts
     , manageHook         = windowRules
     , logHook            = polybarHook dbus
-    , handleEventHook    = fullscreenEventHook <+> ewmhDesktopsEventHook
+    , handleEventHook    = eventHook
     , startupHook        = autostart
-    } `additionalKeysP` keybindings
+    } 
+    `additionalKeysP` keybindings
+    `additionalMouseBindings` mousebindings
 
   main = dbusClient >>= main' -- "that was easy, xmonad rocks!"
 ''

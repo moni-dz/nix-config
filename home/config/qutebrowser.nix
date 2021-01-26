@@ -12,6 +12,8 @@
   config.set('content.javascript.enabled', True, 'chrome://*/*')
   config.set('content.javascript.enabled', True, 'qute://*/*')
 
+  c.fonts.default_family = 'FantasqueSansMono Nerd Font'
+
   c.tabs.padding = {
       'top': 4,
       'bottom': 4,

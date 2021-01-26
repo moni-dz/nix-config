@@ -125,14 +125,14 @@
     format-disconnected = "<label-disconnected>";
     format-disconnected-foreground = "\${colors.xbg}";
     format-disconnected-background = "\${colors.primary}";
-    label-connected = "   %essid% ";
+    label-connected = "   Connected ";
     label-disconnected = "   Disconnected ";
   };
 
   "module/date" = {
     type = "internal/date";
     interval = 1;
-    date = "   %b %d %Y";
+    date = "   %m/%d/%Y";
     time = "%I:%M %p";
     format = "<label>";
     format-foreground = "\${colors.xbg}";
@@ -172,8 +172,7 @@
     border-color = "\${colors.bg}";
     font-0 = "FantasqueSansMono Nerd Font:size=10.5;2";
     modules-left = "wspc ewmh xmonad";
-    modules-center = "mpd";
-    modules-right = "battery wspc_b pulseaudio wspc_b wireless wspc_b date";
+    modules-right = "mpd wspc_b battery wspc_b pulseaudio wspc_b wireless wspc_b date";
     locale = "en_US.UTF-8";
     separator = "";
   };

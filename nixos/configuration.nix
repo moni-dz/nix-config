@@ -72,9 +72,22 @@
       windowManager = {
         xmonad = {
           enable = true;
-          enableContribAndExtras = true;
           config = (import ./config/xmonad.nix);
-          extraPackages = hpkgs: with hpkgs; [ dbus monad-logger ];
+          extraPackages = hpkgs: with hpkgs; [ dbus monad-logger xmonad-contrib ];
+          haskellPackages = pkgs.haskellPackages.extend (pkgs.haskell.lib.packageSourceOverrides {
+            xmonad = pkgs.fetchFromGitHub {
+              owner = "xmonad";
+              repo = "xmonad";
+              rev = "56b0f850bc35200ec23f05c079eca8b0a1f90305";
+              sha256 = "sha256-vy9DE2id7sfnEKCHbl6IFOKibya8jWSD6DbX1vBJOwY";
+            };
+            xmonad-contrib = pkgs.fetchFromGitHub {
+              owner = "xmonad";
+              repo = "xmonad-contrib";
+              rev = "b8ac9804fce2db643faa19c909e6560f7e65944b";
+              sha256 = "sha256-Q1RhbiCWNEiWJAvf7eWcmUVXjy6cioHRGFwVZEHRvpA=";
+            };
+          });
         };
       };
       layout = "us";
@@ -155,6 +168,7 @@
     imagemagick
     jp2a
     jq
+    libsForQt514.qtstyleplugins
     libtool
     nixfmt
     nodePackages.npm
@@ -190,6 +204,7 @@
     zip
   ];
   programs = {
+    qt5ct.enable = true;
     slock.enable = true;
     xss-lock = {
       enable = true;
