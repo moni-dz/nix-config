@@ -19,6 +19,7 @@
   import XMonad.Layout.DraggingVisualizer
   import XMonad.Layout.Grid
   import XMonad.Layout.NoBorders
+  import XMonad.Layout.Renamed
   import XMonad.Layout.ShowWName
   import XMonad.Layout.Spacing
   import XMonad.Layout.Tabbed
@@ -127,12 +128,13 @@
 
   layouts = avoidStruts $ tiled ||| Mirror tiled ||| tabs ||| centeredMaster ||| grid
     where
-       tiled = gaps 4 4 $ draggingVisualizer $ toggleLayouts maximized (smartBorders (Tall 1 (3/100) (1/2)))
-       centeredMaster = gaps 4 4 $ draggingVisualizer $ toggleLayouts maximized (smartBorders (ThreeColMid 1 (3/100) (1/2)))
-       tabs = gaps 8 0 $ noBorders (tabbed shrinkText tabTheme)
-       grid = gaps 4 4 $ draggingVisualizer $ toggleLayouts maximized (smartBorders Grid)
+       tiled = stripName 2 0 $ gaps 3 4 $ draggingVisualizer $ toggleLayouts maximized (smartBorders (Tall 1 (3/100) (1/2)))
+       centeredMaster = stripName 2 0 $ gaps 3 4 $ draggingVisualizer $ toggleLayouts maximized (smartBorders (ThreeColMid 1 (3/100) (1/2)))
+       tabs = stripName 1 1 $ gaps 7 0 $ noBorders (tabbed shrinkText tabTheme)
+       grid = stripName 2 0 $ gaps 3 4 $ draggingVisualizer $ toggleLayouts maximized (smartBorders Grid)
        maximized = smartBorders Full
        gaps n k = spacingRaw False (Border n n n n) True (Border k k k k) True
+       stripName n k = renamed [Chain [CutWordsLeft n, CutWordsRight k]]
 
   tabTheme = def
     { fontName            = fontFamily

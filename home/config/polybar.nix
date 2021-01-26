@@ -172,7 +172,8 @@
     border-color = "\${colors.bg}";
     font-0 = "FantasqueSansMono Nerd Font:size=10.5;2";
     modules-left = "wspc ewmh xmonad";
-    modules-right = "mpd wspc_b battery wspc_b pulseaudio wspc_b wireless wspc_b date";
+    modules-center = "mpd";
+    modules-right = "battery wspc_b pulseaudio wspc_b wireless wspc_b date";
     locale = "en_US.UTF-8";
     separator = "";
   };

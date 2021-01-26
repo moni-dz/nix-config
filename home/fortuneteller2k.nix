@@ -128,7 +128,7 @@
       bat
       betterdiscordctl
       bpytop
-      brave
+      brave 
       discord
       element-desktop
       emacs-all-the-icons-fonts

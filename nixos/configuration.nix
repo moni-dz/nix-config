@@ -149,6 +149,7 @@
     brightnessctl
     ccls
     cmake
+    copyq
     coreutils
     curl
     dragon-drop
