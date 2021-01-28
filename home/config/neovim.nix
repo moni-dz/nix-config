@@ -22,18 +22,8 @@
     Plug 'elixir-lang/vim-elixir'
     Plug 'tmsvg/pear-tree'
     Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-    if has('nvim')
-      Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    else
-      Plug 'Shougo/deoplete.nvim'
-      Plug 'roxma/nvim-yarp'
-      Plug 'roxma/vim-hug-neovim-rpc'
-    endif
-    Plug 'Shougo/neosnippet.vim'
-    Plug 'Shougo/neosnippet-snippets'
   call plug#end()
 
   colorscheme horizon
-  let g:deoplete#enable_at_startup = 1
   let g:lightline = { 'colorscheme' : 'horizon' }
 ''

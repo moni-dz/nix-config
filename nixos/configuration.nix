@@ -80,14 +80,14 @@
             xmonad = pkgs.fetchFromGitHub {
               owner = "xmonad";
               repo = "xmonad";
-              rev = "56b0f850bc35200ec23f05c079eca8b0a1f90305";
-              sha256 = "sha256-vy9DE2id7sfnEKCHbl6IFOKibya8jWSD6DbX1vBJOwY";
+              rev = "a90558c07e3108ec2304cac40e5d66f74f52b803";
+              sha256 = "sha256-+TDKhCVvxoRLzHZGzFnClFqKcr4tUrwFY1at3Rwllus=";
             };
             xmonad-contrib = pkgs.fetchFromGitHub {
               owner = "xmonad";
               repo = "xmonad-contrib";
-              rev = "b8ac9804fce2db643faa19c909e6560f7e65944b";
-              sha256 = "sha256-Q1RhbiCWNEiWJAvf7eWcmUVXjy6cioHRGFwVZEHRvpA=";
+              rev = "444bdc09f0e545b5932567dfad8d7ac23f97994f";
+              sha256 = "sha256-QUj109GXnwuzx2tBI1KsGQRjIFy2gfpSnEcyct4Ft7g=";
             };
           });
         };
@@ -125,13 +125,9 @@
     pipewire.wantedBy = [ "default.target" ];
     pipewire-pulse.wantedBy = [ "default.target" ];
   };
-  sound.enable = true;
-  hardware = {
-    pulseaudio.enable = pkgs.lib.mkForce false;
-    opengl = {
-      enable = true;
-      extraPackages = with pkgs; [ vaapiVdpau libvdpau-va-gl ];
-    };
+  hardware.opengl = {
+    enable = true;
+    extraPackages = with pkgs; [ vaapiVdpau libvdpau-va-gl ];
   };
   security = {
     rtkit.enable = true;
@@ -145,18 +141,29 @@
     isNormalUser = true;
     home = "/home/fortuneteller2k";
     shell = pkgs.zsh;
-    extraGroups = [ "wheel" "networkmanager" "video" "audio" ];
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+      "video"
+      "audio"
+      "realtime"
+      "realtime"
+    ];
   };
   environment.systemPackages = with pkgs; [
+    alsaTools
+    alsaUtils
     brightnessctl
     ccls
     cmake
     copyq
     coreutils
     curl
+    dosbox
     dragon-drop
     elixir
     envsubst
+    eww
     fd
     ffmpeg
     font-manager
