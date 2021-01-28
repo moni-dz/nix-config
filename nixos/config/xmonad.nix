@@ -5,6 +5,7 @@
   import XMonad
 
   import XMonad.Actions.CycleWS
+  import XMonad.Actions.Sift
   import XMonad.Actions.TiledWindowDragging
 
   import XMonad.Hooks.DynamicLog
@@ -126,12 +127,13 @@
     , maxComplRows        = Just 5
     }
 
-  layouts = avoidStruts $ tiled ||| Mirror tiled ||| tabs ||| centeredMaster ||| grid
+  layouts = avoidStruts $ tiled ||| mtiled ||| tabs ||| centeredMaster ||| grid
     where
-       tiled = stripName 2 0 $ gaps 3 4 $ draggingVisualizer $ toggleLayouts maximized (smartBorders (Tall 1 (3/100) (1/2)))
-       centeredMaster = stripName 2 0 $ gaps 3 4 $ draggingVisualizer $ toggleLayouts maximized (smartBorders (ThreeColMid 1 (3/100) (1/2)))
+       tiled = stripName 2 0 $ gaps 4 3 $ draggingVisualizer $ toggleLayouts maximized (smartBorders (Tall 1 (3/100) (1/2)))
+       mtiled = stripName 2 0 $ gaps 4 3 $ draggingVisualizer $ Mirror (toggleLayouts maximized (smartBorders (Tall 1 (3/100) (1/2))))
+       centeredMaster = stripName 2 0 $ gaps 4 3 $ draggingVisualizer $ toggleLayouts maximized (smartBorders (ThreeColMid 1 (3/100) (1/2)))
        tabs = stripName 1 1 $ gaps 7 0 $ noBorders (tabbed shrinkText tabTheme)
-       grid = stripName 2 0 $ gaps 3 4 $ draggingVisualizer $ toggleLayouts maximized (smartBorders Grid)
+       grid = stripName 2 0 $ gaps 4 3 $ draggingVisualizer $ toggleLayouts maximized (smartBorders Grid)
        maximized = smartBorders Full
        gaps n k = spacingRaw False (Border n n n n) True (Border k k k k) True
        stripName n k = renamed [Chain [CutWordsLeft n, CutWordsRight k]]
@@ -167,7 +169,7 @@
     , className  =? "mpv"                                    --> doFloat
     , resource   =? "desktop_window"                         --> doIgnore
     , resource   =? "kdesktop"                               --> doIgnore
-    , isDialog                                               --> doF W.swapUp <+> doFloat ]
+    , isDialog                                               --> doF siftUp <+> doFloat ]
     <+> insertPosition End Newer -- same effect as attachaside patch in dwm
     <+> manageDocks
     <+> manageHook defaultConfig
@@ -202,9 +204,6 @@
     , ppOrder  = \(_:l:_:_) -> [l]
     }
 
-  eventHook = swallowEventHook (className =? "Alacritty") (return True)
-              <+> ewmhDesktopsEventHook
-
   main' dbus = xmonad . docks . ewmhFullscreen . ewmh $ def
     { focusFollowsMouse  = True
     , clickJustFocuses   = True
@@ -216,7 +215,7 @@
     , layoutHook         = showWName' wnameTheme layouts
     , manageHook         = windowRules
     , logHook            = polybarHook dbus
-    , handleEventHook    = eventHook
+    , handleEventHook    = swallowEventHook (return True) (return True)
     , startupHook        = autostart
     } 
     `additionalKeysP` keybindings

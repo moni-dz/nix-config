@@ -125,7 +125,7 @@
     format-disconnected = "<label-disconnected>";
     format-disconnected-foreground = "\${colors.xbg}";
     format-disconnected-background = "\${colors.primary}";
-    label-connected = "   Connected ";
+    label-connected = "   %essid% ";
     label-disconnected = "   Disconnected ";
   };
 

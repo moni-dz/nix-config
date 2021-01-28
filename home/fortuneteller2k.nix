@@ -7,16 +7,6 @@
       enable = true;
       package = pkgs.emacsPgtk;
     };
-    urxvt = {
-      enable = true;
-      fonts = [ "xft:monospace:size=10:antialias=true" ];
-      scroll.bar.enable = false;
-      iso14755 = false;
-      extraConfig = {
-        letterSpace = 0;
-        lineSpace = 0;
-      };
-    };
     neovim = {
       enable = true;
       package = pkgs.neovim-unwrapped;
@@ -25,11 +15,6 @@
       vimdiffAlias = true;
       withNodeJs = true;
       extraConfig = (import ./config/neovim.nix);
-    };
-    vscode = {
-      enable = true;
-      package = pkgs.vscodium;
-      userSettings = (import ./config/vscode.nix);
     };
     alacritty = {
       enable = true;
@@ -125,7 +110,6 @@
   };
   home = {
     packages = with pkgs; [
-      bat
       betterdiscordctl
       bpytop
       brave 

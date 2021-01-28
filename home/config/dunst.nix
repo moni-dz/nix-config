@@ -13,7 +13,7 @@
     separator_color = "auto";
     icon_position = "left";
     max_icon_size = 80;
-    geometry = "330x5-8+25";
+    geometry = "330x5-7+24";
   };
   urgency_low = {
     foreground = "#fdf0ed";
