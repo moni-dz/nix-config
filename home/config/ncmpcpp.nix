@@ -1,5 +1,6 @@
 {
   user_interface = "alternative";
+  lyrics_directory = "~/.local/share/ncmpcpp/lyrics";
   visualizer_data_source = "/tmp/mpd.fifo";
   visualizer_output_name = "mpd_visualizer_fifo";
   visualizer_in_stereo = "yes";

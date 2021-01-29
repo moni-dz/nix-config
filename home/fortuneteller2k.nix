@@ -146,6 +146,7 @@
       ueberzug
       ytmdl
     ];
+    file.".icons/default".source = "${pkgs.gnome3.adwaita-icon-theme}/share/icons/Adwaita";
     sessionPath = [ "\${xdg.configHome}/emacs/bin" ];
     sessionVariables.EDITOR = "emacsclient -nc";
     username = "fortuneteller2k";

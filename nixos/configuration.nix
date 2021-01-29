@@ -54,6 +54,8 @@
       dpi = 96;
       config = (import ./config/xorg-amd-tearfree.nix);
       displayManager = {
+        sessionCommands =
+          "export LD_PRELOAD=/etc/nixos/nixos/config/lib/ld-preload-xcreatewindow.so";
         lightdm = {
           enable = true;
           background = ./config/wallpapers/horizon.jpg;
@@ -159,7 +161,6 @@
     copyq
     coreutils
     curl
-    dosbox
     dragon-drop
     elixir
     envsubst
@@ -227,6 +228,7 @@
       enable = true;
       syntaxHighlighting.enable = true;
       autosuggestions.enable = true;
+      shellInit = "export ZDOTDIR=$HOME/.config/zsh";
       promptInit = "eval $(starship init zsh)";
       interactiveShellInit = (import ./config/zshrc.nix);
       shellAliases = (import ./config/zsh-aliases.nix);
