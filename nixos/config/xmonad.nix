@@ -100,7 +100,7 @@
         , (otherModMasks, action) <- [ ("", windows . W.greedyView)
                                      , ("S-", windows . W.shift)]
     ]
-    where
+    where 
       toggleFloat w = windows (\s -> if M.member w (W.floating s)
                                 then W.sink w s
                                 else (W.float w (W.RationalRect 0.15 0.15 0.7 0.7) s))
@@ -129,11 +129,11 @@
 
   layouts = avoidStruts $ tiled ||| mtiled ||| tabs ||| centeredMaster ||| grid
     where
-       tiled = stripName 2 0 $ gaps 4 3 $ draggingVisualizer $ toggleLayouts maximized (smartBorders (Tall 1 (3/100) (1/2)))
-       mtiled = stripName 2 0 $ gaps 4 3 $ draggingVisualizer $ Mirror (toggleLayouts maximized (smartBorders (Tall 1 (3/100) (1/2))))
-       centeredMaster = stripName 2 0 $ gaps 4 3 $ draggingVisualizer $ toggleLayouts maximized (smartBorders (ThreeColMid 1 (3/100) (1/2)))
-       tabs = stripName 1 1 $ gaps 7 0 $ noBorders (tabbed shrinkText tabTheme)
-       grid = stripName 2 0 $ gaps 4 3 $ draggingVisualizer $ toggleLayouts maximized (smartBorders Grid)
+       tiled = stripName 2 0 $ gaps 4 4 $ draggingVisualizer $ toggleLayouts maximized (smartBorders (Tall 1 (3/100) (1/2)))
+       mtiled = stripName 2 0 $ gaps 4 4 $ draggingVisualizer $ Mirror (toggleLayouts maximized (smartBorders (Tall 1 (3/100) (1/2))))
+       centeredMaster = stripName 2 0 $ gaps 4 4 $ draggingVisualizer $ toggleLayouts maximized (smartBorders (ThreeColMid 1 (3/100) (1/2)))
+       tabs = stripName 1 1 $ gaps 8 0 $ noBorders (tabbed shrinkText tabTheme)
+       grid = stripName 2 0 $ gaps 4 4 $ draggingVisualizer $ toggleLayouts maximized (smartBorders Grid)
        maximized = smartBorders Full
        gaps n k = spacingRaw False (Border n n n n) True (Border k k k k) True
        stripName n k = renamed [Chain [CutWordsLeft n, CutWordsRight k]]
@@ -167,8 +167,8 @@
     , className  =? "Xephyr"                                 --> doFloat
     , className  =? "Sxiv"                                   --> doFloat
     , className  =? "mpv"                                    --> doFloat
-    , resource   =? "desktop_window"                         --> doIgnore
-    , resource   =? "kdesktop"                               --> doIgnore
+    , appName    =? "desktop_window"                         --> doIgnore
+    , appName    =? "kdesktop"                               --> doIgnore
     , isDialog                                               --> doF siftUp <+> doFloat ]
     <+> insertPosition End Newer -- same effect as attachaside patch in dwm
     <+> manageDocks
@@ -204,7 +204,7 @@
     , ppOrder  = \(_:l:_:_) -> [l]
     }
 
-  main' dbus = xmonad . docks . ewmhFullscreen . ewmh $ def
+  main' dbus = xmonad . ewmhFullscreen . docks . ewmh $ def
     { focusFollowsMouse  = True
     , clickJustFocuses   = True
     , borderWidth        = 2

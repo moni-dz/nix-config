@@ -3,8 +3,8 @@ final: prev: {
     src = prev.fetchFromGitHub {
       owner = "zenixls2";
       repo = "alacritty";
-      rev = "ligature";
-      sha256 = "sha256-KJOJGBBUuoqx8/z45qC1rNZ3oySzcTi9XTojXxS4GeQ=";
+      rev = "df24940a9ccf7ba897fa3167046ee8b181342d8f";
+      sha256 = "sha256-2Th2aojTN36MgYSFXiACcBkTpTou/X1Ub5JR2sgZa34=";
     };
     doCheck = false; # NOTE: don't compile twice
     installPhase = ''
@@ -32,7 +32,7 @@ final: prev: {
     '';
     cargoDeps = old.cargoDeps.overrideAttrs (_: {
       inherit src;
-      outputHash = "sha256-uiefL+3qk6RQo+4I4onhD4zXuVXZypTpv+ULfUF4luE=";
+      outputHash = "sha256-XMvLUAL25X1CL70EL0ziyhsK9fz6N1XGQ5aLyAeEWkk=";
     });
   });
 }

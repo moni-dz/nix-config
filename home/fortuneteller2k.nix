@@ -20,6 +20,10 @@
       enable = true;
       settings = (import ./config/alacritty.nix);
     };
+    kitty = {
+      enable = true;
+      extraConfig = (import ./config/kitty.nix);
+    };
     starship = {
       enable = true;
       settings = (import ./config/starship.nix);
@@ -128,6 +132,7 @@
       hyperfine
       inkscape
       krita
+      miniplayer
       mpc_cli
       mpv-with-scripts
       neofetch

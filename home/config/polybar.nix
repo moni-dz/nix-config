@@ -165,16 +165,15 @@
     foreground = "\${colors.x7}";
     width = "100%";
     height = 17;
-    padding = 1;
     wm-name = "xmonad";
     enable-ipc = true;
-    border-size = 0;
-    border-color = "\${colors.bg}";
     font-0 = "FantasqueSansMono Nerd Font:size=10.5;2";
     modules-left = "wspc ewmh xmonad";
     modules-center = "mpd";
     modules-right = "battery wspc_b pulseaudio wspc_b wireless wspc_b date";
     locale = "en_US.UTF-8";
+    border-size = 0;
+    border-color = "\${colors.xbg}";
     separator = "";
   };
 }

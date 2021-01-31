@@ -1,10 +1,12 @@
 ''
   syntax on
+  set noswapfile
   set nu
   set mouse=a
   set guicursor=a:ver25-iCursor
   set guifont=monospace:h11
   set termguicolors
+  set clipboard=unnamed
 
   if empty(stdpath('data') . '/plugged')
     silent !curl -fLo "$\{XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
