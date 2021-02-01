@@ -30,7 +30,7 @@ stdenv.mkDerivation rec {
   meta = with lib; {
     description = "A dynamic tiling wayland compositor that takes inspiration from dwm and bspwm";
     homepage = "https://github.com/ifreund/river";
-    license = licenses.mit;
+    license = licenses.gpl3Plus;
     maintainers = with maintainers; [ fortuneteller2k ];
   };
 }

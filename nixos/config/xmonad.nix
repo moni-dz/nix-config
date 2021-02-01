@@ -21,7 +21,6 @@
   import XMonad.Layout.Grid
   import XMonad.Layout.NoBorders
   import XMonad.Layout.Renamed
-  import XMonad.Layout.ShowWName
   import XMonad.Layout.Spacing
   import XMonad.Layout.Tabbed
   import XMonad.Layout.ThreeColumns
@@ -53,11 +52,14 @@
   -- 10 workspaces should be enough
   ws = ["A","B","C","D","E","F","G","H","I","J"]
 
+  -- default font
   fontFamily = "xft:FantasqueSansMono Nerd Font:size=10:antialias=true:hinting=true"
-  fontFamilyLarge = "xft:FantasqueSansMono Nerd Font:size=16:style=Bold:antialias=true:hinting=true"
+
+  -- other defaults
+  term = "alacritty"
 
   keybindings =
-    [ ("M-<Return>",                 spawn "alacritty")
+    [ ("M-<Return>",                 spawn term)
     , ("M-d",                        shellPrompt promptConfig)
     , ("M-q",                        kill)
     , ("M-w",                        spawn "emacs")
@@ -100,7 +102,7 @@
         , (otherModMasks, action) <- [ ("", windows . W.greedyView)
                                      , ("S-", windows . W.shift)]
     ]
-    where 
+    where
       toggleFloat w = windows (\s -> if M.member w (W.floating s)
                                 then W.sink w s
                                 else (W.float w (W.RationalRect 0.15 0.15 0.7 0.7) s))
@@ -151,14 +153,8 @@
     , urgentBorderWidth   = 0
     }
 
-  wnameTheme = def
-    { swn_font    = fontFamilyLarge
-    , swn_bgcolor = "#e95678"
-    , swn_color   = "#16161c"
-    , swn_fade    = 2
-    }
-
-  windowRules = placeHook (smart (0.5, 0.5))
+  windowRules =
+    placeHook (smart (0.5, 0.5))
     <+> composeAll
     [ className  =? "Gimp"                                   --> doFloat
     , (className =? "Ripcord" <&&> title =? "Preferences")   --> doFloat
@@ -212,7 +208,7 @@
     , workspaces         = ws
     , normalBorderColor  = "#2e303e"
     , focusedBorderColor = "#e95678"
-    , layoutHook         = showWName' wnameTheme layouts
+    , layoutHook         = layouts
     , manageHook         = windowRules
     , logHook            = polybarHook dbus
     , handleEventHook    = swallowEventHook (return True) (return True)

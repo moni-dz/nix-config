@@ -62,8 +62,7 @@ final: prev: {
     fetchgit = prev.fetchgit;
   };
   scientifica = prev.callPackage ../derivations/scientifica.nix {
-    stdenv = prev.stdenv;
-    fetchzip = prev.fetchzip;
+    fetchurl = prev.fetchurl;
   };
   river = prev.callPackage ../derivations/river.nix {
     stdenv = prev.stdenv;

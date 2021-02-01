@@ -1,4 +1,5 @@
 ''
+  font_size 10.5
   cursor_shape beam
   sync_to_monitor yes
   foreground #fdf0ed

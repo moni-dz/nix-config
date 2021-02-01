@@ -22,7 +22,7 @@
     Plug 'ziglang/zig.vim'
     Plug 'lervag/vimtex'
     Plug 'elixir-lang/vim-elixir'
-    Plug 'tmsvg/pear-tree'
+    Plug 'jiangmiao/auto-pairs'
     Plug 'neoclide/coc.nvim', { 'branch': 'release' }
   call plug#end()
 
