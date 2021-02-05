@@ -168,6 +168,7 @@
     wm-name = "xmonad";
     enable-ipc = true;
     font-0 = "FantasqueSansMono Nerd Font:size=10.5;2";
+    font-1 = "M+ 2m:size=10.5;3";
     modules-left = "wspc ewmh xmonad";
     modules-center = "mpd";
     modules-right = "battery wspc_b pulseaudio wspc_b wireless wspc_b date";

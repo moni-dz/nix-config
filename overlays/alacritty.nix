@@ -16,7 +16,7 @@ final: prev: {
       patchelf --set-rpath "${
         prev.lib.makeLibraryPath old.buildInputs
       }:${prev.stdenv.cc.cc.lib}/lib${
-        prev.stdenv.lib.optionalString prev.stdenv.is64bit "64"
+        prev.lib.optionalString prev.stdenv.is64bit "64"
       }" $out/bin/alacritty
       installShellCompletion --zsh extra/completions/_alacritty
       installShellCompletion --bash extra/completions/alacritty.bash

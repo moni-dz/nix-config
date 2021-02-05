@@ -185,6 +185,7 @@
     notify-desktop
     ntfs3g
     pandoc
+    pciutils
     pcmanfm
     pulseaudio
     python3
@@ -196,7 +197,9 @@
     shotgun
     slock
     stack
+    unrar
     unzip
+    util-linux
     wget
     xarchiver
     xclip
@@ -261,6 +264,7 @@
       output-fonts
       twemoji-color-font
       scientifica
+      cozette
     ];
     fontconfig = {
       enable = true;
@@ -277,6 +281,7 @@
         monospace = [
           "FantasqueSansMono Nerd Font"
           "Input Mono Condensed"
+          "M+ 1m"
         ];
         emoji = [ "Twitter Color Emoji" ];
       };

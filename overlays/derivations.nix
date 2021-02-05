@@ -61,9 +61,6 @@ final: prev: {
     stdenv = prev.stdenv;
     fetchgit = prev.fetchgit;
   };
-  scientifica = prev.callPackage ../derivations/scientifica.nix {
-    fetchurl = prev.fetchurl;
-  };
   river = prev.callPackage ../derivations/river.nix {
     stdenv = prev.stdenv;
     pkgs = prev;
@@ -92,6 +89,13 @@ final: prev: {
     buildPythonPackage = prev.python38Packages.buildPythonPackage;
     fetchPypi = prev.python38Packages.fetchPypi;
     pixcat = final.pixcat;
+  };
+  giph = prev.callPackage ../derivations/giph.nix {
+    stdenv = prev.stdenv;
+    ffmpeg = prev.ffmpeg;
+    slop = prev.slop;
+    libnotify = prev.libnotify;
+    xdotool = prev.xdotool;
   };
   scroll =
     prev.callPackage ../derivations/scroll.nix { stdenv = prev.stdenv; };

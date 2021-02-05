@@ -19,7 +19,7 @@ final: prev: {
       installPhase =
         "substituteInPlace injectors/linux.js --replace /opt/DiscordCanary ${prev.discord-canary}/opt/DiscordCanary";
 
-      meta = with prev.stdenv.lib; {
+      meta = with prev.lib; {
         description =
           "A lightweight Discord client mod focused on simplicity and performance";
         homepage = "https://powercord.dev";
