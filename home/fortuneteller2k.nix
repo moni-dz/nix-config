@@ -126,14 +126,12 @@
       geogebra6
       gimp
       gitAndTools.gh
-      gnvim
       graphviz
       hakuneko
       htop
       hyperfine
       inkscape
       krita
-      miniplayer
       mpc_cli
       mpv-with-scripts
       neofetch
@@ -144,9 +142,7 @@
       qutebrowser
       ripcord
       sacad
-      scroll 
       speedtest-cli
-      st
       sxiv
       texlive.combined.scheme-medium
       ueberzug

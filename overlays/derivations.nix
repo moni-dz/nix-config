@@ -79,24 +79,4 @@ final: prev: {
     python38Packages = prev.python38Packages;
     fetchPypi = prev.python38Packages.fetchPypi;
   };
-  pixcat = prev.callPackage ../derivations/pixcat.nix {
-    python38Packages = prev.python38Packages;
-    buildPythonPackage = prev.python38Packages.buildPythonPackage;
-    fetchPypi = prev.python38Packages.fetchPypi;
-  };
-  miniplayer = prev.callPackage ../derivations/miniplayer.nix {
-    python38Packages = prev.python38Packages;
-    buildPythonPackage = prev.python38Packages.buildPythonPackage;
-    fetchPypi = prev.python38Packages.fetchPypi;
-    pixcat = final.pixcat;
-  };
-  giph = prev.callPackage ../derivations/giph.nix {
-    stdenv = prev.stdenv;
-    ffmpeg = prev.ffmpeg;
-    slop = prev.slop;
-    libnotify = prev.libnotify;
-    xdotool = prev.xdotool;
-  };
-  scroll =
-    prev.callPackage ../derivations/scroll.nix { stdenv = prev.stdenv; };
 }

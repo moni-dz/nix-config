@@ -17,7 +17,7 @@
       system = "x86_64-linux";
       modules = [
         {
-          nix = (import ./config/nix-conf.nix);
+          nix = (import ./config/nix-conf.nix { inherit inputs; });
           nixpkgs = let
             folder = ./overlays;
             toPath = name: value: folder + ("/" + name);

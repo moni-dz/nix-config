@@ -1,16 +1,19 @@
-{ stdenv, lib }:
+{ lib, stdenv }:
 
 stdenv.mkDerivation rec {
   pname = "scroll";
-  version = "master";
+  version = "0.1";
 
-  src = ./tarballs/scroll.tar.gz;
+  src = fetchurl {
+    url = "https://dl.suckless.org/tools/${pname}-${version}.tar.gz";
+    sha256 = lib.fakeSha256;
+  };
 
-  installPhase = "make install PREFIX=$out";
+  installFlags = [ "PREFIX=$out" ];
 
   meta = with lib; {
-    description = "scrollbackbuffer program for st";
-    homepage = "https://git.suckless.org/scroll/";
+    description = "Scrollback buffer program for st";
+    homepage = "https://tools.suckless.org/scroll/";
     license = [ licenses.mit ];
     platforms = platforms.linux;
     maintainers = with maintainers; [ fortuneteller2k ];

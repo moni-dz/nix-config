@@ -1,6 +1,7 @@
+{ inputs }:
+
 {
   extraOptions = "experimental-features = nix-command flakes";
-  nixPath = let path = toString ./.; in [ "repl=${path}/config/repl.nix" "nixpkgs=${inputs.nixpkgs}" ];
   gc = {
     automatic = true;
     dates = "weekly";
