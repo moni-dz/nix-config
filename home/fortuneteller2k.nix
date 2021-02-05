@@ -122,6 +122,7 @@
       element-desktop
       emacs-all-the-icons-fonts
       exa
+      flavours
       fzf
       geogebra6
       gimp

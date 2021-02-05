@@ -86,8 +86,8 @@
             xmonad-contrib = pkgs.fetchFromGitHub {
               owner = "xmonad";
               repo = "xmonad-contrib";
-              rev = "444bdc09f0e545b5932567dfad8d7ac23f97994f";
-              sha256 = "sha256-QUj109GXnwuzx2tBI1KsGQRjIFy2gfpSnEcyct4Ft7g=";
+              rev = "747202a214a342162707188738c7fad32b47928b";
+              sha256 = "sha256-Zj+RFHCa1zTMZmBcIVQ+mRLZf8sVAKlwkbNMAkh/gKw=";
             };
           });
         };

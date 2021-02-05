@@ -165,7 +165,7 @@
     foreground = "\${colors.x7}";
     width = "100%";
     height = 17;
-    wm-name = "xmonad";
+    wm-name = "polybar-xmonad";
     enable-ipc = true;
     font-0 = "FantasqueSansMono Nerd Font:size=10.5;2";
     font-1 = "M+ 2m:size=10.5;3";

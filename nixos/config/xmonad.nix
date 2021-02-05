@@ -31,6 +31,7 @@
   import XMonad.Prompt.Shell
 
   import XMonad.Util.EZConfig
+  import XMonad.Util.NamedScratchpad
   import XMonad.Util.Run
   import XMonad.Util.SpawnOnce
 
@@ -55,11 +56,10 @@
   -- default font
   fontFamily = "xft:FantasqueSansMono Nerd Font:size=10:antialias=true:hinting=true"
 
-  -- other defaults
-  term = "alacritty"
-
   keybindings =
     [ ("M-<Return>",                 spawn term)
+    , ("M-`",                        namedScratchpadAction scratchpads "terminal")
+    , ("M-b",                        sequence_ [spawn "polybar-msg cmd toggle", sendMessage ToggleStruts])
     , ("M-d",                        shellPrompt promptConfig)
     , ("M-q",                        kill)
     , ("M-w",                        spawn "emacs")
@@ -81,7 +81,7 @@
     , ("M-S-q",                      io (exitWith ExitSuccess))
     , ("M-S-<Delete>",               spawn "slock")
     , ("M-S-c",                      withFocused $ \w -> spawn ("xkill -id " ++ show w))
-    , ("M-S-r",                      spawn $ "xmonad --restart && systemctl --user restart polybar")
+    , ("M-S-r",                      sequence_ [spawn restartcmd, spawn restackcmd])
     , ("M-S-<Left>",                 shiftToPrev >> prevWS)
     , ("M-S-<Right>",                shiftToNext >> nextWS)
     , ("M-<Left>",                   windows W.focusUp)
@@ -103,11 +103,16 @@
                                      , ("S-", windows . W.shift)]
     ]
     where
+      term = "alacritty"
+      restartcmd = "xmonad --restart && systemctl --user restart polybar"
+      restackcmd = "sleep 1.2; xdo lower $(xwininfo -name polybar-xmonad | rg 'Window id' | cut -d ' ' -f4)"
       toggleFloat w = windows (\s -> if M.member w (W.floating s)
                                 then W.sink w s
                                 else (W.float w (W.RationalRect 0.15 0.15 0.7 0.7) s))
 
   mousebindings = [ ((modkey .|. shiftMask, button1), dragWindow) ]
+
+  scratchpads = [NS "terminal" "alacritty -t ScratchpadTerm" (title =? "ScratchpadTerm") (customFloating $ W.RationalRect 0.0 0.5 1.0 0.0)]
 
   promptConfig = def
     { font                = fontFamily
@@ -155,6 +160,7 @@
 
   windowRules =
     placeHook (smart (0.5, 0.5))
+    <+> namedScratchpadManageHook scratchpads
     <+> composeAll
     [ className  =? "Gimp"                                   --> doFloat
     , (className =? "Ripcord" <&&> title =? "Preferences")   --> doFloat
@@ -195,7 +201,7 @@
     in
       D.emit dbus $ signal { D.signalBody = body }
 
-  polybarHook dbus = dynamicLogWithPP $ xmobarPP
+  polybarHook dbus = dynamicLogWithPP . filterOutWsPP ["NSP"] $ xmobarPP
     { ppOutput = dbusOutput dbus
     , ppOrder  = \(_:l:_:_) -> [l]
     }
