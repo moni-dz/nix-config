@@ -6,6 +6,7 @@
   export _JAVA_AWT_WM_NONREPARENTING=1
   export RUSTUP_HOME=$HOME/.local/share/rustup
   export PATH=$PATH:$HOME/.config/emacs/bin:$HOME/.config/scripts
+  export EDITOR=nvim
   export MANPAGER='nvim +Man!'
   export GOPATH=$HOME/Extras/go
 ''
