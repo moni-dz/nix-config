@@ -7,6 +7,10 @@ git clone https://github.com/fortuneteller2k/nix-config /etc/nixos
 sudo nixos-install --flake
 #+end_src
 
+*** Caveats
+ * You probably should replace [[=nixos/hardware-configuration.nix=][https://github.com/fortuneteller2k/nix-config/blob/master/nixos/hardware-configuration.nix]] with your own with =nixos-generate-config=.
+ * Remove this [[https://github.com/fortuneteller2k/nix-config/blob/master/nixos/configuration.nix#L55][line]] when not running with AMD graphics.
+
 ** Description
 NixOS configuration that I use daily, it contains the system-wide *AND* home configuration, symlinked to =/etc/nixos=
 
@@ -22,8 +26,8 @@ Resources and configurations I used to base on:
  * [[https://www.youtube.com/watch?v=UeBX7Ide5a0][Nix Flakes talk by Eelco Dolstra on NixCon]]
 
 *** Useful Commands
-| command                               | description                             |
-|---------------------------------------+-----------------------------------------|
+| command                                 | description                             |
+|-----------------------------------------+-----------------------------------------|
 | =sudo nixos-rebuild switch=             | update and switch to the new generation |
 | =nix flake update --update-input flake= | update flake and update lockfile        |
 | =nix flake update --recreate-lock-file= | update all flakes and update lockfile   |
