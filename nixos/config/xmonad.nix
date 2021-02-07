@@ -112,7 +112,7 @@
 
   mousebindings = [ ((modkey .|. shiftMask, button1), dragWindow) ]
 
-  scratchpads = [NS "terminal" "alacritty -t ScratchpadTerm" (title =? "ScratchpadTerm") (customFloating $ W.RationalRect 0.0 0.5 1.0 0.0)]
+  scratchpads = [NS "terminal" "alacritty -t ScratchpadTerm" (title =? "ScratchpadTerm") defaultFloating]
 
   promptConfig = def
     { font                = fontFamily

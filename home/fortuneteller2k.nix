@@ -27,7 +27,11 @@
     starship = {
       enable = true;
       settings = (import ./config/starship.nix);
-    }; 
+    };
+    chromium = {
+      enable = true;
+      package = pkgs.ungoogled-chromium;
+    };
     qutebrowser = {
       enable = true;
       extraConfig = (import ./config/qutebrowser.nix);
@@ -90,7 +94,6 @@
         }
       '';
     };
-    pulseeffects.enable = true;
   };
   wayland.windowManager.sway = {
     enable = true;
@@ -138,6 +141,7 @@
       neofetch
       nix-top
       obs-studio
+      ox
       peek
       pfetch
       qutebrowser

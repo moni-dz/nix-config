@@ -79,4 +79,8 @@ final: prev: {
     python38Packages = prev.python38Packages;
     fetchPypi = prev.python38Packages.fetchPypi;
   };
+  ox = prev.callPackage ../derivations/ox.nix {
+    rustPlatform = prev.rustPlatform;
+    fetchFromGitHub = prev.fetchFromGitHub;
+  };
 }
