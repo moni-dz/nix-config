@@ -1,10 +1,11 @@
 #+TITLE: NixOS configuration
 
 ** Installation
-Get the latest NixOS image [[https://nixos.org/download.html][here]], then run the following commands
+Get the latest NixOS image [[https://nixos.org/download.html][here]], do your partitions (root must be mounted at =/mnt=), then run the following commands
 #+begin_src sh
-git clone https://github.com/fortuneteller2k/nix-config /etc/nixos
-sudo nixos-install --flake
+  nix-shell -p git nixFlakes
+  git clone https://github.com/fortuneteller2k/nix-config /etc/nixos
+  sudo nixos-install --flake
 #+end_src
 
 *** Caveats
