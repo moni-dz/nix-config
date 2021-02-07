@@ -1,7 +1,8 @@
 {
   description = "A somewhat huge NixOS configuration using Nix Flakes.";
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/master";
+    nixpkgs-master.url = "github:nixos/nixpkgs/master";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -9,8 +10,8 @@
     rust.url = "github:oxalica/rust-overlay";
     emacs.url = "github:nix-community/emacs-overlay";
   };
-  outputs = { self, nixpkgs, home, emacs, rust }@inputs: {
-    nixosConfigurations.superfluous = nixpkgs.lib.nixosSystem {
+  outputs = { self, nixpkgs, nixpkgs-master, home, emacs, rust }@inputs: {
+    nixosConfigurations.superfluous = nixpkgs.lib.nixosSystem rec {
       system = "x86_64-linux";
       modules = [
         {
@@ -23,6 +24,9 @@
             userOverlays = nixpkgs.lib.lists.forEach (nixpkgs.lib.mapAttrsToList toPath
               (nixpkgs.lib.filterAttrs filterOverlays (builtins.readDir folder)))
               import;
+            nixpkgs-overlays = final: prev: {
+              master = nixpkgs-master.legacyPackages.${system};
+            };
           in {
             config = {
               allowUnfree = true;
@@ -31,6 +35,7 @@
             overlays = [
               emacs.overlay
               rust.overlay
+              nixpkgs-overlays
             ] ++ userOverlays;
           };
         }

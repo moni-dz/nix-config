@@ -9,11 +9,17 @@
       "rw"
       "mitigations=off"
       "acpi_backlight=vendor"
+      "nmi_watchdog=0"
       "systemd.watchdog-device=/dev/watchdog"
       "vt.default_red=0x16,0xe9,0x29,0xfa,0x26,0xee,0x59,0xfd,0x23,0xec,0x3f,0xfb,0x3f,0xf0,0x6b,0xfd"
       "vt.default_grn=0x16,0x56,0xd3,0xb7,0xbb,0x64,0xe3,0xf0,0x35,0x6a,0xda,0xc3,0xc6,0x75,0xe6,0xf0"
       "vt.default_blu=0x1c,0x78,0x98,0x95,0xd9,0xae,0xe3,0xed,0x30,0x88,0xa4,0xa7,0xde,0xb7,0xe6,0xed"
     ];
+    kernel.sysctl = {
+      "vm.swappiness" = 10;
+      "vm.vfs_cache_pressure" = 75;
+      "kernel.printk" = "3 3 3 3";
+    };
     loader = {
       efi.canTouchEfiVariables = true;
       grub = {
@@ -26,7 +32,10 @@
     };
   };
   systemd.extraConfig = "RebootWatchdogSec=5";
-  zramSwap.enable = true;
+  zramSwap = {
+    enable = true;
+    memoryPercent = 100;
+  };
   time.timeZone = "Asia/Manila";
   networking = {
     hostName = "superfluous";
@@ -49,6 +58,7 @@
   };
   services = {
     dbus.packages = with pkgs; [ gnome3.dconf ];
+    irqbalance.enable = true;
     xserver = {
       enable = true;
       dpi = 96;
@@ -237,7 +247,7 @@
       shellAliases = (import ./config/zsh-aliases.nix);
     };
   };
-  powerManagement.powertop.enable = true;
+  powerManagement.cpuFreqGovernor = "performance";
   fonts = {
     fonts = with pkgs; [
       nerdfonts

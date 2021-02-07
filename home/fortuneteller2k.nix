@@ -102,7 +102,7 @@ rec {
       element-desktop
       emacs-all-the-icons-fonts
       exa
-      flavours
+      master.flavours
       fzf
       geogebra6
       gimp
@@ -118,7 +118,7 @@ rec {
       neofetch
       nix-top
       obs-studio
-      ox
+      master.ox
       peek
       pfetch
       qutebrowser
