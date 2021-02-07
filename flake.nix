@@ -2,17 +2,14 @@
   description = "A somewhat huge NixOS configuration using Nix Flakes.";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/master";
-    wayland.url = "github:colemickens/nixpkgs-wayland";
     home = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     rust.url = "github:oxalica/rust-overlay";
     emacs.url = "github:nix-community/emacs-overlay";
-    nur.url = "github:nix-community/NUR";
-    hardware.url = "github:NixOS/nixos-hardware/master";
   };
-  outputs = { self, nixpkgs, wayland, home, emacs, nur, hardware, rust }@inputs: {
+  outputs = { self, nixpkgs, home, emacs, rust }@inputs: {
     nixosConfigurations.superfluous = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       modules = [
@@ -33,7 +30,6 @@
             };
             overlays = [
               emacs.overlay
-              nur.overlay
               rust.overlay
             ] ++ userOverlays;
           };
