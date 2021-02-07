@@ -8,7 +8,7 @@ sudo nixos-install --flake
 #+end_src
 
 *** Caveats
- * You probably should replace [[=nixos/hardware-configuration.nix=][https://github.com/fortuneteller2k/nix-config/blob/master/nixos/hardware-configuration.nix]] with your own with =nixos-generate-config=.
+ * You probably should replace [[https://github.com/fortuneteller2k/nix-config/blob/master/nixos/hardware-configuration.nix][nixos/hardware-configuration.nix]] with your own with =nixos-generate-config=.
  * Remove this [[https://github.com/fortuneteller2k/nix-config/blob/master/nixos/configuration.nix#L55][line]] when not running with AMD graphics.
 
 ** Description
