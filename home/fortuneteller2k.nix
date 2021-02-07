@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-{
+rec {
   programs = {
     home-manager.enable = true;
     emacs = {
@@ -80,7 +80,7 @@
     };
     mpd = {
       enable = true;
-      musicDirectory = "/home/fortuneteller2k/Music";
+      musicDirectory = "${home.homeDirectory}/Music";
       extraConfig = ''
         audio_output {
           type "pulse"
@@ -155,9 +155,8 @@
     ];
     file.".icons/default".source = "${pkgs.gnome3.adwaita-icon-theme}/share/icons/Adwaita";
     sessionPath = [ "\${xdg.configHome}/emacs/bin" ];
-    sessionVariables.EDITOR = "emacsclient -nc";
     username = "fortuneteller2k";
-    homeDirectory = "/home/fortuneteller2k";
+    homeDirectory = "/home/${home.username}";
     stateVersion = "21.03";
   };
   fonts.fontconfig.enable = true;
