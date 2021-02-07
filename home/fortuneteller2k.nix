@@ -18,11 +18,9 @@ rec {
     };
     alacritty = {
       enable = true;
-      settings = (import ./config/alacritty.nix);
-    };
-    kitty = {
-      enable = true;
-      extraConfig = (import ./config/kitty.nix);
+      settings = (import ./config/alacritty.nix {
+        colors = (import ../config/colors.nix);
+      });
     };
     starship = {
       enable = true;
@@ -40,27 +38,13 @@ rec {
       enable = true;
       package = pkgs.zathura;
       extraConfig = "map <C-i> recolor";
-      options = (import ./config/zathura.nix);
+      options = (import ./config/zathura.nix {
+        colors = (import ../config/colors.nix);
+      });
     };
     ncmpcpp = {
       enable = true;
       settings = (import ./config/ncmpcpp.nix);
-    };
-    mako = {
-      enable = true;
-      extraConfig = (import ./config/mako.nix);
-    };
-    waybar = {
-      enable = true;
-      settings = [{
-        layer = "top";
-        position = "top";
-        height = 18;
-        modules-left = [ "sway/workspaces" "sway/mode" ];
-        modules-right = [ "battery" "pulseaudio" "network" "clock" ];
-        modules = (import ./config/waybar-modules.nix);
-      }];
-      style = (import ./config/waybar-style.nix);
     };
   };
   services = {
@@ -71,7 +55,9 @@ rec {
         size = "32x32";
         package = pkgs.papirus-icon-theme;
       };
-      settings = (import ./config/dunst.nix);
+      settings = (import ./config/dunst.nix {
+        colors = (import ../config/colors.nix);
+      });
     };
     polybar = {
       enable = true;
@@ -94,15 +80,6 @@ rec {
         }
       '';
     };
-  };
-  wayland.windowManager.sway = {
-    enable = true;
-    package = null;
-    config = { 
-      keybindings = { };
-      bars = [ { command = "${pkgs.waybar}/bin/waybar"; } ];
-    };
-    extraConfig = (import ./config/sway.nix);
   };
   gtk = {
     enable = true;
@@ -160,5 +137,7 @@ rec {
     stateVersion = "21.03";
   };
   fonts.fontconfig.enable = true;
-  xresources.extraConfig = (import ./config/xresources.nix);
+  xresources.extraConfig = (import ./config/xresources.nix {
+    colors = (import ../config/colors.nix);
+  });
 }

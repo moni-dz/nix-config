@@ -74,7 +74,9 @@
       windowManager = {
         xmonad = {
           enable = true;
-          config = (import ./config/xmonad.nix);
+          config = (import ./config/xmonad.nix {
+            colors = (import ../config/colors.nix);
+          });
           extraPackages = hpkgs: with hpkgs; [ dbus monad-logger xmonad-contrib ];
           haskellPackages = pkgs.haskellPackages.extend (pkgs.haskell.lib.packageSourceOverrides {
             xmonad = pkgs.fetchFromGitHub {
@@ -233,22 +235,6 @@
       promptInit = "eval $(starship init zsh)";
       interactiveShellInit = (import ./config/zshrc.nix);
       shellAliases = (import ./config/zsh-aliases.nix);
-    };
-    sway = {
-      enable = true;
-      wrapperFeatures.gtk = true;
-      extraPackages = with pkgs; [
-        swaylock
-        swayidle
-        swaybg
-        wl-clipboard
-        mako
-        grim
-        slurp
-        sway-contrib.grimshot
-        waybar
-        wofi
-      ];
     };
   };
   powerManagement.powertop.enable = true;

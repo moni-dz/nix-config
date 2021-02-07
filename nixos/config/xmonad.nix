@@ -1,3 +1,5 @@
+{ colors }:
+
 ''
   -- fortuneteller2k's XMonad config
   -- This file is managed by NixOS, don't edit it directly!
@@ -116,11 +118,10 @@
 
   promptConfig = def
     { font                = fontFamily
-    , bgColor             = "#16161c"
-    , fgColor             = "#fdf0ed"
-    , bgHLight            = "#e95678"
-    , fgHLight            = "#16161c"
-    , borderColor         = "#e95678"
+    , bgColor             = "#${colors.bg}"
+    , fgColor             = "#${colors.fg}"
+    , bgHLight            = "#${colors.c1}"
+    , fgHLight            = "#${colors.bg}"
     , promptBorderWidth   = 0
     , position            = Top
     , height              = 20
@@ -147,12 +148,12 @@
 
   tabTheme = def
     { fontName            = fontFamily
-    , activeColor         = "#e95678"
-    , inactiveColor       = "#16161c"
-    , urgentColor         = "#ee64ae"
-    , activeTextColor     = "#16161c"
-    , inactiveTextColor   = "#fdf0ed"
-    , urgentTextColor     = "#16161c"
+    , activeColor         = "#${colors.c1}"
+    , inactiveColor       = "#${colors.bg}"
+    , urgentColor         = "#${colors.c5}"
+    , activeTextColor     = "#${colors.bg}"
+    , inactiveTextColor   = "#${colors.fg}"
+    , urgentTextColor     = "#${colors.bg}"
     , activeBorderWidth   = 0
     , inactiveBorderWidth = 0
     , urgentBorderWidth   = 0
@@ -212,8 +213,8 @@
     , borderWidth        = 2
     , modMask            = modkey
     , workspaces         = ws
-    , normalBorderColor  = "#2e303e"
-    , focusedBorderColor = "#e95678"
+    , normalBorderColor  = "#${colors.c8}"
+    , focusedBorderColor = "#${colors.c1}"
     , layoutHook         = layouts
     , manageHook         = windowRules
     , logHook            = polybarHook dbus

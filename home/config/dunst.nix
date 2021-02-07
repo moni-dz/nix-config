@@ -1,3 +1,5 @@
+{ colors }:
+
 {
   global = {
     padding = 8;
@@ -16,20 +18,20 @@
     geometry = "330x5-8+25";
   };
   urgency_low = {
-    foreground = "#fdf0ed";
-    background = "#16161c";
-    frame_color = "#29d398";
+    foreground = "#${colors.fg}";
+    background = "#${colors.bg}";
+    frame_color = "#${colors.c2}";
     timeout = 15;
   };
   urgency_normal = {
-    foreground = "#fdf0ed";
-    background = "#16161c";
-    frame_color = "#fab795";
+    foreground = "#${colors.fg}";
+    background = "#${colors.bg}";
+    frame_color = "#${colors.c3}";
     timeout = 30;
   };
   urgency_critical = {
-    foreground = "#fdf0ed";
-    background = "#16161c";
-    frame_color = "#e95678";
+    foreground = "#${colors.fg}";
+    background = "#${colors.bg}";
+    frame_color = "#${colors.c1}";
   };
 }

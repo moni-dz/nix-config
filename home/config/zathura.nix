@@ -1,43 +1,45 @@
+{ colors }:
+
 {
   window-title-basename = true;
   selection-clipboard = "clipboard";
 
-  notification-error-bg = "#e95678";
-  notification-error-fg = "#16161c";
-  notification-warning-bg = "#fab795";
-  notification-warning-fg = "#16161c";
-  notification-bg = "#29d398";
-  notification-fg = "#16161c";
+  notification-error-bg = "#${colors.c1}";
+  notification-error-fg = "#${colors.bg}";
+  notification-warning-bg = "#${colors.c3}";
+  notification-warning-fg = "#${colors.bg}";
+  notification-bg = "#${colors.c2}";
+  notification-fg = "#${colors.bg}";
 
-  completion-bg = "#16161c";
-  completion-fg = "#fdf0ed";
-  completion-group-bg = "#16161c";
-  completion-group-fg = "#fdf0ed";
-  completion-highlight-bg = "#29d398";
-  completion-highlight-fg = "#16161c";
+  completion-bg = "#${colors.bg}";
+  completion-fg = "#${colors.fg}";
+  completion-group-bg = "#${colors.bg}";
+  completion-group-fg = "#${colors.fg}";
+  completion-highlight-bg = "#${colors.c2}";
+  completion-highlight-fg = "#${colors.fg}";
 
-  index-bg = "#16161c";
-  index-fg = "#fdf0ed";
-  index-active-bg = "#29d398";
-  index-active-fg = "#16161c";
+  index-bg = "#${colors.bg}";
+  index-fg = "#${colors.fg}";
+  index-active-bg = "#${colors.c2}";
+  index-active-fg = "#${colors.bg}";
 
-  inputbar-bg = "#16161c";
-  inputbar-fg = "#fdf0ed";
-  statusbar-bg = "#16161c";
-  statusbar-fg = "#fdf0ed";
+  inputbar-bg = "#${colors.bg}";
+  inputbar-fg = "#${colors.fg}";
+  statusbar-bg = "#${colors.bg}";
+  statusbar-fg = "#${colors.fg}";
 
-  highlight-color = "#fab795";
-  highlight-active-color = "#ee64ae";
+  highlight-color = "#${colors.c3}";
+  highlight-active-color = "#${colors.c5}";
 
-  default-bg = "#16161c";
-  default-fg = "#fdf0ed";
+  default-bg = "#${colors.bg}";
+  default-fg = "#${colors.fg}";
 
   render-loading = true;
-  render-loading-fg = "#16161c";
-  render-loading-bg = "#fdf0ed";
+  render-loading-fg = "#${colors.bg}";
+  render-loading-bg = "#${colors.fg}";
 
-  recolor-lightcolor = "#16161c";
-  recolor-darkcolor = "#fdf0ed";
+  recolor-lightcolor = "#${colors.bg}";
+  recolor-darkcolor = "#${colors.fg}";
 
   adjust-open = "width";
   recolor = true;
