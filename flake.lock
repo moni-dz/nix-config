@@ -66,6 +66,22 @@
         "type": "github"
       }
     },
+    "nixpkgs-fork": {
+      "locked": {
+        "lastModified": 1612760218,
+        "narHash": "sha256-Lt2YuTprwdmzBnBwD7pyUyyPIVa+2VrNsPDAuUQA7c0=",
+        "owner": "fortuneteller2k",
+        "repo": "nixpkgs",
+        "rev": "b41908d537e629e147fbd81340d937e1f8c84f52",
+        "type": "github"
+      },
+      "original": {
+        "owner": "fortuneteller2k",
+        "ref": "master",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs-master": {
       "locked": {
         "lastModified": 1612731689,
@@ -100,6 +116,7 @@
         "emacs": "emacs",
         "home": "home",
         "nixpkgs": "nixpkgs",
+        "nixpkgs-fork": "nixpkgs-fork",
         "nixpkgs-master": "nixpkgs-master",
         "rust": "rust"
       }

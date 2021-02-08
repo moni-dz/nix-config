@@ -2,6 +2,7 @@
   description = "A somewhat huge NixOS configuration using Nix Flakes.";
   inputs = {
     nixpkgs-master.url = "github:nixos/nixpkgs/master";
+    nixpkgs-fork.url = "github:fortuneteller2k/nixpkgs/master";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home = {
       url = "github:nix-community/home-manager";
@@ -10,7 +11,7 @@
     rust.url = "github:oxalica/rust-overlay";
     emacs.url = "github:nix-community/emacs-overlay";
   };
-  outputs = { self, nixpkgs, nixpkgs-master, home, emacs, rust }@inputs: {
+  outputs = { self, nixpkgs, nixpkgs-master, nixpkgs-fork, home, emacs, rust }@inputs: {
     nixosConfigurations.superfluous = nixpkgs.lib.nixosSystem rec {
       system = "x86_64-linux";
       modules = [
@@ -26,6 +27,7 @@
               import;
             nixpkgs-overlays = final: prev: {
               master = nixpkgs-master.legacyPackages.${system};
+              f2k = nixpkgs-fork .legacyPackages.${system};
             };
           in {
             config = {

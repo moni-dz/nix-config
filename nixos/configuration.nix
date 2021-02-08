@@ -4,7 +4,7 @@
   imports = [ ./hardware-configuration.nix ];
   nix.package = pkgs.nixFlakes;
   boot = {
-    kernelPackages = pkgs.linuxPackages_zen;
+    kernelPackages = pkgs.master.linuxPackages_latest;
     kernelParams = [
       "rw"
       "mitigations=off"
@@ -16,9 +16,10 @@
       "vt.default_blu=0x1c,0x78,0x98,0x95,0xd9,0xae,0xe3,0xed,0x30,0x88,0xa4,0xa7,0xde,0xb7,0xe6,0xed"
     ];
     kernel.sysctl = {
-      "vm.swappiness" = 10;
+      "vm.swappiness" = 1;
       "vm.vfs_cache_pressure" = 75;
       "kernel.printk" = "3 3 3 3";
+      "kernel.unprivileged_userns_clone" = 1;
     };
     loader = {
       efi.canTouchEfiVariables = true;
@@ -137,9 +138,12 @@
     pipewire.wantedBy = [ "default.target" ];
     pipewire-pulse.wantedBy = [ "default.target" ];
   };
-  hardware.opengl = {
-    enable = true;
-    extraPackages = with pkgs; [ vaapiVdpau libvdpau-va-gl ];
+  hardware = {
+    cpu.amd.updateMicrocode = true;
+    opengl = {
+      enable = true;
+      extraPackages = with pkgs; [ vaapiVdpau libvdpau-va-gl ];
+    };
   };
   security = {
     rtkit.enable = true;
