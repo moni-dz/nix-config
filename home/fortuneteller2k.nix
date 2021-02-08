@@ -3,6 +3,14 @@
 rec {
   programs = {
     home-manager.enable = true;
+    bat = {
+      enable = true;
+      config = {
+        pager = "never";
+        style = "plain";
+        theme = "base16";
+      };
+    };
     emacs = {
       enable = true;
       package = pkgs.emacsPgtk;
