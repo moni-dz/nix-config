@@ -114,7 +114,7 @@
 
   mousebindings = [ ((modkey .|. shiftMask, button1), dragWindow) ]
 
-  scratchpads = [NS "terminal" "alacritty -t ScratchpadTerm" (title =? "ScratchpadTerm") defaultFloating]
+  scratchpads = [ NS "terminal" "alacritty -t ScratchpadTerm" (title =? "ScratchpadTerm") (customFloating $ W.RationalRect (1/6) (1/6) (2/3) (2/3)) ]
 
   promptConfig = def
     { font                = fontFamily
@@ -170,6 +170,7 @@
     , className  =? "Xephyr"                                 --> doFloat
     , className  =? "Sxiv"                                   --> doFloat
     , className  =? "mpv"                                    --> doFloat
+    , appName    =? "ScratchpadTerm"                         --> doSideFloat NC
     , appName    =? "desktop_window"                         --> doIgnore
     , appName    =? "kdesktop"                               --> doIgnore
     , isDialog                                               --> doF siftUp <+> doFloat ]
@@ -202,7 +203,7 @@
     in
       D.emit dbus $ signal { D.signalBody = body }
 
-  polybarHook dbus = dynamicLogWithPP . filterOutWsPP ["NSP"] $ xmobarPP
+  polybarHook dbus = dynamicLogWithPP $ xmobarPP
     { ppOutput = dbusOutput dbus
     , ppOrder  = \(_:l:_:_) -> [l]
     }
