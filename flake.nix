@@ -27,7 +27,7 @@
               import;
             nixpkgs-overlays = final: prev: {
               master = nixpkgs-master.legacyPackages.${system};
-              f2k = nixpkgs-fork .legacyPackages.${system};
+              fork = nixpkgs-fork .legacyPackages.${system};
             };
           in {
             config = {

@@ -23,7 +23,7 @@
     Plug 'lervag/vimtex'
     Plug 'elixir-lang/vim-elixir'
     Plug 'jiangmiao/auto-pairs'
-    Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+    Plug 'gko/vim-coloresque'
   call plug#end()
 
   colorscheme horizon

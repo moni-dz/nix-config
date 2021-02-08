@@ -1,14 +1,13 @@
 { stdenv, lib, fetchFromGitHub, sass }:
 
 stdenv.mkDerivation rec {
-  pname = "phocus";
-  version = "master";
+  name = "phocus";
 
   src = fetchFromGitHub {
     owner = "fortuneteller2k";
     repo = "gtk";
-    rev = version;
-    sha256 = "sha256-2E3rlNuOP7e2y4CWPPdd/1HK/b8NnjuR53M57IV+Yu8=";
+    rev = "49c8a1592e8f37cecfe89e330065bb06180d50ee";
+    sha256 = "sha256-SEdrh6p1L5FGWk/RE+X48LPNNvLceLhZ5h/cxrC3xsU=";
   };
 
   nativeBuildInputs = [ sass ];
@@ -17,9 +16,8 @@ stdenv.mkDerivation rec {
 
   meta = with lib; {
     description = "phocus with horizon theme";
-    homepage = "https://github.com/fortuneteller2k/phocus";
+    homepage = "https://github.com/fortuneteller2k/gtk";
     license = [ licenses.mit ];
-    platforms = platforms.linux;
     maintainers = with maintainers; [ fortuneteller2k ];
   };
 }

@@ -4,7 +4,7 @@
   imports = [ ./hardware-configuration.nix ];
   nix.package = pkgs.nixFlakes;
   boot = {
-    kernelPackages = pkgs.master.linuxPackages_latest;
+    kernelPackages = pkgs.master.linuxPackages_zen;
     kernelParams = [
       "rw"
       "mitigations=off"
@@ -75,7 +75,7 @@
               package = pkgs.papirus-icon-theme;
             };
             theme = {
-              name = "fortuneteller2k_phocus";
+              name = "phocus";
               package = pkgs.phocus;
             };
           };

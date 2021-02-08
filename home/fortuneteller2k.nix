@@ -98,7 +98,7 @@ rec {
     };
     theme = {
       package = pkgs.phocus;
-      name = "fortuneteller2k_phocus";
+      name = "phocus";
     };
   };
   home = {
