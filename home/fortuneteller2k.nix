@@ -68,6 +68,7 @@ rec {
         colors = (import ../config/colors.nix);
       });
     };
+    emacs.enable = true;
     polybar = {
       enable = true;
       script = "polybar main &";
