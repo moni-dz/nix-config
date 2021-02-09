@@ -64,7 +64,7 @@
     , ("M-b",                        sequence_ [spawn "polybar-msg cmd toggle", sendMessage ToggleStruts])
     , ("M-d",                        shellPrompt promptConfig)
     , ("M-q",                        kill)
-    , ("M-w",                        spawn "emacs")
+    , ("M-w",                        spawn "emacsclient -nc")
     , ("M-<F2>",                     spawn browser)
     , ("M-e",                        sendMessage ToggleLayout)
     , ("M-<Tab>",                    sendMessage NextLayout)
@@ -181,7 +181,7 @@
   autostart = do
     spawnOnce "xsetroot -cursor_name left_ptr &"
     spawnOnce "systemctl --user restart polybar &"
-    spawnOnce "xwallpaper --zoom /etc/nixos/nixos/config/wallpapers/horizon.jpg &"
+    spawnOnce "xwallpaper --zoom /etc/nixos/nixos/config/wallpapers/horizonscenery.png &"
     spawnOnce "xidlehook --not-when-fullscreen --not-when-audio --timer 120 slock \'\' &"
     spawnOnce "notify-desktop -u low 'xmonad' 'started successfully'"
     setWMName "LG3D"

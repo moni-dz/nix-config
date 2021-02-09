@@ -6,7 +6,7 @@
   set guicursor=a:ver25-iCursor
   set guifont=monospace:h11
   set termguicolors
-  set clipboard=unnamed
+  set clipboard=unnamedplus
 
   if empty(stdpath('data') . '/plugged')
     silent !curl -fLo "$\{XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \

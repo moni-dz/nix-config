@@ -1,4 +1,4 @@
-{ stdenv, lib, fetchFromGitHub, sass }:
+{ lib, stdenv, fetchFromGitHub, sass }:
 
 stdenv.mkDerivation rec {
   name = "phocus";
@@ -6,8 +6,8 @@ stdenv.mkDerivation rec {
   src = fetchFromGitHub {
     owner = "fortuneteller2k";
     repo = "gtk";
-    rev = "83d67b599031af6423ceef1fc09e2ecd8535a2c4";
-    sha256 = "sha256-SDDCxzFFgUNxEbJbtflV7IkdPxPygtGx+mtgKjOiHqI=";
+    rev = "cf676e241a83c5392220ef95c9284f3fb657bfec";
+    sha256 = "sha256-uICuOW7KVHGXGszOWjG8nYw9tpQ+tKe+bND861vYCS8=";
   };
 
   nativeBuildInputs = [ sass ];
