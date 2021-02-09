@@ -130,6 +130,7 @@ rec {
       master.ox
       peek
       pfetch
+      picard
       qutebrowser
       ripcord
       sacad
@@ -139,7 +140,10 @@ rec {
       ueberzug
       ytmdl
     ];
-    file.".icons/default".source = "${pkgs.gnome3.adwaita-icon-theme}/share/icons/Adwaita";
+    file = {
+      ".config/qt5ct/colors/Horizon.conf".source = ./config/Horizon.conf;
+      ".icons/default".source = "${pkgs.gnome3.adwaita-icon-theme}/share/icons/Adwaita";
+    };
     sessionPath = [ "\${xdg.configHome}/emacs/bin" ];
     username = "fortuneteller2k";
     homeDirectory = "/home/${home.username}";
