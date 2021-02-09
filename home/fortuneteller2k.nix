@@ -110,7 +110,6 @@ rec {
       brave 
       discord
       element-desktop
-      emacs-all-the-icons-fonts
       exa
       master.flavours
       fzf

@@ -260,17 +260,18 @@
   powerManagement.cpuFreqGovernor = "performance";
   fonts = {
     fonts = with pkgs; [
-      nerdfonts
-      inter
-      fantasque-sans-mono
-      xorg.fontbh100dpi
-      mplus-outline-fonts
-      symbola
-      input-fonts
-      output-fonts
-      twemoji-color-font
-      scientifica
       cozette
+      emacs-all-the-icons-fonts
+      fantasque-sans-mono
+      input-fonts
+      inter
+      mplus-outline-fonts
+      nerdfonts
+      output-fonts
+      scientifica
+      symbola
+      twemoji-color-font
+      xorg.fontbh100dpi
     ];
     fontconfig = {
       enable = true;
