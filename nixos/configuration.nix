@@ -4,7 +4,30 @@
   imports = [ ./hardware-configuration.nix ];
   nix.package = pkgs.nixFlakes;
   boot = {
-    kernelPackages = pkgs.master.linuxPackages_zen;
+    kernelPackages = let
+      linux_xanmod_pkg = { fetchFromGitHub, buildLinux, ... } @ args:
+
+        buildLinux (args // rec {
+          version = "5.10.14-xanmod1-cacule";
+          modDirVersion = version;
+
+          src = fetchFromGitHub {
+            owner = "xanmod";
+            repo = "linux";
+            rev = version;
+            sha256 = "sha256-wyaFj2l79sXgH6TGNFg/eVdmk36vbMaQY/m8i6UkAMk=";
+            extraPostFetch = ''
+              rm $out/.config
+            '';
+          };
+
+          kernelPatches = [ ];
+
+          extraMeta.branch = version;
+        } // (args.argsOverride or {}));
+      linux_xanmod = pkgs.callPackage linux_xanmod_pkg { };
+    in 
+      pkgs.recurseIntoAttrs (pkgs.linuxPackagesFor linux_xanmod);
     kernelParams = [
       "rw"
       "mitigations=off"

@@ -181,7 +181,7 @@
   autostart = do
     spawnOnce "xsetroot -cursor_name left_ptr &"
     spawnOnce "systemctl --user restart polybar &"
-    spawnOnce "xwallpaper --zoom /etc/nixos/nixos/config/wallpapers/horizonscenery.png &"
+    spawnOnce "xwallpaper --zoom /etc/nixos/nixos/config/wallpapers/horizon.jpg &"
     spawnOnce "xidlehook --not-when-fullscreen --not-when-audio --timer 120 slock \'\' &"
     spawnOnce "notify-desktop -u low 'xmonad' 'started successfully'"
     setWMName "LG3D"

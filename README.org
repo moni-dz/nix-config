@@ -12,7 +12,8 @@ Get the latest NixOS image [[https://nixos.org/download.html][here]], do your pa
  * You probably should replace [[https://github.com/fortuneteller2k/nix-config/blob/master/nixos/hardware-configuration.nix][nixos/hardware-configuration.nix]] with your own with =nixos-generate-config=.
  * Remove this [[https://github.com/fortuneteller2k/nix-config/blob/master/nixos/configuration.nix#L55][line]] when not running with AMD graphics.
  * You might want to change =users.users.fortuneteller2k= to =users.users.yourname= in this [[https://github.com/fortuneteller2k/nix-config/blob/master/nixos/configuration.nix#L140][part]] of =configuration.nix=, =username= and =homeDirectory= to your username in this [[https://github.com/fortuneteller2k/nix-config/blob/master/home/fortuneteller2k.nix#L159][part]] of =fortuneteller2k.nix=, and rename [[https://github.com/fortuneteller2k/nix-config/blob/master/home/fortuneteller2k.nix][fortuneteller2k.nix]] to your username and change the import [[https://github.com/fortuneteller2k/nix-config/blob/master/flake.nix#L47][here]] accordingly.
- * Change =amd= in =hardware.cpu.amd.updateMicrocode= to =intel= when running with an Intel CPU. 
+ * Change =amd= in =hardware.cpu.amd.updateMicrocode= to =intel= when running with an Intel CPU.
+ * If you don't want to compile the XanMod kernel, set [[https://github.com/fortuneteller2k/nix-config/blob/master/nixos/configuration.nix#L7][kernelPackages]] to something that's in the Nixpkgs build cache, i.e. =pkgs.linuxPackages_zen=
 
 ** Description
 NixOS configuration that I use daily, it contains the system-wide *AND* home configuration, symlinked to =/etc/nixos=
@@ -29,8 +30,8 @@ Resources and configurations I used to base on:
  * [[https://www.youtube.com/watch?v=UeBX7Ide5a0][Nix Flakes talk by Eelco Dolstra on NixCon]]
 
 *** Useful Commands
-| command                                 | description                             |
-|-----------------------------------------+-----------------------------------------|
+| command                               | description                             |
+|---------------------------------------+-----------------------------------------|
 | =sudo nixos-rebuild switch=             | update and switch to the new generation |
 | =nix flake update --update-input flake= | update flake and update lockfile        |
 | =nix flake update --recreate-lock-file= | update all flakes and update lockfile   |
