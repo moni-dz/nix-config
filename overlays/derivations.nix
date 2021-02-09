@@ -79,4 +79,9 @@ final: prev: {
     python38Packages = prev.python38Packages;
     fetchPypi = prev.python38Packages.fetchPypi;
   };
+  ncmpcpp-artwork = prev.callPackage ../derivations/ncmpcpp-artwork.nix {
+    pkgs = prev;
+    stdenv = prev.stdenv;
+    fetchFromGitHub = prev.fetchFromGitHub;
+  };
 }

@@ -52,6 +52,7 @@ rec {
     };
     ncmpcpp = {
       enable = true;
+      package = pkgs.ncmpcpp;
       settings = (import ./config/ncmpcpp.nix);
     };
   };

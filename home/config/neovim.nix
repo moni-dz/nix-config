@@ -24,6 +24,8 @@
     Plug 'elixir-lang/vim-elixir'
     Plug 'jiangmiao/auto-pairs'
     Plug 'gko/vim-coloresque'
+    Plug 'sheerun/vim-polyglot'
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
   call plug#end()
 
   colorscheme horizon
