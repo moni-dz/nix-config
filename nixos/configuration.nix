@@ -60,6 +60,7 @@
   services = {
     dbus.packages = with pkgs; [ gnome3.dconf ];
     irqbalance.enable = true;
+    upower.enable = true;
     xserver = {
       enable = true;
       dpi = 96;

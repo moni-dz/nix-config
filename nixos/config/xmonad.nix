@@ -59,13 +59,13 @@
   fontFamily = "xft:FantasqueSansMono Nerd Font:size=10:antialias=true:hinting=true"
 
   keybindings =
-    [ ("M-<Return>",                 spawn term)
+    [ ("M-<Return>",                 spawn "alacritty")
     , ("M-`",                        namedScratchpadAction scratchpads "terminal")
     , ("M-b",                        sequence_ [spawn "polybar-msg cmd toggle", sendMessage ToggleStruts])
     , ("M-d",                        shellPrompt promptConfig)
     , ("M-q",                        kill)
     , ("M-w",                        spawn "emacs")
-    , ("M-<F2>",                     spawn "qutebrowser")
+    , ("M-<F2>",                     spawn browser)
     , ("M-e",                        sendMessage ToggleLayout)
     , ("M-<Tab>",                    sendMessage NextLayout)
     , ("M-n",                        refresh)
@@ -105,7 +105,7 @@
                                      , ("S-", windows . W.shift)]
     ]
     where
-      term = "alacritty"
+      browser = "qutebrowser --qt-flag ignore-gpu-blacklist --qt-flag enable-gpu-rasterization --qt-flag enable-native-gpu-memory-buffers --qt-flag num-raster-threads=4"
       restartcmd = "xmonad --restart && systemctl --user restart polybar"
       restackcmd = "sleep 1.2; xdo lower $(xwininfo -name polybar-xmonad | rg 'Window id' | cut -d ' ' -f4)"
       toggleFloat w = windows (\s -> if M.member w (W.floating s)
