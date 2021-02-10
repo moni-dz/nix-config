@@ -112,7 +112,7 @@ rec {
       discord
       element-desktop
       exa
-      master.flavours
+      flavours
       fzf
       geogebra6
       gimp
@@ -128,7 +128,8 @@ rec {
       neofetch
       nix-top
       obs-studio
-      master.ox
+      onefetch
+      ox
       peek
       pfetch
       picard

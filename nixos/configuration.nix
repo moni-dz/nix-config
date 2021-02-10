@@ -210,6 +210,7 @@
     envsubst
     eww
     fd
+    file
     ffmpeg
     font-manager
     gcc
