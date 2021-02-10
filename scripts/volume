@@ -1,0 +1,27 @@
+#!/bin/sh
+
+current=$(pactl list sinks | grep '^[[:space:]]Volume:' | head -n $((SINK + 1)) | tail -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')
+current_sink=$(pactl list short sinks | awk 'NR==1{print $1}')
+
+h() {
+	echo 'Usage: volume.sh <up/down/toggle>'
+	exit 1;
+}
+
+if [ "$#" -eq 0 ]; then
+	h
+elif [ "$1" = "up" ]; then
+	if [ "$current" -lt 100 ]; then
+		if [ $((current + 10)) -gt 100 ]; then
+			pactl set-sink-volume "$current_sink" +$((100 - current))%
+		else
+			pactl set-sink-volume "$current_sink" +10%
+		fi
+	fi
+elif [ "$1" = "down" ]; then
+	pactl set-sink-volume "$current_sink" -10%
+elif [ "$1" = "toggle" ]; then
+	pactl set-sink-mute "$current_sink" toggle
+else
+	h
+fi

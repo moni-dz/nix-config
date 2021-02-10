@@ -68,11 +68,12 @@ rec {
         colors = (import ../config/colors.nix);
       });
     };
-    emacs.enable = true;
     polybar = {
       enable = true;
       script = "polybar main &";
-      config = (import ./config/polybar.nix);
+      config = (import ./config/polybar.nix {
+        inherit pkgs;
+      });
     };
     mpd = {
       enable = true;

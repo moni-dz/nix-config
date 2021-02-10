@@ -1,3 +1,5 @@
+{ pkgs }:
+
 {
   "colors" = {
     xbg = "\${xrdb:background}";
@@ -62,7 +64,7 @@
 
   "module/xmonad" = {
     type = "custom/script";
-    exec = "/run/current-system/sw/bin/xmonad-log";
+    exec = "${pkgs.xmonad-log}/bin/xmonad-log";
     tail = true;
     label = ": %output% ";
     format = "<label>";
