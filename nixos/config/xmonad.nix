@@ -105,7 +105,7 @@
                                      , ("S-", windows . W.shift)]
     ]
     where
-      browser = "qutebrowser --qt-flag ignore-gpu-blacklist --qt-flag enable-gpu-rasterization --qt-flag enable-native-gpu-memory-buffers --qt-flag num-raster-threads=4"
+      browser = "qutebrowser --qt-flag ignore-gpu-blacklist --qt-flag enable-gpu-rasterization --qt-flag enable-native-gpu-memory-buffers --qt-flag num-raster-threads=4 --qt-flag enable-oop-rasterization"
       restartcmd = "xmonad --restart && systemctl --user restart polybar"
       restackcmd = "sleep 1.2; xdo lower $(xwininfo -name polybar-xmonad | rg 'Window id' | cut -d ' ' -f4)"
       toggleFloat w = windows (\s -> if M.member w (W.floating s)
