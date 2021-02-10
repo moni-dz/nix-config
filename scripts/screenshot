@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env dash
 
 screenshot() {
 	case "$1" in
