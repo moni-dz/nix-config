@@ -4,30 +4,7 @@
   imports = [ ./hardware-configuration.nix ];
   nix.package = pkgs.nixFlakes;
   boot = {
-    kernelPackages = let
-      linux_xanmod_pkg = { fetchFromGitHub, buildLinux, ... } @ args:
-
-        buildLinux (args // rec {
-          version = "5.10.14-xanmod1-cacule";
-          modDirVersion = version;
-
-          src = fetchFromGitHub {
-            owner = "xanmod";
-            repo = "linux";
-            rev = version;
-            sha256 = "sha256-wyaFj2l79sXgH6TGNFg/eVdmk36vbMaQY/m8i6UkAMk=";
-            extraPostFetch = ''
-              rm $out/.config
-            '';
-          };
-
-          kernelPatches = [ ];
-
-          extraMeta.branch = version;
-        } // (args.argsOverride or {}));
-      linux_xanmod = pkgs.callPackage linux_xanmod_pkg { };
-    in 
-      pkgs.recurseIntoAttrs (pkgs.linuxPackagesFor linux_xanmod);
+    kernelPackages = pkgs.fork.linuxPackages_xanmod;
     kernelParams = [
       "rw"
       "mitigations=off"
@@ -127,8 +104,8 @@
             xmonad-contrib = pkgs.fetchFromGitHub {
               owner = "xmonad";
               repo = "xmonad-contrib";
-              rev = "747202a214a342162707188738c7fad32b47928b";
-              sha256 = "sha256-Zj+RFHCa1zTMZmBcIVQ+mRLZf8sVAKlwkbNMAkh/gKw=";
+              rev = "cdc6c6d39cdfbd4bfeb248a5b5854098083562ac";
+              sha256 = "sha256-ZH5VnYTOtAxqetKlnqL2FJHeguX7G789Mj7b+riNEpM=";
             };
           });
         };
@@ -262,6 +239,7 @@
     zip
   ];
   programs = {
+    command-not-found.enable = false;
     qt5ct.enable = true;
     slock.enable = true;
     xss-lock = {
@@ -270,7 +248,7 @@
     };
     bash = {
       promptInit = ''eval "$(${pkgs.starship}/bin/starship init bash)"'';
-      interactiveShellInit = "export HISTFILE=$HOME/.config/.bash_history";
+      interactiveShellInit = ''export HISTFILE=$HOME/.config/.bash_history'';
     };
     zsh = {
       enable = true;

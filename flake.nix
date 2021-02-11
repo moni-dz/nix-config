@@ -2,7 +2,7 @@
   description = "A somewhat huge NixOS configuration using Nix Flakes.";
   inputs = {
     nixpkgs-master.url = "github:nixos/nixpkgs/master";
-    nixpkgs-fork.url = "github:fortuneteller2k/nixpkgs/master";
+    nixpkgs-fork.url = "github:fortuneteller2k/nixpkgs/add-xanmod-kernel";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home = {
       url = "github:nix-community/home-manager";

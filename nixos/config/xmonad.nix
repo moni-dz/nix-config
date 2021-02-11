@@ -9,6 +9,7 @@
   import XMonad.Actions.CycleWS
   import XMonad.Actions.Sift
   import XMonad.Actions.TiledWindowDragging
+  import XMonad.Actions.WithAll
 
   import XMonad.Hooks.DynamicLog
   import XMonad.Hooks.EwmhDesktops
@@ -16,7 +17,6 @@
   import XMonad.Hooks.ManageDocks
   import XMonad.Hooks.ManageHelpers
   import XMonad.Hooks.Place
-  import XMonad.Hooks.SetWMName
   import XMonad.Hooks.WindowSwallowing
 
   import XMonad.Layout.DraggingVisualizer
@@ -44,25 +44,23 @@
   import System.IO
   import System.Exit
 
+  import qualified Codec.Binary.UTF8.String as UTF8
+  import qualified Data.Map                 as M
   import qualified DBus                     as D
   import qualified DBus.Client              as D
-  import qualified Codec.Binary.UTF8.String as UTF8
+  import qualified XMonad.Util.Hacks        as Hacks
   import qualified XMonad.StackSet          as W
-  import qualified Data.Map                 as M
 
-  -- mod key
+  -- defaults
   modkey = mod1Mask
-
-  -- 10 workspaces should be enough
+  term = "alacritty"
   ws = ["A","B","C","D","E","F","G","H","I","J"]
-
-  -- default font
   fontFamily = "xft:FantasqueSansMono Nerd Font:size=10:antialias=true:hinting=true"
 
   keybindings =
-    [ ("M-<Return>",                 spawn "alacritty")
-    , ("M-`",                        namedScratchpadAction scratchpads "terminal")
-    , ("M-b",                        sequence_ [spawn "polybar-msg cmd toggle", sendMessage ToggleStruts])
+    [ ("M-<Return>",                 spawn term)
+    , ("M-b",                        namedScratchpadAction scratchpads "terminal")
+    , ("M-`",                        distractionLess)
     , ("M-d",                        shellPrompt promptConfig)
     , ("M-q",                        kill)
     , ("M-w",                        spawn "emacs")
@@ -82,6 +80,7 @@
     , ("M-<Print>",                  spawn "/etc/nixos/scripts/screenshot area")
     , ("M-S-s",                      spawn "/etc/nixos/scripts/screenshot full")
     , ("M-S-q",                      io (exitWith ExitSuccess))
+    , ("M-C-c",                      killAll)
     , ("M-S-<Delete>",               spawn "slock")
     , ("M-S-c",                      withFocused $ \w -> spawn ("xkill -id " ++ show w))
     , ("M-S-r",                      sequence_ [spawn restartcmd, spawn restackcmd])
@@ -101,21 +100,27 @@
     ]
     ++
     [ (otherModMasks ++ "M-" ++ key, action tag)
-        | (tag, key) <- zip ws (map (\x -> show x) ([1..9] ++ [0]))
+        | (tag, key) <- zip ws (map show ([1..9] ++ [0]))
         , (otherModMasks, action) <- [ ("", windows . W.greedyView)
-                                     , ("S-", windows . W.shift)]
+                                     , ("S-", windows . W.shift) ]
     ]
     where
       browser = "qutebrowser --qt-flag ignore-gpu-blacklist --qt-flag enable-gpu-rasterization --qt-flag enable-native-gpu-memory-buffers --qt-flag num-raster-threads=4 --qt-flag enable-oop-rasterization"
+      distractionLess = sequence_ [spawn restackcmd, sendMessage ToggleStruts, toggleScreenSpacingEnabled, toggleWindowSpacingEnabled]
       restartcmd = "xmonad --restart && systemctl --user restart polybar"
       restackcmd = "sleep 1.2; xdo lower $(xwininfo -name polybar-xmonad | rg 'Window id' | cut -d ' ' -f4)"
       toggleFloat w = windows (\s -> if M.member w (W.floating s)
-                                then W.sink w s
-                                else (W.float w (W.RationalRect 0.15 0.15 0.7 0.7) s))
+                                      then W.sink w s
+                                      else (W.float w (W.RationalRect 0.15 0.15 0.7 0.7) s))
 
-  mousebindings = [ ((modkey .|. shiftMask, button1), dragWindow) ]
+  mousebindings = 
+    [ ((modkey .|. shiftMask, button1), dragWindow)
+    , ((modkey, button1), (\w -> focus w >> mouseMoveWindow w >> windows W.shiftMaster))
+    , ((modkey, button2), (\w -> focus w >> windows W.shiftMaster))
+    , ((modkey, button3), (\w -> focus w >> mouseResizeWindow w >> windows W.shiftMaster))
+    ]
 
-  scratchpads = [ NS "terminal" "alacritty -t ScratchpadTerm" (title =? "ScratchpadTerm") (customFloating $ W.RationalRect (1/6) (1/6) (2/3) (2/3)) ]
+  scratchpads = [ NS "terminal" (term ++ " -t ScratchpadTerm") (title =? "ScratchpadTerm") (customFloating $ W.RationalRect (1/6) (1/6) (2/3) (2/3)) ]
 
   promptConfig = def
     { font                = fontFamily
@@ -131,21 +136,22 @@
     , showCompletionOnTab = False
     , searchPredicate     = fuzzyMatch
     , sorter              = fuzzySort
-    , defaultPrompter     = id $ map toLower
+    , defaultPrompter     = \_ -> "xmonad λ: "
     , alwaysHighlight     = True
     , maxComplRows        = Just 5
     }
 
   layouts = avoidStruts $ tiled ||| mtiled ||| tabs ||| centeredMaster ||| grid
     where
-       tiled = stripName 3 0 $ gaps 4 4 $ draggingVisualizer $ toggleLayouts maximized (layoutHints (smartBorders (Tall 1 (3/100) (1/2))))
-       mtiled = stripName 3 0 $ gaps 4 4 $ draggingVisualizer $ Mirror (toggleLayouts maximized (layoutHints (smartBorders (Tall 1 (3/100) (1/2)))))
-       centeredMaster = stripName 2 0 $ gaps 4 4 $ draggingVisualizer $ toggleLayouts maximized (layoutHints (smartBorders (ThreeColMid 1 (3/100) (1/2))))
+       tiled = stripName 3 0 $ gaps 4 4 $ draggingVisualizer $ toggleLayouts maximized (layoutHints (smartBorders tall))
+       mtiled = stripName 3 0 $ gaps 4 4 $ draggingVisualizer $ (toggleLayouts maximized (layoutHints (smartBorders (Mirror tall))))
+       centeredMaster = stripName 3 0 $ gaps 4 4 $ draggingVisualizer $ toggleLayouts maximized (layoutHints (smartBorders (ThreeColMid 1 (3/100) (1/2))))
        tabs = stripName 2 1 $ gaps 8 0 $ layoutHints (noBorders (tabbed shrinkText tabTheme))
        grid = stripName 3 0 $ gaps 4 4 $ draggingVisualizer $ toggleLayouts maximized (layoutHints (smartBorders Grid))
-       maximized = layoutHints (smartBorders Full)
+       maximized = smartBorders (layoutHints Full)
        gaps n k = spacingRaw False (Border n n n n) True (Border k k k k) True
        stripName n k = renamed [Chain [CutWordsLeft n, CutWordsRight k]]
+       tall = Tall 1 (3/100) (11/20)
 
   tabTheme = def
     { fontName            = fontFamily
@@ -164,17 +170,16 @@
     placeHook (smart (0.5, 0.5))
     <+> namedScratchpadManageHook scratchpads
     <+> composeAll
-    [ className  =? "Gimp"                                   --> doFloat
-    , (className =? "Ripcord" <&&> title =? "Preferences")   --> doFloat
-    , className  =? "Xmessage"                               --> doFloat
-    , className  =? "Peek"                                   --> doFloat
-    , className  =? "Xephyr"                                 --> doFloat
-    , className  =? "Sxiv"                                   --> doFloat
-    , className  =? "mpv"                                    --> doFloat
-    , appName    =? "ScratchpadTerm"                         --> doSideFloat NC
-    , appName    =? "desktop_window"                         --> doIgnore
-    , appName    =? "kdesktop"                               --> doIgnore
-    , isDialog                                               --> doF siftUp <+> doFloat ]
+    [ className  =? "Gimp"                                 --> doFloat
+    , (className =? "Ripcord" <&&> title =? "Preferences") --> doFloat
+    , className  =? "Xmessage"                             --> doFloat
+    , className  =? "Peek"                                 --> doFloat
+    , className  =? "Xephyr"                               --> doFloat
+    , className  =? "Sxiv"                                 --> doFloat
+    , className  =? "mpv"                                  --> doFloat
+    , appName    =? "desktop_window"                       --> doIgnore
+    , appName    =? "kdesktop"                             --> doIgnore
+    , isDialog                                             --> doF siftUp <+> doFloat ]
     <+> insertPosition End Newer -- same effect as attachaside patch in dwm
     <+> manageDocks
     <+> manageHook defaultConfig
@@ -185,7 +190,6 @@
     spawnOnce "xwallpaper --zoom /etc/nixos/nixos/config/wallpapers/horizon.jpg &"
     spawnOnce "xidlehook --not-when-fullscreen --not-when-audio --timer 120 slock \'\' &"
     spawnOnce "notify-desktop -u low 'xmonad' 'started successfully'"
-    setWMName "LG3D"
 
   dbusClient = do
       dbus <- D.connectSession
@@ -209,7 +213,7 @@
     , ppOrder  = \(_:l:_:_) -> [l]
     }
 
-  main' dbus = xmonad . ewmhFullscreen . docks . ewmh $ def
+  main' dbus = xmonad . ewmhFullscreen . docks . ewmh . Hacks.javaHack $ def
     { focusFollowsMouse  = True
     , clickJustFocuses   = True
     , borderWidth        = 2

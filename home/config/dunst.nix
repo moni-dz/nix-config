@@ -21,13 +21,13 @@
     foreground = "#${colors.fg}";
     background = "#${colors.bg}";
     frame_color = "#${colors.c2}";
-    timeout = 15;
+    timeout = 2;
   };
   urgency_normal = {
     foreground = "#${colors.fg}";
     background = "#${colors.bg}";
     frame_color = "#${colors.c3}";
-    timeout = 30;
+    timeout = 4;
   };
   urgency_critical = {
     foreground = "#${colors.fg}";
