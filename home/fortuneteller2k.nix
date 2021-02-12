@@ -110,6 +110,7 @@ rec {
       bpytop
       brave 
       discord
+      dosbox
       element-desktop
       exa
       flavours
