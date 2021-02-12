@@ -22,4 +22,6 @@
   *.color15: #${colors.c15}
   
   xterm*font: xft:FantasqueSansMono Nerd Font:size=10:antialias=true
+
+  Xcursor.theme: adwaita
 ''
