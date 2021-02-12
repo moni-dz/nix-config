@@ -197,6 +197,7 @@
     go
     hacksaw
     haskell-language-server
+    hsetroot
     imagemagick
     jp2a
     jq
