@@ -148,15 +148,17 @@
     , maxComplRows        = Just 5
     }
 
-  layouts = avoidStruts $ stripName 4 0 $ gaps 4 4 (tiled ||| mtiled ||| threecol ||| grid)
+  layouts = avoidStruts 
+            $ renamed [CutWordsLeft 4]
+            $ spacingRaw False (Border 4 4 4 4) True (Border 4 4 4 4) True
+            $ draggingVisualizer
+            $ layoutHints
+            $ maximizeWithPadding 0
+            $ smartBorders 
+            $ (tall ||| Mirror tall ||| threecol ||| Grid)
     where
-       tiled = draggingVisualizer $ layoutHints (maximizeWithPadding 0 (smartBorders tall))
-       mtiled = draggingVisualizer $ layoutHints (maximizeWithPadding 0 (smartBorders (Mirror tall)))
-       threecol = draggingVisualizer $ layoutHints (maximizeWithPadding 0 (smartBorders (ResizableThreeColMid 1 (3/100) (1/2) [])))
-       grid = draggingVisualizer $ layoutHints (maximizeWithPadding 0 (smartBorders Grid))
-       gaps n k = spacingRaw False (Border n n n n) True (Border k k k k) True
-       stripName n k = renamed [Chain [CutWordsLeft n, CutWordsRight k]]
-       tall = ResizableTall 1 (3/100) (11/20) []
+      tall = ResizableTall 1 (3/100) (11/20) []
+      threecol = ResizableThreeColMid 1 (3/100) (1/2) []
 
   windowRules =
     placeHook (smart (0.5, 0.5))
