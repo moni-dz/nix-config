@@ -1,6 +1,8 @@
 { config, pkgs, options, ... }:
 
-{
+let
+  colors = (import ../config/colors.nix);
+in {
   imports = [ ./hardware-configuration.nix ];
   nix.package = pkgs.nixFlakes;
   boot = {
@@ -91,7 +93,7 @@
         xmonad = {
           enable = true;
           config = (import ./config/xmonad.nix {
-            colors = (import ../config/colors.nix);
+            inherit colors;
           });
           extraPackages = hpkgs: with hpkgs; [ dbus monad-logger xmonad-contrib ];
           haskellPackages = pkgs.haskellPackages.extend (pkgs.haskell.lib.packageSourceOverrides {

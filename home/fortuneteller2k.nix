@@ -1,6 +1,8 @@
 { config, lib, pkgs, ... }:
 
-rec {
+let
+  colors = (import ../config/colors.nix);
+in rec {
   programs = {
     home-manager.enable = true;
     bat = {
@@ -27,7 +29,7 @@ rec {
     alacritty = {
       enable = true;
       settings = (import ./config/alacritty.nix {
-        colors = (import ../config/colors.nix);
+        inherit colors;
       });
     };
     starship = {
@@ -47,7 +49,7 @@ rec {
       package = pkgs.zathura;
       extraConfig = "map <C-i> recolor";
       options = (import ./config/zathura.nix {
-        colors = (import ../config/colors.nix);
+        inherit colors;
       });
     };
     ncmpcpp = {
@@ -65,14 +67,14 @@ rec {
         package = pkgs.papirus-icon-theme;
       };
       settings = (import ./config/dunst.nix {
-        colors = (import ../config/colors.nix);
+        inherit colors;
       });
     };
     polybar = {
       enable = true;
       script = "polybar main &";
       config = (import ./config/polybar.nix {
-        inherit pkgs;
+        inherit colors pkgs;
       });
     };
     mpd = {
@@ -110,7 +112,6 @@ rec {
       bpytop
       brave 
       discord
-      dosbox
       element-desktop
       exa
       flavours
@@ -154,6 +155,6 @@ rec {
   };
   fonts.fontconfig.enable = true;
   xresources.extraConfig = (import ./config/xresources.nix {
-    colors = (import ../config/colors.nix);
+    inherit colors;
   });
 }

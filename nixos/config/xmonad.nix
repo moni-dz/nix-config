@@ -128,7 +128,7 @@
     { font                = fontFamily
     , bgColor             = "#${colors.bg}"
     , fgColor             = "#${colors.fg}"
-    , bgHLight            = "#${colors.c1}"
+    , bgHLight            = "#${colors.highlightColor}"
     , fgHLight            = "#${colors.bg}"
     , promptBorderWidth   = 0
     , position            = Top
@@ -221,8 +221,8 @@
     , borderWidth        = 2
     , modMask            = modkey
     , workspaces         = ws
-    , normalBorderColor  = "#${colors.c8}"
-    , focusedBorderColor = "#${colors.c1}"
+    , normalBorderColor  = "#${colors.inactiveBorderColor}"
+    , focusedBorderColor = "#${colors.activeBorderColor}"
     , layoutHook         = layouts
     , manageHook         = windowRules
     , logHook            = polybarHook dbus
