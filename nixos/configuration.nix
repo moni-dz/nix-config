@@ -206,6 +206,7 @@ in {
     libsForQt514.qtstyleplugins
     libtool
     nixfmt
+    nixpkgs-review
     nodePackages.npm
     nodePackages.typescript
     nodejs
@@ -274,6 +275,7 @@ in {
       mplus-outline-fonts
       nerdfonts
       output-fonts
+      sarasa-gothic
       scientifica
       symbola
       twemoji-color-font
