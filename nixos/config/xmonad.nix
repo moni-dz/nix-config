@@ -39,7 +39,6 @@
   import XMonad.Prompt.FuzzyMatch
   import XMonad.Prompt.Shell
 
-  import XMonad.Util.Cursor
   import XMonad.Util.EZConfig
   import XMonad.Util.NamedScratchpad
   import XMonad.Util.Run
@@ -179,9 +178,9 @@
     <+> manageHook defaultConfig
 
   autostart = do
-    setDefaultCursor xC_left_ptr
+    spawnOnce "xsetroot -cursor_name left_ptr &"
     spawnOnce "systemctl --user restart polybar &"
-    spawnOnce "xwallpaper --zoom .config/nix-config/nixos/config/wallpapers/horizonblurgradient.png &"
+    spawnOnce "xwallpaper --zoom .config/nix-config/nixos/config/wallpapers/horizon.jpg &"
     spawnOnce "xidlehook --not-when-fullscreen --not-when-audio --timer 120 slock \'\' &"
     spawnOnce "notify-desktop -u low 'xmonad' 'started successfully'"
 
