@@ -21,5 +21,5 @@
   *.color14: #${colors.c14}
   *.color15: #${colors.c15}
   
-  xterm*font: xft:FantasqueSansMono Nerd Font:size=10:antialias=true
+  xterm*font: xft:Iosevka Nerd Font Mono:size=10.75:style=Light:antialias=true
 ''

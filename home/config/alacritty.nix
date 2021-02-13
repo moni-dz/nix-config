@@ -3,8 +3,11 @@
 {
   env.TERM = "xterm-256color";
   font = {
-    normal.family = "FantasqueSansMono Nerd Font Mono";
-    size = 10.5;
+    normal = {
+      family = "Iosevka Nerd Font Mono";
+      style = "Light";
+    };
+    size = 11.4;
   };
   window.padding = {
     x = 8;

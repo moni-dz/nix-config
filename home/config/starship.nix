@@ -1,5 +1,5 @@
 {
-  format = "$all ";
+  format = "$all";
   username = {
     style_user = "bold red";
     format = "[$user]($style) ";
@@ -13,6 +13,6 @@
   };
   directory.format = "in [$path]($style)[$read_only]($read_only_style) ";
   nix_shell.symbol = "🌨  ";
-  nodejs.symbol = "⬢  ";
+  nodejs.symbol = " ";
   package.symbol = "📦  ";	
 }
