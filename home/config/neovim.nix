@@ -1,6 +1,7 @@
 ''
   syntax on
   set noswapfile
+  set nohlsearch
   set nu
   set mouse=a
   set guicursor=a:ver25-iCursor
