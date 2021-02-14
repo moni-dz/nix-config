@@ -8,4 +8,5 @@
   export EDITOR=nvim
   export MANPAGER='nvim +Man!'
   export GOPATH=$HOME/Extras/go
+  source ~/.config/github_token
 ''
