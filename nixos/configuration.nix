@@ -197,6 +197,7 @@ in {
     git
     gnumake
     go
+    gxmessage
     hacksaw
     haskell-language-server
     hsetroot

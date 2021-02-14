@@ -4,7 +4,12 @@ let
   colors = (import ../config/colors.nix);
 in rec {
   programs = {
-    home-manager.enable = true;
+    alacritty = {
+      enable = true;
+      settings = (import ./config/alacritty.nix {
+        inherit colors;
+      });
+    };
     bat = {
       enable = true;
       config = {
@@ -17,6 +22,13 @@ in rec {
       enable = true;
       package = pkgs.emacsPgtk;
     };
+    home-manager.enable = true;
+    htop.enable = true;
+    ncmpcpp = {
+      enable = true;
+      package = pkgs.ncmpcpp;
+      settings = (import ./config/ncmpcpp.nix);
+    };
     neovim = {
       enable = true;
       package = pkgs.neovim-unwrapped;
@@ -26,19 +38,9 @@ in rec {
       withNodeJs = true;
       extraConfig = (import ./config/neovim.nix);
     };
-    alacritty = {
-      enable = true;
-      settings = (import ./config/alacritty.nix {
-        inherit colors;
-      });
-    };
     starship = {
       enable = true;
       settings = (import ./config/starship.nix);
-    };
-    chromium = {
-      enable = true;
-      package = pkgs.ungoogled-chromium;
     };
     qutebrowser = {
       enable = true;
@@ -51,11 +53,6 @@ in rec {
       options = (import ./config/zathura.nix {
         inherit colors;
       });
-    };
-    ncmpcpp = {
-      enable = true;
-      package = pkgs.ncmpcpp;
-      settings = (import ./config/ncmpcpp.nix);
     };
   };
   services = {
@@ -70,28 +67,17 @@ in rec {
         inherit colors;
       });
     };
+    mpd = {
+      enable = true;
+      musicDirectory = "${home.homeDirectory}/Music";
+      extraConfig = (import ./config/mpd.nix);
+    };
     polybar = {
       enable = true;
       script = "polybar main &";
       config = (import ./config/polybar.nix {
         inherit colors pkgs;
       });
-    };
-    mpd = {
-      enable = true;
-      musicDirectory = "${home.homeDirectory}/Music";
-      extraConfig = ''
-        audio_output {
-          type "pulse"
-          name "mpd pulse-audio-output"
-        }
-        audio_output {
-          type "fifo"
-          name "mpd visualizer-fifo"
-          path "/tmp/mpd.fifo"
-          format "44100:16:2"
-        }
-      '';
     };
   };
   gtk = {
@@ -121,7 +107,6 @@ in rec {
       gitAndTools.gh
       graphviz
       hakuneko
-      htop
       hyperfine
       inkscape
       krita
