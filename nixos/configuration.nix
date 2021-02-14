@@ -1,7 +1,7 @@
 { config, pkgs, options, ... }:
 
 let
-  colors = (import ../config/colors.nix);
+  colors = (import ../config/theme.nix).colors;
 in {
   imports = [ ./hardware-configuration.nix ];
   nix.package = pkgs.nixFlakes;

@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 let
-  colors = (import ../config/colors.nix);
+  colors = (import ../config/theme.nix).colors;
 in rec {
   programs = {
     alacritty = {
