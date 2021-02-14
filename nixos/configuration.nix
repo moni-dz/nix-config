@@ -95,7 +95,7 @@ in {
           config = (import ./config/xmonad.nix {
             inherit colors;
           });
-          extraPackages = hpkgs: with hpkgs; [ dbus monad-logger xmonad-contrib ];
+          extraPackages = hpkgs: with hpkgs; [ dbus xmonad-contrib ];
           haskellPackages = pkgs.haskellPackages.extend (pkgs.haskell.lib.packageSourceOverrides {
             xmonad = pkgs.fetchFromGitHub {
               owner = "xmonad";

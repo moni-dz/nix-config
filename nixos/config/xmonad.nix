@@ -184,20 +184,13 @@
     spawnOnce "xidlehook --not-when-fullscreen --not-when-audio --timer 120 slock \'\' &"
     spawnOnce "notify-desktop -u low 'xmonad' 'started successfully'"
 
-  barHook dbus = dynamicLogWithPP $ xmobarPP
-    { ppOutput = dbusOutput dbus
-    , ppOrder  = \(_:l:_:_) -> [l]
-    }
-    where
-      dbusOutput dbus str =
-        let
-          opath  = D.objectPath_ "/org/xmonad/Log"
-          iname  = D.interfaceName_ "org.xmonad.Log"
-          mname  = D.memberName_ "Update"
-          signal = D.signal opath iname mname
-          body   = [D.toVariant $ UTF8.decodeString str]
-        in
-          D.emit dbus $ signal { D.signalBody = body }
+  barHook dbus =
+    let signal     = D.signal (D.objectPath_ "/org/xmonad/Log") (D.interfaceName_ "org.xmonad.Log") (D.memberName_ "Update")
+        output str = D.emit dbus $ signal { D.signalBody = [D.toVariant $ UTF8.decodeString str] } 
+    in dynamicLogWithPP $ xmobarPP
+      { ppOutput = output
+      , ppOrder  = \(_:l:_:_) -> [l]
+      }
 
   main' dbus = xmonad . ewmhFullscreen . docks . ewmh . Hacks.javaHack $ def
     { focusFollowsMouse  = True
@@ -216,10 +209,8 @@
     `additionalKeysP` keybindings
     `additionalMouseBindings` mousebindings
 
-  main = dbusClient >>= main' -- "that was easy, xmonad rocks!"
-    where
-      dbusClient = do
-        dbus <- D.connectSession
-        D.requestName dbus (D.busName_ "org.xmonad.log") [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
-        return dbus
+  main = do
+    dbus <- D.connectSession
+    D.requestName dbus (D.busName_ "org.xmonad.log") [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
+    main' dbus -- "that was easy, xmonad rocks!"
 ''
