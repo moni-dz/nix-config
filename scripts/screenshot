@@ -2,17 +2,19 @@
 
 screenshot() {
 	case "$1" in
-	area)
-		shotgun $(hacksaw -c e95678 -f '-i %i -g %g') - | xclip -t 'image/png' -selection clipboard
-		;;
-	full)
-		shotgun ~/Pictures/screenshots/"$(date '+%B-%d-%Y-%I:%M-%p')".png
-		;;
-	wind)
-		shotgun -i "$(xdo id)" - | xclip -t 'image/png' -selection clipboard
-		;;
-	*)
-		;;
+		area)
+			shotgun $(hacksaw -c e95678 -f '-i %i -g %g') - | xclip -t 'image/png' -selection clipboard
+			;;
+		full)
+			shotgun ~/Pictures/screenshots/"$(date '+%B-%d-%Y-%I:%M-%p')".png
+			;;
+		wind)
+			shotgun -i "$(xdo id)" - | xclip -t 'image/png' -selection clipboard
+			;;
+		*)
+			echo 'Usage: screenshot <area/full/wind>'
+			exit 1;
+			;;
 	esac;
 }
 
