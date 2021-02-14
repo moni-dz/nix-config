@@ -56,6 +56,7 @@
   term = "alacritty"
   ws = ["A","B","C","D","E","F","G","H","I","J"]
   fontFamily = "xft:FantasqueSansMono Nerd Font:size=10:antialias=true:hinting=true"
+  fontName = "FantasqueSansMono Nerd Font"
 
   keybindings =
     [ ("M-<Return>",                 safeSpawnProg term)
@@ -67,7 +68,6 @@
     , ("M-<F2>",                     unsafeSpawn browser)
     , ("M-e",                        withFocused (sendMessage . maximizeRestore))
     , ("M-<Tab>",                    sendMessage NextLayout)
-    , ("M-n",                        refresh)
     , ("M-s",                        windows W.swapMaster)
     , ("M--",                        sendMessage Shrink)
     , ("M-=",                        sendMessage Expand)
@@ -83,6 +83,7 @@
     , ("M-S-s",                      safeSpawn "/etc/nixos/scripts/screenshot" ["full"])
     , ("M-S-q",                      io (exitWith ExitSuccess))
     , ("M-C-c",                      killAll)
+    , ("M-S-h",                      safeSpawn "gxmessage" ["-fn", fontName, help])
     , ("M-S-<Delete>",               safeSpawnProg "slock")
     , ("M-S-c",                      withFocused $ \w -> safeSpawn "xkill" ["-id", show w])
     , ("M-S-r",                      sequence_ [unsafeSpawn restartcmd, unsafeSpawn restackcmd])
@@ -123,7 +124,6 @@
   mousebindings = 
     [ ((modkey .|. shiftMask, button1), dragWindow)
     , ((modkey, button1), (\w -> focus w >> mouseMoveWindow w >> windows W.shiftMaster))
-    , ((modkey, button2), (\w -> focus w >> windows W.shiftMaster))
     , ((modkey, button3), (\w -> focus w >> mouseResizeWindow w >> windows W.shiftMaster)) ]
 
   scratchpads = [ NS "terminal" (term ++ " -t ScratchpadTerm") (title =? "ScratchpadTerm") (customFloating $ W.RationalRect (1/6) (1/6) (2/3) (2/3)) ]
@@ -165,7 +165,7 @@
     <+> composeAll
     [ className  =? "Gimp"                                 --> doFloat
     , (className =? "Ripcord" <&&> title =? "Preferences") --> doFloat
-    , className  =? "Xmessage"                             --> doFloat
+    , className  =? "Gxmessage"                            --> doFloat
     , className  =? "Peek"                                 --> doFloat
     , className  =? "Xephyr"                               --> doFloat
     , className  =? "Sxiv"                                 --> doFloat
@@ -213,4 +213,53 @@
     dbus <- D.connectSession
     D.requestName dbus (D.busName_ "org.xmonad.log") [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
     main' dbus -- "that was easy, xmonad rocks!"
+
+  help = unlines 
+    [ "fortuneteller2k's XMonad configuration"
+    , ""
+    , "Default keybindings:"
+    , ""
+    , "Alt-Enter:             spawn alacritty"
+    , "Alt-b:                 spawn alacritty in a scratchpad"
+    , "Alt-`:                 toggle distraction less mode"
+    , "Alt-d:                 show run prompt"
+    , "Alt-q:                 quit window"
+    , "Alt-w:                 spawn emacs"
+    , "Alt-F2:                spawn qutebrowser"
+    , "Alt-e:                 maximize window"
+    , "Alt-Tab:               cycle through layouts"
+    , "Alt-s:                 swap focused window with master window"
+    , "Alt-minus:             shrink window"
+    , "Alt-=:                 expand window"
+    , "Alt-[:                 shrink window mirrored"
+    , "Alt-]:                 expand window mirrored"
+    , "Alt-t:                 toggle floating of window"
+    , "Alt-,:                 increase number of master windows"
+    , "Alt-.:                 decrease number of master windows"
+    , "Alt-LeftClick:         float window and drag it with cursor"
+    , "Alt-RightClick:        float window and resize it"
+    , "Alt-[0-9]:             for [1-9] go to nth workspace, for 0 go to 10th workspace"
+    , "Alt-Print:             take screenshot of focused window and copy to clipboard"
+    , "Alt-Shift-s:           take screenshot of whole screen and save it to a file"
+    , "Alt-Shift-q:           exit xmonad"
+    , "Alt-Shift-c:           force quit window"
+    , "Alt-Shift-Delete:      lock screen"
+    , "Alt-Shift-h:           show this help window"
+    , "Alt-Shift-r:           restart xmonad and polybar"
+    , "Alt-Shift-Left:        move window to previous workspace and focus that workspace"
+    , "Alt-Shift-Right:       move window to next workspace and focus that workspace"
+    , "Alt-Shift-Tab:         reset layout to Tall (master and stack)"
+    , "Alt-Shift-LeftClick:   move window to dragged position"
+    , "Alt-Ctrl-c:            kill all windows in workspace"
+    , "Ctrl-Left:             focus previous workspace"
+    , "Ctrl-Right:            focus next workspace"
+    , "XF86AudioMute:         mute audio"
+    , "XF86AudioPlay:         toggle play/pause of current song in mpd"
+    , "XF86AudioPrev:         go to previous song of playlist in mpd"
+    , "XF86AudioNext:         go to next song of playlist in mpd"
+    , "XF86AudioRaiseVolume:  raise volume by 10%"
+    , "XF86AudioLowerVolume:  lower volume by 10%"
+    , "XF86MonBrightnessUp:   raise brightness by 10%"
+    , "XF86MonBrightnessDown: lower brightness by 10%"
+    ]
 ''
