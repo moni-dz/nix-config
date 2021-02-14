@@ -24,13 +24,15 @@
     Plug 'lervag/vimtex'
     Plug 'elixir-lang/vim-elixir'
     Plug 'jiangmiao/auto-pairs'
-    Plug 'gko/vim-coloresque'
     Plug 'sheerun/vim-polyglot'
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
   call plug#end()
 
   colorscheme horizon
   let g:lightline = { 'colorscheme' : 'horizon' }
+
+  let g:Hexokinase_highlighters = [ 'backgroundFull' ]
 
   let g:syntastic_always_populate_loc_list = 1
   let g:syntastic_auto_loc_list = 1
