@@ -1,30 +1,27 @@
 {
   description = "A somewhat huge NixOS configuration using Nix Flakes.";
   inputs = {
-    nixpkgs-master.url = "github:nixos/nixpkgs/master";
-    nixpkgs-fork.url = "github:fortuneteller2k/nixpkgs/add-xanmod-kernel";
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    emacs.url = "github:nix-community/emacs-overlay";
     home = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixpkgs-master.url = "github:nixos/nixpkgs/master";
+    nixpkgs-fork.url = "github:fortuneteller2k/nixpkgs/add-xanmod-kernel";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     rust.url = "github:oxalica/rust-overlay";
-    emacs.url = "github:nix-community/emacs-overlay";
   };
-  outputs = { self, nixpkgs, nixpkgs-master, nixpkgs-fork, home, emacs, rust }@inputs: {
+  outputs = { self, emacs, home, nixpkgs, nixpkgs-fork, nixpkgs-master, rust }@inputs: {
     nixosConfigurations.superfluous = nixpkgs.lib.nixosSystem rec {
       system = "x86_64-linux";
       modules = [
         {
           nix = (import ./config/nix-conf.nix { inherit inputs; });
           nixpkgs = let
-            folder = ./overlays;
-            toPath = name: value: folder + ("/" + name);
-            filterOverlays = key: value:
-              value == "regular" && nixpkgs.lib.hasSuffix ".nix" key;
-            userOverlays = nixpkgs.lib.lists.forEach (nixpkgs.lib.mapAttrsToList toPath
-              (nixpkgs.lib.filterAttrs filterOverlays (builtins.readDir folder)))
-              import;
+            filterOverlays = k: v: with nixpkgs.lib; v == "regular" && hasSuffix ".nix" k;
+            userOverlays = with nixpkgs.lib; (lists.forEach (mapAttrsToList
+            (name: _: ./overlays + ("/" + name))
+            (filterAttrs filterOverlays (builtins.readDir ./overlays)))) import;
             nixpkgs-overlays = final: prev: {
               master = nixpkgs-master.legacyPackages.${system};
               fork = nixpkgs-fork .legacyPackages.${system};
