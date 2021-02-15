@@ -55,6 +55,7 @@ final: prev: {
     sass = prev.sass;
     fetchFromGitHub = prev.fetchFromGitHub;
     stdenv = prev.stdenv;
+    theme = (import ../config/theme.nix);
   };
   zls = prev.callPackage ../derivations/zls.nix {
     zig = prev.zig;

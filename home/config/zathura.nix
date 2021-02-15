@@ -1,45 +1,45 @@
-{ colors }:
+{ theme }:
 
-{
+with theme.colors; {
   window-title-basename = true;
   selection-clipboard = "clipboard";
 
-  notification-error-bg = "#${colors.c1}";
-  notification-error-fg = "#${colors.bg}";
-  notification-warning-bg = "#${colors.c3}";
-  notification-warning-fg = "#${colors.bg}";
-  notification-bg = "#${colors.c2}";
-  notification-fg = "#${colors.bg}";
+  notification-error-bg = "#${c1}";
+  notification-error-fg = "#${bg}";
+  notification-warning-bg = "#${c3}";
+  notification-warning-fg = "#${bg}";
+  notification-bg = "#${c2}";
+  notification-fg = "#${bg}";
 
-  completion-bg = "#${colors.bg}";
-  completion-fg = "#${colors.fg}";
-  completion-group-bg = "#${colors.bg}";
-  completion-group-fg = "#${colors.fg}";
-  completion-highlight-bg = "#${colors.c2}";
-  completion-highlight-fg = "#${colors.fg}";
+  completion-bg = "#${bg}";
+  completion-fg = "#${fg}";
+  completion-group-bg = "#${bg}";
+  completion-group-fg = "#${fg}";
+  completion-highlight-bg = "#${c2}";
+  completion-highlight-fg = "#${fg}";
 
-  index-bg = "#${colors.bg}";
-  index-fg = "#${colors.fg}";
-  index-active-bg = "#${colors.c2}";
-  index-active-fg = "#${colors.bg}";
+  index-bg = "#${bg}";
+  index-fg = "#${fg}";
+  index-active-bg = "#${c2}";
+  index-active-fg = "#${bg}";
 
-  inputbar-bg = "#${colors.bg}";
-  inputbar-fg = "#${colors.fg}";
-  statusbar-bg = "#${colors.bg}";
-  statusbar-fg = "#${colors.fg}";
+  inputbar-bg = "#${bg}";
+  inputbar-fg = "#${fg}";
+  statusbar-bg = "#${bg}";
+  statusbar-fg = "#${fg}";
 
-  highlight-color = "#${colors.c3}";
-  highlight-active-color = "#${colors.c5}";
+  highlight-color = "#${c3}";
+  highlight-active-color = "#${c5}";
 
-  default-bg = "#${colors.bg}";
-  default-fg = "#${colors.fg}";
+  default-bg = "#${bg}";
+  default-fg = "#${fg}";
 
   render-loading = true;
-  render-loading-fg = "#${colors.bg}";
-  render-loading-bg = "#${colors.fg}";
+  render-loading-fg = "#${bg}";
+  render-loading-bg = "#${fg}";
 
-  recolor-lightcolor = "#${colors.bg}";
-  recolor-darkcolor = "#${colors.fg}";
+  recolor-lightcolor = "#${bg}";
+  recolor-darkcolor = "#${fg}";
 
   adjust-open = "width";
   recolor = true;

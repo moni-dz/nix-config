@@ -1,6 +1,6 @@
-{ colors }:
+{ theme }:
 
-{
+with theme.colors; {
   global = {
     padding = 8;
     markup = "full";
@@ -18,20 +18,20 @@
     geometry = "330x5-8+25";
   };
   urgency_low = {
-    foreground = "#${colors.fg}";
-    background = "#${colors.bg}";
-    frame_color = "#${colors.c2}";
+    foreground = "#${fg}";
+    background = "#${bg}";
+    frame_color = "#${c2}";
     timeout = 2;
   };
   urgency_normal = {
-    foreground = "#${colors.fg}";
-    background = "#${colors.bg}";
-    frame_color = "#${colors.c3}";
+    foreground = "#${fg}";
+    background = "#${bg}";
+    frame_color = "#${c3}";
     timeout = 4;
   };
   urgency_critical = {
-    foreground = "#${colors.fg}";
-    background = "#${colors.bg}";
-    frame_color = "#${colors.c1}";
+    foreground = "#${fg}";
+    background = "#${bg}";
+    frame_color = "#${c1}";
   };
 }

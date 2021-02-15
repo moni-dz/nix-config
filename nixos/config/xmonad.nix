@@ -1,4 +1,6 @@
-{ colors }:
+{ pkgs, theme }:
+
+with theme;
 
 ''
   -- fortuneteller2k's XMonad config
@@ -53,10 +55,11 @@
 
   -- defaults
   modkey = mod1Mask
-  term = "alacritty"
+  term = "${pkgs.alacritty}/bin/alacritty"
   ws = ["A","B","C","D","E","F","G","H","I","J"]
   fontFamily = "xft:FantasqueSansMono Nerd Font:size=10:antialias=true:hinting=true"
   fontName = "FantasqueSansMono Nerd Font"
+  setWallpaper = "${pkgs.xwallpaper}/bin/xwallpaper --zoom ${wallpaper}"
 
   keybindings =
     [ ("M-<Return>",                 safeSpawnProg term)
@@ -64,7 +67,7 @@
     , ("M-`",                        distractionLess)
     , ("M-d",                        shellPrompt promptConfig)
     , ("M-q",                        kill)
-    , ("M-w",                        safeSpawnProg "emacs")
+    , ("M-w",                        safeSpawnProg "${pkgs.emacsPgtk}/bin/emacs")
     , ("M-<F2>",                     unsafeSpawn browser)
     , ("M-e",                        withFocused (sendMessage . maximizeRestore))
     , ("M-<Tab>",                    sendMessage NextLayout)
@@ -83,10 +86,10 @@
     , ("M-S-s",                      safeSpawn "/etc/nixos/scripts/screenshot" ["full"])
     , ("M-S-q",                      io (exitWith ExitSuccess))
     , ("M-C-c",                      killAll)
-    , ("M-S-h",                      safeSpawn "gxmessage" ["-fn", fontName, help])
-    , ("M-S-<Delete>",               safeSpawnProg "slock")
-    , ("M-S-c",                      withFocused $ \w -> safeSpawn "xkill" ["-id", show w])
-    , ("M-S-r",                      sequence_ [unsafeSpawn restartcmd, unsafeSpawn restackcmd])
+    , ("M-S-h",                      safeSpawn "${pkgs.gxmessage}/bin/gxmessage" ["-fn", fontName, help])
+    , ("M-S-<Delete>",               safeSpawnProg "${pkgs.slock}/bin/slock")
+    , ("M-S-c",                      withFocused $ \w -> safeSpawn "${pkgs.xorg.xkill}/bin/xkill" ["-id", show w])
+    , ("M-S-r",                      sequence_ [unsafeSpawn restartcmd, unsafeSpawn restackcmd, unsafeSpawn setWallpaper])
     , ("M-S-<Left>",                 shiftToPrev >> prevWS)
     , ("M-S-<Right>",                shiftToNext >> nextWS)
     , ("M-<Left>",                   windows W.focusUp)
@@ -95,11 +98,11 @@
     , ("<XF86AudioMute>",            safeSpawn "/etc/nixos/scripts/volume" ["toggle"])
     , ("<XF86AudioRaiseVolume>",     safeSpawn "/etc/nixos/scripts/volume" ["up"])
     , ("<XF86AudioLowerVolume>",     safeSpawn "/etc/nixos/scripts/volume" ["down"])
-    , ("<XF86AudioPlay>",            safeSpawn "mpc" ["toggle"])
-    , ("<XF86AudioPrev>",            safeSpawn "mpc" ["prev"])
-    , ("<XF86AudioNext>",            safeSpawn "mpc" ["next"])
-    , ("<XF86MonBrightnessUp>",      safeSpawn "brightnessctl" ["s", "+10%"])
-    , ("<XF86MonBrightnessDown>",    safeSpawn "brightnessctl" ["s", "10%-"])
+    , ("<XF86AudioPlay>",            safeSpawn "${pkgs.mpc_cli}/bin/mpc" ["toggle"])
+    , ("<XF86AudioPrev>",            safeSpawn "${pkgs.mpc_cli}/bin/mpc" ["prev"])
+    , ("<XF86AudioNext>",            safeSpawn "${pkgs.mpc_cli}/bin/mpc" ["next"])
+    , ("<XF86MonBrightnessUp>",      safeSpawn "${pkgs.brightnessctl}/bin/brightnessctl" ["s", "+10%"])
+    , ("<XF86MonBrightnessDown>",    safeSpawn "${pkgs.brightnessctl}/bin/brightnessctl" ["s", "10%-"])
     ]
     ++
     [ (otherModMasks ++ "M-" ++ key, action tag)
@@ -111,7 +114,7 @@
       restartcmd = "xmonad --restart && systemctl --user restart polybar"
       restackcmd = "sleep 1.2; xdo lower $(xwininfo -name polybar-xmonad | rg 'Window id' | cut -d ' ' -f4)"
       browser = concat
-        [ "qutebrowser"
+        [ "${pkgs.qutebrowser}/bin/qutebrowser"
         , " --qt-flag ignore-gpu-blacklist"
         , " --qt-flag enable-gpu-rasterization"
         , " --qt-flag enable-native-gpu-memory-buffers"
@@ -180,9 +183,9 @@
   autostart = do
     spawnOnce "xsetroot -cursor_name left_ptr &"
     spawnOnce "systemctl --user restart polybar &"
-    spawnOnce "xwallpaper --zoom .config/nix-config/nixos/config/wallpapers/horizon.jpg &"
-    spawnOnce "xidlehook --not-when-fullscreen --not-when-audio --timer 120 slock \'\' &"
-    spawnOnce "notify-desktop -u low 'xmonad' 'started successfully'"
+    spawnOnce (setWallpaper ++ " &")
+    spawnOnce "${pkgs.xidlehook}/bin/xidlehook --not-when-fullscreen --not-when-audio --timer 120 slock \'\' &"
+    spawnOnce "${pkgs.notify-desktop}/bin/notify-desktop -u low 'xmonad' 'started successfully'"
 
   barHook dbus =
     let signal     = D.signal (D.objectPath_ "/org/xmonad/Log") (D.interfaceName_ "org.xmonad.Log") (D.memberName_ "Update")

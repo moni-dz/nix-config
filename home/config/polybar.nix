@@ -1,15 +1,15 @@
-{ colors, pkgs }:
+{ theme, pkgs }:
 
-{
+with theme; {
   "colors" = {
-    x0 = "#${colors.c0}";
+    x0 = "#${if lightModeEnabled then colors.c7 else colors.c0}";
     x1 = "#${colors.c1}";
     x2 = "#${colors.c2}";
     x3 = "#${colors.c3}";
     x4 = "#${colors.c4}";
     x5 = "#${colors.c5}";
     x6 = "#${colors.c6}";
-    x7 = "#${colors.c7}";
+    x7 = "#${if lightModeEnabled then colors.c0 else colors.c7}";
     bg = "#${colors.transparent}";
   };
 

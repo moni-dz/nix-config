@@ -1,11 +1,17 @@
-{ lib, stdenv, fetchFromGitHub, sass }:
+{ lib, stdenv, fetchFromGitHub, sass, theme }:
 
 stdenv.mkDerivation rec {
   name = "phocus";
 
-  src = fetchFromGitHub {
+  src = let
     owner = "fortuneteller2k";
     repo = "gtk";
+  in if theme.lightModeEnabled then fetchFromGitHub {
+    inherit owner repo;
+    rev = "1e5a04b2e38daee4903973b0aed113d90074a03b";
+    sha256 = "sha256-HVH8WQUuRs67qBlpHLX63e3AiVBQBhGbA8FEz4jrXTY=";
+  } else fetchFromGitHub {
+    inherit owner repo;
     rev = "cf676e241a83c5392220ef95c9284f3fb657bfec";
     sha256 = "sha256-uICuOW7KVHGXGszOWjG8nYw9tpQ+tKe+bND861vYCS8=";
   };

@@ -1,13 +1,13 @@
 { config, lib, pkgs, ... }:
 
 let
-  colors = (import ../config/theme.nix).colors;
+  theme = (import ../config/theme.nix);
 in rec {
   programs = {
     alacritty = {
       enable = true;
       settings = (import ./config/alacritty.nix {
-        inherit colors;
+        inherit theme;
       });
     };
     bat = {
@@ -51,7 +51,7 @@ in rec {
       package = pkgs.zathura;
       extraConfig = "map <C-i> recolor";
       options = (import ./config/zathura.nix {
-        inherit colors;
+        inherit theme;
       });
     };
   };
@@ -64,7 +64,7 @@ in rec {
         package = pkgs.papirus-icon-theme;
       };
       settings = (import ./config/dunst.nix {
-        inherit colors;
+        inherit theme;
       });
     };
     mpd = {
@@ -76,7 +76,7 @@ in rec {
       enable = true;
       script = "polybar main &";
       config = (import ./config/polybar.nix {
-        inherit colors pkgs;
+        inherit pkgs theme;
       });
     };
   };
@@ -140,6 +140,6 @@ in rec {
   };
   fonts.fontconfig.enable = true;
   xresources.extraConfig = (import ./config/xresources.nix {
-    inherit colors;
+    inherit theme;
   });
 }

@@ -1,7 +1,7 @@
 { config, pkgs, options, ... }:
 
 let
-  colors = (import ../config/theme.nix).colors;
+  theme = (import ../config/theme.nix);
 in {
   imports = [ ./hardware-configuration.nix ];
   nix.package = pkgs.nixFlakes;
@@ -93,7 +93,7 @@ in {
         xmonad = {
           enable = true;
           config = (import ./config/xmonad.nix {
-            inherit colors;
+            inherit pkgs theme;
           });
           extraPackages = hpkgs: with hpkgs; [ dbus xmonad-contrib ];
           haskellPackages = pkgs.haskellPackages.extend (pkgs.haskell.lib.packageSourceOverrides {
@@ -257,11 +257,18 @@ in {
     };
     zsh = {
       enable = true;
+      autosuggestions = {
+        enable = true;
+        highlightStyle = "bg=${
+          if theme.lightModeEnabled then theme.colors.c8 else theme.colors.c15
+        }";
+      };
       syntaxHighlighting.enable = true;
-      autosuggestions.enable = true;
       shellInit = "export ZDOTDIR=$HOME/.config/zsh";
       promptInit = "eval $(starship init zsh)";
-      interactiveShellInit = (import ./config/zshrc.nix);
+      interactiveShellInit = (import ./config/zshrc.nix {
+        inherit theme;
+      });
       shellAliases = (import ./config/zsh-aliases.nix);
     };
   };

@@ -1,6 +1,6 @@
-{ colors }:
+{ theme }:
 
-{
+with theme.colors; {
   env.TERM = "xterm-256color";
   font = {
     normal = {
@@ -16,28 +16,28 @@
   cursor.style = "Beam";
   colors = {
     primary = {
-      background = "0x${colors.bg}";
-      foreground = "0x${colors.fg}";
+      background = "0x${bg}";
+      foreground = "0x${fg}";
     };
     normal = {
-      black = "0x${colors.c0}";
-      red = "0x${colors.c1}";
-      green = "0x${colors.c2}";
-      yellow = "0x${colors.c3}";
-      blue = "0x${colors.c4}";
-      magenta = "0x${colors.c5}";
-      cyan = "0x${colors.c6}";
-      white = "0x${colors.c7}";
+      black = "0x${c0}";
+      red = "0x${c1}";
+      green = "0x${c2}";
+      yellow = "0x${c3}";
+      blue = "0x${c4}";
+      magenta = "0x${c5}";
+      cyan = "0x${c6}";
+      white = "0x${c7}";
     };
     bright = {
-      black = "0x${colors.c8}";
-      red = "0x${colors.c9}";
-      green = "0x${colors.c10}";
-      yellow = "0x${colors.c11}";
-      blue = "0x${colors.c12}";
-      magenta = "0x${colors.c13}";
-      cyan = "0x${colors.c14}";
-      white = "0x${colors.c15}";
+      black = "0x${c8}";
+      red = "0x${c9}";
+      green = "0x${c10}";
+      yellow = "0x${c11}";
+      blue = "0x${c12}";
+      magenta = "0x${c13}";
+      cyan = "0x${c14}";
+      white = "0x${c15}";
     };
   };
 }

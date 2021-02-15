@@ -1,3 +1,5 @@
+{ theme }:
+
 ''
   eval $(dircolors /etc/nixos/nixos/config/LS_COLORS)
   compinit -C -d i$ZDOTDIR/zcompdump
