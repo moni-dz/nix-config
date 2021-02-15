@@ -259,8 +259,8 @@ in {
       enable = true;
       autosuggestions = {
         enable = true;
-        highlightStyle = "bg=${
-          if theme.lightModeEnabled then theme.colors.c8 else theme.colors.c15
+        highlightStyle = "fg=${
+          if theme.lightModeEnabled then "7" else "8"
         }";
       };
       syntaxHighlighting.enable = true;
