@@ -266,9 +266,7 @@ in {
       syntaxHighlighting.enable = true;
       shellInit = "export ZDOTDIR=$HOME/.config/zsh";
       promptInit = "eval $(starship init zsh)";
-      interactiveShellInit = (import ./config/zshrc.nix {
-        inherit theme;
-      });
+      interactiveShellInit = (import ./config/zshrc.nix);
       shellAliases = (import ./config/zsh-aliases.nix);
     };
   };
