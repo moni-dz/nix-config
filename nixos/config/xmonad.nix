@@ -59,7 +59,6 @@ with theme;
   ws = ["A","B","C","D","E","F","G","H","I","J"]
   fontFamily = "xft:FantasqueSansMono Nerd Font:size=10:antialias=true:hinting=true"
   fontName = "FantasqueSansMono Nerd Font"
-  setWallpaper = "${pkgs.xwallpaper}/bin/xwallpaper --zoom ${wallpaper}"
 
   keybindings =
     [ ("M-<Return>",                 safeSpawnProg term)
@@ -89,7 +88,7 @@ with theme;
     , ("M-S-h",                      safeSpawn "${pkgs.gxmessage}/bin/gxmessage" ["-fn", fontName, help])
     , ("M-S-<Delete>",               safeSpawnProg "${pkgs.slock}/bin/slock")
     , ("M-S-c",                      withFocused $ \w -> safeSpawn "${pkgs.xorg.xkill}/bin/xkill" ["-id", show w])
-    , ("M-S-r",                      sequence_ [unsafeSpawn restartcmd, unsafeSpawn restackcmd, unsafeSpawn setWallpaper])
+    , ("M-S-r",                      sequence_ [unsafeSpawn restartcmd, unsafeSpawn restackcmd])
     , ("M-S-<Left>",                 shiftToPrev >> prevWS)
     , ("M-S-<Right>",                shiftToNext >> nextWS)
     , ("M-<Left>",                   windows W.focusUp)
@@ -183,7 +182,7 @@ with theme;
   autostart = do
     spawnOnce "xsetroot -cursor_name left_ptr &"
     spawnOnce "systemctl --user restart polybar &"
-    spawnOnce (setWallpaper ++ " &")
+    spawnOnce "${pkgs.xwallpaper}/bin/xwallpaper --zoom ${wallpaper} &"
     spawnOnce "${pkgs.xidlehook}/bin/xidlehook --not-when-fullscreen --not-when-audio --timer 120 slock \'\' &"
     spawnOnce "${pkgs.notify-desktop}/bin/notify-desktop -u low 'xmonad' 'started successfully'"
 
