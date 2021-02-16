@@ -21,6 +21,6 @@ rec {
   transparent = "00000000";
   textColor = fg;
   activeBorderColor = fg;
-  inactiveBorderColor = primary;
+  inactiveBorderColor = "fab795";
   highlightColor = c3;
 }

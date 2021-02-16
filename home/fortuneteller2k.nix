@@ -85,7 +85,7 @@ in rec {
     font.name = "Inter";
     iconTheme = {
       package = pkgs.papirus-icon-theme;
-      name = "Papirus-Dark";
+      name = "${if theme.lightModeEnabled then "Papirus-Light" else "Papirus-Dark"}";
     };
     theme = {
       package = pkgs.phocus;
@@ -93,6 +93,13 @@ in rec {
     };
   };
   home = {
+    activation.reloadPolybar = "${pkgs.polybar}/bin/polybar-msg cmd restart";
+    file = {
+      ".config/qt5ct/colors/Horizon.conf".source = ./config/Horizon.conf;
+      ".icons/default".source = "${pkgs.gnome3.adwaita-icon-theme}/share/icons/Adwaita";
+    };
+    homeDirectory = "/home/${home.username}";
+    username = "fortuneteller2k";
     packages = with pkgs; [
       betterdiscordctl
       bpytop
@@ -130,13 +137,6 @@ in rec {
       ueberzug
       ytmdl
     ];
-    file = {
-      ".config/qt5ct/colors/Horizon.conf".source = ./config/Horizon.conf;
-      ".icons/default".source = "${pkgs.gnome3.adwaita-icon-theme}/share/icons/Adwaita";
-    };
-    sessionPath = [ "\${xdg.configHome}/emacs/bin" ];
-    username = "fortuneteller2k";
-    homeDirectory = "/home/${home.username}";
     stateVersion = "21.03";
   };
   fonts.fontconfig.enable = true;

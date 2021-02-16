@@ -313,7 +313,20 @@ in {
       enable = true;
       flags = [ "--update-input" "nixpkgs" "--commit-lock-file" ];
     };
-    userActivationScripts.setWallpaper.text = "${pkgs.xwallpaper}/bin/xwallpaper --zoom ${theme.wallpaper}"; 
+    userActivationScripts = {
+      reloadWallpaper.text = "${pkgs.xwallpaper}/bin/xwallpaper --zoom ${theme.wallpaper}";
+      reloadXMonad = {
+        text = "${pkgs.xmonad-with-packages}/bin/xmonad --restart";
+        deps = [ "reloadWallpaper" ];
+      };
+      restackPolybar = {
+        text = ''
+          window_id = ${pkgs.xorg.xwininfo}/bin/xwininfo -name polybar-xmonad | ${pkgs.ripgrep}/bin/rg 'Window id' | cut -d ' ' -f4
+          ${pkgs.xdo}/bin/xdo lower "$window_id"
+        '';
+        deps = [ "reloadXMonad" ];
+      };
+    };
     stateVersion = "21.03";
   };
 }
