@@ -309,10 +309,11 @@ in {
     };
   };
   system = {
-    stateVersion = "21.03";
     autoUpgrade = {
       enable = true;
       flags = [ "--update-input" "nixpkgs" "--commit-lock-file" ];
     };
+    userActivationScripts.setWallpaper.text = "${pkgs.xwallpaper}/bin/xwallpaper --zoom ${theme.wallpaper}";
+    stateVersion = "21.03";
   };
 }
