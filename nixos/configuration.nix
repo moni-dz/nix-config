@@ -313,7 +313,7 @@ in {
       enable = true;
       flags = [ "--update-input" "nixpkgs" "--commit-lock-file" ];
     };
-    userActivationScripts.setWallpaper.text = "${pkgs.xwallpaper}/bin/xwallpaper --zoom ${theme.wallpaper}";
+    userActivationScripts.setWallpaper.text = "${pkgs.xwallpaper}/bin/xwallpaper --zoom ${theme.wallpaper}"; 
     stateVersion = "21.03";
   };
 }

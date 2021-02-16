@@ -69,7 +69,7 @@ in rec {
     };
     mpd = {
       enable = true;
-      musicDirectory = "${home.homeDirectory}/Music";
+      musicDirectory = "${home.homeDirectory}/Media/Music";
       extraConfig = (import ./config/mpd.nix);
     };
     polybar = {
@@ -109,6 +109,7 @@ in rec {
       hakuneko
       hyperfine
       inkscape
+      kdenlive
       krita
       mpc_cli
       mpv-with-scripts

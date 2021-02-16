@@ -23,11 +23,12 @@ with theme;
   import XMonad.Hooks.EwmhDesktops
   import XMonad.Hooks.InsertPosition
   import XMonad.Hooks.ManageDocks
-  import XMonad.Hooks.ManageHelpers
+  import XMonad.Hooks.ManageHelpers hiding (CW)
   import XMonad.Hooks.Place
   import XMonad.Hooks.WindowSwallowing
 
   import XMonad.Layout.DraggingVisualizer
+  import XMonad.Layout.Dwindle 
   import XMonad.Layout.Grid
   import XMonad.Layout.LayoutHints
   import XMonad.Layout.Maximize
@@ -156,8 +157,9 @@ with theme;
             $ layoutHints
             $ maximizeWithPadding 0
             $ smartBorders 
-            $ (tall ||| Mirror tall ||| threecol ||| Grid)
+            $ (tall ||| Mirror tall ||| threecol ||| Grid ||| dwindle)
     where
+      dwindle = renamed [CutWordsRight 8] (Dwindle R CW (3/2) (11/10))
       tall = ResizableTall 1 (3/100) (11/20) []
       threecol = ResizableThreeColMid 1 (3/100) (1/2) []
 
