@@ -135,6 +135,7 @@ in rec {
       sxiv
       texlive.combined.scheme-medium
       ueberzug
+      w3m
       ytmdl
     ];
     stateVersion = "21.03";
