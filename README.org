@@ -1,5 +1,7 @@
 #+TITLE: NixOS configuration
 
+[[img/nixos-official-logo.png]]
+
 ** Installation
 Get the latest NixOS image [[https://nixos.org/download.html][here]], do your partitions (root must be mounted at =/mnt=), then run the following commands
 #+begin_src sh
@@ -35,3 +37,13 @@ Resources and configurations I used to base on:
 | =sudo nixos-rebuild switch=             | update and switch to the new generation |
 | =nix flake update --update-input flake= | update flake and update lockfile        |
 | =nix flake update --recreate-lock-file= | update all flakes and update lockfile   |
+
+** Appearance
+
+With =theme.lightModeEnabled = false;=
+
+[[img/dark-mode.png]]
+
+With =theme.lightModeEnabled = true;=
+
+[[img/light-mode.png]]
