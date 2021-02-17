@@ -16,7 +16,7 @@ with theme.colors; {
   completion-group-bg = "#${bg}";
   completion-group-fg = "#${fg}";
   completion-highlight-bg = "#${c2}";
-  completion-highlight-fg = "#${fg}";
+  completion-highlight-fg = "#${bg}";
 
   index-bg = "#${bg}";
   index-fg = "#${fg}";
