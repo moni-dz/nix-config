@@ -5,7 +5,7 @@ with theme.colors; {
   font = {
     normal = {
       family = "Iosevka Nerd Font Mono";
-      style = "Light";
+      style = "Regular";
     };
     size = 11.4;
   };

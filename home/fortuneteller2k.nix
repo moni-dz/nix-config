@@ -135,10 +135,9 @@ in rec {
       sxiv
       texlive.combined.scheme-medium
       ueberzug
-      w3m
       ytmdl
     ];
-    stateVersion = "21.03";
+    stateVersion = "21.05";
   };
   fonts.fontconfig.enable = true;
   xresources.extraConfig = (import ./config/xresources.nix {
