@@ -3,83 +3,7 @@
 let
   theme = (import ../config/theme.nix);
 in rec {
-  programs = {
-    alacritty = {
-      enable = true;
-      settings = (import ./config/alacritty.nix {
-        inherit theme;
-      });
-    };
-    bat = {
-      enable = true;
-      config = {
-        pager = "never";
-        style = "plain";
-        theme = "base16";
-      };
-    };
-    emacs = {
-      enable = true;
-      package = pkgs.emacsPgtk;
-    };
-    home-manager.enable = true;
-    htop.enable = true;
-    ncmpcpp = {
-      enable = true;
-      package = pkgs.ncmpcpp;
-      settings = (import ./config/ncmpcpp.nix);
-    };
-    neovim = {
-      enable = true;
-      package = pkgs.neovim-unwrapped;
-      viAlias = true;
-      vimAlias = true;
-      vimdiffAlias = true;
-      withNodeJs = true;
-      extraConfig = (import ./config/neovim.nix);
-    };
-    starship = {
-      enable = true;
-      settings = (import ./config/starship.nix);
-    };
-    qutebrowser = {
-      enable = true;
-      extraConfig = (import ./config/qutebrowser.nix);
-    };
-    zathura = {
-      enable = true;
-      package = pkgs.zathura;
-      extraConfig = "map <C-i> recolor";
-      options = (import ./config/zathura.nix {
-        inherit theme;
-      });
-    };
-  };
-  services = {
-    dunst = {
-      enable = true;
-      iconTheme = {
-        name = "Papirus";
-        size = "32x32";
-        package = pkgs.papirus-icon-theme;
-      };
-      settings = (import ./config/dunst.nix {
-        inherit theme;
-      });
-    };
-    mpd = {
-      enable = true;
-      musicDirectory = "${home.homeDirectory}/Media/Music";
-      extraConfig = (import ./config/mpd.nix);
-    };
-    polybar = {
-      enable = true;
-      script = "polybar main &";
-      config = (import ./config/polybar.nix {
-        inherit pkgs theme;
-      });
-    };
-  };
+  fonts.fontconfig.enable = true;
   gtk = {
     enable = true;
     font.name = "Inter";
@@ -139,8 +63,74 @@ in rec {
     ];
     stateVersion = "21.05";
   };
-  fonts.fontconfig.enable = true;
-  xresources.extraConfig = (import ./config/xresources.nix {
-    inherit theme;
-  });
+  programs = {
+    alacritty = {
+      enable = true;
+      settings = (import ./config/alacritty.nix { inherit theme; });
+    };
+    bat = {
+      enable = true;
+      config = {
+        pager = "never";
+        style = "plain";
+        theme = "base16";
+      };
+    };
+    emacs = {
+      enable = true;
+      package = pkgs.emacsPgtk;
+    };
+    home-manager.enable = true;
+    htop.enable = true;
+    ncmpcpp = {
+      enable = true;
+      package = pkgs.ncmpcpp;
+      settings = (import ./config/ncmpcpp.nix);
+    };
+    neovim = {
+      enable = true;
+      package = pkgs.neovim-unwrapped;
+      viAlias = true;
+      vimAlias = true;
+      vimdiffAlias = true;
+      withNodeJs = true;
+      extraConfig = (import ./config/neovim.nix);
+    };
+    starship = {
+      enable = true;
+      settings = (import ./config/starship.nix);
+    };
+    qutebrowser = {
+      enable = true;
+      extraConfig = (import ./config/qutebrowser.nix);
+    };
+    zathura = {
+      enable = true;
+      package = pkgs.zathura;
+      extraConfig = "map <C-i> recolor";
+      options = (import ./config/zathura.nix { inherit theme; });
+    };
+  };
+  services = {
+    dunst = {
+      enable = true;
+      iconTheme = {
+        name = "Papirus";
+        size = "32x32";
+        package = pkgs.papirus-icon-theme;
+      };
+      settings = (import ./config/dunst.nix { inherit theme; });
+    };
+    mpd = {
+      enable = true;
+      musicDirectory = "${home.homeDirectory}/Media/Music";
+      extraConfig = (import ./config/mpd.nix);
+    };
+    polybar = {
+      enable = true;
+      script = "polybar main &";
+      config = (import ./config/polybar.nix { inherit pkgs theme; });
+    };
+  };
+  xresources.extraConfig = (import ./config/xresources.nix { inherit theme; });
 }
