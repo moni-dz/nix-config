@@ -5,7 +5,7 @@
 [[https://github.com/nixos/nixpkgs][file:https://img.shields.io/badge/NixOS-21.05-informational?style=flat.svg]]
 
 ** Installation
-Get the latest NixOS image [[https://nixos.org/download.html][here]], do your partitions (root must be mounted at =/mnt=), then run the following commands
+Get the latest NixOS 21.05 image [[https://releases.nixos.org/nixos/unstable/nixos-21.05pre269929.ff96a0fa563][here]], do your partitions (root must be mounted at =/mnt=), then run the following commands
 #+begin_src sh
   nix-shell -p git nixFlakes
   git clone https://github.com/fortuneteller2k/nix-config /etc/nixos
@@ -13,11 +13,11 @@ Get the latest NixOS image [[https://nixos.org/download.html][here]], do your pa
 #+end_src
 
 *** Caveats
- * You probably should replace [[https://github.com/fortuneteller2k/nix-config/blob/master/nixos/hardware-configuration.nix][nixos/hardware-configuration.nix]] with your own with =nixos-generate-config=.
- * Remove this [[https://github.com/fortuneteller2k/nix-config/blob/master/nixos/configuration.nix#L55][line]] when not running with AMD graphics.
- * You might want to change =users.users.fortuneteller2k= to =users.users.yourname= in this [[https://github.com/fortuneteller2k/nix-config/blob/master/nixos/configuration.nix#L140][part]] of =configuration.nix=, =username= and =homeDirectory= to your username in this [[https://github.com/fortuneteller2k/nix-config/blob/master/home/fortuneteller2k.nix#L159][part]] of =fortuneteller2k.nix=, and rename [[https://github.com/fortuneteller2k/nix-config/blob/master/home/fortuneteller2k.nix][fortuneteller2k.nix]] to your username and change the import [[https://github.com/fortuneteller2k/nix-config/blob/master/flake.nix#L47][here]] accordingly.
+ * You probably should replace [[https://github.com/fortuneteller2k/nix-config/blob/master/nixos/superfluous/hardware-configuration.nix][nixos/superfluous/hardware-configuration.nix]] with your own with =nixos-generate-config=.
+ * Remove this [[https://github.com/fortuneteller2k/nix-config/blob/master/nixos/superfluous/configuration.nix#L237][line]] when not running with AMD graphics.
+ * You might want to change =users.users.fortuneteller2k= to =users.users.yourname= in this [[https://github.com/fortuneteller2k/nix-config/blob/master/nixos/superfluous/configuration.nix#L320][part]] of =superfluous/configuration.nix=, =username= and =homeDirectory= to your username in this [[https://github.com/fortuneteller2k/nix-config/blob/master/home/fortuneteller2k.nix#L159][part]] of =fortuneteller2k.nix=, and rename [[https://github.com/fortuneteller2k/nix-config/blob/master/home/fortuneteller2k.nix][fortuneteller2k.nix]] to your username and change the import [[https://github.com/fortuneteller2k/nix-config/blob/master/hosts/superfluous.nix#L34][here]] accordingly.
  * Change =amd= in =hardware.cpu.amd.updateMicrocode= to =intel= when running with an Intel CPU.
- * If you don't want to compile the XanMod kernel, set [[https://github.com/fortuneteller2k/nix-config/blob/master/nixos/configuration.nix#L7][kernelPackages]] to something that's in the Nixpkgs build cache, i.e. =pkgs.linuxPackages_zen=. I've opened a [[https://github.com/NixOS/nixpkgs/pull/112715][pull request]] to add the XanMod kernel to nixpkgs.
+ * If you don't want to compile the XanMod kernel, set [[https://github.com/fortuneteller2k/nix-config/blob/master/nixos/superfluous/configuration.nix#L7][kernelPackages]] to something that's in the Nixpkgs build cache, i.e. =pkgs.linuxPackages_zen=. I've opened a [[https://github.com/NixOS/nixpkgs/pull/112715][pull request]] to add the XanMod kernel to nixpkgs.
 
 ** Description
 NixOS configuration that I use daily, it contains the system-wide *AND* home configuration, symlinked to =/etc/nixos=
