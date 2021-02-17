@@ -1,6 +1,8 @@
-#+TITLE: NixOS configuration
+#+TITLE: [[https://nixos.org][NixOS]] configuration
 
 [[img/nixos-official-logo.png]]
+
+[[https://github.com/nixos/nixpkgs][file:https://img.shields.io/badge/NixOS-21.05-informational?style=flat.svg]]
 
 ** Installation
 Get the latest NixOS image [[https://nixos.org/download.html][here]], do your partitions (root must be mounted at =/mnt=), then run the following commands
@@ -32,8 +34,8 @@ Resources and configurations I used to base on:
  * [[https://www.youtube.com/watch?v=UeBX7Ide5a0][Nix Flakes talk by Eelco Dolstra on NixCon]]
 
 *** Useful Commands
-| command                                 | description                             |
-|-----------------------------------------+-----------------------------------------|
+| command                               | description                             |
+|---------------------------------------+-----------------------------------------|
 | =sudo nixos-rebuild switch=             | update and switch to the new generation |
 | =nix flake update --update-input flake= | update flake and update lockfile        |
 | =nix flake update --recreate-lock-file= | update all flakes and update lockfile   |
