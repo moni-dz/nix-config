@@ -16,7 +16,7 @@
       system = "x86_64-linux";
       modules = [
         {
-          nix = (import ./config/nix-conf.nix { inherit inputs; });
+          nix = (import ./config/nix-conf.nix { inherit inputs system; });
           nixpkgs = let
             filterOverlays = k: v: with nixpkgs.lib; v == "regular" && hasSuffix ".nix" k;
             userOverlays = with nixpkgs.lib; (lists.forEach (mapAttrsToList

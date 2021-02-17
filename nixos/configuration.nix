@@ -3,8 +3,6 @@
 let
   theme = (import ../config/theme.nix);
 in {
-  imports = [ ./hardware-configuration.nix ];
-  nix.package = pkgs.nixFlakes;
   boot = {
     kernelPackages = pkgs.fork.linuxPackages_xanmod;
     kernelParams = [
@@ -34,116 +32,9 @@ in {
       };
     };
   };
-  systemd.extraConfig = "RebootWatchdogSec=5";
-  zramSwap = {
-    enable = true;
-    memoryPercent = 100;
-  };
-  time.timeZone = "Asia/Manila";
-  networking = {
-    hostName = "superfluous";
-    nameservers = [ "1.1.1.1" "1.0.0.1" ];
-    dhcpcd.enable = false;
-    networkmanager = {
-      enable = true;
-      dns = "none";
-    };
-    useDHCP = false;
-    interfaces = {
-      eno1.useDHCP = true;
-      wlo1.useDHCP = true;
-    };
-  };
-  i18n.defaultLocale = "en_US.UTF-8";
   console = {
     font = "Lat2-Terminus16";
     keyMap = "us";
-  };
-  services = {
-    dbus.packages = with pkgs; [ gnome3.dconf ];
-    irqbalance.enable = true;
-    upower.enable = true;
-    xserver = {
-      enable = true;
-      dpi = 96;
-      config = (import ./config/xorg-amd-tearfree.nix);
-      displayManager = {
-        autoLogin = {
-          enable = true;
-          user = "fortuneteller2k";
-        };
-        lightdm = {
-          enable = true;
-          background = ./config/wallpapers/horizon.jpg;
-          greeters.gtk = {
-            enable = true;
-            iconTheme = {
-              name = "Papirus";
-              package = pkgs.papirus-icon-theme;
-            };
-            theme = {
-              name = "phocus";
-              package = pkgs.phocus;
-            };
-          };
-        };
-        defaultSession = "none+xmonad";
-      };
-      windowManager = {
-        xmonad = {
-          enable = true;
-          config = (import ./config/xmonad.nix {
-            inherit pkgs theme;
-          });
-          extraPackages = hpkgs: with hpkgs; [ dbus xmonad-contrib ];
-          haskellPackages = pkgs.haskellPackages.extend (pkgs.haskell.lib.packageSourceOverrides {
-            xmonad = pkgs.fetchFromGitHub {
-              owner = "xmonad";
-              repo = "xmonad";
-              rev = "a90558c07e3108ec2304cac40e5d66f74f52b803";
-              sha256 = "sha256-+TDKhCVvxoRLzHZGzFnClFqKcr4tUrwFY1at3Rwllus=";
-            };
-            xmonad-contrib = pkgs.fetchFromGitHub {
-              owner = "xmonad";
-              repo = "xmonad-contrib";
-              rev = "cdc6c6d39cdfbd4bfeb248a5b5854098083562ac";
-              sha256 = "sha256-ZH5VnYTOtAxqetKlnqL2FJHeguX7G789Mj7b+riNEpM=";
-            };
-          });
-        };
-      };
-      layout = "us";
-      libinput = {
-        enable = true;
-        mouse.accelProfile = "flat";
-        touchpad.naturalScrolling = true;  
-      };
-    };
-    chrony = {
-      enable = true;
-      servers = [
-        "ntp.pagasa.dost.gov.ph"
-        "0.nixos.pool.ntp.org"
-        "1.nixos.pool.ntp.org"
-        "2.nixos.pool.ntp.org"
-        "3.nixos.pool.ntp.org"
-      ];
-    };
-    pipewire = {
-      enable = true;
-      socketActivation = false;
-      alsa = {
-        enable = true;
-        support32Bit = true;
-      };
-      pulse.enable = true;
-    };
-    tlp.enable = true;
-    openssh.enable = true;
-  };
-  systemd.user.services = {
-    pipewire.wantedBy = [ "default.target" ];
-    pipewire-pulse.wantedBy = [ "default.target" ];
   };
   hardware = {
     cpu.amd.updateMicrocode = true;
@@ -153,27 +44,8 @@ in {
       extraPackages = with pkgs; [ vaapiVdpau libvdpau-va-gl ];
     };
   };
-  security = {
-    rtkit.enable = true;
-    sudo.wheelNeedsPassword = false;
-    doas = {
-      enable = true;
-      wheelNeedsPassword = false;
-    };
-  };
-  users.users.fortuneteller2k = {
-    isNormalUser = true;
-    home = "/home/fortuneteller2k";
-    shell = pkgs.zsh;
-    extraGroups = [
-      "wheel"
-      "networkmanager"
-      "video"
-      "audio"
-      "realtime"
-      "realtime"
-    ];
-  };
+  imports = [ ./hardware-configuration.nix ];
+  i18n.defaultLocale = "en_US.UTF-8";
   environment.systemPackages = with pkgs; [
     alsaTools
     alsaUtils
@@ -243,34 +115,6 @@ in {
     zig
     zip
   ];
-  programs = {
-    command-not-found.enable = false;
-    qt5ct.enable = true;
-    slock.enable = true;
-    xss-lock = {
-      enable = true;
-      lockerCommand = "${pkgs.slock}/bin/slock";
-    };
-    bash = {
-      promptInit = ''eval "$(${pkgs.starship}/bin/starship init bash)"'';
-      interactiveShellInit = ''export HISTFILE=$HOME/.config/.bash_history'';
-    };
-    zsh = {
-      enable = true;
-      autosuggestions = {
-        enable = true;
-        highlightStyle = "fg=${
-          if theme.lightModeEnabled then "7" else "8"
-        }";
-      };
-      syntaxHighlighting.enable = true;
-      shellInit = "export ZDOTDIR=$HOME/.config/zsh";
-      promptInit = "eval $(starship init zsh)";
-      interactiveShellInit = (import ./config/zshrc.nix);
-      shellAliases = (import ./config/zsh-aliases.nix);
-    };
-  };
-  powerManagement.cpuFreqGovernor = "performance";
   fonts = {
     fonts = with pkgs; [
       cozette
@@ -308,6 +152,138 @@ in {
       };
     };
   };
+  networking = {
+    hostName = "superfluous";
+    nameservers = [ "1.1.1.1" "1.0.0.1" ];
+    dhcpcd.enable = false;
+    networkmanager = {
+      enable = true;
+      dns = "none";
+    };
+    useDHCP = false;
+    interfaces = {
+      eno1.useDHCP = true;
+      wlo1.useDHCP = true;
+    };
+  };
+  powerManagement.cpuFreqGovernor = "performance";
+  programs = {
+    bash = {
+      promptInit = ''eval "$(${pkgs.starship}/bin/starship init bash)"'';
+      interactiveShellInit = ''export HISTFILE=$HOME/.config/.bash_history'';
+    };
+    command-not-found.enable = false;
+    qt5ct.enable = true;
+    slock.enable = true;
+    xss-lock = {
+      enable = true;
+      lockerCommand = "${pkgs.slock}/bin/slock";
+    };
+    zsh = {
+      enable = true;
+      autosuggestions = {
+        enable = true;
+        highlightStyle = "fg=${
+          if theme.lightModeEnabled then "7" else "8"
+        }";
+      };
+      syntaxHighlighting.enable = true;
+      shellInit = "export ZDOTDIR=$HOME/.config/zsh";
+      promptInit = "eval $(starship init zsh)";
+      interactiveShellInit = (import ./config/zshrc.nix);
+      shellAliases = (import ./config/zsh-aliases.nix);
+    };
+  };
+  security = {
+    rtkit.enable = true;
+    sudo.wheelNeedsPassword = false;
+    doas = {
+      enable = true;
+      wheelNeedsPassword = false;
+    };
+  };
+  services = {
+    chrony = {
+      enable = true;
+      servers = [
+        "ntp.pagasa.dost.gov.ph"
+        "0.nixos.pool.ntp.org"
+        "1.nixos.pool.ntp.org"
+        "2.nixos.pool.ntp.org"
+        "3.nixos.pool.ntp.org"
+      ];
+    };
+    dbus.packages = with pkgs; [ gnome3.dconf ];
+    irqbalance.enable = true;
+    openssh.enable = true;
+    pipewire = {
+      enable = true;
+      socketActivation = false;
+      alsa = {
+        enable = true;
+        support32Bit = true;
+      };
+      pulse.enable = true;
+    };
+    tlp.enable = true;
+    upower.enable = true;
+    xserver = {
+      enable = true;
+      dpi = 96;
+      config = (import ./config/xorg-amd-tearfree.nix);
+      displayManager = {
+        autoLogin = {
+          enable = true;
+          user = "fortuneteller2k";
+        };
+        lightdm = {
+          enable = true;
+          background = ./config/wallpapers/horizon.jpg;
+          greeters.gtk = {
+            enable = true;
+            iconTheme = {
+              name = "Papirus";
+              package = pkgs.papirus-icon-theme;
+            };
+            theme = {
+              name = "phocus";
+              package = pkgs.phocus;
+            };
+          };
+        };
+        defaultSession = "none+xmonad";
+      };
+      windowManager = {
+        xmonad = {
+          enable = true;
+          config = (import ./config/xmonad.nix {
+            inherit pkgs theme;
+          });
+          extraPackages = hpkgs: with hpkgs; [ dbus xmonad-contrib ];
+          haskellPackages = pkgs.haskellPackages.extend (pkgs.haskell.lib.packageSourceOverrides {
+            xmonad = pkgs.fetchFromGitHub {
+              owner = "xmonad";
+              repo = "xmonad";
+              rev = "a90558c07e3108ec2304cac40e5d66f74f52b803";
+              sha256 = "sha256-+TDKhCVvxoRLzHZGzFnClFqKcr4tUrwFY1at3Rwllus=";
+            };
+            xmonad-contrib = pkgs.fetchFromGitHub {
+              owner = "xmonad";
+              repo = "xmonad-contrib";
+              rev = "cdc6c6d39cdfbd4bfeb248a5b5854098083562ac";
+              sha256 = "sha256-ZH5VnYTOtAxqetKlnqL2FJHeguX7G789Mj7b+riNEpM=";
+            };
+          });
+        };
+      };
+      layout = "us";
+      libinput = {
+        enable = true;
+        mouse.accelProfile = "flat";
+        touchpad.naturalScrolling = true;
+      };
+    };
+  };
   system = {
     autoUpgrade = {
       enable = true;
@@ -328,5 +304,30 @@ in {
       };
     };
     stateVersion = "21.05";
+  };
+  systemd = {
+    extraConfig = "RebootWatchdogSec=5";
+    user.services = {
+      pipewire.wantedBy = [ "default.target" ];
+      pipewire-pulse.wantedBy = [ "default.target" ];
+    };
+  };
+  time.timeZone = "Asia/Manila";
+  users.users.fortuneteller2k = {
+    isNormalUser = true;
+    home = "/home/fortuneteller2k";
+    shell = pkgs.zsh;
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+      "video"
+      "audio"
+      "realtime"
+      "realtime"
+    ];
+  };
+  zramSwap = {
+    enable = true;
+    memoryPercent = 100;
   };
 }
