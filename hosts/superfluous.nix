@@ -34,6 +34,7 @@ nixpkgs.lib.nixosSystem rec {
         users.fortuneteller2k = import ../home/fortuneteller2k.nix;
       };
     }
+    nixpkgs.nixosModules.notDetected
   ];
   specialArgs = { inherit inputs; };
 }
