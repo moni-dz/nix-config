@@ -109,6 +109,7 @@ in {
     xidlehook
     xmonad-log
     xorg.xdpyinfo
+    xorg.xsetroot
     xorg.xkill
     xorg.xwininfo
     xwallpaper

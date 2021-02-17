@@ -1,5 +1,6 @@
 { pkgs, theme }:
 
+with pkgs;
 with theme;
 
 ''
@@ -56,7 +57,7 @@ with theme;
 
   -- defaults
   modkey = mod1Mask
-  term = "${pkgs.alacritty}/bin/alacritty"
+  term = "${alacritty}/bin/alacritty"
   ws = ["A","B","C","D","E","F","G","H","I","J"]
   fontFamily = "xft:FantasqueSansMono Nerd Font:size=10:antialias=true:hinting=true"
   fontName = "FantasqueSansMono Nerd Font"
@@ -67,7 +68,7 @@ with theme;
     , ("M-`",                        distractionLess)
     , ("M-d",                        shellPrompt promptConfig)
     , ("M-q",                        kill)
-    , ("M-w",                        safeSpawnProg "${pkgs.emacsPgtk}/bin/emacs")
+    , ("M-w",                        safeSpawnProg "${emacsPgtk}/bin/emacs")
     , ("M-<F2>",                     unsafeSpawn browser)
     , ("M-e",                        withFocused (sendMessage . maximizeRestore))
     , ("M-<Tab>",                    sendMessage NextLayout)
@@ -86,9 +87,9 @@ with theme;
     , ("M-S-s",                      safeSpawn "/etc/nixos/scripts/screenshot" ["full"])
     , ("M-S-q",                      io (exitWith ExitSuccess))
     , ("M-C-c",                      killAll)
-    , ("M-S-h",                      safeSpawn "${pkgs.gxmessage}/bin/gxmessage" ["-fn", fontName, help])
-    , ("M-S-<Delete>",               safeSpawnProg "${pkgs.slock}/bin/slock")
-    , ("M-S-c",                      withFocused $ \w -> safeSpawn "${pkgs.xorg.xkill}/bin/xkill" ["-id", show w])
+    , ("M-S-h",                      safeSpawn "${gxmessage}/bin/gxmessage" ["-fn", fontName, help])
+    , ("M-S-<Delete>",               safeSpawnProg "${slock}/bin/slock")
+    , ("M-S-c",                      withFocused $ \w -> safeSpawn "${xorg.xkill}/bin/xkill" ["-id", show w])
     , ("M-S-r",                      sequence_ [unsafeSpawn restartcmd, unsafeSpawn restackcmd])
     , ("M-S-<Left>",                 shiftToPrev >> prevWS)
     , ("M-S-<Right>",                shiftToNext >> nextWS)
@@ -98,11 +99,11 @@ with theme;
     , ("<XF86AudioMute>",            safeSpawn "/etc/nixos/scripts/volume" ["toggle"])
     , ("<XF86AudioRaiseVolume>",     safeSpawn "/etc/nixos/scripts/volume" ["up"])
     , ("<XF86AudioLowerVolume>",     safeSpawn "/etc/nixos/scripts/volume" ["down"])
-    , ("<XF86AudioPlay>",            safeSpawn "${pkgs.mpc_cli}/bin/mpc" ["toggle"])
-    , ("<XF86AudioPrev>",            safeSpawn "${pkgs.mpc_cli}/bin/mpc" ["prev"])
-    , ("<XF86AudioNext>",            safeSpawn "${pkgs.mpc_cli}/bin/mpc" ["next"])
-    , ("<XF86MonBrightnessUp>",      safeSpawn "${pkgs.brightnessctl}/bin/brightnessctl" ["s", "+10%"])
-    , ("<XF86MonBrightnessDown>",    safeSpawn "${pkgs.brightnessctl}/bin/brightnessctl" ["s", "10%-"])
+    , ("<XF86AudioPlay>",            safeSpawn "${mpc_cli}/bin/mpc" ["toggle"])
+    , ("<XF86AudioPrev>",            safeSpawn "${mpc_cli}/bin/mpc" ["prev"])
+    , ("<XF86AudioNext>",            safeSpawn "${mpc_cli}/bin/mpc" ["next"])
+    , ("<XF86MonBrightnessUp>",      safeSpawn "${brightnessctl}/bin/brightnessctl" ["s", "+10%"])
+    , ("<XF86MonBrightnessDown>",    safeSpawn "${brightnessctl}/bin/brightnessctl" ["s", "10%-"])
     ]
     ++
     [ (otherModMasks ++ "M-" ++ key, action tag)
@@ -111,10 +112,10 @@ with theme;
                                      , ("S-", windows . W.shift) ] ]
     where 
       distractionLess = sequence_ [unsafeSpawn restackcmd, sendMessage ToggleStruts, toggleScreenSpacingEnabled, toggleWindowSpacingEnabled]
-      restartcmd = "xmonad --restart && systemctl --user restart polybar"
-      restackcmd = "sleep 1.2; xdo lower $(xwininfo -name polybar-xmonad | rg 'Window id' | cut -d ' ' -f4)"
+      restartcmd = "${xmonad-with-packages}/bin/xmonad --restart && ${polybar}/bin/polybar-msg cmd restart"
+      restackcmd = "${coreutils}/bin/sleep 1.2; ${xdo}/bin/xdo lower $(${xorg.xwininfo}/bin/xwininfo -name polybar-xmonad | ${ripgrep}/bin/rg 'Window id' | ${coreutils}/bin/cut -d ' ' -f4)"
       browser = concat
-        [ "${pkgs.qutebrowser}/bin/qutebrowser"
+        [ "${qutebrowser}/bin/qutebrowser"
         , " --qt-flag ignore-gpu-blacklist"
         , " --qt-flag enable-gpu-rasterization"
         , " --qt-flag enable-native-gpu-memory-buffers"
@@ -182,11 +183,11 @@ with theme;
     <+> manageHook defaultConfig
 
   autostart = do
-    spawnOnce "xsetroot -cursor_name left_ptr &"
-    spawnOnce "systemctl --user restart polybar &"
-    spawnOnce "${pkgs.xwallpaper}/bin/xwallpaper --zoom ${wallpaper} &"
-    spawnOnce "${pkgs.xidlehook}/bin/xidlehook --not-when-fullscreen --not-when-audio --timer 120 slock \'\' &"
-    spawnOnce "${pkgs.notify-desktop}/bin/notify-desktop -u low 'xmonad' 'started successfully'"
+    spawnOnce "${xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr &"
+    spawnOnce "${systemd}/bin/systemctl --user restart polybar &"
+    spawnOnce "${xwallpaper}/bin/xwallpaper --zoom ${wallpaper} &"
+    spawnOnce "${xidlehook}/bin/xidlehook --not-when-fullscreen --not-when-audio --timer 120 slock \'\' &"
+    spawnOnce "${notify-desktop}/bin/notify-desktop -u low 'xmonad' 'started successfully'"
 
   barHook dbus =
     let signal     = D.signal (D.objectPath_ "/org/xmonad/Log") (D.interfaceName_ "org.xmonad.Log") (D.memberName_ "Update")
