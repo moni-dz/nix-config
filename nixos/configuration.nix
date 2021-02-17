@@ -215,7 +215,11 @@ in {
     };
     dbus.packages = with pkgs; [ gnome3.dconf ];
     irqbalance.enable = true;
-    openssh.enable = true;
+    openssh = {
+      enable = true;
+      gatewayPorts = "yes";
+      permitRootLogin = "yes";
+    };
     pipewire = {
       enable = true;
       socketActivation = false;
