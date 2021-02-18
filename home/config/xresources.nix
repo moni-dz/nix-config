@@ -23,5 +23,5 @@ with theme.colors;
   *.color14: #${c14}
   *.color15: #${c15}
   
-  xterm*font: xft:Iosevka Nerd Font Mono:size=10.7:style=Regular:antialias=true
+  xterm*font: xft:Iosevka FT:size=10.7:style=Regular:antialias=true
 ''

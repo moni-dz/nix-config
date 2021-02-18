@@ -123,6 +123,7 @@ in {
       fantasque-sans-mono
       input-fonts
       inter
+      iosevka-ft
       mplus-outline-fonts
       nerdfonts
       output-fonts
@@ -145,9 +146,8 @@ in {
           "Output Sans Semi-Condensed"
         ];
         monospace = [
-          "FantasqueSansMono Nerd Font"
-          "Input Mono Condensed"
-          "M+ 1m"
+          "Iosevka Nerd Font"
+          "Sarasa Mono J"
         ];
         emoji = [ "Twitter Color Emoji" ];
       };

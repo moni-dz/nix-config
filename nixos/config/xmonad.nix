@@ -59,8 +59,8 @@ with theme;
   modkey = mod1Mask
   term = "${alacritty}/bin/alacritty"
   ws = ["A","B","C","D","E","F","G","H","I","J"]
-  fontFamily = "xft:FantasqueSansMono Nerd Font:size=10:antialias=true:hinting=true"
-  fontName = "FantasqueSansMono Nerd Font"
+  fontFamily = "xft:Iosevka FT:size=10.2:antialias=true:hinting=true"
+  fontName = "Iosevka FT"
 
   keybindings =
     [ ("M-<Return>",                 safeSpawnProg term)
@@ -88,7 +88,7 @@ with theme;
     , ("M-S-q",                      io (exitWith ExitSuccess))
     , ("M-C-c",                      killAll)
     , ("M-S-h",                      safeSpawn "${gxmessage}/bin/gxmessage" ["-fn", fontName, help])
-    , ("M-S-<Delete>",               safeSpawnProg "${slock}/bin/slock")
+    , ("M-S-<Delete>",               safeSpawnProg "slock")
     , ("M-S-c",                      withFocused $ \w -> safeSpawn "${xorg.xkill}/bin/xkill" ["-id", show w])
     , ("M-S-r",                      sequence_ [unsafeSpawn restartcmd, unsafeSpawn restackcmd])
     , ("M-S-<Left>",                 shiftToPrev >> prevWS)

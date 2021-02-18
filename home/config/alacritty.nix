@@ -4,7 +4,7 @@ with theme.colors; {
   env.TERM = "xterm-256color";
   font = {
     normal = {
-      family = "Iosevka Nerd Font Mono";
+      family = "Iosevka FT";
       style = "Regular";
     };
     size = 11.4;
