@@ -59,7 +59,7 @@ with theme;
   modkey = mod1Mask
   term = "${alacritty}/bin/alacritty"
   ws = ["A","B","C","D","E","F","G","H","I","J"]
-  fontFamily = "xft:Iosevka FT:size=10.2:antialias=true:hinting=true"
+  fontFamily = "xft:Iosevka FT:size=10.7:antialias=true:hinting=true"
   fontName = "Iosevka FT"
 
   keybindings =
