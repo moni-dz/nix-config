@@ -8,5 +8,6 @@
   export EDITOR=nvim
   export MANPAGER='nvim +Man!'
   export GOPATH=$HOME/Extras/go
+  export EXA_ICON_SPACING=2
   source ~/.config/github_token
 ''
