@@ -6,33 +6,36 @@ final: prev: {
       spacing = "fontconfig-mono"
       serifs = "sans"
 
-        [buildPlans.iosevka-ft.variants]
-        inherits = "ss02"
+      [buildPlans.iosevka-ft.variants]
+      inherits = "ss14"
 
-          [buildPlans.iosevka-ft.variants.design]
-          latn-epsilon = "serifed"
-          lower-iota = "serifed-tailed"
-          lower-lambda = "curly-turn"
-          cyrl-ka = "curly-motion-serifed"
-          zero = "reverse-slashed"
-          tilde = "low"
-          asterisk = "hex-low"
-          underscore = "above-baseline"
-          paragraph-sign = "low"
-          caret = "low"
-          paren = "large-contour"
-          brace = "curly"
-          number-sign = "slanted"
-          ampersand = "upper-open"
-          at = "short"
-          dollar = "interrupted"
-          bar = "natural-slope"
-          lig-ltgteq = "slanted"
-          ascii-single-quote = "straight"
-          ascii-grave = "straight"
+      [buildPlans.iosevka-ft.variants.design]
+      g = "single-storey-earless-corner-flat-hook"
+      t = "flat-hook"
+      y = "cursive"
+      lower-alpha = "crossing"
+      zero = "long-dotted"
+      five = "oblique-upper-left-bar"
+      six = "closed-contour"
+      seven = "straight-serifless"
+      eight = "two-circles"
+      nine = "closed-contour"
+      underscore = "above-baseline"
+      caret = "high"
+      paren = "large-contour"
+      number-sign = "slanted-open"
+      ascii-single-quote = "raised-comma"
+      ascii-grave = "raised-turn-comma"
+      question = "smooth"
 
-        [buildPlans.iosevka-ft.ligations]
-        inherits = "dlig"
+      [buildPlans.iosevka-ft.variants.italic]
+      a = "double-storey-tailed"
+
+      [buildPlans.iosevka-ft.variants.oblique]
+      a = "double-storey-tailed"
+
+      [buildPlans.iosevka-ft.ligations]
+      inherits = "dlig"
     '';
     set = "ft";
   };
