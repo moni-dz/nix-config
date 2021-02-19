@@ -242,6 +242,10 @@ in {
           background = ../../config/wallpapers/horizon.jpg;
           greeters.gtk = {
             enable = true;
+            cursorTheme = {
+              name = "DMZ ${if theme.lightModeEnabled then "(Black)" else "(White)"}";
+              package = pkgs.vanilla-dmz;
+            };
             iconTheme = {
               name = "Papirus";
               package = pkgs.papirus-icon-theme;

@@ -20,7 +20,9 @@ in rec {
     activation.reloadPolybar = "${pkgs.polybar}/bin/polybar-msg cmd restart";
     file = {
       ".config/qt5ct/colors/Horizon.conf".source = ./config/Horizon.conf;
-      ".icons/default".source = "${pkgs.gnome3.adwaita-icon-theme}/share/icons/Adwaita";
+      ".icons/default".source = "${
+        if theme.lightModeEnabled then "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ" else "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ-AA"
+      }";
     };
     homeDirectory = "/home/${home.username}";
     username = "fortuneteller2k";

@@ -184,7 +184,7 @@ with theme;
 
   autostart = do
     spawnOnce "${xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr &"
-    spawnOnce "${polybar}/bin/polybar-msg msg restart &"
+    spawnOnce "${polybar}/bin/polybar-msg cmd restart &"
     spawnOnce "${xwallpaper}/bin/xwallpaper --zoom ${wallpaper} &"
     spawnOnce "${xidlehook}/bin/xidlehook --not-when-fullscreen --not-when-audio --timer 120 slock \'\' &"
     spawnOnce "${notify-desktop}/bin/notify-desktop -u low 'xmonad' 'started successfully'"
