@@ -20,24 +20,28 @@
     Plug 'junegunn/goyo.vim'
     Plug 'itchyny/lightline.vim'
     Plug 'fortuneteller2k/vim-horizon'
+    Plug 'hugolgst/vimsence'
     Plug 'LnL7/vim-nix'
     Plug 'ziglang/zig.vim'
-    Plug 'vim-syntastic/syntastic'
     Plug 'lervag/vimtex'
     Plug 'elixir-lang/vim-elixir'
     Plug 'jiangmiao/auto-pairs'
     Plug 'sheerun/vim-polyglot'
-    Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    Plug 'neoclide/coc.nvim', { 'branch': 'release' }
     Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
   call plug#end()
 
   colorscheme horizon
   let g:lightline = { 'colorscheme' : 'horizon' }
 
-  let g:Hexokinase_highlighters = [ 'backgroundFull' ]
+  let g:Hexokinase_highlighters = [ 'background' ]
 
-  let g:syntastic_always_populate_loc_list = 1
-  let g:syntastic_auto_loc_list = 1
-  let g:syntastic_check_on_open = 1
-  let g:syntastic_check_on_wq = 1
+  let g:vimsence_client_id = '439476230543245312'
+  let g:vimsence_small_text = 'NeoVim'
+  let g:vimsence_small_image = 'neovim'
+  let g:vimsence_editing_details = 'Editing: {}'
+  let g:vimsence_editing_state = 'Working on: {}'
+  let g:vimsence_file_explorer_text = 'In NERDTree'
+  let g:vimsence_file_explorer_details = 'Looking for files'
+  let g:vimsence_custom_icons = { 'filetype': 'iconname' }
 ''

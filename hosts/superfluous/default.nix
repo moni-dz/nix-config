@@ -1,4 +1,4 @@
-{ emacs, home, nixpkgs, nixpkgs-fork, nixpkgs-master, rust, inputs }:
+{ emacs, home, nixpkgs, nixpkgs-fork, nixpkgs-master, nvim-nightly, rust, inputs }:
 
 nixpkgs.lib.nixosSystem rec {
   system = "x86_64-linux";
@@ -21,6 +21,7 @@ nixpkgs.lib.nixosSystem rec {
         };
         overlays = [
           emacs.overlay
+          nvim-nightly.overlay
           rust.overlay
           nixpkgs-overlays
         ] ++ userOverlays;

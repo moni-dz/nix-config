@@ -21,7 +21,9 @@ in rec {
     file = {
       ".config/qt5ct/colors/Horizon.conf".source = ./config/Horizon.conf;
       ".icons/default".source = "${
-        if theme.lightModeEnabled then "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ" else "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ-AA"
+        if theme.lightModeEnabled
+        then "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ"
+        else "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ-AA"
       }";
     };
     homeDirectory = "/home/${home.username}";
@@ -92,7 +94,7 @@ in rec {
     };
     neovim = {
       enable = true;
-      package = pkgs.neovim-unwrapped;
+      package = pkgs.neovim-nightly;
       viAlias = true;
       vimAlias = true;
       vimdiffAlias = true;
