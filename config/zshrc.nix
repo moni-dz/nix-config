@@ -1,5 +1,5 @@
 ''
-  eval $(dircolors /etc/nixos/nixos/config/LS_COLORS)
+  eval $(dircolors /etc/nixos/config/LS_COLORS)
   compinit -C -d i$ZDOTDIR/zcompdump
   export HISTFILE=$ZDOTDIR/zsh_history
   export QT_QPA_PLATFORMTHEME=qt5ct

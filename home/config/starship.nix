@@ -3,15 +3,16 @@
   username = {
     style_user = "bold red";
     format = "[$user]($style) ";
-    disabled = false;
+    disabled = true;
     show_always = true;
   };
   hostname = {
     ssh_only = false;
-    format = "at [$hostname](bold blue) ";
-    disabled = false;
+    format = "at [$hostname](bold blue) in ";
+    disabled = true;
   };
-  directory.format = "in [$path]($style)[$read_only]($read_only_style) ";
+  line_break.disabled = true;
+  directory.format = "[$path]($style)[$read_only]($read_only_style) ";
   nix_shell.symbol = "🌨  ";
   nodejs.symbol = " ";
   package.symbol = "📦  ";	

@@ -138,15 +138,10 @@ in {
       enable = true;
       dpi = 96;
       defaultFonts = {
-        serif = [
-          "Inter"
-          "Output Sans Semi-Condensed"
-        ];
-        sansSerif = [
-          "Inter"
-          "Output Sans Semi-Condensed"
-        ];
+        serif = [ "Sarasa Gothic J" ];
+        sansSerif = [ "Sarasa Gothic J" ];
         monospace = [
+          "Iosevka FT"
           "Iosevka Nerd Font"
           "Sarasa Mono J"
         ];
@@ -192,8 +187,8 @@ in {
       syntaxHighlighting.enable = true;
       shellInit = "export ZDOTDIR=$HOME/.config/zsh";
       promptInit = "eval $(starship init zsh)";
-      interactiveShellInit = (import ../config/zshrc.nix);
-      shellAliases = (import ../config/zsh-aliases.nix);
+      interactiveShellInit = (import ../../config/zshrc.nix);
+      shellAliases = (import ../../config/zsh-aliases.nix);
     };
   };
   security = {
@@ -236,7 +231,7 @@ in {
     xserver = {
       enable = true;
       dpi = 96;
-      config = (import ../config/xorg-amd-tearfree.nix);
+      config = (import ../../config/xorg-amd-tearfree.nix);
       displayManager = {
         autoLogin = {
           enable = true;
@@ -244,7 +239,7 @@ in {
         };
         lightdm = {
           enable = true;
-          background = ../config/wallpapers/horizon.jpg;
+          background = ../../config/wallpapers/horizon.jpg;
           greeters.gtk = {
             enable = true;
             iconTheme = {
@@ -262,7 +257,7 @@ in {
       windowManager = {
         xmonad = {
           enable = true;
-          config = (import ../config/xmonad.nix {
+          config = (import ../../config/xmonad.nix {
             inherit pkgs theme;
           });
           extraPackages = hpkgs: with hpkgs; [ dbus xmonad-contrib ];

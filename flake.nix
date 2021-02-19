@@ -12,7 +12,7 @@
     rust.url = "github:oxalica/rust-overlay";
   };
   outputs = { self, emacs, home, nixpkgs, nixpkgs-fork, nixpkgs-master, rust }@inputs: {
-    nixosConfigurations.superfluous = (import ./hosts/superfluous.nix {
+    nixosConfigurations.superfluous = (import ./hosts/superfluous/default.nix {
       inherit emacs home inputs nixpkgs nixpkgs-fork nixpkgs-master rust;
     });
     superfluous = self.nixosConfigurations.superfluous.config.system.build.toplevel;
