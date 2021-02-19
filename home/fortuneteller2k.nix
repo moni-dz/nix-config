@@ -100,6 +100,7 @@ in rec {
       vimdiffAlias = true;
       withNodeJs = true;
       extraConfig = (import ./config/neovim.nix);
+      extraPackages = with pkgs; [ rnix-lsp ];
     };
     starship = {
       enable = true;
