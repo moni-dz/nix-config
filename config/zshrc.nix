@@ -10,4 +10,6 @@
   export GOPATH=$HOME/Extras/go
   export EXA_ICON_SPACING=2
   source ~/.config/github_token
+
+  rm .xsession-errors .xsession-errors.old >/dev/null 2>&1
 ''
