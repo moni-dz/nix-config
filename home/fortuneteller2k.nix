@@ -42,6 +42,7 @@ in rec {
       inkscape
       kdenlive
       krita
+      libreoffice
       mpc_cli
       mpv-with-scripts
       neofetch

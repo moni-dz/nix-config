@@ -59,8 +59,8 @@ with theme;
   modkey = mod1Mask
   term = "${alacritty}/bin/alacritty"
   ws = ["A","B","C","D","E","F","G","H","I","J"]
-  fontFamily = "xft:Iosevka FT:size=9:antialias=true:hinting=true"
   fontName = "Iosevka FT"
+  fontFamily = "xft:" ++ fontName ++ ":size=9.6:antialias=true:hinting=true"
 
   keybindings =
     [ ("M-<Return>",                 safeSpawnProg term)
@@ -140,7 +140,7 @@ with theme;
     , fgHLight            = "#${colors.bg}"
     , promptBorderWidth   = 0
     , position            = Top
-    , height              = 20
+    , height              = 17
     , historySize         = 256
     , historyFilter       = id
     , showCompletionOnTab = False
@@ -184,7 +184,7 @@ with theme;
 
   autostart = do
     spawnOnce "${xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr &"
-    spawnOnce "${systemd}/bin/systemctl --user restart polybar &"
+    spawnOnce "${polybar}/bin/polybar-msg msg restart &"
     spawnOnce "${xwallpaper}/bin/xwallpaper --zoom ${wallpaper} &"
     spawnOnce "${xidlehook}/bin/xidlehook --not-when-fullscreen --not-when-audio --timer 120 slock \'\' &"
     spawnOnce "${notify-desktop}/bin/notify-desktop -u low 'xmonad' 'started successfully'"

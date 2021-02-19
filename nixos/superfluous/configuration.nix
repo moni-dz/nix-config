@@ -78,6 +78,7 @@ in {
     jq
     libsForQt514.qtstyleplugins
     libtool
+    libva-utils
     nixfmt
     nixpkgs-review
     nodePackages.npm
