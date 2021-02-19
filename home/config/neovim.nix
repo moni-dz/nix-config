@@ -17,8 +17,9 @@
 
   call plug#begin(stdpath('data') . '/plugged')
     Plug 'junegunn/fzf'
+    Plug 'junegunn/goyo.vim'
     Plug 'itchyny/lightline.vim'
-    Plug 'ntk148v/vim-horizon'
+    Plug 'fortuneteller2k/vim-horizon'
     Plug 'LnL7/vim-nix'
     Plug 'ziglang/zig.vim'
     Plug 'vim-syntastic/syntastic'
