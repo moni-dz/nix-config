@@ -1,25 +1,67 @@
 #!/usr/bin/env dash
 
+sourced=0
+
+if [ -n "$ZSH_EVAL_CONTEXT" ]; then 
+  case $ZSH_EVAL_CONTEXT in *:file) sourced=1;; esac
+elif [ -n "$KSH_VERSION" ]; then
+  [ "$(cd "$(dirname -- "$0")" && pwd -P)/$(basename -- "$0")" != "$(cd "$(dirname -- "${.sh.file}")" && pwd -P)/$(basename -- "${.sh.file}")" ] && sourced=1
+elif [ -n "$BASH_VERSION" ]; then
+  (return 0 2>/dev/null) && sourced=1 
+else # All other shells: examine $0 for known shell binary filenames
+  # Detects `sh` and `dash`; add additional shell filenames as needed.
+  case ${0##*/} in sh|dash) sourced=1;; esac
+fi
+
 can() {
 	echo "will do $(tput setaf 3 && tput bold)$1$(tput sgr0) right away..."
 	case "$1" in
+		cd)
+			if [ "$sourced" -eq 0 ]; then
+				echo "'$(tput setaf 2)can cd$(tput sgr0)' by itself does nothing"
+				echo "execute this command by sourcing it: '$(tput setaf 2). can $1$(tput sgr0)'"
+				return 1;
+			else
+      	cd "$HOME/.config/nix-config" || return 1;
+			fi
+			;;
 		switch)
 			doas nixos-rebuild switch
 			;;
 		test)
-			doas nixos-rebuild test
+			cd ~/.config/nix-config && doas nixos-rebuild test
 			;;
 		upgrade)
-			$(cd ~/.config/nix-config && nix flake update --recreate-lock-file)
+			cd ~/.config/nix-config && nix flake update --recreate-lock-file
 			doas nixos-rebuild switch
-			$(cd ~/.config/nix-config && git add flake.lock && git commit -m "flake: bump flakes" && git push)
+			cd ~/.config/nix-config && git add flake.lock && git commit -m "flake: bump flakes" && git push
+			;;
+		info)
+			cd ~/.config/nix-config || return 1
+			nix_str="$(tput setaf 6 && tput bold)Nix$(tput sgr0)"
+			nixos_str="$(tput setaf 4 && tput bold)NixOS$(tput sgr0)"
+
+			cat << EOF
+$(tput setaf 3 && tput bold)can$(tput sgr0) is my handy-dandy wrapper script for doing repetitive $nix_str/$nixos_str actions.
+ ___________
+/_ _ _ _ _ _\\ $nixos_str version: $(nixos-version)
+|           | $nix_str version: $(nix --version)
+| C   A   N | Last commit: [$(tput setaf 2 && git log -1 --pretty=%h | tr -d '\n' && tput sgr0)] $(git log -1 --pretty=%B)
+|           |
+|_ _ _ _ _ _|
+\\___________/
+EOF
 			;;
 		*)
 			echo "$(tput setaf 1 && tput bold)no can do, invalid command $1$(tput sgr0)"
 			echo 'Usage: can <switch/test/upgrade>'
-			exit 1;
+			return 1;
 			;;
 	esac;
 }
 
-can "$1"
+if can "$1"; then
+	echo "$(tput setaf 2 && tput bold)everything went as planned...$(tput sgr0)"
+else
+	echo "$(tput setaf 1 && tput bold)something went awry...$(tput sgr0)"
+fi
