@@ -1,0 +1,25 @@
+#!/usr/bin/env dash
+
+can() {
+	echo "will do $(tput setaf 3 && tput bold)$1$(tput sgr0) right away..."
+	case "$1" in
+		switch)
+			doas nixos-rebuild switch
+			;;
+		test)
+			doas nixos-rebuild test
+			;;
+		upgrade)
+			$(cd ~/.config/nix-config && nix flake update --recreate-lock-file)
+			doas nixos-rebuild switch
+			$(cd ~/.config/nix-config && git add flake.lock && git commit -m "flake: bump flakes" && git push)
+			;;
+		*)
+			echo "$(tput setaf 1 && tput bold)no can do, invalid command $1$(tput sgr0)"
+			echo 'Usage: can <switch/test/upgrade>'
+			exit 1;
+			;;
+	esac;
+}
+
+can "$1"
