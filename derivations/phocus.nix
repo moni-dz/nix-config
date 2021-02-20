@@ -8,8 +8,8 @@ stdenv.mkDerivation rec {
     repo = "gtk";
   in if theme.lightModeEnabled then fetchFromGitHub {
     inherit owner repo;
-    rev = "1e5a04b2e38daee4903973b0aed113d90074a03b";
-    sha256 = "sha256-HVH8WQUuRs67qBlpHLX63e3AiVBQBhGbA8FEz4jrXTY=";
+    rev = "9e015e98f31fb784010fa19d1c3ad9afa1344698";
+    sha256 = "sha256-5fPXfYz0V2hO3B/6+VdAyCVCELNoZS00XTkZCV6JUM0=";
   } else fetchFromGitHub {
     inherit owner repo;
     rev = "cf676e241a83c5392220ef95c9284f3fb657bfec";

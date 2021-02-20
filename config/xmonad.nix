@@ -60,7 +60,7 @@ with theme;
   term = "${alacritty}/bin/alacritty"
   ws = ["A","B","C","D","E","F","G","H","I","J"]
   fontName = "Iosevka FT"
-  fontFamily = "xft:" ++ fontName ++ ":size=9.6:antialias=true:hinting=true"
+  fontFamily = "xft:" ++ fontName ++ ":size=9.7:antialias=true:hinting=true"
 
   keybindings =
     [ ("M-<Return>",                 safeSpawnProg term)

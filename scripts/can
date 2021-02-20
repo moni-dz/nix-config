@@ -14,7 +14,7 @@ else # All other shells: examine $0 for known shell binary filenames
 fi
 
 can() {
-	echo "will do $(tput setaf 3 && tput bold)$1$(tput sgr0) right away..."
+	echo "will $(tput setaf 3 && tput bold)$1$(tput sgr0) right away..."
 	case "$1" in
 		cd)
 			if [ "$sourced" -eq 0 ]; then

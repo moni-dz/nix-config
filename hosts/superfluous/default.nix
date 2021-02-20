@@ -12,7 +12,7 @@ nixpkgs.lib.nixosSystem rec {
       (filterAttrs filterOverlays (builtins.readDir ../../overlays)))) import;
       nixpkgs-overlays = final: prev: {
         master = nixpkgs-master.legacyPackages.${system};
-        fork = nixpkgs-fork .legacyPackages.${system};
+        fork = nixpkgs-fork.legacyPackages.${system};
       };
       in {
         config = {
