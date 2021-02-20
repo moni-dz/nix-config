@@ -34,11 +34,11 @@ Resources and configurations I used to base on:
  * [[https://www.youtube.com/watch?v=UeBX7Ide5a0][Nix Flakes talk by Eelco Dolstra on NixCon]]
 
 *** Useful Commands
-| command                               | description                             |
-|---------------------------------------+-----------------------------------------|
-| =sudo nixos-rebuild switch=             | update and switch to the new generation |
-| =nix flake update --update-input flake= | update flake and update lockfile        |
-| =nix flake update --recreate-lock-file= | update all flakes and update lockfile   |
+| command                                 | description                           |
+|-----------------------------------------+---------------------------------------|
+| =sudo nixos-rebuild switch=             | switch to the new generation          |
+| =nix flake update --update-input flake= | update flake and update lockfile      |
+| =nix flake update --recreate-lock-file= | update all flakes and update lockfile |
 
 ** Appearance
 
