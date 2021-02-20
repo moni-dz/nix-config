@@ -14,7 +14,7 @@
   config.set('content.javascript.enabled', True, 'qute://*/*')
 
   c.fonts.default_family = 'Iosevka FT'
-  c.fonts.default_size = "13px"
+  c.fonts.default_size = "14px"
 
   c.tabs.padding = {
       'top': 4,
