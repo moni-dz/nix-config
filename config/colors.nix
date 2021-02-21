@@ -1,3 +1,5 @@
+{ primaryColor }:
+
 rec {
   fg = "fdf0ed";
   bg = "16161c";
@@ -17,7 +19,7 @@ rec {
   c13 = "f075b7";
   c14 = "6be6e6";
   c15 = "fdf0ed";
-  primary = c1;
+  primary = if primaryColor == "red" then c1 else c3;
   transparent = "00000000";
   textColor = bg;
   activeBorderColor = primary;

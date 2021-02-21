@@ -12,6 +12,8 @@
   config.set('content.javascript.enabled', True, 'devtools://*')
   config.set('content.javascript.enabled', True, 'chrome://*/*')
   config.set('content.javascript.enabled', True, 'qute://*/*')
+  config.bind('J', 'tab-prev')
+  config.bind('K', 'tab-next')
 
   c.fonts.default_family = 'Iosevka FT'
   c.fonts.default_size = "14px"
