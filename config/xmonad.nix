@@ -24,12 +24,11 @@ with theme;
   import XMonad.Hooks.EwmhDesktops
   import XMonad.Hooks.InsertPosition
   import XMonad.Hooks.ManageDocks
-  import XMonad.Hooks.ManageHelpers hiding (CW)
+  import XMonad.Hooks.ManageHelpers
   import XMonad.Hooks.Place
   import XMonad.Hooks.WindowSwallowing
 
   import XMonad.Layout.DraggingVisualizer
-  import XMonad.Layout.Dwindle 
   import XMonad.Layout.Grid
   import XMonad.Layout.LayoutHints
   import XMonad.Layout.Maximize
@@ -44,6 +43,7 @@ with theme;
   import XMonad.Prompt.Shell
 
   import XMonad.Util.EZConfig
+  import XMonad.Util.Hacks
   import XMonad.Util.NamedScratchpad
   import XMonad.Util.Run
   import XMonad.Util.SpawnOnce
@@ -52,7 +52,6 @@ with theme;
   import qualified Data.Map                 as M
   import qualified DBus                     as D
   import qualified DBus.Client              as D
-  import qualified XMonad.Util.Hacks        as Hacks
   import qualified XMonad.StackSet          as W
 
   -- defaults
@@ -158,9 +157,8 @@ with theme;
             $ layoutHints
             $ maximizeWithPadding 0
             $ smartBorders 
-            $ (tall ||| Mirror tall ||| threecol ||| Grid ||| dwindle)
+            $ (tall ||| Mirror tall ||| threecol ||| Grid)
     where
-      dwindle = renamed [CutWordsRight 8] (Dwindle R CW (3/2) (11/10))
       tall = ResizableTall 1 (3/100) (11/20) []
       threecol = ResizableThreeColMid 1 (3/100) (1/2) []
 
@@ -197,7 +195,7 @@ with theme;
       , ppOrder  = \(_:l:_:_) -> [l]
       }
 
-  main' dbus = xmonad . ewmhFullscreen . docks . ewmh . Hacks.javaHack $ def
+  main' dbus = xmonad . ewmhFullscreen . docks . ewmh . javaHack $ def
     { focusFollowsMouse  = True
     , clickJustFocuses   = True
     , borderWidth        = 2
