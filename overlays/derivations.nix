@@ -48,7 +48,7 @@ final: prev: {
   eww = prev.callPackage ../derivations/eww.nix {
     rustPlatform = prev.rustPlatform;
     fetchFromGitHub = prev.fetchFromGitHub;
-    rust = prev.rust-bin.nightly."2021-01-19".rust;
+    rust = prev.rust-bin.nightly."2021-02-21".rust;
     pkgs = prev;
   };
   phocus = prev.callPackage ../derivations/phocus.nix {

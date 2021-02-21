@@ -8,7 +8,7 @@ rustPlatform.buildRustPackage rec {
     owner = "elkowar";
     repo = pname;
     rev = version;
-    sha256 = "sha256-yc4orRP+ruASKPndP5vJTJenPFrbLfP9tggnA5rDioE=";
+    sha256 = "sha256-okA97zqP/IUrc4YVwQBt2jBvvC+W2mBd5wZfcFVRMbA=";
   };
 
   nativeBuildInputs = [ rust pkgs.pkg-config ];
@@ -23,7 +23,7 @@ rustPlatform.buildRustPackage rec {
   ];
   
   checkPhase = null;
-  cargoSha256 = "sha256-I/oEDh2anNyI9qm9bpkgcWAKV3rNgob4nJNZskVLnk4=";
+  cargoSha256 = "sha256-23FBMJ0E9laHzsTg6n24k4o61jBrjvLXF3zPvoCvHpU=";
 
   meta = with lib; {
     description =
