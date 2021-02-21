@@ -192,15 +192,11 @@ in {
     };
   };
   security = {
+    rtkit.enable = true;
+    sudo.wheelNeedsPassword = false;
     doas = {
       enable = true;
       wheelNeedsPassword = false;
-    };
-    rtkit.enable = true;
-    sudo.wheelNeedsPassword = false;
-    pam.services."login" = {
-      rootOK = true;
-      startSession = true;
     };
   };
   services = {
