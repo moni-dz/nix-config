@@ -87,6 +87,7 @@ in {
     notify-desktop
     ntfs3g
     pandoc
+    pavucontrol
     pciutils
     pcmanfm
     pulseaudio
