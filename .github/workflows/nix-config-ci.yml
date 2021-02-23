@@ -1,4 +1,4 @@
-name: "Test"
+name: "nix-config CI"
 on:
   pull_request:
   push:
