@@ -2,7 +2,8 @@
   description = "A somewhat huge NixOS configuration using Nix Flakes.";
   inputs = {
     emacs.url = "github:nix-community/emacs-overlay";
-    home.url = "github:nix-community/home-manager";
+    # home.url = "github:nix-community/home-manager";
+    home.url = "github:fortuneteller2k/home-manager/fix-pulseeffects-package";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-fork.url = "github:fortuneteller2k/nixpkgs/add-xanmod-kernel";
     nixpkgs-master.url = "github:nixos/nixpkgs/master";

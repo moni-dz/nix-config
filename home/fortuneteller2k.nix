@@ -86,7 +86,18 @@ in rec {
       package = pkgs.emacsPgtk;
     };
     home-manager.enable = true;
-    htop.enable = true;
+    htop = {
+      enable = true;
+      detailedCpuTime = true;
+      showCpuFrequency = true;
+      showCpuUsage = true;
+      showProgramPath = false;
+      showThreadNames = true;
+      meters = {
+        left = [ "AllCPUs" "Memory" "Swap" ];
+        right = [ "Tasks" "LoadAverage" "Uptime" ];
+      };
+    };
     ncmpcpp = {
       enable = true;
       package = pkgs.ncmpcpp;

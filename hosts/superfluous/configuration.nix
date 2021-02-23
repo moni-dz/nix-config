@@ -37,6 +37,11 @@ in {
     keyMap = "us";
   };
   hardware = {
+    bluetooth = {
+      enable = true;
+      hsphfpd.enable = true;
+      package = pkgs.bluezFull;
+    };
     cpu.amd.updateMicrocode = true;
     opengl = {
       enable = true;
@@ -201,6 +206,7 @@ in {
     };
   };
   services = {
+    blueman.enable = true;
     chrony = {
       enable = true;
       servers = [

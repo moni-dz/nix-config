@@ -10,8 +10,8 @@
     "https://cache.nixos.org"
     "https://nix-community.cachix.org"
   ];
-  daemonNiceLevel = 15;
-  daemonIONiceLevel = 5;
+  daemonNiceLevel = 19;
+  daemonIONiceLevel = 7;
   extraOptions = "experimental-features = nix-command flakes";
   gc = {
     automatic = true;
