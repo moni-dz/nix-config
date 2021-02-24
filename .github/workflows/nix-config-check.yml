@@ -1,4 +1,4 @@
-name: "nix-config CI"
+name: "nix-config flake check"
 on:
   pull_request:
   push:
