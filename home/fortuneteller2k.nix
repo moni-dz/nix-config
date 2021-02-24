@@ -2,7 +2,8 @@
 
 let
   theme = (import ../config/theme.nix);
-in rec {
+in
+rec {
   fonts.fontconfig.enable = true;
   gtk = {
     enable = true;
@@ -31,7 +32,7 @@ in rec {
     packages = with pkgs; [
       betterdiscordctl
       bpytop
-      brave 
+      brave
       discord
       element-desktop
       exa
@@ -51,6 +52,7 @@ in rec {
       mpv-with-scripts
       neofetch
       nix-top
+      nixpkgs-fmt
       obs-studio
       onefetch
       ox
@@ -83,7 +85,7 @@ in rec {
     };
     dircolors = {
       enable = true;
-      settings = pkgs.lib.mkForce {  };
+      settings = pkgs.lib.mkForce { };
       extraConfig = (import ./config/dircolors.nix);
     };
     direnv = {
@@ -153,7 +155,7 @@ in rec {
           };
         }
       ];
-    }; 
+    };
   };
   services = {
     dunst = {

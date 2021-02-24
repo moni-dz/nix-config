@@ -5,7 +5,7 @@ stdenv.mkDerivation rec {
   version = "0.1.0";
 
   src = fetchgit {
-    url = "https://github.com/zigtools/zls"; 
+    url = "https://github.com/zigtools/zls";
     sha256 = "sha256-tLGsSvfp780cNgTME7IgfRfPRbjNvYKCwoNYiAKewSI=";
     fetchSubmodules = true;
   };

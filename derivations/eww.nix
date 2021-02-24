@@ -12,7 +12,7 @@ rustPlatform.buildRustPackage rec {
   };
 
   nativeBuildInputs = [ rust pkgs.pkg-config ];
-  buildInputs = with pkgs; [ 
+  buildInputs = with pkgs; [
     gtk3
     cairo
     glib
@@ -21,7 +21,7 @@ rustPlatform.buildRustPackage rec {
     gdk-pixbuf
     gdk-pixbuf-xlib
   ];
-  
+
   checkPhase = null;
   cargoSha256 = "sha256-23FBMJ0E9laHzsTg6n24k4o61jBrjvLXF3zPvoCvHpU=";
 

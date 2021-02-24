@@ -12,4 +12,4 @@ rustPlatform.buildRustPackage rec {
   };
 
   nativeBuildInputs = [ pkg-config ]
-}
+    }

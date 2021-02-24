@@ -12,7 +12,7 @@ buildPythonPackage rec {
   doCheck = false;
 
   propagatedBuildInputs = with python38Packages; [
-    
+
   ];
 
   meta = with lib; {

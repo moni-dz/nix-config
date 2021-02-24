@@ -1,5 +1,14 @@
-{ lib, python38Packages, buildPythonPackage, fetchPypi, simber, pydes
-, youtube-search, downloader-cli, itunespy, bs4 }:
+{ lib
+, python38Packages
+, buildPythonPackage
+, fetchPypi
+, simber
+, pydes
+, youtube-search
+, downloader-cli
+, itunespy
+, bs4
+}:
 
 buildPythonPackage rec {
   pname = "ytmdl";

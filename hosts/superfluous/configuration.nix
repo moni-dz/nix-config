@@ -2,7 +2,8 @@
 
 let
   theme = (import ../../config/theme.nix);
-in {
+in
+{
   boot = {
     kernelPackages = pkgs.fork.linuxPackages_xanmod;
     kernelParams = [
