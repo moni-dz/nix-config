@@ -17,6 +17,7 @@ with theme;
 
   import XMonad.Actions.CycleWS
   import XMonad.Actions.Sift
+  import XMonad.Actions.SpawnOn
   import XMonad.Actions.TiledWindowDragging
   import XMonad.Actions.WithAll
 
@@ -65,10 +66,10 @@ with theme;
     [ ("M-<Return>",                 safeSpawnProg term)
     , ("M-b",                        namedScratchpadAction scratchpads "terminal")
     , ("M-`",                        distractionLess)
-    , ("M-d",                        shellPrompt promptConfig)
+    , ("M-d",                        shellPromptHere promptConfig)
     , ("M-q",                        kill)
     , ("M-w",                        safeSpawnProg "${emacsPgtk}/bin/emacs")
-    , ("M-<F2>",                     unsafeSpawn browser)
+    , ("M-<F2>",                     spawnHere browser)
     , ("M-e",                        withFocused (sendMessage . maximizeRestore))
     , ("M-<Tab>",                    sendMessage NextLayout)
     , ("M-s",                        windows W.swapMaster)
@@ -89,7 +90,7 @@ with theme;
     , ("M-S-h",                      safeSpawn "${gxmessage}/bin/gxmessage" ["-fn", fontName, help])
     , ("M-S-<Delete>",               safeSpawnProg "slock")
     , ("M-S-c",                      withFocused $ \w -> safeSpawn "${xorg.xkill}/bin/xkill" ["-id", show w])
-    , ("M-S-r",                      sequence_ [unsafeSpawn restartcmd, unsafeSpawn restackcmd])
+    , ("M-S-r",                      unsafeSpawn (restartcmd ++ "&& sleep 2 &&" ++ restackcmd))
     , ("M-S-<Left>",                 shiftToPrev >> prevWS)
     , ("M-S-<Right>",                shiftToNext >> nextWS)
     , ("M-<Left>",                   windows W.focusUp)
@@ -164,6 +165,7 @@ with theme;
 
   windowRules =
     placeHook (smart (0.5, 0.5))
+    <+> manageSpawn
     <+> namedScratchpadManageHook scratchpads
     <+> composeAll
     [ className  =? "Gimp"                                 --> doFloat
@@ -173,16 +175,19 @@ with theme;
     , className  =? "Xephyr"                               --> doFloat
     , className  =? "Sxiv"                                 --> doFloat
     , className  =? "mpv"                                  --> doFloat
+    , appName    =? "polybar"                              --> doLower
     , appName    =? "desktop_window"                       --> doIgnore
     , appName    =? "kdesktop"                             --> doIgnore
     , isDialog                                             --> doF siftUp <+> doFloat ]
     <+> insertPosition End Newer -- same effect as attachaside patch in dwm
     <+> manageDocks
     <+> manageHook defaultConfig
+    where
+      doLower = ask >>= \w -> unsafeSpawn ("${xdo}/bin/xdo lower " ++ show w) >> mempty
 
   autostart = do
     spawnOnce "${xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr &"
-    spawnOnce "${polybar}/bin/polybar-msg cmd restart &"
+    spawnOnce "${systemd}/bin/systemctl --user restart polybar &"
     spawnOnce "${xwallpaper}/bin/xwallpaper --zoom ${wallpaper} &"
     spawnOnce "${xidlehook}/bin/xidlehook --not-when-fullscreen --not-when-audio --timer 120 slock \'\' &"
     spawnOnce "${notify-desktop}/bin/notify-desktop -u low 'xmonad' 'started successfully'"
