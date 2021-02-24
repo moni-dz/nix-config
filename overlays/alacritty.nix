@@ -32,7 +32,7 @@ final: prev: {
     '';
     cargoDeps = old.cargoDeps.overrideAttrs (_: {
       inherit src;
-      outputHash = "sha256-O1TsO0pn5JWWpdZGQ1TXPEm/82nlyptg3Idk7hSphsY=";
+      outputHash = "sha256-ztl8zzYuiOH/e6Ja64wiQwUaLCjPHKqlPSITUu16uew=";
     });
   });
 }

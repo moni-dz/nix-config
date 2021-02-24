@@ -81,6 +81,15 @@ in rec {
         theme = "base16";
       };
     };
+    dircolors = {
+      enable = true;
+      settings = pkgs.lib.mkForce {  };
+      extraConfig = (import ./config/dircolors.nix);
+    };
+    direnv = {
+      enable = true;
+      enableNixDirenvIntegration = true;
+    };
     emacs = {
       enable = true;
       package = pkgs.emacsPgtk;
@@ -111,7 +120,7 @@ in rec {
       vimdiffAlias = true;
       withNodeJs = true;
       extraConfig = (import ./config/neovim.nix);
-      extraPackages = with pkgs; [ rnix-lsp ];
+      extraPackages = with pkgs; [ rnix-lsp shellcheck ];
     };
     starship = {
       enable = true;
@@ -127,6 +136,24 @@ in rec {
       extraConfig = "map <C-i> recolor";
       options = (import ./config/zathura.nix { inherit theme; });
     };
+    zsh = {
+      enable = true;
+      enableAutosuggestions = true;
+      dotDir = ".config/zsh";
+      history.path = "${programs.zsh.dotDir}/zsh_history";
+      initExtra = (import ./config/zshrc.nix);
+      plugins = [
+        rec {
+          name = "fast-syntax-highlighting";
+          src = pkgs.fetchFromGitHub {
+            owner = "zdharma";
+            repo = name;
+            rev = "a62d721affc771de2c78201d868d80668a84c1e1";
+            sha256 = "sha256-4xJXH9Wn18/+Vfib/ZrhCRp/yB1PppsbZCx1/WafmU8=";
+          };
+        }
+      ];
+    }; 
   };
   services = {
     dunst = {

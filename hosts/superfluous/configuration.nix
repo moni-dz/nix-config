@@ -51,78 +51,81 @@ in {
   };
   imports = [ ./hardware-configuration.nix ];
   i18n.defaultLocale = "en_US.UTF-8";
-  environment.systemPackages = with pkgs; [
-    alsaTools
-    alsaUtils
-    brightnessctl
-    ccls
-    cmake
-    copyq
-    coreutils
-    curl
-    dash
-    dragon-drop
-    elixir
-    envsubst
-    eww
-    fd
-    file
-    ffmpeg
-    font-manager
-    gcc
-    ghc
-    git
-    gnumake
-    go
-    gxmessage
-    hacksaw
-    haskell-language-server
-    hsetroot
-    imagemagick
-    jp2a
-    jq
-    libsForQt514.qtstyleplugins
-    libtool
-    libva-utils
-    nixfmt
-    nixpkgs-review
-    nodePackages.npm
-    nodePackages.typescript
-    nodejs
-    notify-desktop
-    ntfs3g
-    pandoc
-    pavucontrol
-    pciutils
-    pcmanfm
-    pulseaudio
-    python3
-    python39Packages.grip
-    ripgrep
-    rust-analyzer-unwrapped
-    rustup
-    shellcheck
-    shotgun
-    slock
-    stack
-    unrar
-    unzip
-    util-linux
-    wget
-    xarchiver
-    xclip
-    xdo
-    xdotool
-    xidlehook
-    xmonad-log
-    xorg.xdpyinfo
-    xorg.xsetroot
-    xorg.xkill
-    xorg.xwininfo
-    xwallpaper
-    zig
-    zip
-  ];
+  environment = {
+    pathsToLink = [ "/share/zsh" ];
+    systemPackages = with pkgs; [
+      alsaTools
+      alsaUtils
+      brightnessctl
+      ccls
+      cmake
+      copyq
+      coreutils
+      curl
+      dash
+      dragon-drop
+      elixir
+      envsubst
+      eww
+      fd
+      file
+      ffmpeg
+      font-manager
+      gcc
+      ghc
+      git
+      gnumake
+      go
+      gxmessage
+      hacksaw
+      haskell-language-server
+      hsetroot
+      imagemagick
+      jp2a
+      jq
+      libsForQt514.qtstyleplugins
+      libtool
+      libva-utils
+      nixfmt
+      nixpkgs-review
+      nodePackages.npm
+      nodePackages.typescript
+      nodejs
+      notify-desktop
+      ntfs3g
+      pandoc
+      pavucontrol
+      pciutils
+      pcmanfm
+      pulseaudio
+      python3
+      python39Packages.grip
+      ripgrep
+      rust-analyzer-unwrapped
+      rustup
+      shellcheck
+      shotgun
+      slock
+      stack
+      unrar
+      unzip
+      util-linux
+      wget
+      xarchiver
+      xclip
+      xdo
+      xdotool
+      xidlehook
+      xmonad-log
+      xorg.xdpyinfo
+      xorg.xsetroot
+      xorg.xkill
+      xorg.xwininfo
+      xwallpaper
+      zig
+      zip
+    ];
+  };
   fonts = {
     fonts = with pkgs; [
       cozette
@@ -181,20 +184,6 @@ in {
     xss-lock = {
       enable = true;
       lockerCommand = "${pkgs.slock}/bin/slock";
-    };
-    zsh = {
-      enable = true;
-      autosuggestions = {
-        enable = true;
-        highlightStyle = "fg=${
-          if theme.lightModeEnabled then "7" else "8"
-        }";
-      };
-      syntaxHighlighting.enable = true;
-      shellInit = "export ZDOTDIR=$HOME/.config/zsh";
-      promptInit = "eval $(starship init zsh)";
-      interactiveShellInit = (import ../../config/zshrc.nix);
-      shellAliases = (import ../../config/zsh-aliases.nix);
     };
   };
   security = {
@@ -306,13 +295,6 @@ in {
       reloadXMonad = {
         text = "${pkgs.xmonad-with-packages}/bin/xmonad --restart";
         deps = [ "reloadWallpaper" ];
-      };
-      restackPolybar = {
-        text = ''
-          window_id = ${pkgs.xorg.xwininfo}/bin/xwininfo -name polybar-xmonad | ${pkgs.ripgrep}/bin/rg 'Window id' | cut -d ' ' -f4
-          ${pkgs.xdo}/bin/xdo lower "$window_id"
-        '';
-        deps = [ "reloadXMonad" ];
       };
     };
     stateVersion = "21.05";
