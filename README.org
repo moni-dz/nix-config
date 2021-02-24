@@ -9,7 +9,7 @@ Get the latest NixOS 21.05 image [[https://releases.nixos.org/nixos/unstable/nix
 #+begin_src sh
   nix-shell -p git nixFlakes
   git clone https://github.com/fortuneteller2k/nix-config /etc/nixos
-  sudo nixos-install --flake
+  sudo nixos-install --flake '.#superfluous'
 #+end_src
 
 *** Caveats
