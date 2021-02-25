@@ -142,7 +142,12 @@ rec {
       enable = true;
       enableAutosuggestions = true;
       dotDir = ".config/zsh";
-      history.path = "${programs.zsh.dotDir}/zsh_history";
+      history = {
+        expireDuplicatesFirst = true;
+        extended = true;
+        path = "${programs.zsh.dotDir}/zsh_history";
+        save = 50000;
+      };
       initExtra = (import ./config/zshrc.nix);
       plugins = [
         rec {
