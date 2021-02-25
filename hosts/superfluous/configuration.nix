@@ -230,10 +230,6 @@ in
       dpi = 96;
       config = (import ../../config/xorg-amd-tearfree.nix);
       displayManager = {
-        autoLogin = {
-          enable = true;
-          user = "fortuneteller2k";
-        };
         lightdm = {
           enable = true;
           background = ../../config/wallpapers/horizon.jpg;

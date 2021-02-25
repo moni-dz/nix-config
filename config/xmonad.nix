@@ -186,11 +186,11 @@ with theme;
       doLower = ask >>= \w -> unsafeSpawn ("${xdo}/bin/xdo lower " ++ show w) >> mempty
 
   autostart = do
-    spawnOnce "xsetroot -cursor_name left_ptr &"
-    spawnOnce "xidlehook --not-when-fullscreen --not-when-audio --timer 120 slock \'\' &"
-    spawnOnce "systemctl --user restart polybar &"
-    spawnOnce "xwallpaper --zoom ${wallpaper} &"
-    spawnOnce "notify-desktop -u low 'xmonad' 'started successfully'"
+    spawnOnce "${xwallpaper}/bin/xwallpaper --zoom ${wallpaper} &"
+    spawnOnce "${xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr &"
+    spawnOnce "${xidlehook}/bin/xidlehook --not-when-fullscreen --not-when-audio --timer 120 slock \'\' &"
+    spawnOnce "${polybar}/bin/polybar-msg cmd restart &"
+    spawnOnce "${notify-desktop}/bin/notify-desktop -u critical 'xmonad' 'started successfully'"
 
   barHook dbus =
     let signal     = D.signal (D.objectPath_ "/org/xmonad/Log") (D.interfaceName_ "org.xmonad.Log") (D.memberName_ "Update")

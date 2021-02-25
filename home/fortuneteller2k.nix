@@ -160,8 +160,8 @@ rec {
           };
         }
       ];
+      shellAliases = (import ./config/sh-aliases.nix);
     };
-    shellAliases = (import ./config/sh-aliases.nix);
   };
   services = {
     dunst = {
