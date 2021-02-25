@@ -63,7 +63,7 @@ with theme;
   fontFamily = "xft:" ++ fontName ++ ":size=9.7:antialias=true:hinting=true"
 
   keybindings =
-    [ ("M-<Return>",                 safeSpawnProg term)
+    [ ("M-<Return>",                 spawnHere term)
     , ("M-b",                        namedScratchpadAction scratchpads "terminal")
     , ("M-`",                        distractionLess)
     , ("M-d",                        shellPromptHere promptConfig)
@@ -186,11 +186,11 @@ with theme;
       doLower = ask >>= \w -> unsafeSpawn ("${xdo}/bin/xdo lower " ++ show w) >> mempty
 
   autostart = do
-    spawnOnce "${xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr &"
-    spawnOnce "${systemd}/bin/systemctl --user restart polybar &"
-    spawnOnce "${xwallpaper}/bin/xwallpaper --zoom ${wallpaper} &"
-    spawnOnce "${xidlehook}/bin/xidlehook --not-when-fullscreen --not-when-audio --timer 120 slock \'\' &"
-    spawnOnce "${notify-desktop}/bin/notify-desktop -u low 'xmonad' 'started successfully'"
+    spawnOnce "xsetroot -cursor_name left_ptr &"
+    spawnOnce "xidlehook --not-when-fullscreen --not-when-audio --timer 120 slock \'\' &"
+    spawnOnce "systemctl --user restart polybar &"
+    spawnOnce "xwallpaper --zoom ${wallpaper} &"
+    spawnOnce "notify-desktop -u low 'xmonad' 'started successfully'"
 
   barHook dbus =
     let signal     = D.signal (D.objectPath_ "/org/xmonad/Log") (D.interfaceName_ "org.xmonad.Log") (D.memberName_ "Update")
