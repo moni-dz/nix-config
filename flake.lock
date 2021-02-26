@@ -61,6 +61,22 @@
         "type": "github"
       }
     },
+    "fork": {
+      "locked": {
+        "lastModified": 1614249276,
+        "narHash": "sha256-7RIafrMdNzEKGxgjVlYJ+Fp/G/wJSfUfZ8yGp/aGbeg=",
+        "owner": "fortuneteller2k",
+        "repo": "nixpkgs",
+        "rev": "ba282c90753d03ba9e8ac98d0eb90b8816e0cfbf",
+        "type": "github"
+      },
+      "original": {
+        "owner": "fortuneteller2k",
+        "ref": "add-xanmod-kernel",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "gitignore": {
       "flake": false,
       "locked": {
@@ -79,7 +95,9 @@
     },
     "home": {
       "inputs": {
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": [
+          "master"
+        ]
       },
       "locked": {
         "lastModified": 1614109058,
@@ -92,6 +110,22 @@
       "original": {
         "owner": "nix-community",
         "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "master": {
+      "locked": {
+        "lastModified": 1614328598,
+        "narHash": "sha256-WVWqKSotc3hF7REgMu5O4Bki5m1w5uVOKkPN5k0DyGk=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "4a89c87410d4ac6a22c48ad5ac55403295cc2c29",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "master",
+        "repo": "nixpkgs",
         "type": "github"
       }
     },
@@ -113,68 +147,6 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1614327179,
-        "narHash": "sha256-FllBY37dFPIDCYTa/YHtWjQxg3HhWP2mdzMv12VpDPQ=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "ee58d52b8cf593c9ac2460ae28aa8a6bf31e79e5",
-        "type": "github"
-      },
-      "original": {
-        "id": "nixpkgs",
-        "type": "indirect"
-      }
-    },
-    "nixpkgs-fork": {
-      "locked": {
-        "lastModified": 1614249276,
-        "narHash": "sha256-7RIafrMdNzEKGxgjVlYJ+Fp/G/wJSfUfZ8yGp/aGbeg=",
-        "owner": "fortuneteller2k",
-        "repo": "nixpkgs",
-        "rev": "ba282c90753d03ba9e8ac98d0eb90b8816e0cfbf",
-        "type": "github"
-      },
-      "original": {
-        "owner": "fortuneteller2k",
-        "ref": "add-xanmod-kernel",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs-master": {
-      "locked": {
-        "lastModified": 1614327179,
-        "narHash": "sha256-FllBY37dFPIDCYTa/YHtWjQxg3HhWP2mdzMv12VpDPQ=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "ee58d52b8cf593c9ac2460ae28aa8a6bf31e79e5",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "ref": "master",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs_2": {
-      "locked": {
-        "lastModified": 1614191423,
-        "narHash": "sha256-As8TFDUW6CMCN5zlw5dVnZiwakO1cRKYPk64rsr32uU=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "f6b5bfdb470d60a876992749d0d708ed7b6b56ca",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "ref": "nixos-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs_3": {
-      "locked": {
         "lastModified": 1614288967,
         "narHash": "sha256-6Q2gH8lMzF6wMO9//2nE7v/9U2LXR2h/wDLuGpfQJ4M=",
         "owner": "nixos",
@@ -189,7 +161,7 @@
         "type": "github"
       }
     },
-    "nixpkgs_4": {
+    "nixpkgs_2": {
       "locked": {
         "lastModified": 1609079092,
         "narHash": "sha256-KhyKfxBHtZlAgudpZ0EJVzeuqROjKfVOwj8j0cuhU50=",
@@ -208,7 +180,7 @@
         "flake-utils": "flake-utils",
         "gitignore": "gitignore",
         "neovim-nightly": "neovim-nightly",
-        "nixpkgs": "nixpkgs_3",
+        "nixpkgs": "nixpkgs",
         "pre-commit-hooks": "pre-commit-hooks"
       },
       "locked": {
@@ -244,18 +216,19 @@
     "root": {
       "inputs": {
         "emacs": "emacs",
+        "fork": "fork",
         "home": "home",
-        "nixpkgs": "nixpkgs_2",
-        "nixpkgs-fork": "nixpkgs-fork",
-        "nixpkgs-master": "nixpkgs-master",
+        "master": "master",
         "nvim-nightly": "nvim-nightly",
-        "rust": "rust"
+        "rust": "rust",
+        "stable": "stable",
+        "unstable": "unstable"
       }
     },
     "rust": {
       "inputs": {
         "flake-utils": "flake-utils_2",
-        "nixpkgs": "nixpkgs_4"
+        "nixpkgs": "nixpkgs_2"
       },
       "locked": {
         "lastModified": 1614306536,
@@ -268,6 +241,38 @@
       "original": {
         "owner": "oxalica",
         "repo": "rust-overlay",
+        "type": "github"
+      }
+    },
+    "stable": {
+      "locked": {
+        "lastModified": 1614267137,
+        "narHash": "sha256-9XF2tp66RkXjhBs4iqcCYQ2xUdc4r2QAh/yaMHr3lok=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "42809feaa9f7474f5566a5c6e8e317e15e39160e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-20.09",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "unstable": {
+      "locked": {
+        "lastModified": 1614191423,
+        "narHash": "sha256-As8TFDUW6CMCN5zlw5dVnZiwakO1cRKYPk64rsr32uU=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "f6b5bfdb470d60a876992749d0d708ed7b6b56ca",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
         "type": "github"
       }
     }

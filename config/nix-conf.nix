@@ -25,5 +25,5 @@
     options = "--delete-older-than 7d";
   };
   maxJobs = 4;
-  package = inputs.nixpkgs-master.legacyPackages."${system}".nixFlakes;
+  package = inputs.master.legacyPackages."${system}".nixFlakes;
 }

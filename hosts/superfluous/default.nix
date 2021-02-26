@@ -1,5 +1,8 @@
-{ emacs, home, nixpkgs, nixpkgs-fork, nixpkgs-master, nvim-nightly, rust, inputs }:
+{ emacs, home, inputs, fork, master, stable, unstable, nvim-nightly, rust }:
 
+let
+  nixpkgs = unstable;
+in
 nixpkgs.lib.nixosSystem rec {
   system = "x86_64-linux";
   modules = [
@@ -7,13 +10,14 @@ nixpkgs.lib.nixosSystem rec {
       nix = (import ../../config/nix-conf.nix { inherit inputs system; });
       nixpkgs =
         let
-          filterOverlays = k: v: with nixpkgs.lib; v == "regular" && hasSuffix ".nix" k;
-          userOverlays = with nixpkgs.lib; (lists.forEach (mapAttrsToList
+          filterOverlays = k: v: with unstable.lib; v == "regular" && hasSuffix ".nix" k;
+          userOverlays = with unstable.lib; (lists.forEach (mapAttrsToList
             (name: _: ../../overlays + ("/" + name))
             (filterAttrs filterOverlays (builtins.readDir ../../overlays)))) import;
-          nixpkgs-overlays = final: prev: {
-            master = nixpkgs-master.legacyPackages.${system};
-            fork = nixpkgs-fork.legacyPackages.${system};
+          nixpkgs-overlays = _: _: {
+            fork = fork.legacyPackages.${system};
+            master = master.legacyPackages.${system};
+            stable = stable.legacyPackages.${system};
           };
         in
         {
