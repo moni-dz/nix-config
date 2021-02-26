@@ -111,7 +111,7 @@ rec {
     };
     ncmpcpp = {
       enable = true;
-      package = pkgs.ncmpcpp;
+      package = pkgs.master.ncmpcpp;
       settings = (import ./config/ncmpcpp.nix);
     };
     neovim = {

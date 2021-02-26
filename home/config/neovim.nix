@@ -1,4 +1,7 @@
 ''
+  let g:mapleader = " "
+  let g:maplocalleader = " "
+
   syntax on
   set noswapfile
   set nohlsearch
@@ -16,6 +19,7 @@
   endif
 
   call plug#begin(stdpath('data') . '/plugged')
+    Plug 'glepnir/dashboard-nvim'
     Plug 'junegunn/fzf'
     Plug 'junegunn/goyo.vim'
     Plug 'itchyny/lightline.vim'
@@ -27,9 +31,13 @@
     Plug 'elixir-lang/vim-elixir'
     Plug 'jiangmiao/auto-pairs'
     Plug 'sheerun/vim-polyglot'
+    Plug 'liuchengxu/vim-which-key', { 'on': ['WhichKey', 'WhichKey!'] }
     Plug 'neoclide/coc.nvim', { 'branch': 'release' }
     Plug 'rrethy/vim-hexokinase', { 'do': 'make hexokinase' }
   call plug#end()
+
+  nnoremap <silent> <leader>      :<c-u>WhichKey ' '<CR>
+  nnoremap <silent> <localleader> :<c-u>WhichKey ' '<CR>
 
   colorscheme horizon
   let g:lightline = { 'colorscheme' : 'horizon' }
