@@ -138,7 +138,7 @@ rec {
       extraConfig = "map <C-i> recolor";
       options = (import ./config/zathura.nix { inherit theme; });
     };
-    zsh = {
+    zsh = rec {
       enable = true;
       enableAutosuggestions = true;
       dotDir = ".config/zsh";
@@ -148,7 +148,7 @@ rec {
         path = "${programs.zsh.dotDir}/zsh_history";
         save = 50000;
       };
-      initExtra = (import ./config/zshrc.nix);
+      initExtra = (import ./config/zshrc.nix { inherit dotDir home; });
       plugins = [
         rec {
           name = "fast-syntax-highlighting";

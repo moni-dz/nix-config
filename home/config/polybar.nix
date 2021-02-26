@@ -57,7 +57,7 @@ with theme; {
     format-online-foreground = "#${colors.textColor}";
     label-song = " ﱘ  %title% ";
     label-song-maxlen = 40;
-    click-left = "${pkgs.mpc}/bin/mpc toggle";
+    click-left = "${pkgs.mpc_cli}/bin/mpc toggle";
   };
 
   "module/xmonad" = {
