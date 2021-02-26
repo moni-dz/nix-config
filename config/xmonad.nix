@@ -99,9 +99,9 @@ with theme;
     , ("<XF86AudioMute>",            safeSpawn "/etc/nixos/scripts/volume" ["toggle"])
     , ("<XF86AudioRaiseVolume>",     safeSpawn "/etc/nixos/scripts/volume" ["up"])
     , ("<XF86AudioLowerVolume>",     safeSpawn "/etc/nixos/scripts/volume" ["down"])
-    , ("<XF86AudioPlay>",            safeSpawn "${mpc_cli}/bin/mpc" ["toggle"])
-    , ("<XF86AudioPrev>",            safeSpawn "${mpc_cli}/bin/mpc" ["prev"])
-    , ("<XF86AudioNext>",            safeSpawn "${mpc_cli}/bin/mpc" ["next"])
+    , ("<XF86AudioPlay>",            safeSpawn "${playerctl}/bin/playerctl" ["play-pause"])
+    , ("<XF86AudioPrev>",            safeSpawn "${playerctl}/bin/playerctl" ["previous"])
+    , ("<XF86AudioNext>",            safeSpawn "${playerctl}/bin/playerctl" ["next"])
     , ("<XF86MonBrightnessUp>",      safeSpawn "${brightnessctl}/bin/brightnessctl" ["s", "+10%"])
     , ("<XF86MonBrightnessDown>",    safeSpawn "${brightnessctl}/bin/brightnessctl" ["s", "10%-"])
     ]

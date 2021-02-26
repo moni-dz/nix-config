@@ -178,6 +178,12 @@ rec {
       musicDirectory = "${home.homeDirectory}/Media/Music";
       extraConfig = (import ./config/mpd.nix);
     };
+    mpdris2 = {
+      enable = true;
+      multimediaKeys = true;
+      notifications = true;
+    };
+    playerctld.enable = true;
     polybar = {
       enable = true;
       script = "polybar main &";
