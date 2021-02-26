@@ -10,8 +10,8 @@ nixpkgs.lib.nixosSystem rec {
       nix = (import ../../config/nix-conf.nix { inherit inputs system; });
       nixpkgs =
         let
-          filterOverlays = k: v: with unstable.lib; v == "regular" && hasSuffix ".nix" k;
-          userOverlays = with unstable.lib; (lists.forEach (mapAttrsToList
+          filterOverlays = k: v: with nixpkgs.lib; v == "regular" && hasSuffix ".nix" k;
+          userOverlays = with nixpkgs.lib; (lists.forEach (mapAttrsToList
             (name: _: ../../overlays + ("/" + name))
             (filterAttrs filterOverlays (builtins.readDir ../../overlays)))) import;
           nixpkgs-overlays = _: _: {

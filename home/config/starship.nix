@@ -1,4 +1,9 @@
 {
+  character = {
+    success_symbol = "[δ](bold green)";
+    error_symbol = "[δ](bold red)";
+    vicmd_symbol = "[δ](bold yellow)";
+  };
   format = "$all";
   username = {
     style_user = "bold red";

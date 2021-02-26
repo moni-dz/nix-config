@@ -59,6 +59,7 @@ rec {
       peek
       pfetch
       picard
+      playerctl
       qutebrowser
       ripcord
       sacad
@@ -111,7 +112,7 @@ rec {
     };
     ncmpcpp = {
       enable = true;
-      package = pkgs.master.ncmpcpp;
+      package = pkgs.ncmpcpp;
       settings = (import ./config/ncmpcpp.nix);
     };
     neovim = {
@@ -175,6 +176,7 @@ rec {
     };
     mpd = {
       enable = true;
+      package = pkgs.stable.mpd;
       musicDirectory = "${home.homeDirectory}/Media/Music";
       extraConfig = (import ./config/mpd.nix);
     };
@@ -186,7 +188,7 @@ rec {
     playerctld.enable = true;
     polybar = {
       enable = true;
-      script = "polybar main &";
+      script = "polybar -l=trace main &";
       config = (import ./config/polybar.nix { inherit pkgs theme; });
     };
   };

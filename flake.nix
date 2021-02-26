@@ -4,7 +4,7 @@
     emacs.url = "github:nix-community/emacs-overlay";
     home = {
       url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "master";
+      inputs.nixpkgs.follows = "unstable";
     };
     unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     fork.url = "github:fortuneteller2k/nixpkgs/add-xanmod-kernel";

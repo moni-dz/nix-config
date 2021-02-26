@@ -52,12 +52,11 @@ with theme; {
     type = "internal/mpd";
     host = "127.0.0.1";
     port = "6600";
-    format-online = "<label-song>";
+    format-online = "%{A1:playerctl --player=mpd play-pause:}<label-song>%{A}";
     format-online-background = "#${colors.primary}";
     format-online-foreground = "#${colors.textColor}";
     label-song = " ﱘ  %title% ";
     label-song-maxlen = 40;
-    click-left = "${pkgs.mpc_cli}/bin/mpc toggle";
   };
 
   "module/xmonad" = {
