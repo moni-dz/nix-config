@@ -1,6 +1,7 @@
 { theme }:
 
 with theme.colors; {
+  background_opacity = 0.95;
   env.TERM = "xterm-256color";
   font = {
     normal = {
@@ -9,9 +10,12 @@ with theme.colors; {
     };
     size = 11.4;
   };
-  window.padding = {
-    x = 8;
-    y = 8;
+  window = {
+    dynamic_padding = true;
+    padding = {
+      x = 8;
+      y = 8;
+    };
   };
   cursor.style = "Beam";
   colors = {

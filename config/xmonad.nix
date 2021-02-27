@@ -5,6 +5,7 @@ with theme;
 
 ''
   {-# LANGUAGE FlexibleContexts #-}
+
   -- fortuneteller2k's XMonad config
   -- This file is managed by NixOS, don't edit it directly!
 

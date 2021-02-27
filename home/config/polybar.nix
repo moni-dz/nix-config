@@ -153,10 +153,6 @@ with theme; {
     content-background = "\${colors.bg}";
   };
 
-  "settings" = {
-    pseudo-transparency = true;
-  };
-
   "bar/main" = {
     override-redirect = true;
     fixed-center = true;
