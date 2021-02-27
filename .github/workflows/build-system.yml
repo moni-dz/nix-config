@@ -1,4 +1,4 @@
-name: "nix-config flake build"
+name: "nix-config build system"
 on:
   pull_request:
   push:
@@ -18,6 +18,4 @@ jobs:
       with:
         name: fortuneteller2k
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
-    - run: |
-        nix build .#nixosConfigurations.superfluous.config.system.build.toplevel -L
-        nix build .#homeConfigurations.fortuneteller2k.activationPackage
+    - run: nix build .#nixosConfigurations.superfluous.config.system.build.toplevel --json
