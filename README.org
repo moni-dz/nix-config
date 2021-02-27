@@ -2,7 +2,7 @@
 
 [[img/nixos-official-logo.png]]
 
-[[https://github.com/nixos/nixpkgs][file:https://img.shields.io/badge/NixOS-21.05-informational?style=flat.svg]] [[https://github.com/fortuneteller2k/nix-config/actions/workflows/nix-config-check.yml][https://github.com/fortuneteller2k/nix-config/actions/workflows/nix-config-check.yml/badge.svg]] [[https://github.com/fortuneteller2k/nix-config/actions/workflows/nix-config-fmt.yml][https://github.com/fortuneteller2k/nix-config/actions/workflows/nix-config-fmt.yml/badge.svg]]
+[[https://github.com/nixos/nixpkgs][file:https://img.shields.io/badge/NixOS-21.05-informational?style=flat.svg]] [[https://github.com/fortuneteller2k/nix-config/actions/workflows/check.yml][https://github.com/fortuneteller2k/nix-config/actions/workflows/check.yml/badge.svg]] [[https://github.com/fortuneteller2k/nix-config/actions/workflows/format.yml][https://github.com/fortuneteller2k/nix-config/actions/workflows/format.yml/badge.svg]] [[https://github.com/fortuneteller2k/nix-config/actions/workflows/build.yml][https://github.com/fortuneteller2k/nix-config/actions/workflows/build.yml/badge.svg]]
 
 ** Installation
 Get the latest NixOS 21.05 image [[https://releases.nixos.org/nixos/unstable/nixos-21.05pre269929.ff96a0fa563][here]], do your partitions (root must be mounted at =/mnt=), then run the following commands
