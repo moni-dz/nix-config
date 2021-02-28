@@ -1,4 +1,4 @@
-{ emacs, home, inputs, fork, master, stable, unstable, nvim-nightly, rust }:
+{ emacs, home, inputs, fork, master, stable, unstable, nur, nvim-nightly, rust }:
 
 let
   nixpkgs = unstable;
@@ -29,6 +29,7 @@ nixpkgs.lib.nixosSystem rec {
             emacs.overlay
             nvim-nightly.overlay
             rust.overlay
+            nur.overlay
             nixpkgs-overlays
           ] ++ userOverlays;
         };

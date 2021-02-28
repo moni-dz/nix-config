@@ -222,7 +222,7 @@ in
       backend = "glx";
       vSync = true;
       fade = true;
-      fadeDelta = 3;
+      fadeDelta = 1;
       settings = {
         blur = {
           method = "dual_kawase";

@@ -53,6 +53,7 @@ rec {
       neofetch
       nix-top
       nixpkgs-fmt
+      nur.repos.fortuneteller2k.ytmdl
       obs-studio
       onefetch
       ox
@@ -62,12 +63,11 @@ rec {
       playerctl
       qutebrowser
       ripcord
-      sacad
+      # sacad
       speedtest-cli
       sxiv
       texlive.combined.scheme-medium
       ueberzug
-      ytmdl
     ];
     stateVersion = "21.05";
   };

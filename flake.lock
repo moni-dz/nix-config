@@ -174,6 +174,21 @@
         "type": "indirect"
       }
     },
+    "nur": {
+      "locked": {
+        "lastModified": 1614458960,
+        "narHash": "sha256-gsGHxECKGtVVekdlxRgnT8JNcztNj038JJLTdnUa+k0=",
+        "owner": "nix-community",
+        "repo": "NUR",
+        "rev": "f88a3283cad55888be0cc2d984a44801dd16ec21",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "NUR",
+        "type": "github"
+      }
+    },
     "nvim-nightly": {
       "inputs": {
         "flake-compat": "flake-compat",
@@ -219,6 +234,7 @@
         "fork": "fork",
         "home": "home",
         "master": "master",
+        "nur": "nur",
         "nvim-nightly": "nvim-nightly",
         "rust": "rust",
         "stable": "stable",
