@@ -67,7 +67,6 @@ in
       dragon-drop
       elixir
       envsubst
-      eww
       fd
       file
       ffmpeg

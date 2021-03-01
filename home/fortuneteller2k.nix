@@ -53,6 +53,7 @@ rec {
       neofetch
       nix-top
       nixpkgs-fmt
+      # nur.repos.fortuneteller2k.eww
       nur.repos.fortuneteller2k.ytmdl
       obs-studio
       onefetch

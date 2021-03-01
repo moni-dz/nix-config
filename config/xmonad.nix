@@ -11,6 +11,7 @@ with theme;
 
   import Data.Char
   import Data.Monoid
+  import Data.Tree
 
   import System.IO
   import System.Exit
@@ -21,6 +22,7 @@ with theme;
   import XMonad.Actions.Sift
   import XMonad.Actions.SpawnOn
   import XMonad.Actions.TiledWindowDragging
+  import XMonad.Actions.TreeSelect
   import XMonad.Actions.WithAll
 
   import XMonad.Hooks.DynamicLog
@@ -65,12 +67,52 @@ with theme;
   import qualified XMonad.Actions.Sift      as W
   import qualified XMonad.StackSet          as W
 
-  -- defaults
   modkey = mod1Mask
   term = "${alacritty}/bin/alacritty"
-  ws = ["A","B","C","D","E","F","G","H","I","J"]
   fontNameGTK = "Iosevka FT"
   fontFamily = "xft:" ++ fontNameGTK ++ ":size=9.7:antialias=true:hinting=true"
+  sansFontFamily = "xft:Sarasa Gothic J:size=10:antialias=true:hinting=true"
+  ws = [ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" ]
+
+  actions = [ Node (TSNode "Session" "session management" (return ()))
+                   [ Node (TSNode "Logout" "exit current XMonad session" (io (exitWith ExitSuccess))) []
+                   , Node (TSNode "Lock" "lock session" (safeSpawnProg "slock")) []
+                   , Node (TSNode "Reboot" "reboot this machine" (safeSpawn "${systemd}/bin/systemctl" ["reboot"])) []
+                   , Node (TSNode "Power Off" "power off this machine" (safeSpawn "${systemd}/bin/systemctl" ["poweroff"])) []
+                   ]
+            , Node (TSNode "Media" "media controls" (return ()))
+                   [ Node (TSNode "MPD" "control the music player daemon" (return ()))
+                          [ Node (TSNode "Play" "play current song" (safeSpawn "${mpc_cli}/bin/mpc" ["play"])) [] 
+                          , Node (TSNode "Pause" "pause current song" (safeSpawn "${mpc_cli}/bin/mpc" ["pause"])) []
+                          , Node (TSNode "Previous" "play previous song in playlist" (safeSpawn "${mpc_cli}/bin/mpc" ["prev"])) []
+                          , Node (TSNode "Next" "play next song in playlist" (safeSpawn "${mpc_cli}/bin/mpc" ["next"])) []
+                          , Node (TSNode "Repeat" "toggle repeat" (safeSpawn "${mpc_cli}/bin/mpc" ["repeat"])) []
+                          , Node (TSNode "Single" "toggle single song mode" (safeSpawn "${mpc_cli}/bin/mpc" ["single"])) []
+                          ]
+                   , Node (TSNode "MPRIS" "control general media" (return ()))
+                          [ Node (TSNode "Play" "play media" (safeSpawn "${playerctl}/bin/playerctl" ["play"])) []
+                          , Node (TSNode "Pause" "pause media" (safeSpawn "${playerctl}/bin/playerctl" ["pause"])) []
+                          , Node (TSNode "Previous" "go to previous" (safeSpawn "${playerctl}/bin/playerctl" ["previous"])) []
+                          , Node (TSNode "Next" "go to next" (safeSpawn "${playerctl}/bin/playerctl" ["next"])) []
+                          ]
+                   ]
+            ]
+
+  tsConfig = TSConfig 
+             { ts_hidechildren = True
+             , ts_background   = 0xc0${colors.bg}
+             , ts_font         = sansFontFamily
+             , ts_node         = (0xff${colors.bg}, 0xff${colors.c1})
+             , ts_nodealt      = (0xff${colors.bg}, 0xff${colors.c9})
+             , ts_highlight    = (0xff${colors.bg}, 0xff${colors.c3})
+             , ts_extra        = 0xff${colors.fg}
+             , ts_node_width   = 200
+             , ts_node_height  = 30
+             , ts_originX      = 0
+             , ts_originY      = 0
+             , ts_indent       = 80
+             , ts_navigate     = defaultNavigation
+             }
 
   keybindings =
     [ ("M-<Return>",                 spawnHere term)
@@ -78,7 +120,7 @@ with theme;
     , ("M-`",                        distractionLess)
     , ("M-d",                        shellPromptHere promptConfig)
     , ("M-q",                        kill)
-    , ("M-w",                        safeSpawnProg "${emacsPgtk}/bin/emacs")
+    , ("M-w",                        treeselectAction tsConfig actions)
     , ("M-<F2>",                     spawnHere browser)
     , ("M-e",                        withFocused (sendMessage . maximizeRestore))
     , ("M-<Tab>",                    sendMessage NextLayout)
@@ -273,7 +315,7 @@ with theme;
     , "Alt-`:                  toggle distraction less mode"
     , "Alt-d:                  show run prompt"
     , "Alt-q:                  quit window"
-    , "Alt-w:                  spawn emacs"
+    , "Alt-w:                  open treeselect for actions"
     , "Alt-F2:                 spawn qutebrowser"
     , "Alt-e:                  maximize window"
     , "Alt-Tab:                cycle through layouts"
