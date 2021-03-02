@@ -53,8 +53,8 @@ rec {
       neofetch
       nix-top
       nixpkgs-fmt
-      # nur.repos.fortuneteller2k.eww
       nur.repos.fortuneteller2k.ytmdl
+      nur.repos.fortuneteller2k.impure.eww
       obs-studio
       onefetch
       ox
@@ -64,7 +64,7 @@ rec {
       playerctl
       qutebrowser
       ripcord
-      # sacad
+      # sacad # wait for nixpkgs PR to get merged
       speedtest-cli
       sxiv
       texlive.combined.scheme-medium

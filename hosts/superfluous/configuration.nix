@@ -215,36 +215,11 @@ in
     };
     picom = {
       enable = true;
-      inactiveOpacity = 0.9;
       refreshRate = 60;
-      experimentalBackends = true;
       backend = "glx";
       vSync = true;
       fade = true;
       fadeDelta = 1;
-      settings = {
-        blur = {
-          method = "dual_kawase";
-          strength = 5;
-          background = false;
-          background-frame = false;
-          background-fixed = false;
-        };
-        blur-background-exclude = [
-          "window_type = 'dock'"
-          "window_type = 'desktop'"
-          "_GTK_FRAME_EXTENTS@:c"
-        ];
-        use-ewmh-active-win = true;
-        corner-radius = 8;
-        round-borders = 1;
-        rounded-corners-exclude = [
-          "window_type = 'dock'"
-          "window_type = 'desktop'"
-          "!name ~= ''" # Exclude any "Unknown" windows  
-        ];
-        transition-length = 200;
-      };
     };
     pipewire = {
       enable = true;
@@ -262,25 +237,8 @@ in
       dpi = 96;
       config = (import ../../config/xorg-amd-tearfree.nix);
       displayManager = {
-        lightdm = {
-          enable = true;
-          background = ../../config/wallpapers/horizon.jpg;
-          greeters.gtk = {
-            enable = true;
-            cursorTheme = {
-              name = "DMZ ${if theme.lightModeEnabled then "(Black)" else "(White)"}";
-              package = pkgs.vanilla-dmz;
-            };
-            iconTheme = {
-              name = "Papirus";
-              package = pkgs.papirus-icon-theme;
-            };
-            theme = {
-              name = "phocus";
-              package = pkgs.phocus;
-            };
-          };
-        };
+        gdm.enable = true;
+        hiddenUsers = pkgs.lib.mkForce [ "nobody" ];
         defaultSession = "none+xmonad";
       };
       windowManager = {
