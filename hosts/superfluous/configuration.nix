@@ -44,6 +44,7 @@ in
       package = pkgs.bluezFull;
     };
     cpu.amd.updateMicrocode = true;
+    enableRedistributableFirmware = true;
     opengl = {
       enable = true;
       driSupport = true;
