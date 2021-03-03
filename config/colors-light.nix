@@ -22,5 +22,4 @@ rec {
   textColor = fg;
   activeBorderColor = fg;
   inactiveBorderColor = "fab795";
-  highlightColor = c3;
 }

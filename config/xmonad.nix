@@ -100,7 +100,7 @@ with theme;
 
   tsConfig = TSConfig 
              { ts_hidechildren = True
-             , ts_background   = 0xc0${colors.bg}
+             , ts_background   = 0xe0${colors.bg}
              , ts_font         = sansFontFamily
              , ts_node         = (0xff${colors.bg}, 0xff${colors.c1})
              , ts_nodealt      = (0xff${colors.bg}, 0xff${colors.c9})
@@ -198,7 +198,7 @@ with theme;
     , fgColor             = "#${colors.fg}"
     , bgHLight            = "#${colors.highlightColor}"
     , fgHLight            = "#${colors.bg}"
-    , promptBorderWidth   = 0
+    , promptBorderWidth   = 2
     , position            = Top
     , height              = 17
     , historySize         = 256
@@ -225,14 +225,7 @@ with theme;
     where
       tall = ResizableTall 1 (3/100) (11/20) []
       threecol = ResizableThreeColMid 1 (3/100) (1/2) []
-
-  -- haskell had a stroke trying to infer the type of tabs, so this is the first time i'm specifying the type on something
-  tabs :: (Eq a, LayoutModifier (Sublayout Simplest) a, LayoutClass l a) =>
-      l a -> ModifiedLayout (Decoration TabbedDecoration DefaultShrinker)
-                            (ModifiedLayout (Sublayout Simplest) l) a
-
-  tabs x = addTabs shrinkText tabTheme $ subLayout [] Simplest x
-    where
+      tabs x = addTabs shrinkText tabTheme $ subLayout [] Simplest x
       tabTheme = def
         { fontName            = fontFamily
         , activeColor         = "#${colors.primary}"
@@ -241,6 +234,9 @@ with theme;
         , activeTextColor     = "#${colors.bg}"
         , inactiveTextColor   = "#${colors.fg}"
         , urgentTextColor     = "#${colors.bg}"
+        , activeBorderColor   = "#${colors.activeBorderColor}"
+        , inactiveBorderColor = "#${colors.inactiveBorderColor}"
+        , urgentBorderColor   = "#${colors.c3}"
         , activeBorderWidth   = 0
         , inactiveBorderWidth = 0
         , urgentBorderWidth   = 0
@@ -294,7 +290,7 @@ with theme;
     , layoutHook         = layouts
     , manageHook         = windowRules
     , logHook            = barHook dbus
-    , handleEventHook    = hintsEventHook <+> swallowEventHook (return True) (return True)
+    , handleEventHook    = swallowEventHook (return True) (return True) <+> hintsEventHook
     , startupHook        = autostart
     } 
     `additionalKeysP` keybindings
@@ -302,7 +298,7 @@ with theme;
 
   main = do
     dbus <- D.connectSession
-    D.requestName dbus (D.busName_ "org.xmonad.log") [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
+    D.requestName dbus (D.busName_ "org.xmonad.log") [ D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue ]
     main' dbus -- "that was easy, xmonad rocks!"
 
   help = unlines 

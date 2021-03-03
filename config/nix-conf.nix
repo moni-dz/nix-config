@@ -25,5 +25,6 @@
     options = "--delete-older-than 7d";
   };
   maxJobs = 4;
+  nixPath = let path = toString ../.; in [ "repl=${path}/repl.nix" "nixpkgs=${inputs.unstable}" ];
   package = inputs.master.legacyPackages."${system}".nixFlakes;
 }

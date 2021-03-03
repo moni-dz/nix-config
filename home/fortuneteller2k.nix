@@ -94,10 +94,6 @@ rec {
       enable = true;
       enableNixDirenvIntegration = true;
     };
-    emacs = {
-      enable = true;
-      package = pkgs.emacsPgtk;
-    };
     home-manager.enable = true;
     htop = {
       enable = true;
@@ -142,6 +138,7 @@ rec {
     };
     zsh = rec {
       enable = true;
+      autocd = true;
       enableAutosuggestions = true;
       dotDir = ".config/zsh";
       history = {

@@ -8,8 +8,7 @@ elif [ -n "$KSH_VERSION" ]; then
   [ "$(cd "$(dirname -- "$0")" && pwd -P)/$(basename -- "$0")" != "$(cd "$(dirname -- "${.sh.file}")" && pwd -P)/$(basename -- "${.sh.file}")" ] && sourced=1
 elif [ -n "$BASH_VERSION" ]; then
   (return 0 2>/dev/null) && sourced=1 
-else # All other shells: examine $0 for known shell binary filenames
-  # Detects `sh` and `dash`; add additional shell filenames as needed.
+else
   case ${0##*/} in sh|dash) sourced=1;; esac
 fi
 
@@ -22,7 +21,7 @@ can() {
 				echo "execute this command by sourcing it: '$(tput setaf 2). can $1$(tput sgr0)'"
 				return 1;
 			else
-      	cd "$HOME/.config/nix-config" || return 1;
+      	cd "$HOME/.config/nix-config" || return 1
 			fi
 			;;
 		switch)
@@ -52,7 +51,7 @@ EOF
 			;;
 		*)
 			echo "$(tput setaf 1 && tput bold)no can do, invalid command $1$(tput sgr0)"
-			echo 'Usage: can <switch/test/upgrade>'
+			echo 'Usage: can <cd/repl/switch/test/upgrade/info>'
 			return 1;
 			;;
 	esac;
@@ -62,4 +61,5 @@ if can "$1"; then
 	echo "$(tput setaf 2 && tput bold)everything went as planned...$(tput sgr0)"
 else
 	echo "$(tput setaf 1 && tput bold)something went awry...$(tput sgr0)"
+	return 1
 fi

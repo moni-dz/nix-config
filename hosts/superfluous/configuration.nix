@@ -220,7 +220,7 @@ in
       backend = "glx";
       vSync = true;
       fade = true;
-      fadeDelta = 1;
+      fadeDelta = 2;
     };
     pipewire = {
       enable = true;

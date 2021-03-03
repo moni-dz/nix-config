@@ -9,7 +9,7 @@
     unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     fork.url = "github:fortuneteller2k/nixpkgs/add-xanmod-kernel";
     master.url = "github:nixos/nixpkgs/master";
-    stable.url = "github:nixos/nixpkgs/nixos-20.09";
+    stable.url = "github:nixos/nixpkgs/release-20.09";
     nur.url = "github:nix-community/NUR";
     nvim-nightly.url = "github:nix-community/neovim-nightly-overlay";
     rust.url = "github:oxalica/rust-overlay";
