@@ -220,7 +220,7 @@ in
       backend = "glx";
       vSync = true;
       fade = true;
-      fadeDelta = 2;
+      fadeDelta = 3;
     };
     pipewire = {
       enable = true;
@@ -276,7 +276,7 @@ in
   system = {
     autoUpgrade = {
       enable = true;
-      flags = [ "--update-input" "nixpkgs" "--commit-lock-file" ];
+      flags = [ "--recreate-lock-file" ];
     };
     userActivationScripts = {
       reloadWallpaper.text = "${pkgs.xwallpaper}/bin/xwallpaper --zoom ${theme.wallpaper}";

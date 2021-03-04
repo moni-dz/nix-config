@@ -175,7 +175,7 @@ rec {
     mpd = {
       enable = true;
       package = pkgs.stable.mpd;
-      musicDirectory = "${home.homeDirectory}/Media/Music";
+      musicDirectory = "${xdg.userDirs.music}";
       extraConfig = (import ./config/mpd.nix);
     };
     mpdris2 = {
@@ -188,6 +188,16 @@ rec {
       enable = true;
       script = "polybar -l=trace main &";
       config = (import ./config/polybar.nix { inherit pkgs theme; });
+    };
+  };
+  xdg = {
+    enable = true;
+    userDirs = {
+      enable = true;
+      documents = "${home.homeDirectory}/Extras/Documents";
+      music = "${home.homeDirectory}/Media/Music";
+      pictures = "${home.homeDirectory}/Media/Pictures";
+      videos = "${home.homeDirectory}/Media/Videos";
     };
   };
   xresources.extraConfig = (import ./config/xresources.nix { inherit theme; });

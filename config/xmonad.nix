@@ -198,7 +198,7 @@ with theme;
     , fgColor             = "#${colors.fg}"
     , bgHLight            = "#${colors.highlightColor}"
     , fgHLight            = "#${colors.bg}"
-    , promptBorderWidth   = 2
+    , promptBorderWidth   = 0
     , position            = Top
     , height              = 17
     , historySize         = 256
@@ -235,11 +235,11 @@ with theme;
         , inactiveTextColor   = "#${colors.fg}"
         , urgentTextColor     = "#${colors.bg}"
         , activeBorderColor   = "#${colors.activeBorderColor}"
-        , inactiveBorderColor = "#${colors.inactiveBorderColor}"
+        , inactiveBorderColor = "#${colors.bg}"
         , urgentBorderColor   = "#${colors.c3}"
-        , activeBorderWidth   = 0
-        , inactiveBorderWidth = 0
-        , urgentBorderWidth   = 0
+        , activeBorderWidth   = 2
+        , inactiveBorderWidth = 2
+        , urgentBorderWidth   = 2
         }
 
   windowRules =
