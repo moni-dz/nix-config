@@ -1,10 +1,9 @@
 {
   description = "A somewhat huge NixOS configuration using Nix Flakes.";
   inputs = {
-    emacs.url = "github:nix-community/emacs-overlay";
     home = {
       url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "unstable";
+      inputs.nixpkgs.follows = "master";
     };
     unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     fork.url = "github:fortuneteller2k/nixpkgs/add-xanmod-kernel";
@@ -14,10 +13,11 @@
     nvim-nightly.url = "github:nix-community/neovim-nightly-overlay";
     rust.url = "github:oxalica/rust-overlay";
   };
-  outputs = { self, emacs, home, fork, master, stable, unstable, nur, nvim-nightly, rust }@inputs: {
-    nixosConfigurations.superfluous = (import ./hosts/superfluous/default.nix {
-      inherit emacs home inputs fork master stable unstable nur nvim-nightly rust;
-    });
+  outputs = { self, home, fork, master, stable, unstable, nur, nvim-nightly, rust }@inputs: {
+    nixosConfigurations.superfluous = import ./hosts/superfluous {
+      inherit home inputs fork master stable unstable nur nvim-nightly rust;
+      nixpkgs = unstable;
+    };
     superfluous = self.nixosConfigurations.superfluous.config.system.build.toplevel;
   };
 }

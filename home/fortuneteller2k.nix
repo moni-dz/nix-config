@@ -47,7 +47,6 @@ rec {
       inkscape
       kdenlive
       krita
-      libreoffice
       mpc_cli
       mpv-with-scripts
       neofetch
@@ -109,7 +108,6 @@ rec {
     };
     ncmpcpp = {
       enable = true;
-      package = pkgs.ncmpcpp;
       settings = (import ./config/ncmpcpp.nix);
     };
     neovim = {

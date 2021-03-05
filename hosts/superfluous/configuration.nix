@@ -61,7 +61,6 @@ in
       brightnessctl
       ccls
       cmake
-      copyq
       coreutils
       curl
       dash
@@ -84,7 +83,6 @@ in
       imagemagick
       jp2a
       jq
-      libsForQt514.qtstyleplugins
       libtool
       libva-utils
       nixfmt
@@ -216,11 +214,26 @@ in
     };
     picom = {
       enable = true;
+      experimentalBackends = true;
       refreshRate = 60;
       backend = "glx";
       vSync = true;
       fade = true;
       fadeDelta = 3;
+      settings = {
+        blur = {
+          method = "dual_kawase";
+          strength = 5;
+          background = false;
+          background-frame = false;
+          background-fixed = false;
+        };
+        blur-background-exclude = [
+          "window_type = 'dock'"
+          "window_type = 'desktop'"
+          "_GTK_FRAME_EXTENTS@:c"
+        ];
+      };
     };
     pipewire = {
       enable = true;
@@ -274,10 +287,6 @@ in
     };
   };
   system = {
-    autoUpgrade = {
-      enable = true;
-      flags = [ "--recreate-lock-file" ];
-    };
     userActivationScripts = {
       reloadWallpaper.text = "${pkgs.xwallpaper}/bin/xwallpaper --zoom ${theme.wallpaper}";
       reloadXMonad = {

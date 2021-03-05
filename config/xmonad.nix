@@ -19,6 +19,7 @@ with theme;
   import XMonad
 
   import XMonad.Actions.CycleWS
+  import XMonad.Actions.Promote
   import XMonad.Actions.Sift
   import XMonad.Actions.SpawnOn
   import XMonad.Actions.TiledWindowDragging
@@ -124,7 +125,7 @@ with theme;
     , ("M-<F2>",                     spawnHere browser)
     , ("M-e",                        withFocused (sendMessage . maximizeRestore))
     , ("M-<Tab>",                    sendMessage NextLayout)
-    , ("M-s",                        windows W.swapMaster)
+    , ("M-s",                        promote)
     , ("M--",                        sendMessage Shrink)
     , ("M-=",                        sendMessage Expand)
     , ("M-[",                        sendMessage MirrorShrink)

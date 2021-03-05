@@ -11,7 +11,7 @@ with theme.colors; {
     frame_width = 2;
     format = "<b>%s</b>: %b";
     font = "Iosevka FT 10.4";
-    frame_color = "#29d398";
+    frame_color = "#${c2}";
     separator_color = "auto";
     icon_position = "left";
     max_icon_size = 80;
@@ -19,19 +19,19 @@ with theme.colors; {
   };
   urgency_low = {
     foreground = "#${fg}";
-    background = "#${bg}";
+    background = "#${bg}e0";
     frame_color = "#${c2}";
     timeout = 2;
   };
   urgency_normal = {
     foreground = "#${fg}";
-    background = "#${bg}";
+    background = "#${bg}e0";
     frame_color = "#${c3}";
     timeout = 4;
   };
   urgency_critical = {
     foreground = "#${fg}";
-    background = "#${bg}";
+    background = "#${bg}e0";
     frame_color = "#${c1}";
   };
 }
