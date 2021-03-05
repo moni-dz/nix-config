@@ -97,7 +97,7 @@
     "home": {
       "inputs": {
         "nixpkgs": [
-          "master"
+          "unstable"
         ]
       },
       "locked": {

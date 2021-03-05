@@ -16,9 +16,9 @@ nixpkgs.lib.nixosSystem rec {
           unstable = unstable.legacyPackages.${system};
           stable = stable.legacyPackages.${system};
         };
-        inputOverlays = [
-          (final: prev: { comma = import inputs.comma { pkgs = unstable.legacyPackages."${system}"; }; })
-        ];
+        inputOverlays = (final: prev: {
+          comma = import inputs.comma { pkgs = unstable.legacyPackages."${system}"; };
+        });
       in
       {
         config = {
@@ -30,9 +30,8 @@ nixpkgs.lib.nixosSystem rec {
           nur.overlay
           rust.overlay
           nixpkgs-overlays
-        ] 
-        ++ userOverlays
-        ++ inputOverlays;
+          inputOverlays
+        ] ++ userOverlays;
       };
     }
     ./configuration.nix
@@ -41,8 +40,8 @@ nixpkgs.lib.nixosSystem rec {
       home-manager = {
         useGlobalPkgs = true;
         useUserPackages = true;
-	users.fortuneteller2k = import ../../home/fortuneteller2k.nix; 
-     };
+        users.fortuneteller2k = import ../../home/fortuneteller2k.nix;
+      };
     }
     nixpkgs.nixosModules.notDetected
   ];
