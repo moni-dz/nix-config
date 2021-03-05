@@ -1,4 +1,4 @@
-{ home, inputs, fork, master, stable, unstable, nixpkgs, nur, nvim-nightly, rust }:
+{ home, inputs, fork, master, stable, unstable, nixpkgs, nur, nvim-nightly, rust, ... }:
 
 nixpkgs.lib.nixosSystem rec {
   system = "x86_64-linux";
@@ -7,14 +7,18 @@ nixpkgs.lib.nixosSystem rec {
       nix = (import ../../config/nix-conf.nix { inherit inputs system; });
       nixpkgs = with nixpkgs.lib; let
         filterOverlays = k: v: v == "regular" && hasSuffix ".nix" k;
-        userOverlays = (lists.forEach (mapAttrsToList (name: _: ../../overlays + ("/" + name))
-          (filterAttrs filterOverlays (builtins.readDir ../../overlays)))) import;
+        getOverlays = path: (lists.forEach (mapAttrsToList (name: _: path + ("/" + name))
+          (filterAttrs filterOverlays (builtins.readDir path)))) import;
+        userOverlays = getOverlays ../../overlays;
         nixpkgs-overlays = _: _: {
           fork = fork.legacyPackages.${system};
           master = master.legacyPackages.${system};
           unstable = unstable.legacyPackages.${system};
           stable = stable.legacyPackages.${system};
         };
+        inputOverlays = [
+          (final: prev: { comma = import inputs.comma { pkgs = unstable.legacyPackages."${system}"; }; })
+        ];
       in
       {
         config = {
@@ -26,7 +30,9 @@ nixpkgs.lib.nixosSystem rec {
           nur.overlay
           rust.overlay
           nixpkgs-overlays
-        ] ++ userOverlays;
+        ] 
+        ++ userOverlays
+        ++ inputOverlays;
       };
     }
     ./configuration.nix
@@ -35,8 +41,8 @@ nixpkgs.lib.nixosSystem rec {
       home-manager = {
         useGlobalPkgs = true;
         useUserPackages = true;
-        users.fortuneteller2k = import ../../home/fortuneteller2k.nix;
-      };
+	users.fortuneteller2k = import ../../home/fortuneteller2k.nix; 
+     };
     }
     nixpkgs.nixosModules.notDetected
   ];

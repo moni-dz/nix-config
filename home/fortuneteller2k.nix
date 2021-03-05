@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, inputs, lib, pkgs, ... }:
 
 let
   theme = (import ../config/theme.nix);
@@ -30,9 +30,11 @@ rec {
     homeDirectory = "/home/${home.username}";
     username = "fortuneteller2k";
     packages = with pkgs; [
+      adoptopenjdk-openj9-bin-15
       betterdiscordctl
       bpytop
       brave
+      comma
       discord
       element-desktop
       exa
@@ -41,10 +43,12 @@ rec {
       geogebra6
       gimp
       gitAndTools.gh
+      gradle
       graphviz
       hakuneko
       hyperfine
       inkscape
+      jetbrains.idea-ultimate
       kdenlive
       krita
       mpc_cli
