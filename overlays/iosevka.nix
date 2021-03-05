@@ -1,5 +1,5 @@
 final: prev: {
-  iosevka-ft = prev.master.iosevka.override {
+  iosevka-ft = prev.head.iosevka.override {
     privateBuildPlan = ''
       [buildPlans.iosevka-ft]
       family = "Iosevka FT"

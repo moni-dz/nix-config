@@ -1,8 +1,8 @@
 {
   cat = "bat";
-  ls = "exa";
-  la = "exa -la";
-  l = "exa -l";
+  ls = "exa --icons";
+  la = "exa --icons -la";
+  l = "exa --icons -l";
   sv = "systemctl";
   ga = "git add";
   gp = "git push";

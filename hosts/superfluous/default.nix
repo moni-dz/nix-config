@@ -10,15 +10,15 @@ nixpkgs.lib.nixosSystem rec {
         getOverlays = path: (lists.forEach (mapAttrsToList (name: _: path + ("/" + name))
           (filterAttrs filterOverlays (builtins.readDir path)))) import;
         userOverlays = getOverlays ../../overlays;
-        nixpkgs-overlays = _: _: {
+        nixpkgsOverlays = _: _: {
           fork = fork.legacyPackages.${system};
-          master = master.legacyPackages.${system};
+          head = master.legacyPackages.${system};
           unstable = unstable.legacyPackages.${system};
           stable = stable.legacyPackages.${system};
         };
-        inputOverlays = (final: prev: {
+        inputOverlays = _: _: {
           comma = import inputs.comma { pkgs = unstable.legacyPackages."${system}"; };
-        });
+        };
       in
       {
         config = {
@@ -26,10 +26,10 @@ nixpkgs.lib.nixosSystem rec {
           allowBroken = true;
         };
         overlays = [
+          nixpkgsOverlays
           nvim-nightly.overlay
           nur.overlay
           rust.overlay
-          nixpkgs-overlays
           inputOverlays
         ] ++ userOverlays;
       };

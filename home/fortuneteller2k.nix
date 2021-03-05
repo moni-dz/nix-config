@@ -36,7 +36,7 @@ rec {
       comma
       discord
       element-desktop
-      exa
+      head.exa
       flavours
       fzf
       geogebra6
@@ -65,7 +65,7 @@ rec {
       playerctl
       qutebrowser
       ripcord
-      # sacad # wait for nixpkgs PR to get merged
+      head.sacad
       speedtest-cli
       sxiv
       texlive.combined.scheme-medium
