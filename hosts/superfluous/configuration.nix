@@ -56,6 +56,7 @@ in
   environment = {
     pathsToLink = [ "/share/zsh" ];
     systemPackages = with pkgs; [
+      adoptopenjdk-openj9-bin-15
       alsaTools
       alsaUtils
       brightnessctl
@@ -76,6 +77,7 @@ in
       git
       gnumake
       go
+      gradle
       gxmessage
       hacksaw
       haskell-language-server

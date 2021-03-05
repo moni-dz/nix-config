@@ -30,7 +30,6 @@ rec {
     homeDirectory = "/home/${home.username}";
     username = "fortuneteller2k";
     packages = with pkgs; [
-      adoptopenjdk-openj9-bin-15
       betterdiscordctl
       bpytop
       brave
@@ -43,7 +42,6 @@ rec {
       geogebra6
       gimp
       gitAndTools.gh
-      gradle
       graphviz
       hakuneko
       hyperfine
