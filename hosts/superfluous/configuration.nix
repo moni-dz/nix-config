@@ -55,6 +55,7 @@ in
   i18n.defaultLocale = "en_US.UTF-8";
   environment = {
     pathsToLink = [ "/share/zsh" ];
+    sessionVariables."LD_PRELOAD" = "/etc/nixos/config/ld-preload-xcreatewindow.so";
     systemPackages = with pkgs; [
       adoptopenjdk-openj9-bin-15
       alsaTools
@@ -80,7 +81,7 @@ in
       gradle
       gxmessage
       hacksaw
-      haskell-language-server
+      head.haskell-language-server
       hsetroot
       imagemagick
       jp2a
@@ -98,6 +99,7 @@ in
       pavucontrol
       pciutils
       pcmanfm
+      psmisc
       pulseaudio
       python3
       python39Packages.grip
@@ -257,6 +259,7 @@ in
         hiddenUsers = pkgs.lib.mkForce [ "nobody" ];
         defaultSession = "none+xmonad";
       };
+      useGlamor = true;
       windowManager = {
         xmonad = {
           enable = true;
@@ -300,6 +303,10 @@ in
   };
   systemd = {
     extraConfig = "RebootWatchdogSec=5";
+    services.rtkit-daemon.serviceConfig.ExecStart = [
+      ""
+      "${pkgs.rtkit}/libexec/rtkit-daemon --our-realtime-priority=95 --max-realtime-priority=90"
+    ];
     user.services = {
       pipewire.wantedBy = [ "default.target" ];
       pipewire-pulse.wantedBy = [ "default.target" ];

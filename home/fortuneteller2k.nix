@@ -33,6 +33,10 @@ rec {
       betterdiscordctl
       bpytop
       brave
+      cava
+      celluloid
+      head.cbonsai
+      cmatrix
       comma
       discord
       element-desktop
@@ -50,7 +54,6 @@ rec {
       kdenlive
       krita
       mpc_cli
-      mpv-with-scripts
       neofetch
       nix-top
       nixpkgs-fmt
@@ -68,8 +71,11 @@ rec {
       head.sacad
       speedtest-cli
       sxiv
+      tdesktop
       texlive.combined.scheme-medium
+      torrential
       ueberzug
+      woeusb
     ];
     stateVersion = "21.05";
   };

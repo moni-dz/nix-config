@@ -21,7 +21,6 @@ with theme;
   import XMonad.Actions.CycleWS
   import XMonad.Actions.Promote
   import XMonad.Actions.Sift
-  import XMonad.Actions.SpawnOn
   import XMonad.Actions.TiledWindowDragging
   import XMonad.Actions.TreeSelect
   import XMonad.Actions.WithAll
@@ -57,7 +56,6 @@ with theme;
 
   import XMonad.Util.EZConfig
   import XMonad.Util.Hacks
-  import XMonad.Util.NamedScratchpad
   import XMonad.Util.Run
   import XMonad.Util.SpawnOnce
 
@@ -116,13 +114,12 @@ with theme;
              }
 
   keybindings =
-    [ ("M-<Return>",                 spawnHere term)
-    , ("M-b",                        namedScratchpadAction scratchpads "terminal")
+    [ ("M-<Return>",                 safeSpawnProg term)
     , ("M-`",                        distractionLess)
-    , ("M-d",                        shellPromptHere promptConfig)
+    , ("M-d",                        shellPrompt promptConfig)
     , ("M-q",                        kill)
     , ("M-w",                        treeselectAction tsConfig actions)
-    , ("M-<F2>",                     spawnHere browser)
+    , ("M-<F2>",                     unsafeSpawn browser)
     , ("M-e",                        withFocused (sendMessage . maximizeRestore))
     , ("M-<Tab>",                    sendMessage NextLayout)
     , ("M-s",                        promote)
@@ -191,8 +188,6 @@ with theme;
     , ((modkey, button1), (\w -> focus w >> mouseMoveWindow w >> windows W.shiftMaster))
     , ((modkey, button3), (\w -> focus w >> mouseResizeWindow w >> windows W.shiftMaster)) ]
 
-  scratchpads = [ NS "terminal" (term ++ " -t ScratchpadTerm") (title =? "ScratchpadTerm") (customFloating $ W.RationalRect (1/6) (1/6) (2/3) (2/3)) ]
-
   promptConfig = def
     { font                = fontFamily
     , bgColor             = "#${colors.bg}"
@@ -245,8 +240,6 @@ with theme;
 
   windowRules =
     placeHook (smart (0.5, 0.5))
-    <+> manageSpawn
-    <+> namedScratchpadManageHook scratchpads
     <+> composeAll
     [ className  =? "Gimp"                                 --> doFloat
     , (className =? "Ripcord" <&&> title =? "Preferences") --> doFloat
@@ -254,7 +247,6 @@ with theme;
     , className  =? "Peek"                                 --> doFloat
     , className  =? "Xephyr"                               --> doFloat
     , className  =? "Sxiv"                                 --> doFloat
-    , className  =? "mpv"                                  --> doFloat
     , appName    =? "polybar"                              --> doLower
     , appName    =? "desktop_window"                       --> doIgnore
     , appName    =? "kdesktop"                             --> doIgnore
@@ -291,7 +283,7 @@ with theme;
     , layoutHook         = layouts
     , manageHook         = windowRules
     , logHook            = barHook dbus
-    , handleEventHook    = swallowEventHook (return True) (return True) <+> hintsEventHook
+    , handleEventHook    = swallowEventHook (className =? "Alacritty" <||> className =? "XTerm") (return True) <+> hintsEventHook
     , startupHook        = autostart
     } 
     `additionalKeysP` keybindings
@@ -308,7 +300,6 @@ with theme;
     , "Default keybindings:"
     , ""
     , "Alt-Enter:              spawn alacritty"
-    , "Alt-b:                  spawn alacritty in a scratchpad"
     , "Alt-`:                  toggle distraction less mode"
     , "Alt-d:                  show run prompt"
     , "Alt-q:                  quit window"

@@ -7,9 +7,9 @@ nixpkgs.lib.nixosSystem rec {
       nix = (import ../../config/nix-conf.nix { inherit inputs system; });
       nixpkgs = with nixpkgs.lib; let
         filterOverlays = k: v: v == "regular" && hasSuffix ".nix" k;
-        getOverlays = path: (lists.forEach (mapAttrsToList (name: _: path + ("/" + name))
+        importNixFiles = path: (lists.forEach (mapAttrsToList (name: _: path + ("/" + name))
           (filterAttrs filterOverlays (builtins.readDir path)))) import;
-        userOverlays = getOverlays ../../overlays;
+        userOverlays = importNixFiles ../../overlays;
         nixpkgsOverlays = _: _: {
           fork = fork.legacyPackages.${system};
           head = master.legacyPackages.${system};

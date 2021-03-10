@@ -22,6 +22,7 @@
     Plug 'alvan/vim-closetag'
     Plug 'itchyny/lightline.vim'
     Plug 'fortuneteller2k/vim-horizon'
+    Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
     Plug 'hugolgst/vimsence'
     Plug 'LnL7/vim-nix'
     Plug 'ziglang/zig.vim'
