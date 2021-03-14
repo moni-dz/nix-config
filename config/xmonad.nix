@@ -1,4 +1,4 @@
-{ pkgs, theme }:
+{ config, pkgs, theme }:
 
 with pkgs;
 with theme;
@@ -75,7 +75,7 @@ with theme;
 
   actions = [ Node (TSNode "Session" "session management" (return ()))
                    [ Node (TSNode "Logout" "exit current XMonad session" (io (exitWith ExitSuccess))) []
-                   , Node (TSNode "Lock" "lock session" (safeSpawnProg "slock")) []
+                   , Node (TSNode "Lock" "lock session" (safeSpawnProg "${config.security.wrapperDir}/slock")) []
                    , Node (TSNode "Reboot" "reboot this machine" (safeSpawn "${systemd}/bin/systemctl" ["reboot"])) []
                    , Node (TSNode "Power Off" "power off this machine" (safeSpawn "${systemd}/bin/systemctl" ["poweroff"])) []
                    ]
@@ -101,9 +101,9 @@ with theme;
              { ts_hidechildren = True
              , ts_background   = 0xe0${colors.bg}
              , ts_font         = sansFontFamily
-             , ts_node         = (0xff${colors.bg}, 0xff${colors.c1})
-             , ts_nodealt      = (0xff${colors.bg}, 0xff${colors.c9})
-             , ts_highlight    = (0xff${colors.bg}, 0xff${colors.c3})
+             , ts_node         = (0xff${colors.bg}, 0xff${if theme.primaryColor == "red" then colors.c1 else colors.c3})
+             , ts_nodealt      = (0xff${colors.bg}, 0xff${if theme.primaryColor == "red" then colors.c9 else colors.c11})
+             , ts_highlight    = (0xff${colors.bg}, 0xff${if theme.primaryColor == "red" then colors.c3 else colors.c1})
              , ts_extra        = 0xff${colors.fg}
              , ts_node_width   = 200
              , ts_node_height  = 30
@@ -137,7 +137,7 @@ with theme;
     , ("M-S-s",                      safeSpawn "/etc/nixos/scripts/screenshot" ["full"])
     , ("M-S-q",                      io (exitWith ExitSuccess))
     , ("M-S-h",                      safeSpawn "${gxmessage}/bin/gxmessage" ["-fn", fontNameGTK, help])
-    , ("M-S-<Delete>",               safeSpawnProg "slock")
+    , ("M-S-<Delete>",               safeSpawnProg "${config.security.wrapperDir}/slock")
     , ("M-S-c",                      withFocused $ \w -> safeSpawn "${xorg.xkill}/bin/xkill" ["-id", show w])
     , ("M-C-<Left>",                 sendMessage $ pullGroup L)
     , ("M-C-<Right>",                sendMessage $ pullGroup R)
@@ -182,35 +182,34 @@ with theme;
       toggleFloat w = windows (\s -> if M.member w (W.floating s)
                                       then W.sink w s
                                       else (W.float w (W.RationalRect 0.15 0.15 0.7 0.7) s))
+      promptConfig = def
+        { font                = fontFamily
+        , bgColor             = "#${colors.bg}"
+        , fgColor             = "#${colors.fg}"
+        , bgHLight            = "#${colors.highlightColor}"
+        , fgHLight            = "#${colors.bg}"
+        , promptBorderWidth   = 0
+        , position            = Top
+        , height              = 17
+        , historySize         = 256
+        , historyFilter       = id
+        , showCompletionOnTab = False
+        , searchPredicate     = fuzzyMatch
+        , sorter              = fuzzySort
+        , defaultPrompter     = \_ -> "xmonad λ: "
+        , alwaysHighlight     = True
+        , maxComplRows        = Just 5
+        }
 
   mousebindings = 
     [ ((modkey .|. shiftMask, button1), dragWindow)
     , ((modkey, button1), (\w -> focus w >> mouseMoveWindow w >> windows W.shiftMaster))
     , ((modkey, button3), (\w -> focus w >> mouseResizeWindow w >> windows W.shiftMaster)) ]
 
-  promptConfig = def
-    { font                = fontFamily
-    , bgColor             = "#${colors.bg}"
-    , fgColor             = "#${colors.fg}"
-    , bgHLight            = "#${colors.highlightColor}"
-    , fgHLight            = "#${colors.bg}"
-    , promptBorderWidth   = 0
-    , position            = Top
-    , height              = 17
-    , historySize         = 256
-    , historyFilter       = id
-    , showCompletionOnTab = False
-    , searchPredicate     = fuzzyMatch
-    , sorter              = fuzzySort
-    , defaultPrompter     = \_ -> "xmonad λ: "
-    , alwaysHighlight     = True
-    , maxComplRows        = Just 5
-    }
-
   layouts = avoidStruts 
             $ renamed [CutWordsLeft 5]
             $ smartBorders
-            $ windowNavigation
+            $ configurableNavigation noNavigateBorders
             $ tabs
             $ boringWindows
             $ spacingRaw False (Border 4 4 4 4) True (Border 4 4 4 4) True
@@ -224,14 +223,14 @@ with theme;
       tabs x = addTabs shrinkText tabTheme $ subLayout [] Simplest x
       tabTheme = def
         { fontName            = fontFamily
-        , activeColor         = "#${colors.primary}"
-        , inactiveColor       = "#${colors.bg}"
+        , activeColor         = "#${colors.activeBorderColor}"
+        , inactiveColor       = "#${colors.inactiveBorderColor}"
         , urgentColor         = "#${colors.c5}"
         , activeTextColor     = "#${colors.bg}"
         , inactiveTextColor   = "#${colors.fg}"
         , urgentTextColor     = "#${colors.bg}"
         , activeBorderColor   = "#${colors.activeBorderColor}"
-        , inactiveBorderColor = "#${colors.bg}"
+        , inactiveBorderColor = "#${colors.inactiveBorderColor}"
         , urgentBorderColor   = "#${colors.c3}"
         , activeBorderWidth   = 2
         , inactiveBorderWidth = 2
@@ -266,7 +265,7 @@ with theme;
 
   barHook dbus =
     let signal     = D.signal (D.objectPath_ "/org/xmonad/Log") (D.interfaceName_ "org.xmonad.Log") (D.memberName_ "Update")
-        output str = D.emit dbus $ signal { D.signalBody = [D.toVariant $ UTF8.decodeString str] } 
+        output str = D.emit dbus $ signal { D.signalBody = [ D.toVariant $ UTF8.decodeString str ] } 
     in dynamicLogWithPP $ xmobarPP
       { ppOutput = output
       , ppOrder  = \(_:l:_:_) -> [l]

@@ -1,6 +1,6 @@
 rec {
   lightModeEnabled = false;
-  primaryColor = "red";
+  primaryColor = "yellow";
   colors =
     if lightModeEnabled
     then (import ./colors-light.nix)
@@ -9,8 +9,7 @@ rec {
     let
       wallpaperPath = "/etc/nixos/config/wallpapers";
     in
-    if lightModeEnabled
-    then "${wallpaperPath}/horizon_lightmode.jpg"
+    if lightModeEnabled then "${wallpaperPath}/horizon_lightmode.jpg"
     else if primaryColor == "red"
     then "${wallpaperPath}/horizon.jpg"
     else "${wallpaperPath}/horizonyellow.jpg";

@@ -39,6 +39,11 @@
 
   colorscheme horizon
   let g:lightline = { 'colorscheme' : 'horizon' }
+  
+  hi Normal ctermbg=none
+  hi NonText ctermbg=none
+  hi Normal guibg=none
+  hi NonText guibg=none
 
   let g:Hexokinase_highlighters = [ 'background' ]
 

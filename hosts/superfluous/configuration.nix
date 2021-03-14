@@ -5,7 +5,7 @@ let
 in
 {
   boot = {
-    kernelPackages = pkgs.fork.linuxPackages_xanmod;
+    kernelPackages = pkgs.head.linuxPackages_latest;
     kernelParams = [
       "rw"
       "mitigations=off"
@@ -76,6 +76,7 @@ in
       gcc
       ghc
       git
+      glxinfo
       gnumake
       go
       gradle
@@ -186,7 +187,7 @@ in
     slock.enable = true;
     xss-lock = {
       enable = true;
-      lockerCommand = "${pkgs.slock}/bin/slock";
+      lockerCommand = "${config.security.wrapperDir}/slock";
     };
   };
   security = {
@@ -224,20 +225,6 @@ in
       vSync = true;
       fade = true;
       fadeDelta = 3;
-      settings = {
-        blur = {
-          method = "dual_kawase";
-          strength = 5;
-          background = false;
-          background-frame = false;
-          background-fixed = false;
-        };
-        blur-background-exclude = [
-          "window_type = 'dock'"
-          "window_type = 'desktop'"
-          "_GTK_FRAME_EXTENTS@:c"
-        ];
-      };
     };
     pipewire = {
       enable = true;
@@ -256,31 +243,38 @@ in
       config = (import ../../config/xorg-amd-tearfree.nix);
       displayManager = {
         gdm.enable = true;
-        hiddenUsers = pkgs.lib.mkForce [ "nobody" ];
         defaultSession = "none+xmonad";
       };
       useGlamor = true;
       windowManager = {
         xmonad = {
           enable = true;
-          config = (import ../../config/xmonad.nix {
-            inherit pkgs theme;
-          });
+          config = (import ../../config/xmonad.nix { inherit config pkgs theme; });
           extraPackages = hpkgs: with hpkgs; [ dbus xmonad-contrib ];
-          haskellPackages = pkgs.haskellPackages.extend (pkgs.haskell.lib.packageSourceOverrides {
-            xmonad = pkgs.fetchFromGitHub {
-              owner = "xmonad";
-              repo = "xmonad";
-              rev = "a90558c07e3108ec2304cac40e5d66f74f52b803";
-              sha256 = "sha256-+TDKhCVvxoRLzHZGzFnClFqKcr4tUrwFY1at3Rwllus=";
-            };
-            xmonad-contrib = pkgs.fetchFromGitHub {
-              owner = "xmonad";
-              repo = "xmonad-contrib";
-              rev = "cdc6c6d39cdfbd4bfeb248a5b5854098083562ac";
-              sha256 = "sha256-ZH5VnYTOtAxqetKlnqL2FJHeguX7G789Mj7b+riNEpM=";
-            };
-          });
+          ghcArgs = [
+            "-O2"
+            "-funfolding-use-threshold=16"
+            "-fexcess-precision"
+            "-optc-O3"
+            "-optc-ffast-math"
+          ];
+          haskellPackages =
+            let owner = "xmonad";
+            in
+            pkgs.haskellPackages.extend (pkgs.haskell.lib.packageSourceOverrides {
+              xmonad = pkgs.fetchFromGitHub {
+                inherit owner;
+                repo = owner;
+                rev = "a90558c07e3108ec2304cac40e5d66f74f52b803";
+                sha256 = "sha256-+TDKhCVvxoRLzHZGzFnClFqKcr4tUrwFY1at3Rwllus=";
+              };
+              xmonad-contrib = pkgs.fetchFromGitHub {
+                inherit owner;
+                repo = "${owner}-contrib";
+                rev = "cdc6c6d39cdfbd4bfeb248a5b5854098083562ac";
+                sha256 = "sha256-ZH5VnYTOtAxqetKlnqL2FJHeguX7G789Mj7b+riNEpM=";
+              };
+            });
         };
       };
       layout = "us";

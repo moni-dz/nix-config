@@ -1,14 +1,15 @@
 { theme }:
 
 with theme.colors; {
-  background_opacity = 0.95;
+  background_opacity = 0.98;
   env.TERM = "xterm-256color";
   font = {
     normal = {
       family = "Iosevka FT";
       style = "Regular";
     };
-    size = 11.4;
+    size = 11;
+    offset.y = -1;
   };
   window = {
     dynamic_padding = true;

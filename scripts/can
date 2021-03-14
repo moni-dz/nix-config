@@ -31,7 +31,7 @@ can() {
 			cd ~/.config/nix-config && doas nixos-rebuild test
 			;;
 		upgrade)
-			cd ~/.config/nix-config && nix flake update --recreate-lock-file && doas nixos-rebuild switch && git add flake.lock && git commit -m "flake: bump flakes" && git push
+			cd ~/.config/nix-config && nix flake update && doas nixos-rebuild switch && git add flake.lock && git commit -m "flake: bump flakes" && git push
 			;;
 		info)
 			cd ~/.config/nix-config || return 1
