@@ -232,9 +232,9 @@ with theme;
         , activeBorderColor   = "#${colors.activeBorderColor}"
         , inactiveBorderColor = "#${colors.inactiveBorderColor}"
         , urgentBorderColor   = "#${colors.c3}"
-        , activeBorderWidth   = 2
-        , inactiveBorderWidth = 2
-        , urgentBorderWidth   = 2
+        , activeBorderWidth   = ${theme.borderWidth}
+        , inactiveBorderWidth = ${theme.borderWidth}
+        , urgentBorderWidth   = ${theme.borderWidth}
         }
 
   windowRules =
@@ -274,7 +274,7 @@ with theme;
   main' dbus = xmonad . ewmhFullscreen . docks . ewmh . javaHack $ def
     { focusFollowsMouse  = True
     , clickJustFocuses   = True
-    , borderWidth        = 2
+    , borderWidth        = ${theme.borderWidth}
     , modMask            = modkey
     , workspaces         = ws
     , normalBorderColor  = "#${colors.inactiveBorderColor}"

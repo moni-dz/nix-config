@@ -9,17 +9,19 @@ stdenv.mkDerivation rec {
       repo = "gtk";
     in
     if theme.lightModeEnabled then
-      fetchFromGitHub {
-        inherit owner repo;
-        rev = "9e015e98f31fb784010fa19d1c3ad9afa1344698";
-        sha256 = "sha256-5fPXfYz0V2hO3B/6+VdAyCVCELNoZS00XTkZCV6JUM0=";
-      } 
+      fetchFromGitHub
+        {
+          inherit owner repo;
+          rev = "9e015e98f31fb784010fa19d1c3ad9afa1344698";
+          sha256 = "sha256-5fPXfYz0V2hO3B/6+VdAyCVCELNoZS00XTkZCV6JUM0=";
+        }
     else if theme.primaryColor == "red" then
-      fetchFromGitHub {
-        inherit owner repo;
-        rev = "28a34466a9f8d90f4bbda88971c39b57495859be";
-        sha256 = "sha256-jVgN3Z3B6gdHGLOFqGSTn54ApS7as0C/XfxpPl6hoMs=";
-      }
+      fetchFromGitHub
+        {
+          inherit owner repo;
+          rev = "28a34466a9f8d90f4bbda88971c39b57495859be";
+          sha256 = "sha256-jVgN3Z3B6gdHGLOFqGSTn54ApS7as0C/XfxpPl6hoMs=";
+        }
     else
       fetchFromGitHub {
         inherit owner repo;

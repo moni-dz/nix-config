@@ -1,4 +1,5 @@
 rec {
+  borderWidth = "2";
   lightModeEnabled = false;
   primaryColor = "yellow";
   colors =

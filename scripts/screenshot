@@ -3,7 +3,8 @@
 screenshot() {
 	case "$1" in
 		area)
-			shotgun $(hacksaw -c e95678 -f '-i %i -g %g') - | xclip -t 'image/png' -selection clipboard
+			# shellcheck disable=SC2046
+			shotgun $(hacksaw -c "$( (rg primary | awk '{print $2}' | sed 's/^#//') < ~/.Xresources )" -f '-i %i -g %g') - | xclip -t 'image/png' -selection clipboard
 			;;
 		full)
 			shotgun ~/Media/Pictures/screenshots/"$(date '+%B-%d-%Y-%I:%M-%p')".png

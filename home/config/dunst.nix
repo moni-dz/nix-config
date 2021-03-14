@@ -10,7 +10,7 @@ with theme.colors; {
     word_wrap = "yes";
     horizontal_padding = 8;
     show_indicators = false;
-    frame_width = 2;
+    frame_width = theme.borderWidth;
     format = "<b>%s</b>: %b";
     font = "Iosevka FT 10.4";
     frame_color = "#${c2}";

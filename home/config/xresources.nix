@@ -3,6 +3,7 @@
 with theme.colors;
 
 ''
+  primary: #${primary}
   *.foreground: #${fg}
   *.background: #${bg}
 

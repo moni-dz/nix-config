@@ -96,6 +96,7 @@ in
       nodejs
       notify-desktop
       ntfs3g
+      nur.repos.fortuneteller2k.abstractdark-sddm-theme
       pandoc
       pavucontrol
       pciutils
@@ -242,40 +243,41 @@ in
       dpi = 96;
       config = (import ../../config/xorg-amd-tearfree.nix);
       displayManager = {
-        gdm.enable = true;
+        sddm = {
+          enable = true;
+          theme = "abstractdark-sddm-theme";
+        };
         defaultSession = "none+xmonad";
       };
       useGlamor = true;
-      windowManager = {
-        xmonad = {
-          enable = true;
-          config = (import ../../config/xmonad.nix { inherit config pkgs theme; });
-          extraPackages = hpkgs: with hpkgs; [ dbus xmonad-contrib ];
-          ghcArgs = [
-            "-O2"
-            "-funfolding-use-threshold=16"
-            "-fexcess-precision"
-            "-optc-O3"
-            "-optc-ffast-math"
-          ];
-          haskellPackages =
-            let owner = "xmonad";
-            in
-            pkgs.haskellPackages.extend (pkgs.haskell.lib.packageSourceOverrides {
-              xmonad = pkgs.fetchFromGitHub {
-                inherit owner;
-                repo = owner;
-                rev = "a90558c07e3108ec2304cac40e5d66f74f52b803";
-                sha256 = "sha256-+TDKhCVvxoRLzHZGzFnClFqKcr4tUrwFY1at3Rwllus=";
-              };
-              xmonad-contrib = pkgs.fetchFromGitHub {
-                inherit owner;
-                repo = "${owner}-contrib";
-                rev = "cdc6c6d39cdfbd4bfeb248a5b5854098083562ac";
-                sha256 = "sha256-ZH5VnYTOtAxqetKlnqL2FJHeguX7G789Mj7b+riNEpM=";
-              };
-            });
-        };
+      windowManager.xmonad = {
+        enable = true;
+        config = (import ../../config/xmonad.nix { inherit config pkgs theme; });
+        extraPackages = hpkgs: with hpkgs; [ dbus xmonad-contrib ];
+        ghcArgs = [
+          "-O2"
+          "-funfolding-use-threshold=16"
+          "-fexcess-precision"
+          "-optc-O3"
+          "-optc-ffast-math"
+        ];
+        haskellPackages =
+          let owner = "xmonad";
+          in
+          pkgs.haskellPackages.extend (pkgs.haskell.lib.packageSourceOverrides {
+            xmonad = pkgs.fetchFromGitHub {
+              inherit owner;
+              repo = owner;
+              rev = "a90558c07e3108ec2304cac40e5d66f74f52b803";
+              sha256 = "sha256-+TDKhCVvxoRLzHZGzFnClFqKcr4tUrwFY1at3Rwllus=";
+            };
+            xmonad-contrib = pkgs.fetchFromGitHub {
+              inherit owner;
+              repo = "${owner}-contrib";
+              rev = "cdc6c6d39cdfbd4bfeb248a5b5854098083562ac";
+              sha256 = "sha256-ZH5VnYTOtAxqetKlnqL2FJHeguX7G789Mj7b+riNEpM=";
+            };
+          });
       };
       layout = "us";
       libinput = {
@@ -287,9 +289,21 @@ in
   };
   system = {
     userActivationScripts = {
-      reloadWallpaper.text = "${pkgs.xwallpaper}/bin/xwallpaper --zoom ${theme.wallpaper}";
+      reloadWallpaper.text = ''
+        if [ $DISPLAY ]; then
+          ${pkgs.xwallpaper}/bin/xwallpaper --zoom ${theme.wallpaper}
+        else
+          ${pkgs.coreutils}/bin/echo "skipping..."
+        fi
+      '';
       reloadXMonad = {
-        text = "${pkgs.xmonad-with-packages}/bin/xmonad --restart";
+        text = ''
+          if [ $DISPLAY ]; then
+            ${pkgs.xmonad-with-packages}/bin/xmonad --restart
+          else
+            ${pkgs.coreutils}/bin/echo "skipping..."
+          fi
+        '';
         deps = [ "reloadWallpaper" ];
       };
     };
