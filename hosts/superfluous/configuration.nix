@@ -55,7 +55,19 @@ in
   i18n.defaultLocale = "en_US.UTF-8";
   environment = {
     pathsToLink = [ "/share/zsh" ];
-    sessionVariables."LD_PRELOAD" = "/etc/nixos/config/ld-preload-xcreatewindow.so";
+    sessionVariables = with pkgs; {
+      "LD_PRELOAD" = "/etc/nixos/config/ld-preload-xcreatewindow.so";
+      "XSECURELOCK_BLANK_TIMEOUT" = "5";
+      "XSECURELOCK_BLANK_DPMS_STATE" = "suspend";
+      "XSECURELOCK_KEY_XF86AudioPlay_COMMAND" = "${playerctl}/bin/playerctl play-pause";
+      "XSECURELOCK_KEY_XF86AudioPrev_COMMAND" = "${playerctl}/bin/playerctl previous";
+      "XSECURELOCK_KEY_XF86AudioNext_COMMAND" = "${playerctl}/bin/playerctl next";
+      "XSECURELOCK_KEY_XF86AudioMute_COMMAND" = "/etc/nixos/scripts/volume toggle";
+      "XSECURELOCK_KEY_XF86AudioRaiseVolume_COMMAND" = "/etc/nixos/scripts/volume up";
+      "XSECURELOCK_KEY_XF86AudioLowerVolume_COMMAND" = "/etc/nixos/scripts/volume down";
+      "XSECURELOCK_KEY_XF86MonBrightnessUp_COMMAND" = "${brightnessctl}/bin/brightnessctl s +10%";
+      "XSECURELOCK_KEY_XF86MonBrightnessDown_COMMAND" = "${brightnessctl}/bin/brightnessctl s 10%-";
+    };
     systemPackages = with pkgs; [
       adoptopenjdk-openj9-bin-15
       alsaTools
@@ -110,7 +122,6 @@ in
       rustup
       shellcheck
       shotgun
-      slock
       stack
       unrar
       unzip
@@ -126,6 +137,7 @@ in
       xorg.xsetroot
       xorg.xkill
       xorg.xwininfo
+      xsecurelock
       xwallpaper
       zig
       zip
@@ -185,10 +197,9 @@ in
     };
     command-not-found.enable = false;
     qt5ct.enable = true;
-    slock.enable = true;
     xss-lock = {
       enable = true;
-      lockerCommand = "${config.security.wrapperDir}/slock";
+      lockerCommand = "${pkgs.xsecurelock}/bin/xsecurelock";
     };
   };
   security = {
@@ -220,12 +231,9 @@ in
     };
     picom = {
       enable = true;
-      experimentalBackends = true;
       refreshRate = 60;
       backend = "glx";
       vSync = true;
-      fade = true;
-      fadeDelta = 3;
     };
     pipewire = {
       enable = true;
@@ -274,8 +282,8 @@ in
             xmonad-contrib = pkgs.fetchFromGitHub {
               inherit owner;
               repo = "${owner}-contrib";
-              rev = "cdc6c6d39cdfbd4bfeb248a5b5854098083562ac";
-              sha256 = "sha256-ZH5VnYTOtAxqetKlnqL2FJHeguX7G789Mj7b+riNEpM=";
+              rev = "8a0151fe77fecaa1e3b3566e6b05f7479687ecb8";
+              sha256 = "sha256-+p/oznVfM/ici9wvpmRp59+W+yZEPShpPkipjOhiguU=";
             };
           });
       };

@@ -75,7 +75,7 @@ with theme;
 
   actions = [ Node (TSNode "Session" "session management" (return ()))
                    [ Node (TSNode "Logout" "exit current XMonad session" (io (exitWith ExitSuccess))) []
-                   , Node (TSNode "Lock" "lock session" (safeSpawnProg "${config.security.wrapperDir}/slock")) []
+                   , Node (TSNode "Lock" "lock session" (safeSpawnProg "${xsecurelock}/bin/xsecurelock")) []
                    , Node (TSNode "Reboot" "reboot this machine" (safeSpawn "${systemd}/bin/systemctl" ["reboot"])) []
                    , Node (TSNode "Power Off" "power off this machine" (safeSpawn "${systemd}/bin/systemctl" ["poweroff"])) []
                    ]
@@ -137,7 +137,7 @@ with theme;
     , ("M-S-s",                      safeSpawn "/etc/nixos/scripts/screenshot" ["full"])
     , ("M-S-q",                      io (exitWith ExitSuccess))
     , ("M-S-h",                      safeSpawn "${gxmessage}/bin/gxmessage" ["-fn", fontNameGTK, help])
-    , ("M-S-<Delete>",               safeSpawnProg "${config.security.wrapperDir}/slock")
+    , ("M-S-<Delete>",               safeSpawnProg "${xsecurelock}/bin/xsecurelock")
     , ("M-S-c",                      withFocused $ \w -> safeSpawn "${xorg.xkill}/bin/xkill" ["-id", show w])
     , ("M-C-<Left>",                 sendMessage $ pullGroup L)
     , ("M-C-<Right>",                sendMessage $ pullGroup R)
@@ -237,10 +237,9 @@ with theme;
         , urgentBorderWidth   = ${theme.borderWidth}
         }
 
-  windowRules =
-    placeHook (smart (0.5, 0.5))
-    <+> composeAll
-    [ className  =? "Gimp"                                 --> doFloat
+  windowRules = composeAll
+    [ placeHook (smart (0.5, 0.5))
+    , className  =? "Gimp"                                 --> doFloat
     , (className =? "Ripcord" <&&> title =? "Preferences") --> doFloat
     , className  =? "Gxmessage"                            --> doFloat
     , className  =? "Peek"                                 --> doFloat
@@ -249,17 +248,18 @@ with theme;
     , appName    =? "polybar"                              --> doLower
     , appName    =? "desktop_window"                       --> doIgnore
     , appName    =? "kdesktop"                             --> doIgnore
-    , isDialog                                             --> doF W.siftUp <+> doFloat ]
-    <+> insertPosition End Newer -- same effect as attachaside patch in dwm
-    <+> manageDocks
-    <+> manageHook defaultConfig
+    , isDialog                                             --> doF W.siftUp <+> doFloat
+    , insertPosition End Newer -- same effect as attachaside patch in dwm
+    , manageDocks
+    , manageHook defaultConfig
+    ]
     where
       doLower = ask >>= \w -> unsafeSpawn ("${xdo}/bin/xdo lower " ++ show w) >> mempty
 
   autostart = do
     spawnOnce "${xwallpaper}/bin/xwallpaper --zoom ${wallpaper} &"
     spawnOnce "${xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr &"
-    spawnOnce "${xidlehook}/bin/xidlehook --not-when-fullscreen --not-when-audio --timer 120 slock \'\' &"
+    spawnOnce "${xidlehook}/bin/xidlehook --not-when-fullscreen --not-when-audio --timer 120 ${xsecurelock}/bin/xsecurelock \'\' &"
     spawnOnce "${polybar}/bin/polybar-msg cmd restart &"
     spawnOnce "${notify-desktop}/bin/notify-desktop -u critical 'xmonad' 'started successfully'"
 
