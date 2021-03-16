@@ -71,7 +71,7 @@ with theme;
   fontNameGTK = "Iosevka FT"
   fontFamily = "xft:" ++ fontNameGTK ++ ":size=9.7:antialias=true:hinting=true"
   sansFontFamily = "xft:Sarasa Gothic J:size=10:antialias=true:hinting=true"
-  ws = [ "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" ]
+  ws = [ "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" ]
 
   actions = [ Node (TSNode "Session" "session management" (return ()))
                    [ Node (TSNode "Logout" "exit current XMonad session" (io (exitWith ExitSuccess))) []
@@ -216,7 +216,7 @@ with theme;
             $ draggingVisualizer
             $ maximizeWithPadding 0
             $ layoutHints
-            $ (tall ||| Mirror tall ||| threecol ||| Grid)
+            $ (tall ||| Mirror tall ||| threecol ||| Grid ||| Full)
     where
       tall = ResizableTall 1 (3/100) (11/20) []
       threecol = ResizableThreeColMid 1 (3/100) (1/2) []

@@ -1,0 +1,150 @@
+diff --git a/Makefile b/Makefile
+index 6052705..24c9a45 100644
+--- a/Makefile
++++ b/Makefile
+@@ -11,11 +11,11 @@ X11_INCLUDE?=/usr/local/include
+ DIST=2bwm-$(VERSION)
+ SRC=2bwm.c list.h hidden.c config.h
+ DISTFILES=Makefile README.md TODO 2bwm.man $(SRC)
+-CFLAGS+=-Os -s -I${X11_INCLUDE} \
++CFLAGS+=-Os -s -I${X11_INCLUDE} -I/usr/X11R6/include \
+ 		-DTWOBWM_PATH=\"${TWOBWM_PATH}\" 
+ 
+-LDFLAGS+=-L${PREFIX}/${LIB_SUFFIX} -lxcb -lxcb-randr -lxcb-keysyms \
+-		 -lxcb-icccm -lxcb-ewmh -lxcb-xrm
++LDFLAGS+=-L${PREFIX}/${LIB_SUFFIX} -L/usr/X11R6/lib -lX11 -lxcb -lxcb-randr \
++		 -lxcb-keysyms -lxcb-icccm -lxcb-ewmh -lxcb-xrm
+ TARGETS=2bwm hidden
+ OBJS=2bwm.o
+ 
+diff --git a/config.h b/config.h
+index 0985d2e..9b47b0b 100644
+--- a/config.h
++++ b/config.h
+@@ -1,6 +1,8 @@
++#include <X11/XF86keysym.h>
++
+ ///---User configurable stuff---///
+ ///---Modifiers---///
+-#define MOD             XCB_MOD_MASK_4       /* Super/Windows key  or check xmodmap(1) with -pm  defined in /usr/include/xcb/xproto.h */
++#define MOD             XCB_MOD_MASK_1       /* Alt key  or check xmodmap(1) with -pm  defined in /usr/include/xcb/xproto.h */
+ ///--Speed---///
+ /* Move this many pixels when moving or resizing with keyboard unless the window has hints saying otherwise.
+  *0)move step slow   1)move step fast
+@@ -19,9 +21,9 @@ static const uint8_t offsets[] = {0,0,0,0};
+  *2)fixedcol         3)unkilcol
+  *4)fixedunkilcol    5)outerbordercol
+  *6)emptycol         */
+-static const char *colors[] = {"#35586c","#333333","#7a8c5c","#ff6666","#cc9933","#0d131a","#000000"};
++static const char *colors[] = {"#fab795","#2e303e","#26bbd9","#e95678","#59e3e3","#16161c","#16161c"};
+ /* if this is set to true the inner border and outer borders colors will be swapped */
+-static const bool inverted_colors = true;
++static const bool inverted_colors = false;
+ ///---Cursor---///
+ /* default position of the cursor:
+  * correct values are:
+@@ -40,7 +42,14 @@ static const uint8_t borders[] = {3,5,5,4};
+ #define LOOK_INTO "WM_NAME"
+ static const char *ignore_names[] = {"bar", "xclock"};
+ ///--Menus and Programs---///
+-static const char *menucmd[]   = { "", NULL };
++static const char *menucmd[]      = { "rofi", "-show", "run", NULL };
++static const char *termcmd[]      = { "alacritty", NULL };
++static const char *playcmd[]      = { "playerctl", "play-pause", NULL };
++static const char *prevcmd[]      = { "playerctl", "previous", NULL };
++static const char *nextcmd[]      = { "playerctl", "next", NULL };
++static const char *briupcmd[]     = { "brightnessctl", "s", "+10%", NULL };
++static const char *bridowncmd[]   = { "brightnessctl", "s", "10%-", NULL };
++static const char *lockercmd[]    = { "xsecurelock", NULL };
+ ///--Custom foo---///
+ static void halfandcentered(const Arg *arg)
+ {
+@@ -93,6 +102,7 @@ static void toggle_sloppy(const Arg *arg)
+ #define DESKTOPCHANGE(K,N) \
+ {  MOD ,             K,              changeworkspace, {.i=N}}, \
+ {  MOD |SHIFT,       K,              sendtoworkspace, {.i=N}},
++#define SHCMD(cmd) {.com=(const char*[]){ "/bin/sh", "-c", cmd, NULL }} // SHCMD macro from dwm
+ static key keys[] = {
+     /* modifier           key            function           argument */
+     // Focus to next/previous window
+@@ -101,25 +111,25 @@ static key keys[] = {
+     // Kill a window
+     {  MOD ,              XK_q,          deletewin,         {}},
+     // Resize a window
+-    {  MOD |SHIFT,        XK_k,          resizestep,        {.i=TWOBWM_RESIZE_UP}},
+-    {  MOD |SHIFT,        XK_j,          resizestep,        {.i=TWOBWM_RESIZE_DOWN}},
+-    {  MOD |SHIFT,        XK_l,          resizestep,        {.i=TWOBWM_RESIZE_RIGHT}},
+-    {  MOD |SHIFT,        XK_h,          resizestep,        {.i=TWOBWM_RESIZE_LEFT}},
++    {  MOD |SHIFT,        XK_Up,         resizestep,        {.i=TWOBWM_RESIZE_UP}},
++    {  MOD |SHIFT,        XK_Down,       resizestep,        {.i=TWOBWM_RESIZE_DOWN}},
++    {  MOD |SHIFT,        XK_Right,      resizestep,        {.i=TWOBWM_RESIZE_RIGHT}},
++    {  MOD |SHIFT,        XK_Left,       resizestep,        {.i=TWOBWM_RESIZE_LEFT}},
+     // Resize a window slower
+-    {  MOD |SHIFT|CONTROL,XK_k,          resizestep,        {.i=TWOBWM_RESIZE_UP_SLOW}},
+-    {  MOD |SHIFT|CONTROL,XK_j,          resizestep,        {.i=TWOBWM_RESIZE_DOWN_SLOW}},
+-    {  MOD |SHIFT|CONTROL,XK_l,          resizestep,        {.i=TWOBWM_RESIZE_RIGHT_SLOW}},
+-    {  MOD |SHIFT|CONTROL,XK_h,          resizestep,        {.i=TWOBWM_RESIZE_LEFT_SLOW}},
++    {  MOD |SHIFT|CONTROL,XK_Up,         resizestep,        {.i=TWOBWM_RESIZE_UP_SLOW}},
++    {  MOD |SHIFT|CONTROL,XK_Down,       resizestep,        {.i=TWOBWM_RESIZE_DOWN_SLOW}},
++    {  MOD |SHIFT|CONTROL,XK_Right,      resizestep,        {.i=TWOBWM_RESIZE_RIGHT_SLOW}},
++    {  MOD |SHIFT|CONTROL,XK_Left,       resizestep,        {.i=TWOBWM_RESIZE_LEFT_SLOW}},
+     // Move a window
+-    {  MOD ,              XK_k,          movestep,          {.i=TWOBWM_MOVE_UP}},
+-    {  MOD ,              XK_j,          movestep,          {.i=TWOBWM_MOVE_DOWN}},
+-    {  MOD ,              XK_l,          movestep,          {.i=TWOBWM_MOVE_RIGHT}},
+-    {  MOD ,              XK_h,          movestep,          {.i=TWOBWM_MOVE_LEFT}},
++    {  MOD ,              XK_Up,         movestep,          {.i=TWOBWM_MOVE_UP}},
++    {  MOD ,              XK_Down,       movestep,          {.i=TWOBWM_MOVE_DOWN}},
++    {  MOD ,              XK_Right,      movestep,          {.i=TWOBWM_MOVE_RIGHT}},
++    {  MOD ,              XK_Left,       movestep,          {.i=TWOBWM_MOVE_LEFT}},
+     // Move a window slower
+-    {  MOD |CONTROL,      XK_k,          movestep,          {.i=TWOBWM_MOVE_UP_SLOW}},
+-    {  MOD |CONTROL,      XK_j,          movestep,          {.i=TWOBWM_MOVE_DOWN_SLOW}},
+-    {  MOD |CONTROL,      XK_l,          movestep,          {.i=TWOBWM_MOVE_RIGHT_SLOW}},
+-    {  MOD |CONTROL,      XK_h,          movestep,          {.i=TWOBWM_MOVE_LEFT_SLOW}},
++    {  MOD |CONTROL,      XK_Up,         movestep,          {.i=TWOBWM_MOVE_UP_SLOW}},
++    {  MOD |CONTROL,      XK_Down,       movestep,          {.i=TWOBWM_MOVE_DOWN_SLOW}},
++    {  MOD |CONTROL,      XK_Right,      movestep,          {.i=TWOBWM_MOVE_RIGHT_SLOW}},
++    {  MOD |CONTROL,      XK_Left,       movestep,          {.i=TWOBWM_MOVE_LEFT_SLOW}},
+     // Teleport the window to an area of the screen.
+     // Center:
+     {  MOD ,              XK_g,          teleport,          {.i=TWOBWM_TELEPORT_CENTER}},
+@@ -139,9 +149,9 @@ static key keys[] = {
+     {  MOD ,              XK_Home,       resizestep_aspect, {.i=TWOBWM_RESIZE_KEEP_ASPECT_GROW}},
+     {  MOD ,              XK_End,        resizestep_aspect, {.i=TWOBWM_RESIZE_KEEP_ASPECT_SHRINK}},
+     // Maximize (ignore offset and no EWMH atom)
+-    {  MOD ,              XK_x,          maximize,          {}},
++    {  MOD ,              XK_e,          maximize,          {}},
+     // Full screen (disregarding offsets and adding EWMH atom)
+-    {  MOD |SHIFT ,       XK_x,          fullscreen,        {}},
++    {  MOD |SHIFT ,       XK_e,          fullscreen,        {}},
+     // Maximize vertically
+     {  MOD ,              XK_m,          maxvert_hor,       {.i=TWOBWM_MAXIMIZE_VERTICALLY}},
+     // Maximize horizontally
+@@ -193,10 +203,23 @@ static key keys[] = {
+     {  MOD |SHIFT,        XK_Right,      cursor_move,       {.i=TWOBWM_CURSOR_RIGHT}},
+     {  MOD |SHIFT,        XK_Left,       cursor_move,       {.i=TWOBWM_CURSOR_LEFT}},
+     // Start programs
+-    {  MOD ,              XK_w,          start,             {.com = menucmd}},
++    {  MOD ,              XK_d,          start,             {.com = menucmd}},
++    {  MOD ,              XK_Return,                 start, {.com = termcmd}},
++    {  MOD |SHIFT,        XK_Delete,                 start, {.com = lockercmd}},
++    {  0 ,                XK_Print,                  start, SHCMD("/etc/nixos/scripts/screenshot wind")},
++    {  MOD ,              XK_Print,                  start, SHCMD("/etc/nixos/scripts/screenshot area")},
++    {  MOD |SHIFT,        XK_Print,                  start, SHCMD("/etc/nixos/scripts/screenshot full")},
++    {  0 ,                XF86XK_AudioMute,          start, SHCMD("/etc/nixos/scripts/volume toggle")},
++    {  0 ,                XF86XK_AudioRaiseVolume,   start, SHCMD("/etc/nixos/scripts/volume up")},
++    {  0 ,                XF86XK_AudioLowerVolume,   start, SHCMD("/etc/nixos/scripts/volume down")},
++    {  0 ,                XF86XK_AudioPlay,          start, {.com = playcmd}},
++    {  0 ,                XF86XK_AudioPrev,          start, {.com = prevcmd}},
++    {  0 ,                XF86XK_AudioNext,          start, {.com = nextcmd}},
++    {  0 ,                XF86XK_MonBrightnessUp,    start, {.com = briupcmd}},
++    {  0 ,                XF86XK_MonBrightnessDown,  start, {.com = bridowncmd}},
+     // Exit or restart 2bwm
+-    {  MOD |CONTROL,      XK_q,          twobwm_exit,       {.i=0}},
+-    {  MOD |CONTROL,      XK_r,          twobwm_restart,    {.i=0}},
++    {  MOD |SHIFT,        XK_q,          twobwm_exit,       {.i=0}},
++    {  MOD |SHIFT,        XK_r,          twobwm_restart,    {.i=0}},
+     {  MOD ,              XK_space,      halfandcentered,   {.i=0}},
+     {  MOD ,              XK_s,          toggle_sloppy,     {.com = sloppy_switch_cmd}},
+     // Change current workspace

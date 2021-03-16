@@ -1,0 +1,13 @@
+diff --git a/Makefile b/Makefile
+index a060092..24c9a45 100644
+--- a/Makefile
++++ b/Makefile
+@@ -11,7 +11,7 @@ X11_INCLUDE?=/usr/local/include
+ DIST=2bwm-$(VERSION)
+ SRC=2bwm.c list.h hidden.c config.h
+ DISTFILES=Makefile README.md TODO 2bwm.man $(SRC)
+-CFLAGS+=-Os -s -I${X11_INCLUDE} -I/usr/X11R6/include \
++CFLAGS+=-O3 -flto -s -I${X11_INCLUDE} -I/usr/X11R6/include \
+ 		-DTWOBWM_PATH=\"${TWOBWM_PATH}\" 
+ 
+ LDFLAGS+=-L${PREFIX}/${LIB_SUFFIX} -L/usr/X11R6/lib -lX11 -lxcb -lxcb-randr \
