@@ -1,5 +1,5 @@
 diff --git a/Makefile b/Makefile
-index 6052705..24c9a45 100644
+index 6052705..a060092 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -11,11 +11,11 @@ X11_INCLUDE?=/usr/local/include
@@ -18,7 +18,7 @@ index 6052705..24c9a45 100644
  OBJS=2bwm.o
  
 diff --git a/config.h b/config.h
-index 0985d2e..9b47b0b 100644
+index 0985d2e..87993dc 100644
 --- a/config.h
 +++ b/config.h
 @@ -1,6 +1,8 @@
@@ -27,11 +27,11 @@ index 0985d2e..9b47b0b 100644
  ///---User configurable stuff---///
  ///---Modifiers---///
 -#define MOD             XCB_MOD_MASK_4       /* Super/Windows key  or check xmodmap(1) with -pm  defined in /usr/include/xcb/xproto.h */
-+#define MOD             XCB_MOD_MASK_1       /* Alt key  or check xmodmap(1) with -pm  defined in /usr/include/xcb/xproto.h */
++#define MOD             ALT       /* Alt key  or check xmodmap(1) with -pm  defined in /usr/include/xcb/xproto.h */
  ///--Speed---///
  /* Move this many pixels when moving or resizing with keyboard unless the window has hints saying otherwise.
   *0)move step slow   1)move step fast
-@@ -19,9 +21,9 @@ static const uint8_t offsets[] = {0,0,0,0};
+@@ -19,9 +21,10 @@ static const uint8_t offsets[] = {0,0,0,0};
   *2)fixedcol         3)unkilcol
   *4)fixedunkilcol    5)outerbordercol
   *6)emptycol         */
@@ -40,10 +40,11 @@ index 0985d2e..9b47b0b 100644
  /* if this is set to true the inner border and outer borders colors will be swapped */
 -static const bool inverted_colors = true;
 +static const bool inverted_colors = false;
++static const bool enable_compton = true;
  ///---Cursor---///
  /* default position of the cursor:
   * correct values are:
-@@ -40,7 +42,14 @@ static const uint8_t borders[] = {3,5,5,4};
+@@ -40,7 +43,14 @@ static const uint8_t borders[] = {3,5,5,4};
  #define LOOK_INTO "WM_NAME"
  static const char *ignore_names[] = {"bar", "xclock"};
  ///--Menus and Programs---///
@@ -59,7 +60,7 @@ index 0985d2e..9b47b0b 100644
  ///--Custom foo---///
  static void halfandcentered(const Arg *arg)
  {
-@@ -93,6 +102,7 @@ static void toggle_sloppy(const Arg *arg)
+@@ -93,6 +103,7 @@ static void toggle_sloppy(const Arg *arg)
  #define DESKTOPCHANGE(K,N) \
  {  MOD ,             K,              changeworkspace, {.i=N}}, \
  {  MOD |SHIFT,       K,              sendtoworkspace, {.i=N}},
@@ -67,7 +68,7 @@ index 0985d2e..9b47b0b 100644
  static key keys[] = {
      /* modifier           key            function           argument */
      // Focus to next/previous window
-@@ -101,25 +111,25 @@ static key keys[] = {
+@@ -101,25 +112,25 @@ static key keys[] = {
      // Kill a window
      {  MOD ,              XK_q,          deletewin,         {}},
      // Resize a window
@@ -109,7 +110,7 @@ index 0985d2e..9b47b0b 100644
      // Teleport the window to an area of the screen.
      // Center:
      {  MOD ,              XK_g,          teleport,          {.i=TWOBWM_TELEPORT_CENTER}},
-@@ -139,9 +149,9 @@ static key keys[] = {
+@@ -139,9 +150,9 @@ static key keys[] = {
      {  MOD ,              XK_Home,       resizestep_aspect, {.i=TWOBWM_RESIZE_KEEP_ASPECT_GROW}},
      {  MOD ,              XK_End,        resizestep_aspect, {.i=TWOBWM_RESIZE_KEEP_ASPECT_SHRINK}},
      // Maximize (ignore offset and no EWMH atom)
@@ -121,7 +122,7 @@ index 0985d2e..9b47b0b 100644
      // Maximize vertically
      {  MOD ,              XK_m,          maxvert_hor,       {.i=TWOBWM_MAXIMIZE_VERTICALLY}},
      // Maximize horizontally
-@@ -193,10 +203,23 @@ static key keys[] = {
+@@ -193,10 +204,23 @@ static key keys[] = {
      {  MOD |SHIFT,        XK_Right,      cursor_move,       {.i=TWOBWM_CURSOR_RIGHT}},
      {  MOD |SHIFT,        XK_Left,       cursor_move,       {.i=TWOBWM_CURSOR_LEFT}},
      // Start programs
@@ -131,7 +132,7 @@ index 0985d2e..9b47b0b 100644
 +    {  MOD |SHIFT,        XK_Delete,                 start, {.com = lockercmd}},
 +    {  0 ,                XK_Print,                  start, SHCMD("/etc/nixos/scripts/screenshot wind")},
 +    {  MOD ,              XK_Print,                  start, SHCMD("/etc/nixos/scripts/screenshot area")},
-+    {  MOD |SHIFT,        XK_Print,                  start, SHCMD("/etc/nixos/scripts/screenshot full")},
++    {  MOD |SHIFT,        XK_s,                      start, SHCMD("/etc/nixos/scripts/screenshot full")},
 +    {  0 ,                XF86XK_AudioMute,          start, SHCMD("/etc/nixos/scripts/volume toggle")},
 +    {  0 ,                XF86XK_AudioRaiseVolume,   start, SHCMD("/etc/nixos/scripts/volume up")},
 +    {  0 ,                XF86XK_AudioLowerVolume,   start, SHCMD("/etc/nixos/scripts/volume down")},

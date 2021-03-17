@@ -1,5 +1,5 @@
 diff --git a/2bwm.c b/2bwm.c
-index 28f05ad..97e29e5 100644
+index 28f05ad..ffb4c7b 100644
 --- a/2bwm.c
 +++ b/2bwm.c
 @@ -21,6 +21,7 @@
@@ -42,8 +42,8 @@ index 28f05ad..97e29e5 100644
 +	char *home;
 +	struct stat sb;
 +
++	/* highly unlikely that this will happen */
 +	if ((home = getenv("HOME")) == NULL)
-+		/* this is almost impossible */
 +		return;
 +
 +	/* if $XDG_DATA_HOME is set and not empty, use $XDG_DATA_HOME/2bwm,
@@ -72,7 +72,7 @@ index 28f05ad..97e29e5 100644
 +	/* check if the autostart script directory exists */
 +	if (! (stat(pathpfx, &sb) == 0 && S_ISDIR(sb.st_mode))) {
 +		/* the XDG conformant path does not exist or is no directory
-+		 * so we try ~/.dwm instead
++		 * so we try ~/.2bwm instead
 +		 */
 +		char *pathpfx_new = realloc(pathpfx, strlen(home) + strlen(twobwmdir) + 3);
 +		if(pathpfx_new == NULL) {

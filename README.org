@@ -45,6 +45,8 @@ Resources and configurations I used to base on:
 
 ** Appearance
 
+*** XMonad
+
 With =theme.lightModeEnabled = false;=
 
 [[img/dark-mode.png]]
@@ -52,3 +54,7 @@ With =theme.lightModeEnabled = false;=
 With =theme.lightModeEnabled = true;=
 
 [[img/light-mode.png]]
+
+*** 2bwm
+
+[[img/twobwm.png]]
