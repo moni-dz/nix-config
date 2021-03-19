@@ -20,6 +20,26 @@ rec {
   home = {
     activation.reloadPolybar = "${pkgs.polybar}/bin/polybar-msg cmd restart || echo 'skipping...'";
     file = {
+      ".local/bin/can" = {
+        executable = true;
+        text = import ./scripts/can.nix;
+      };
+      ".local/bin/ccolor" = {
+        executable = true;
+        text = import ./scripts/ccolor.nix;
+      };
+      ".local/bin/screenshot" = {
+        executable = true;
+        text = import ./scripts/screenshot.nix;
+      };
+      ".local/bin/showcase" = {
+        executable = true;
+        text = import ./scripts/showcase.nix;
+      };
+      ".local/bin/volume" = {
+        executable = true;
+        text = import ./scripts/volume.nix;
+      };
       ".config/qt5ct/colors/Horizon.conf".source = ./config/Horizon.conf;
       ".icons/default".source = "${
         if theme.lightModeEnabled

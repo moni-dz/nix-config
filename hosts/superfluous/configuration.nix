@@ -63,9 +63,9 @@ in
       "XSECURELOCK_KEY_XF86AudioPlay_COMMAND" = "${playerctl}/bin/playerctl play-pause";
       "XSECURELOCK_KEY_XF86AudioPrev_COMMAND" = "${playerctl}/bin/playerctl previous";
       "XSECURELOCK_KEY_XF86AudioNext_COMMAND" = "${playerctl}/bin/playerctl next";
-      "XSECURELOCK_KEY_XF86AudioMute_COMMAND" = "/etc/nixos/scripts/volume toggle";
-      "XSECURELOCK_KEY_XF86AudioRaiseVolume_COMMAND" = "/etc/nixos/scripts/volume up";
-      "XSECURELOCK_KEY_XF86AudioLowerVolume_COMMAND" = "/etc/nixos/scripts/volume down";
+      "XSECURELOCK_KEY_XF86AudioMute_COMMAND" = "/home/fortuneteller2k/.local/bin/volume toggle";
+      "XSECURELOCK_KEY_XF86AudioRaiseVolume_COMMAND" = "/home/fortuneteller2k/.local/bin/volume up";
+      "XSECURELOCK_KEY_XF86AudioLowerVolume_COMMAND" = "/home/fortuneteller2k/.local/bin/volume down";
       "XSECURELOCK_KEY_XF86MonBrightnessUp_COMMAND" = "${brightnessctl}/bin/brightnessctl s +10%";
       "XSECURELOCK_KEY_XF86MonBrightnessDown_COMMAND" = "${brightnessctl}/bin/brightnessctl s 10%-";
     };
@@ -250,7 +250,6 @@ in
     xserver = {
       enable = true;
       dpi = 96;
-      config = (import ../../config/xorg-amd-tearfree.nix);
       displayManager = {
         sddm = {
           enable = true;

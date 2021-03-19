@@ -12,7 +12,7 @@ with theme.colors; {
     show_indicators = false;
     frame_width = theme.borderWidth;
     format = "<b>%s</b>: %b";
-    font = "Iosevka FT 10.4";
+    font = "Sarasa Gothic J 10.4";
     frame_color = "#${c2}";
     separator_color = "auto";
     icon_position = "left";

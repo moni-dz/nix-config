@@ -56,6 +56,7 @@ with theme;
 
   import XMonad.Util.EZConfig
   import XMonad.Util.Hacks
+  import XMonad.Util.PureX
   import XMonad.Util.Run
   import XMonad.Util.SpawnOnce
 
@@ -115,7 +116,7 @@ with theme;
 
   keybindings =
     [ ("M-<Return>",                 safeSpawnProg term)
-    , ("M-`",                        distractionLess)
+    , ("M-`",                        handlingRefresh $ distractionLess)
     , ("M-d",                        shellPrompt promptConfig)
     , ("M-q",                        kill)
     , ("M-w",                        treeselectAction tsConfig actions)
@@ -132,9 +133,9 @@ with theme;
     , ("M-.",                        sendMessage (IncMasterN (-1)))
     , ("C-<Left>",                   prevWS)
     , ("C-<Right>",                  nextWS)
-    , ("<Print>",                    safeSpawn "/etc/nixos/scripts/screenshot" ["wind"])
-    , ("M-<Print>",                  safeSpawn "/etc/nixos/scripts/screenshot" ["area"])
-    , ("M-S-s",                      safeSpawn "/etc/nixos/scripts/screenshot" ["full"])
+    , ("<Print>",                    safeSpawn "/home/fortuneteller2k/.local/bin/screenshot" ["wind"])
+    , ("M-<Print>",                  safeSpawn "/home/fortuneteller2k/.local/bin/screenshot" ["area"])
+    , ("M-S-s",                      safeSpawn "/home/fortuneteller2k/.local/bin/screenshot" ["full"])
     , ("M-S-q",                      io (exitWith ExitSuccess))
     , ("M-S-h",                      safeSpawn "${gxmessage}/bin/gxmessage" ["-fn", fontNameGTK, help])
     , ("M-S-<Delete>",               safeSpawnProg "${xsecurelock}/bin/xsecurelock")
@@ -154,9 +155,9 @@ with theme;
     , ("M-<Right>",                  focusDown)
     , ("M-S-<Tab>",                  sendMessage FirstLayout)
     , ("M-C-c",                      killAll)
-    , ("<XF86AudioMute>",            safeSpawn "/etc/nixos/scripts/volume" ["toggle"])
-    , ("<XF86AudioRaiseVolume>",     safeSpawn "/etc/nixos/scripts/volume" ["up"])
-    , ("<XF86AudioLowerVolume>",     safeSpawn "/etc/nixos/scripts/volume" ["down"])
+    , ("<XF86AudioMute>",            safeSpawn "/home/fortuneteller2k/.local/bin/volume" ["toggle"])
+    , ("<XF86AudioRaiseVolume>",     safeSpawn "/home/fortuneteller2k/.local/bin/volume" ["up"])
+    , ("<XF86AudioLowerVolume>",     safeSpawn "/home/fortuneteller2k/.local/bin/volume" ["down"])
     , ("<XF86AudioPlay>",            safeSpawn "${playerctl}/bin/playerctl" ["play-pause"])
     , ("<XF86AudioPrev>",            safeSpawn "${playerctl}/bin/playerctl" ["previous"])
     , ("<XF86AudioNext>",            safeSpawn "${playerctl}/bin/playerctl" ["next"])
@@ -169,7 +170,6 @@ with theme;
         , (otherModMasks, action) <- [ ("", windows . W.greedyView)
                                      , ("S-", windows . W.shift) ] ]
     where 
-      distractionLess = sequence_ [unsafeSpawn restackcmd, sendMessage ToggleStruts, toggleScreenSpacingEnabled, toggleWindowSpacingEnabled]
       restartcmd = "${xmonad-with-packages}/bin/xmonad --restart && ${polybar}/bin/polybar-msg cmd restart"
       restackcmd = "${xdo}/bin/xdo lower $(${xorg.xwininfo}/bin/xwininfo -name polybar-xmonad | ${ripgrep}/bin/rg 'Window id' | ${coreutils}/bin/cut -d ' ' -f4)"
       browser = concat
@@ -179,6 +179,12 @@ with theme;
         , " --qt-flag enable-native-gpu-memory-buffers"
         , " --qt-flag num-raster-threads=4"
         , " --qt-flag enable-oop-rasterization" ]
+      distractionLess = sequence_
+        [ unsafeSpawn restackcmd
+        , broadcastMessage ToggleStruts
+        , broadcastMessage (ModifyScreenBorderEnabled not)
+        , broadcastMessage (ModifyWindowBorderEnabled not)
+        ]
       toggleFloat w = windows (\s -> if M.member w (W.floating s)
                                       then W.sink w s
                                       else (W.float w (W.RationalRect 0.15 0.15 0.7 0.7) s))
@@ -216,7 +222,7 @@ with theme;
             $ draggingVisualizer
             $ maximizeWithPadding 0
             $ layoutHints
-            $ (tall ||| Mirror tall ||| threecol ||| Grid ||| Full)
+            $ (tall ||| Mirror tall ||| threecol ||| Grid)
     where
       tall = ResizableTall 1 (3/100) (11/20) []
       threecol = ResizableThreeColMid 1 (3/100) (1/2) []

@@ -8,8 +8,11 @@ with theme.colors; {
       family = "Iosevka FT";
       style = "Regular";
     };
-    size = 11;
-    offset.y = -1;
+    size = 10;
+    offset = {
+      x = -1;
+      y = -1;
+    };
   };
   window = {
     dynamic_padding = true;
