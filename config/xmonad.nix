@@ -101,9 +101,9 @@ with theme;
              { ts_hidechildren = True
              , ts_background   = 0xe0${colors.bg}
              , ts_font         = sansFontFamily
-             , ts_node         = (0xff${colors.bg}, 0xff${if theme.primaryColor == "red" then colors.c1 else colors.c3})
-             , ts_nodealt      = (0xff${colors.bg}, 0xff${if theme.primaryColor == "red" then colors.c9 else colors.c11})
-             , ts_highlight    = (0xff${colors.bg}, 0xff${if theme.primaryColor == "red" then colors.c3 else colors.c1})
+             , ts_node         = (0xff${colors.bg}, 0xff${if primaryColor == "red" then colors.c1 else if primaryColor == "yellow" then colors.c3 else colors.c4})
+             , ts_nodealt      = (0xff${colors.bg}, 0xff${if theme.primaryColor == "red" then colors.c9 else if primaryColor == "yellow" then colors.c11 else colors.c12})
+             , ts_highlight    = (0xff${colors.bg}, 0xff${if theme.primaryColor == "red" then colors.c3 else if primaryColor == "yellow" then colors.c1 else colors.c5})
              , ts_extra        = 0xff${colors.fg}
              , ts_node_width   = 200
              , ts_node_height  = 30
@@ -182,6 +182,7 @@ with theme;
         , " --qt-flag enable-oop-rasterization" ]
       distractionLess = handlingRefresh $ sequence_
         [ unsafeSpawn restackcmd
+        , safeSpawn "${polybar}/bin/polybar-msg" [ "cmd", "toggle" ]
         , broadcastMessage ToggleStruts
         , broadcastMessage (ModifyScreenBorderEnabled not)
         , broadcastMessage (ModifyWindowBorderEnabled not)
@@ -190,7 +191,9 @@ with theme;
         [ broadcastMessage $ SetStruts [minBound .. maxBound] []
         , broadcastMessage (ModifyScreenBorderEnabled (return True))
         , broadcastMessage (ModifyWindowBorderEnabled (return True))
+        , safeSpawn "${polybar}/bin/polybar-msg" [ "cmd", "show" ] 
         , setLayout $ layoutHook conf
+        , unsafeSpawn restackcmd
         ]
       toggleFloat w = windows (\s -> if M.member w (W.floating s)
                                       then W.sink w s
