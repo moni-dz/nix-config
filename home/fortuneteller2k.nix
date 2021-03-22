@@ -7,7 +7,7 @@ rec {
   fonts.fontconfig.enable = true;
   gtk = {
     enable = true;
-    font.name = "Inter";
+    font.name = "Sarasa Gothic J";
     iconTheme = {
       package = pkgs.papirus-icon-theme;
       name = "${if theme.lightModeEnabled then "Papirus-Light" else "Papirus-Dark"}";
@@ -255,7 +255,7 @@ rec {
     playerctld.enable = true;
     polybar = {
       enable = true;
-      script = "polybar -l=trace main &";
+      script = "polybar -r -l=trace main &";
       config = (import ./config/polybar.nix { inherit pkgs theme; });
     };
   };

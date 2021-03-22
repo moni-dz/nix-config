@@ -23,7 +23,6 @@
     Plug 'itchyny/lightline.vim'
     Plug 'fortuneteller2k/vim-horizon'
     Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
-    Plug 'hugolgst/vimsence'
     Plug 'LnL7/vim-nix'
     Plug 'ziglang/zig.vim'
     Plug 'lervag/vimtex'
@@ -44,17 +43,6 @@
   hi NonText ctermbg=none
   hi Normal guibg=none
   hi NonText guibg=none
-
-  let g:Hexokinase_highlighters = [ 'background' ]
-
-  let g:vimsence_client_id = '439476230543245312'
-  let g:vimsence_small_text = 'NeoVim'
-  let g:vimsence_small_image = 'neovim'
-  let g:vimsence_editing_details = 'Editing: {}'
-  let g:vimsence_editing_state = 'Working on: {}'
-  let g:vimsence_file_explorer_text = 'In NERDTree'
-  let g:vimsence_file_explorer_details = 'Looking for files'
-  let g:vimsence_custom_icons = { 'filetype': 'iconname' }
 
   let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.xml'
   let g:closetag_xhtml_filenames = '*.xhtml,*.jsx,*.xml'

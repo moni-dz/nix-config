@@ -68,7 +68,6 @@ with theme;
   import qualified XMonad.StackSet          as W
 
   modkey = mod1Mask
-  term = "${alacritty}/bin/alacritty"
   fontNameGTK = "Iosevka FT"
   fontFamily = "xft:" ++ fontNameGTK ++ ":size=9.7:antialias=true:hinting=true"
   sansFontFamily = "xft:Sarasa Gothic J:size=10:antialias=true:hinting=true"
@@ -114,9 +113,9 @@ with theme;
              , ts_navigate     = defaultNavigation
              }
 
-  keybindings =
-    [ ("M-<Return>",                 safeSpawnProg term)
-    , ("M-`",                        handlingRefresh $ distractionLess)
+  keybindings = \c -> mkKeymap c $
+    [ ("M-<Return>",                 safeSpawnProg $ terminal c)
+    , ("M-`",                        distractionLess)
     , ("M-d",                        shellPrompt promptConfig)
     , ("M-q",                        kill)
     , ("M-w",                        treeselectAction tsConfig actions)
@@ -131,6 +130,8 @@ with theme;
     , ("M-t",                        withFocused toggleFloat)
     , ("M-,",                        sendMessage (IncMasterN 1))
     , ("M-.",                        sendMessage (IncMasterN (-1)))
+    , ("M-;",                        sequence_ [ incScreenSpacing 2, incWindowSpacing 2 ])
+    , ("M-'",                        sequence_ [ decScreenSpacing 2, decWindowSpacing 2 ])
     , ("C-<Left>",                   prevWS)
     , ("C-<Right>",                  nextWS)
     , ("<Print>",                    safeSpawn "/home/fortuneteller2k/.local/bin/screenshot" ["wind"])
@@ -153,7 +154,7 @@ with theme;
     , ("M-S-<Right>",                shiftToNext >> nextWS)
     , ("M-<Left>",                   focusUp)
     , ("M-<Right>",                  focusDown)
-    , ("M-S-<Tab>",                  sendMessage FirstLayout)
+    , ("M-S-<Tab>",                  resetLayout c)
     , ("M-C-c",                      killAll)
     , ("<XF86AudioMute>",            safeSpawn "/home/fortuneteller2k/.local/bin/volume" ["toggle"])
     , ("<XF86AudioRaiseVolume>",     safeSpawn "/home/fortuneteller2k/.local/bin/volume" ["up"])
@@ -179,11 +180,17 @@ with theme;
         , " --qt-flag enable-native-gpu-memory-buffers"
         , " --qt-flag num-raster-threads=4"
         , " --qt-flag enable-oop-rasterization" ]
-      distractionLess = sequence_
+      distractionLess = handlingRefresh $ sequence_
         [ unsafeSpawn restackcmd
         , broadcastMessage ToggleStruts
         , broadcastMessage (ModifyScreenBorderEnabled not)
         , broadcastMessage (ModifyWindowBorderEnabled not)
+        ]
+      resetLayout conf = handlingRefresh $ sequence_
+        [ broadcastMessage $ SetStruts [minBound .. maxBound] []
+        , broadcastMessage (ModifyScreenBorderEnabled (return True))
+        , broadcastMessage (ModifyWindowBorderEnabled (return True))
+        , setLayout $ layoutHook conf
         ]
       toggleFloat w = windows (\s -> if M.member w (W.floating s)
                                       then W.sink w s
@@ -277,34 +284,32 @@ with theme;
       , ppOrder  = \(_:l:_:_) -> [l]
       }
 
-  main' dbus = xmonad . ewmhFullscreen . docks . ewmh . javaHack $ def
-    { focusFollowsMouse  = True
-    , clickJustFocuses   = True
-    , borderWidth        = ${theme.borderWidth}
-    , modMask            = modkey
-    , workspaces         = ws
-    , normalBorderColor  = "#${colors.inactiveBorderColor}"
-    , focusedBorderColor = "#${colors.activeBorderColor}"
-    , layoutHook         = layouts
-    , manageHook         = windowRules
-    , logHook            = barHook dbus
-    , handleEventHook    = swallowEventHook (className =? "Alacritty" <||> className =? "XTerm") (return True) <+> hintsEventHook
-    , startupHook        = autostart
-    } 
-    `additionalKeysP` keybindings
-    `additionalMouseBindings` mousebindings
-
   main = do
     dbus <- D.connectSession
     D.requestName dbus (D.busName_ "org.xmonad.log") [ D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue ]
-    main' dbus -- "that was easy, xmonad rocks!"
+    xmonad . ewmhFullscreen . docks . ewmh . javaHack $ def
+      { terminal           = "${alacritty}/bin/alacritty"
+      , focusFollowsMouse  = True
+      , clickJustFocuses   = True
+      , borderWidth        = ${theme.borderWidth}
+      , keys               = keybindings
+      , modMask            = modkey
+      , workspaces         = ws
+      , normalBorderColor  = "#${colors.inactiveBorderColor}"
+      , focusedBorderColor = "#${colors.activeBorderColor}"
+      , layoutHook         = layouts
+      , manageHook         = windowRules
+      , logHook            = barHook dbus
+      , handleEventHook    = swallowEventHook (className =? "Alacritty" <||> className =? "XTerm") (return True) <+> hintsEventHook
+      , startupHook        = autostart
+      } `additionalMouseBindings` mousebindings 
 
   help = unlines 
     [ "fortuneteller2k's XMonad configuration"
     , ""
     , "Default keybindings:"
     , ""
-    , "Alt-Enter:              spawn alacritty"
+    , "Alt-Enter:              spawn terminal"
     , "Alt-`:                  toggle distraction less mode"
     , "Alt-d:                  show run prompt"
     , "Alt-q:                  quit window"
@@ -320,6 +325,8 @@ with theme;
     , "Alt-t:                  toggle floating of window"
     , "Alt-,:                  increase number of master windows"
     , "Alt-.:                  decrease number of master windows"
+    , "Alt-;:                  increase gap size by 2"
+    , "Alt-':                  decrease gap size by 2"
     , "Alt-Left:               focus previous window"
     , "Alt-Right:              focus next window"
     , "Alt-LeftClick:          float window and drag it with cursor"

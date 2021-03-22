@@ -1,17 +1,21 @@
 rec {
   borderWidth = "2";
+  flowtuneEnabled = true;
   lightModeEnabled = false;
-  primaryColor = "yellow";
+  primaryColor = "blue";
   colors =
     if lightModeEnabled
     then (import ./colors-light.nix)
+    else if flowtuneEnabled then (import ./colors-flowtune.nix { inherit primaryColor; })
     else (import ./colors.nix { inherit primaryColor; });
   wallpaper =
     let
-      wallpaperPath = "/etc/nixos/config/wallpapers";
+      wallpaperPath = ./wallpapers;
     in
     if lightModeEnabled then "${wallpaperPath}/horizon_lightmode.jpg"
     else if primaryColor == "red"
     then "${wallpaperPath}/horizon.jpg"
-    else "${wallpaperPath}/horizonyellow.jpg";
+    else if primaryColor == "yellow"
+    then "${wallpaperPath}/horizonyellow.jpg"
+    else "${wallpaperPath}/enigma.png";
 }

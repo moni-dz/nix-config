@@ -48,15 +48,14 @@ with theme; {
     format-foreground = "#${colors.textColor}";
   };
 
-  "module/mpd" = {
-    type = "internal/mpd";
-    host = "127.0.0.1";
-    port = "6600";
-    format-online = "%{A1:playerctl --player=mpd play-pause:}<label-song>%{A}";
-    format-online-background = "#${colors.primary}";
-    format-online-foreground = "#${colors.textColor}";
-    label-song = " ﱘ  %title% ";
-    label-song-maxlen = 40;
+  "module/playerctl" = {
+    type = "custom/script";
+    exec = "${pkgs.playerctl}/bin/playerctl metadata --format '{{ xesam:title }}'";
+    format = "%{A1:playerctl play-pause:}<label>%{A}";
+    format-background = "#${colors.primary}";
+    format-foreground = "#${colors.textColor}";
+    label = " ﱘ  %output% ";
+    label-maxlen = 40;
   };
 
   "module/xmonad" = {
@@ -164,7 +163,7 @@ with theme; {
     enable-ipc = true;
     font-0 = "FantasqueSansMono Nerd Font:size=10.5;2";
     modules-left = "wspc ewmh xmonad";
-    modules-center = "mpd";
+    modules-center = "playerctl";
     modules-right = "battery wspc_b pulseaudio wspc_b wireless wspc_b date";
     locale = "en_US.UTF-8";
     border-size = 0;

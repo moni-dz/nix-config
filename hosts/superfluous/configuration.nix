@@ -5,7 +5,7 @@ let
 in
 {
   boot = {
-    kernelPackages = pkgs.head.linuxPackages_latest;
+    kernelPackages = pkgs.head.linuxPackages-rt_latest;
     kernelParams = [
       "rw"
       "mitigations=off"
@@ -44,6 +44,7 @@ in
       package = pkgs.bluezFull;
     };
     cpu.amd.updateMicrocode = true;
+    enableAllFirmware = true;
     enableRedistributableFirmware = true;
     opengl = {
       enable = true;
@@ -257,6 +258,7 @@ in
         };
         defaultSession = "none+xmonad";
       };
+      logFile = "/var/log/Xorg.0.log";
       useGlamor = true;
       windowManager = {
         "2bwm".enable = true;
