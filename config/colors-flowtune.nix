@@ -29,7 +29,7 @@ rec {
 
   c0 = "0f2034";
   c1 = "ea2e58";
-  c2 = "3cef85"; 
+  c2 = "3cef85";
   c3 = "fcd148";
   c4 = "2f93fc";
   c5 = "e03cef";
@@ -45,7 +45,7 @@ rec {
   c14 = "58cff4";
   c15 = "f6f9fd";
 
-  primary = 
+  primary =
     if primaryColor == "red"
     then c1
     else if primaryColor == "yellow"
