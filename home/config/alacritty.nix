@@ -5,13 +5,13 @@ with theme.colors; {
   env.TERM = "xterm-256color";
   font = {
     normal = {
-      family = "Iosevka FT";
+      family = "Terminus";
       style = "Regular";
     };
-    size = 10;
+    size = 6;
     offset = {
-      x = -1;
-      y = -1;
+      x = 0;
+      y = 0;
     };
   };
   window = {

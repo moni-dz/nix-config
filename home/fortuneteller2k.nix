@@ -58,7 +58,7 @@ rec {
       head.cbonsai
       cmatrix
       comma
-      discord
+      head.discord
       element-desktop
       head.exa
       flavours

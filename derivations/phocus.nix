@@ -3,31 +3,30 @@
 stdenv.mkDerivation rec {
   name = "phocus";
 
-  src =
-    let
-      owner = "fortuneteller2k";
-      repo = "gtk";
-    in
-    if theme.lightModeEnabled then
-      fetchFromGitHub
-        {
-          inherit owner repo;
-          rev = "9e015e98f31fb784010fa19d1c3ad9afa1344698";
-          sha256 = "sha256-5fPXfYz0V2hO3B/6+VdAyCVCELNoZS00XTkZCV6JUM0=";
-        }
-    else if theme.primaryColor == "red" then
-      fetchFromGitHub
-        {
-          inherit owner repo;
-          rev = "28a34466a9f8d90f4bbda88971c39b57495859be";
-          sha256 = "sha256-jVgN3Z3B6gdHGLOFqGSTn54ApS7as0C/XfxpPl6hoMs=";
-        }
-    else
-      fetchFromGitHub {
-        inherit owner repo;
-        rev = "1668dec0e87ac0ad9a591e9ca16c2356c31234a3";
-        sha256 = "sha256-rUZe4SP4EPMpCmOcwkzV6cX7uRK+joP1VsWpQROlPAU=";
-      };
+  src = fetchFromGitHub {
+    owner = "fortuneteller2k";
+    repo = "gtk";
+    rev = "1ba31ebe9916505cfce7b98713f5fe805c5d39fb";
+    sha256 = "sha256-hqgKht1Wq7yo3uMSqxuiIDqdSlx8XZMs7KfYy9WOLmQ=";
+  };
+
+  patchPhase = with theme.colors; ''
+    substituteInPlace scss/gtk-3.0/_colors.scss \
+      --replace 16161c ${bg} \
+      --replace 232530 ${c0} \
+      --replace 2e303e ${c8} \
+      --replace e95678 ${c1} \
+      --replace f09383 ${c11} \
+      --replace fab795 ${c3} \
+      --replace 29d398 ${c2} \
+      --replace 1eb980 ${c10} \
+      --replace 26bbd9 ${c4} \
+      --replace ee64ae ${c5} \
+      --replace ec6a88 ${c9} \
+      --replace fdf0ed ${fg} \
+      --replace aabbcc ${primary} \
+      --replace ccbbaa ${c5}
+  '';
 
   nativeBuildInputs = [ sass ];
 

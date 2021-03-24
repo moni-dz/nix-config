@@ -21,7 +21,7 @@
     Plug 'junegunn/goyo.vim'
     Plug 'alvan/vim-closetag'
     Plug 'itchyny/lightline.vim'
-    Plug 'fortuneteller2k/vim-horizon'
+    Plug 'fortuneteller2k/vim-flowtune'
     Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
     Plug 'LnL7/vim-nix'
     Plug 'ziglang/zig.vim'
@@ -36,8 +36,8 @@
   nnoremap <silent> <leader>      :<c-u>WhichKey ' '<CR>
   nnoremap <silent> <localleader> :<c-u>WhichKey ' '<CR>
 
-  colorscheme horizon
-  let g:lightline = { 'colorscheme' : 'horizon' }
+  colorscheme flowtune
+  let g:lightline = { 'colorscheme' : 'flowtune' }
   
   hi Normal ctermbg=none
   hi NonText ctermbg=none

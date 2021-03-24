@@ -159,6 +159,7 @@ in
       sarasa-gothic
       scientifica
       symbola
+      terminus_font
       twemoji-color-font
       xorg.fontbh100dpi
     ];
@@ -274,18 +275,16 @@ in
             "-optc-ffast-math"
           ];
           haskellPackages =
-            let owner = "xmonad";
-            in
             pkgs.haskellPackages.extend (pkgs.haskell.lib.packageSourceOverrides {
               xmonad = pkgs.fetchFromGitHub {
-                inherit owner;
-                repo = owner;
+                owner = "xmonad";
+                repo = "xmonad";
                 rev = "a90558c07e3108ec2304cac40e5d66f74f52b803";
                 sha256 = "sha256-+TDKhCVvxoRLzHZGzFnClFqKcr4tUrwFY1at3Rwllus=";
               };
               xmonad-contrib = pkgs.fetchFromGitHub {
-                inherit owner;
-                repo = "${owner}-contrib";
+                owner = "xmonad";
+                repo = "xmonad-contrib";
                 rev = "8a0151fe77fecaa1e3b3566e6b05f7479687ecb8";
                 sha256 = "sha256-+p/oznVfM/ici9wvpmRp59+W+yZEPShpPkipjOhiguU=";
               };

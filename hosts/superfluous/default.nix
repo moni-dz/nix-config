@@ -1,4 +1,4 @@
-{ home, inputs, fork, master, stable, unstable, nixpkgs, nur, nvim-nightly, rust, ... }:
+{ home, inputs, master, stable, unstable, nixpkgs, nur, nvim-nightly, rust, ... }:
 
 nixpkgs.lib.nixosSystem rec {
   system = "x86_64-linux";
@@ -6,25 +6,24 @@ nixpkgs.lib.nixosSystem rec {
     {
       nix = (import ../../config/nix-conf.nix { inherit inputs system; });
       nixpkgs = with nixpkgs.lib; let
+        allowBroken = true;
+        allowUnfree = true;
+        config = { inherit allowBroken allowUnfree; };
         filterOverlays = k: v: v == "regular" && hasSuffix ".nix" k;
         importNixFiles = path: (lists.forEach (mapAttrsToList (name: _: path + ("/" + name))
           (filterAttrs filterOverlays (builtins.readDir path)))) import;
         userOverlays = importNixFiles ../../overlays;
         nixpkgsOverlays = _: _: {
-          fork = fork.legacyPackages.${system};
-          head = master.legacyPackages.${system};
-          unstable = unstable.legacyPackages.${system};
-          stable = stable.legacyPackages.${system};
+          head = (import master { inherit config system; });
+          unstable = (import unstable { inherit config system; });
+          stable = (import stable { inherit config system; });
         };
         inputOverlays = _: _: {
           comma = import inputs.comma { pkgs = unstable.legacyPackages."${system}"; };
         };
       in
       {
-        config = {
-          allowUnfree = true;
-          allowBroken = true;
-        };
+        config = { inherit allowBroken allowUnfree; };
         overlays = [
           nixpkgsOverlays
           nvim-nightly.overlay

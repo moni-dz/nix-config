@@ -62,22 +62,6 @@
         "type": "github"
       }
     },
-    "fork": {
-      "locked": {
-        "lastModified": 1614976773,
-        "narHash": "sha256-kxlHYxNBAK05BgxBj3x3d+u+iH0Xh+RJJwa2/tY1TNU=",
-        "owner": "fortuneteller2k",
-        "repo": "nixpkgs",
-        "rev": "d8b42c562b67a20aaa1fc14d0ecc4442b4729384",
-        "type": "github"
-      },
-      "original": {
-        "owner": "fortuneteller2k",
-        "ref": "add-xanmod-kernel",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "gitignore": {
       "flake": false,
       "locked": {
@@ -116,11 +100,11 @@
     },
     "master": {
       "locked": {
-        "lastModified": 1616244181,
-        "narHash": "sha256-DLpwgPYPsXX+RHNVzH+NsSQ/aqPMbJrI9mybBoiVj1o=",
+        "lastModified": 1616600281,
+        "narHash": "sha256-jZ51N6Z38DIJug3VTfAy7XhyUrmIEvSPE/DTPdTBNXo=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "7f21b53fc075755d34a16ec7a352389578a3de50",
+        "rev": "be70c9c9fe1a0083b7957b0045b4d4386b8dc78b",
         "type": "github"
       },
       "original": {
@@ -232,7 +216,6 @@
     "root": {
       "inputs": {
         "comma": "comma",
-        "fork": "fork",
         "home": "home",
         "master": "master",
         "nur": "nur",
