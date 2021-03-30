@@ -21,6 +21,7 @@
     set_max_volume
     case "$1" in
       up)
+        pactl set-sink-mute "$current_sink" 0
         if [ "$current" -lt "$MAX_VOLUME" ]; then
           if [ $((current + 10)) -gt "$MAX_VOLUME" ]; then
             pactl set-sink-volume "$current_sink" +$(("$MAX_VOLUME" - current))%
@@ -30,7 +31,11 @@
         fi
         ;;
       down)
-        pactl set-sink-volume "$current_sink" -10%
+        if [ $((current - 10)) -eq 0 ]; then
+          pactl set-sink-mute "$current_sink" 1
+        else
+          pactl set-sink-volume "$current_sink" -10%
+        fi
         ;;
       toggle)
         pactl set-sink-mute "$current_sink" toggle

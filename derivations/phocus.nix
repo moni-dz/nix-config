@@ -25,7 +25,7 @@ stdenv.mkDerivation rec {
       --replace ec6a88 ${c9} \
       --replace fdf0ed ${fg} \
       --replace aabbcc ${primary} \
-      --replace ccbbaa ${c5}
+      --replace ccbbaa ${secondary}
   '';
 
   nativeBuildInputs = [ sass ];

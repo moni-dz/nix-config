@@ -5,16 +5,14 @@ let
 in
 {
   boot = {
-    kernelPackages = pkgs.head.linuxPackages-rt_latest;
+    kernelPackages = pkgs.head.linuxPackages_latest;
     kernelParams = [
       "rw"
-      "mitigations=off"
-      "acpi_backlight=vendor"
       "nmi_watchdog=0"
       "systemd.watchdog-device=/dev/watchdog"
-      "vt.default_red=0x16,0xe9,0x29,0xfa,0x26,0xee,0x59,0xfd,0x23,0xec,0x3f,0xfb,0x3f,0xf0,0x6b,0xfd"
-      "vt.default_grn=0x16,0x56,0xd3,0xb7,0xbb,0x64,0xe3,0xf0,0x35,0x6a,0xda,0xc3,0xc6,0x75,0xe6,0xf0"
-      "vt.default_blu=0x1c,0x78,0x98,0x95,0xd9,0xae,0xe3,0xed,0x30,0x88,0xa4,0xa7,0xde,0xb7,0xe6,0xed"
+      theme.colors.vt-red
+      theme.colors.vt-grn
+      theme.colors.vt-blu
     ];
     kernel.sysctl = {
       "vm.swappiness" = 1;
@@ -71,29 +69,20 @@ in
       "XSECURELOCK_KEY_XF86MonBrightnessDown_COMMAND" = "${brightnessctl}/bin/brightnessctl s 10%-";
     };
     systemPackages = with pkgs; [
-      adoptopenjdk-openj9-bin-15
       alsaTools
       alsaUtils
       brightnessctl
-      ccls
-      cmake
       coreutils
       curl
       dash
       dragon-drop
-      elixir
       envsubst
       fd
       file
       ffmpeg
       font-manager
-      gcc
-      ghc
       git
       glxinfo
-      gnumake
-      go
-      gradle
       gxmessage
       hacksaw
       head.haskell-language-server
@@ -110,21 +99,15 @@ in
       nodejs
       notify-desktop
       ntfs3g
-      nur.repos.fortuneteller2k.abstractdark-sddm-theme
       pandoc
       pavucontrol
       pciutils
       pcmanfm
       psmisc
       pulseaudio
-      python3
-      python39Packages.grip
       ripgrep
-      rust-analyzer-unwrapped
-      rustup
       shellcheck
       shotgun
-      stack
       unrar
       unzip
       util-linux
@@ -141,7 +124,6 @@ in
       xorg.xwininfo
       xsecurelock
       xwallpaper
-      zig
       zip
     ];
   };
@@ -253,9 +235,24 @@ in
       enable = true;
       dpi = 96;
       displayManager = {
-        sddm = {
+        lightdm = {
           enable = true;
-          theme = "abstractdark-sddm-theme";
+          background = theme.wallpaper;
+          greeters.gtk = {
+            enable = true;
+            theme = {
+              name = "phocus";
+              package = pkgs.phocus;
+            };
+            cursorTheme = {
+              package = pkgs.vanilla-dmz;
+              name = "${if theme.lightModeEnabled then "Vanilla-DMZ" else "Vanilla-DMZ-AA"}";
+            };
+            iconTheme = {
+              package = pkgs.papirus-icon-theme;
+              name = "${if theme.lightModeEnabled then "Papirus-Light" else "Papirus-Dark"}";
+            };
+          };
         };
         defaultSession = "none+xmonad";
       };
@@ -301,22 +298,10 @@ in
   };
   system = {
     userActivationScripts = {
-      reloadWallpaper.text = ''
-        if [ $DISPLAY ]; then
-          ${pkgs.xwallpaper}/bin/xwallpaper --zoom ${theme.wallpaper}
-        else
-          ${pkgs.coreutils}/bin/echo 'skipping...'
-        fi
-      '';
-      reloadWindowManager.text = ''
-        if [ $DISPLAY ]; then
-          ${pkgs.xmonad-with-packages}/bin/xmonad --restart || echo 'not in xmonad, skipping...'
-        else
-          ${pkgs.coreutils}/bin/echo 'skipping...'
-        fi
-      '';
+      reloadWallpaper.text = "[ $DISPLAY ] && ${pkgs.xwallpaper}/bin/xwallpaper --zoom ${theme.wallpaper} || ${pkgs.coreutils}/bin/echo 'skipping...'";
+      reloadXMonad.text = "[ $DISPLAY ] && ${pkgs.xmonad-with-packages}/bin/xmonad --restart || echo 'not in xmonad, skipping...' || ${pkgs.coreutils}/bin/echo 'skipping...'";
     };
-    stateVersion = "21.05";
+    stateVersion = "20.09";
   };
   systemd = {
     extraConfig = "RebootWatchdogSec=5";

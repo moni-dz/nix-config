@@ -101,9 +101,9 @@ with theme;
              { ts_hidechildren = True
              , ts_background   = 0xe0${colors.bg}
              , ts_font         = sansFontFamily
-             , ts_node         = (0xff${colors.bg}, 0xff${if primaryColor == "red" then colors.c1 else if primaryColor == "yellow" then colors.c3 else colors.c4})
-             , ts_nodealt      = (0xff${colors.bg}, 0xff${if theme.primaryColor == "red" then colors.c9 else if primaryColor == "yellow" then colors.c11 else colors.c12})
-             , ts_highlight    = (0xff${colors.bg}, 0xff${if theme.primaryColor == "red" then colors.c3 else if primaryColor == "yellow" then colors.c1 else colors.c5})
+             , ts_node         = (0xff${colors.bg}, 0xff${colors.primary})
+             , ts_nodealt      = (0xff${colors.bg}, 0xff${colors.primaryBright})
+             , ts_highlight    = (0xff${colors.bg}, 0xff${colors.secondary})
              , ts_extra        = 0xff${colors.fg}
              , ts_node_width   = 200
              , ts_node_height  = 30
@@ -179,7 +179,8 @@ with theme;
         , " --qt-flag enable-gpu-rasterization"
         , " --qt-flag enable-native-gpu-memory-buffers"
         , " --qt-flag num-raster-threads=4"
-        , " --qt-flag enable-oop-rasterization" ]
+        , " --qt-flag enable-oop-rasterization"
+        ]
       distractionLess = handlingRefresh $ sequence_
         [ unsafeSpawn restackcmd
         , safeSpawn "${polybar}/bin/polybar-msg" [ "cmd", "toggle" ]
@@ -220,18 +221,19 @@ with theme;
   mousebindings = 
     [ ((modkey .|. shiftMask, button1), dragWindow)
     , ((modkey, button1), (\w -> focus w >> mouseMoveWindow w >> windows W.shiftMaster))
-    , ((modkey, button3), (\w -> focus w >> mouseResizeWindow w >> windows W.shiftMaster)) ]
+    , ((modkey, button3), (\w -> focus w >> mouseResizeWindow w >> windows W.shiftMaster))
+    ]
 
   layouts = avoidStruts 
-            $ renamed [CutWordsLeft 5]
-            $ smartBorders
-            $ configurableNavigation noNavigateBorders
-            $ tabs
-            $ boringWindows
-            $ spacingRaw False (Border 4 4 4 4) True (Border 4 4 4 4) True
-            $ draggingVisualizer
-            $ maximizeWithPadding 0
-            $ layoutHints
+            . renamed [CutWordsLeft 5]
+            . smartBorders
+            . configurableNavigation noNavigateBorders
+            . tabs
+            . boringWindows
+            . spacingRaw False (Border 4 4 4 4) True (Border 4 4 4 4) True
+            . draggingVisualizer
+            . maximizeWithPadding 0
+            . layoutHints
             $ (tall ||| Mirror tall ||| threecol ||| Grid)
     where
       tall = ResizableTall 1 (3/100) (11/20) []

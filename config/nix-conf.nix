@@ -12,8 +12,8 @@
     "https://nix-community.cachix.org"
     "https://fortuneteller2k.cachix.org"
   ];
-  daemonNiceLevel = 19;
-  daemonIONiceLevel = 7;
+  daemonNiceLevel = 1;
+  daemonIONiceLevel = 1;
   extraOptions = ''
     experimental-features = nix-command flakes
     keep-outputs = true

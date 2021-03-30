@@ -1,18 +1,6 @@
 { theme, pkgs }:
 
 with theme; {
-  "colors" = {
-    x0 = "#${if lightModeEnabled then colors.c7 else colors.c0}";
-    x1 = "#${colors.c1}";
-    x2 = "#${colors.c2}";
-    x3 = "#${colors.c3}";
-    x4 = "#${colors.c4}";
-    x5 = "#${colors.c5}";
-    x6 = "#${colors.c6}";
-    x7 = "#${if lightModeEnabled then colors.c0 else colors.c7}";
-    bg = "#${colors.transparent}";
-  };
-
   "module/ewmh" = {
     type = "internal/xworkspaces";
     show-all = true;
@@ -44,18 +32,8 @@ with theme; {
     label-urgent-foreground = "#${colors.textColor}";
     label-urgent-padding = 1;
     format = ''"    <label-state>"'';
-    format-background = "#${colors.primary}";
+    format-background = "#${colors.primaryBright}";
     format-foreground = "#${colors.textColor}";
-  };
-
-  "module/playerctl" = {
-    type = "custom/script";
-    exec = "${pkgs.playerctl}/bin/playerctl metadata --format '{{ xesam:title }}'";
-    format = "%{A1:playerctl play-pause:}<label>%{A}";
-    format-background = "#${colors.primary}";
-    format-foreground = "#${colors.textColor}";
-    label = " ﱘ  %output% ";
-    label-maxlen = 40;
   };
 
   "module/xmonad" = {
@@ -64,8 +42,8 @@ with theme; {
     tail = true;
     label = ": %output% ";
     format = "<label>";
-    format-background = "#${colors.primary}";
-    format-foreground = "${colors.textColor}";
+    format-background = "#${colors.primaryBright}";
+    format-foreground = "#${colors.textColor}";
   };
 
   "module/battery" = {
@@ -104,10 +82,10 @@ with theme; {
     interval = 10;
     format-volume = " <ramp-volume> <label-volume> ";
     format-volume-foreground = "#${colors.textColor}";
-    format-volume-background = "#${colors.primary}";
+    format-volume-background = "#${colors.primaryBright}";
     label-muted = " 婢  Muted ";
     label-muted-foreground = "#${colors.textColor}";
-    label-muted-background = "#${colors.primary}";
+    label-muted-background = "#${colors.primaryBright}";
     ramp-volume-0 = "  ";
     ramp-volume-1 = "  ";
     ramp-volume-2 = "  ";
@@ -134,28 +112,28 @@ with theme; {
     time = "%I:%M %p";
     format = "<label>";
     format-foreground = "#${colors.textColor}";
-    format-background = "#${colors.primary}";
+    format-background = "#${colors.primaryBright}";
     label = "%date% %time% ";
   };
 
   "module/wspc" = {
     type = "custom/text";
     content = " ";
-    content-foreground = "#${colors.primary}";
-    content-background = "#${colors.primary}";
+    content-foreground = "#${colors.primaryBright}";
+    content-background = "#${colors.primaryBright}";
   };
 
   "module/wspc_b" = {
     type = "custom/text";
     content = " ";
-    content-foreground = "\${colors.bg}";
-    content-background = "\${colors.bg}";
+    content-foreground = "${colors.transparent}";
+    content-background = "${colors.transparent}";
   };
 
   "bar/main" = {
     override-redirect = true;
     fixed-center = true;
-    background = "\${colors.bg}";
+    background = "#${colors.transparent}";
     foreground = "#${colors.fg}";
     width = "100%";
     height = 17;
@@ -163,8 +141,7 @@ with theme; {
     enable-ipc = true;
     font-0 = "FantasqueSansMono Nerd Font:size=10.5;2";
     modules-left = "wspc ewmh xmonad";
-    modules-center = "playerctl";
-    modules-right = "battery wspc_b pulseaudio wspc_b wireless wspc_b date";
+    modules-right = "battery pulseaudio wireless date";
     locale = "en_US.UTF-8";
     border-size = 0;
     separator = "";

@@ -97,7 +97,7 @@ rec {
       ueberzug
       woeusb
     ];
-    stateVersion = "21.05";
+    stateVersion = "21.03";
   };
   programs = {
     alacritty = {
@@ -243,7 +243,7 @@ rec {
     };
     mpd = {
       enable = true;
-      package = pkgs.stable.mpd;
+      package = pkgs.head.mpd;
       musicDirectory = "${xdg.userDirs.music}";
       extraConfig = (import ./config/mpd.nix);
     };
@@ -255,7 +255,7 @@ rec {
     playerctld.enable = true;
     polybar = {
       enable = true;
-      script = "polybar -r -l=trace main &";
+      script = "polybar main &";
       config = (import ./config/polybar.nix { inherit pkgs theme; });
     };
   };
