@@ -55,18 +55,19 @@ in
   environment = {
     pathsToLink = [ "/share/zsh" ];
     sessionVariables = with pkgs; {
-      "LD_PRELOAD" = "/etc/nixos/config/ld-preload-xcreatewindow.so";
-      "_JAVA_AWT_WM_NONREPARENTING" = "1";
-      "XSECURELOCK_BLANK_TIMEOUT" = "5";
-      "XSECURELOCK_BLANK_DPMS_STATE" = "suspend";
-      "XSECURELOCK_KEY_XF86AudioPlay_COMMAND" = "${playerctl}/bin/playerctl play-pause";
-      "XSECURELOCK_KEY_XF86AudioPrev_COMMAND" = "${playerctl}/bin/playerctl previous";
-      "XSECURELOCK_KEY_XF86AudioNext_COMMAND" = "${playerctl}/bin/playerctl next";
-      "XSECURELOCK_KEY_XF86AudioMute_COMMAND" = "/home/fortuneteller2k/.local/bin/volume toggle";
-      "XSECURELOCK_KEY_XF86AudioRaiseVolume_COMMAND" = "/home/fortuneteller2k/.local/bin/volume up";
-      "XSECURELOCK_KEY_XF86AudioLowerVolume_COMMAND" = "/home/fortuneteller2k/.local/bin/volume down";
-      "XSECURELOCK_KEY_XF86MonBrightnessUp_COMMAND" = "${brightnessctl}/bin/brightnessctl s +10%";
-      "XSECURELOCK_KEY_XF86MonBrightnessDown_COMMAND" = "${brightnessctl}/bin/brightnessctl s 10%-";
+      LD_PRELOAD = "/etc/nixos/config/ld-preload-xcreatewindow.so";
+      _JAVA_AWT_WM_NONREPARENTING = "1";
+      XSECURELOCK_BLANK_TIMEOUT = "5";
+      XSECURELOCK_BLANK_DPMS_STATE = "suspend";
+      XSECURELOCK_KEY_XF86AudioPlay_COMMAND = "${playerctl}/bin/playerctl play-pause";
+      XSECURELOCK_KEY_XF86AudioPrev_COMMAND = "${playerctl}/bin/playerctl previous";
+      XSECURELOCK_KEY_XF86AudioNext_COMMAND = "${playerctl}/bin/playerctl next";
+      XSECURELOCK_KEY_XF86AudioMute_COMMAND = "/home/fortuneteller2k/.local/bin/volume toggle";
+      XSECURELOCK_KEY_XF86AudioRaiseVolume_COMMAND = "/home/fortuneteller2k/.local/bin/volume up";
+      XSECURELOCK_KEY_XF86AudioLowerVolume_COMMAND = "/home/fortuneteller2k/.local/bin/volume down";
+      XSECURELOCK_KEY_XF86MonBrightnessUp_COMMAND = "${brightnessctl}/bin/brightnessctl s +10%";
+      XSECURELOCK_KEY_XF86MonBrightnessDown_COMMAND = "${brightnessctl}/bin/brightnessctl s 10%-";
+      GTK3_MODULES = [ "pantheon-filechooser-module" ];
     };
     systemPackages = with pkgs; [
       alsaTools
@@ -100,6 +101,7 @@ in
       notify-desktop
       ntfs3g
       pandoc
+      pantheon.elementary-files
       pavucontrol
       pciutils
       pcmanfm
@@ -258,6 +260,7 @@ in
       };
       logFile = "/var/log/Xorg.0.log";
       useGlamor = true;
+      videoDrivers = [ "radeon" ];
       windowManager = {
         "2bwm".enable = true;
         xmonad = {
@@ -324,7 +327,6 @@ in
       "networkmanager"
       "video"
       "audio"
-      "realtime"
       "realtime"
     ];
   };
