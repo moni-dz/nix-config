@@ -1,4 +1,4 @@
-{ inputs, system }:
+{ inputs, system, nixpkgs }:
 
 {
   autoOptimiseStore = true;
@@ -12,8 +12,8 @@
     "https://nix-community.cachix.org"
     "https://fortuneteller2k.cachix.org"
   ];
-  daemonNiceLevel = 1;
-  daemonIONiceLevel = 1;
+  daemonNiceLevel = 19;
+  daemonIONiceLevel = 7;
   extraOptions = ''
     experimental-features = nix-command flakes
     keep-outputs = true
@@ -25,6 +25,17 @@
     options = "--delete-older-than 7d";
   };
   maxJobs = 4;
-  nixPath = let path = toString ../.; in [ "repl=${path}/repl.nix" "nixpkgs=${inputs.unstable}" ];
-  package = inputs.unstable.legacyPackages."${system}".nixFlakes;
+  nixPath = let path = toString ../.; in
+    [
+      "repl=${path}/repl.nix"
+      "nixpkgs=${nixpkgs}"
+      "home-manager=${inputs.home}"
+    ];
+  registry = {
+    system.flake = inputs.self;
+    nixpkgs.flake = nixpkgs;
+    default.flake = nixpkgs;
+    home-manager.flake = inputs.home;
+  };
+  package = nixpkgs.legacyPackages."${system}".nixFlakes;
 }

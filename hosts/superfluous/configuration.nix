@@ -8,6 +8,8 @@ in
     kernelPackages = pkgs.head.linuxPackages_latest;
     kernelParams = [
       "rw"
+      "mitigations=off"
+      "acpi_backlight=vendor"
       "nmi_watchdog=0"
       "systemd.watchdog-device=/dev/watchdog"
       theme.colors.vt-red
@@ -30,6 +32,7 @@ in
         gfxmodeEfi = "1366x768";
       };
     };
+    plymouth.enable = true;
   };
   console = {
     font = "Lat2-Terminus16";
@@ -41,7 +44,10 @@ in
       hsphfpd.enable = true;
       package = pkgs.bluezFull;
     };
-    cpu.amd.updateMicrocode = true;
+    cpu = {
+      amd.updateMicrocode = true;
+      intel.updateMicrocode = true;
+    };
     enableAllFirmware = true;
     enableRedistributableFirmware = true;
     opengl = {
@@ -76,28 +82,20 @@ in
       coreutils
       curl
       dash
-      dragon-drop
       envsubst
       fd
       file
-      ffmpeg
-      font-manager
       git
       glxinfo
       gxmessage
       hacksaw
-      head.haskell-language-server
+      haskell-language-server
       hsetroot
       imagemagick
       jp2a
       jq
       libtool
       libva-utils
-      nixfmt
-      nixpkgs-review
-      nodePackages.npm
-      nodePackages.typescript
-      nodejs
       notify-desktop
       ntfs3g
       pandoc
@@ -151,12 +149,22 @@ in
       enable = true;
       dpi = 96;
       defaultFonts = {
-        serif = [ "Sarasa Gothic J" ];
-        sansSerif = [ "Sarasa Gothic J" ];
+        serif = [
+          "Sarasa Gothic C"
+          "Sarasa Gothic J"
+          "Sarasa Gothic K"
+        ];
+        sansSerif = [
+          "Sarasa Gothic C"
+          "Sarasa Gothic J"
+          "Sarasa Gothic K"
+        ];
         monospace = [
           "Iosevka FT"
           "Iosevka Nerd Font"
+          "Sarasa Mono C"
           "Sarasa Mono J"
+          "Sarasa Mono K"
         ];
         emoji = [ "Twitter Color Emoji" ];
       };
@@ -164,7 +172,12 @@ in
   };
   networking = {
     hostName = "superfluous";
-    nameservers = [ "1.1.1.1" "1.0.0.1" ];
+    nameservers = [
+      "1.1.1.1"
+      "1.0.0.1"
+      "8.8.8.8"
+      "8.8.4.4"
+    ];
     dhcpcd.enable = false;
     networkmanager = {
       enable = true;

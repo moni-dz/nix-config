@@ -56,6 +56,8 @@ rec {
     then c2
     else if primaryColor == "yellow"
     then c3
+    else if primaryColor == "magenta"
+    then c5
     else c4;
   secondary =
     if primaryColor == "red"
@@ -64,6 +66,8 @@ rec {
     then c5
     else if primaryColor == "yellow"
     then c1
+    else if primaryColor == "magenta"
+    then c3
     else c5;
   primaryBright =
     if primaryColor == "red"
@@ -72,11 +76,14 @@ rec {
     then c10
     else if primaryColor == "yellow"
     then c11
+    else if primaryColor == "magenta"
+    then c13
     else c12;
+  muted = "204571";
   transparent = "00000000";
   textColor = bg;
   activeBorderColor = primary;
-  inactiveBorderColor = c8;
+  inactiveBorderColor = muted;
   highlightColor = primary;
   termiteBg = "rgba(22, 22, 28, 0.97)";
 }

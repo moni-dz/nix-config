@@ -55,17 +55,21 @@ rec {
       brave
       cava
       celluloid
-      head.cbonsai
+      cbonsai
       cmatrix
       comma
-      head.discord
+      discord
+      dragon-drop
       element-desktop
-      head.exa
+      exa
+      ffmpeg
       flavours
+      # font-manager
       fzf
       geogebra6
       gimp
       gitAndTools.gh
+      glava
       graphviz
       hakuneko
       hyperfine
@@ -73,10 +77,13 @@ rec {
       jetbrains.idea-ultimate
       kdenlive
       krita
+      manix
       mpc_cli
       neofetch
+      nixfmt
       nix-top
       nixpkgs-fmt
+      nixpkgs-review
       nur.repos.fortuneteller2k.ytmdl
       nur.repos.fortuneteller2k.impure.eww
       obs-studio

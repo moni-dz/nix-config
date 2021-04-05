@@ -4,7 +4,7 @@ nixpkgs.lib.nixosSystem rec {
   system = "x86_64-linux";
   modules = [
     {
-      nix = (import ../../config/nix-conf.nix { inherit inputs system; });
+      nix = (import ../../config/nix-conf.nix { inherit inputs system nixpkgs; });
       nixpkgs = with nixpkgs.lib; let
         allowBroken = true;
         allowUnfree = true;
@@ -23,7 +23,7 @@ nixpkgs.lib.nixosSystem rec {
         };
       in
       {
-        config = { inherit allowBroken allowUnfree; };
+        inherit config;
         overlays = [
           nixpkgsOverlays
           nvim-nightly.overlay

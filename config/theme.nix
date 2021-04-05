@@ -2,7 +2,7 @@ rec {
   borderWidth = "2";
   flowtuneEnabled = true;
   lightModeEnabled = false;
-  primaryColor = "green";
+  primaryColor = "magenta";
   colors =
     if lightModeEnabled
     then (import ./colors-light.nix)
@@ -15,9 +15,11 @@ rec {
     if lightModeEnabled then "${wallpaperPath}/horizon_lightmode.jpg"
     else if primaryColor == "red"
     then "${wallpaperPath}/horizon.jpg"
+    else if primaryColor == "green"
+    then "${wallpaperPath}/riki.jpg"
     else if primaryColor == "yellow"
     then "${wallpaperPath}/horizonyellow.jpg"
     else if primaryColor == "blue"
     then "${wallpaperPath}/enigma.png"
-    else "${wallpaperPath}/riki.jpg";
+    else "${wallpaperPath}/060d16.png";
 }

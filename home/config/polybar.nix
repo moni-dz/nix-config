@@ -116,6 +116,15 @@ with theme; {
     label = "%date% %time% ";
   };
 
+  "module/window" = {
+    type = "internal/xwindow";
+    format = "<label>";
+    format-foreground = "#${colors.muted}";
+    format-background = "#${colors.transparent}";
+    label = "%title%";
+    label-maxlen = 50;
+  };
+
   "module/wspc" = {
     type = "custom/text";
     content = " ";
@@ -141,6 +150,7 @@ with theme; {
     enable-ipc = true;
     font-0 = "FantasqueSansMono Nerd Font:size=10.5;2";
     modules-left = "wspc ewmh xmonad";
+    modules-center = "window";
     modules-right = "battery pulseaudio wireless date";
     locale = "en_US.UTF-8";
     border-size = 0;

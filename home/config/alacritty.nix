@@ -8,9 +8,9 @@ with theme.colors; {
       family = "Iosevka FT";
       style = "Regular";
     };
-    size = 11;
+    size = 10;
     offset = {
-      x = 0;
+      x = -1;
       y = -1;
     };
   };
