@@ -95,7 +95,7 @@ rec {
       playerctl
       qutebrowser
       ripcord
-      head.sacad
+      sacad
       speedtest-cli
       sxiv
       tdesktop

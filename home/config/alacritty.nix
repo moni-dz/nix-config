@@ -1,7 +1,6 @@
 { theme }:
 
 with theme.colors; {
-  background_opacity = 0.98;
   env.TERM = "xterm-256color";
   font = {
     normal = {
