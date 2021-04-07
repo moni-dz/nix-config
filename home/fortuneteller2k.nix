@@ -66,7 +66,6 @@ rec {
       flavours
       # font-manager
       fzf
-      geogebra6
       gimp
       gitAndTools.gh
       glava

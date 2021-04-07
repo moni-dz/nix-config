@@ -5,7 +5,7 @@ let
 in
 {
   boot = {
-    kernelPackages = pkgs.head.linuxPackages_latest;
+    kernelPackages = pkgs.head.linuxPackages_xanmod;
     kernelParams = [
       "rw"
       "mitigations=off"
@@ -73,7 +73,6 @@ in
       XSECURELOCK_KEY_XF86AudioLowerVolume_COMMAND = "/home/fortuneteller2k/.local/bin/volume down";
       XSECURELOCK_KEY_XF86MonBrightnessUp_COMMAND = "${brightnessctl}/bin/brightnessctl s +10%";
       XSECURELOCK_KEY_XF86MonBrightnessDown_COMMAND = "${brightnessctl}/bin/brightnessctl s 10%-";
-      GTK3_MODULES = [ "pantheon-filechooser-module" ];
     };
     systemPackages = with pkgs; [
       alsaTools
@@ -132,12 +131,10 @@ in
       cozette
       emacs-all-the-icons-fonts
       fantasque-sans-mono
-      input-fonts
       inter
       iosevka-ft
       mplus-outline-fonts
       nerdfonts
-      output-fonts
       sarasa-gothic
       scientifica
       symbola

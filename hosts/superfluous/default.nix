@@ -6,9 +6,10 @@ nixpkgs.lib.nixosSystem rec {
     {
       nix = (import ../../config/nix-conf.nix { inherit inputs system nixpkgs; });
       nixpkgs = with nixpkgs.lib; let
-        allowBroken = true;
-        allowUnfree = true;
-        config = { inherit allowBroken allowUnfree; };
+        config = {
+          allowBroken = true;
+          allowUnfree = true;
+        };
         filterOverlays = k: v: v == "regular" && hasSuffix ".nix" k;
         importNixFiles = path: (lists.forEach (mapAttrsToList (name: _: path + ("/" + name))
           (filterAttrs filterOverlays (builtins.readDir path)))) import;
