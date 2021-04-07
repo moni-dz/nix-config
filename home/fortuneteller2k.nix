@@ -76,6 +76,7 @@ rec {
       jetbrains.idea-ultimate
       kdenlive
       krita
+      lazygit
       manix
       mpc_cli
       neofetch
