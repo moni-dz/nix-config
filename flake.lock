@@ -224,6 +224,8 @@
         "nvim-nightly": "nvim-nightly",
         "rust": "rust",
         "stable": "stable",
+        "staging": "staging",
+        "staging-next": "staging-next",
         "unstable": "unstable"
       }
     },
@@ -258,6 +260,38 @@
       "original": {
         "owner": "nixos",
         "ref": "release-20.09",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "staging": {
+      "locked": {
+        "lastModified": 1617799138,
+        "narHash": "sha256-lT8G/V5x97hW77q0XLGeGx0Y52XN1aglrpCLDHm0gME=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "8dcbb049e371061d9cfecc364b5185428b84c262",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "staging",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "staging-next": {
+      "locked": {
+        "lastModified": 1617841044,
+        "narHash": "sha256-cH45eY20Ft6IkA3TjMYClDmha0zdy5bsb5s/LGvelX4=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "8d1d992273105aa114f52ae7156a26886b581fca",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "ref": "staging-next",
         "repo": "nixpkgs",
         "type": "github"
       }

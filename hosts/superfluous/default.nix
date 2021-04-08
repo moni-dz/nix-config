@@ -1,4 +1,4 @@
-{ home, inputs, master, stable, staging, unstable, nixpkgs, nur, nvim-nightly, rust, ... }:
+{ home, inputs, master, stable, staging, staging-next, unstable, nixpkgs, nur, nvim-nightly, rust, ... }:
 
 nixpkgs.lib.nixosSystem rec {
   system = "x86_64-linux";
@@ -19,6 +19,7 @@ nixpkgs.lib.nixosSystem rec {
           unstable = (import unstable { inherit config system; });
           stable = (import stable { inherit config system; });
           staging = (import staging { inherit config system; });
+          staging-next = (import staging-next { inherit config system; });
         };
         inputOverlays = _: _: {
           comma = import inputs.comma { pkgs = unstable.legacyPackages."${system}"; };
