@@ -155,7 +155,7 @@ with theme;
     , ("M-<Left>",                   focusUp)
     , ("M-<Right>",                  focusDown)
     , ("M-S-<Tab>",                  resetLayout c)
-    , ("M-C-c",                      killAll)
+    , ("M-C-q",                      killAll)
     , ("<XF86AudioMute>",            safeSpawn "/home/fortuneteller2k/.local/bin/volume" ["toggle"])
     , ("<XF86AudioRaiseVolume>",     safeSpawn "/home/fortuneteller2k/.local/bin/volume" ["up"])
     , ("<XF86AudioLowerVolume>",     safeSpawn "/home/fortuneteller2k/.local/bin/volume" ["down"])
@@ -348,7 +348,7 @@ with theme;
     , "Alt-Shift-Right:        move window to next workspace and focus that workspace"
     , "Alt-Shift-Tab:          reset layout to Tall (master and stack)"
     , "Alt-Shift-LeftClick:    move window to dragged position"
-    , "Alt-Ctrl-c:             kill all windows in workspace"
+    , "Alt-Ctrl-q:             kill all windows in workspace"
     , "Alt-Ctrl-Left:          group focused window to it's left"
     , "Alt-Ctrl-Right:         group focused window to it's right"
     , "Alt-Ctrl-Up:            group focused window to it's up"
