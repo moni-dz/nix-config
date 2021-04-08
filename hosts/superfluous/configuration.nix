@@ -226,12 +226,6 @@ in
       gatewayPorts = "yes";
       permitRootLogin = "yes";
     };
-    picom = {
-      enable = true;
-      refreshRate = 60;
-      backend = "glx";
-      vSync = true;
-    };
     pipewire = {
       enable = true;
       socketActivation = false;
@@ -268,6 +262,18 @@ in
         };
         defaultSession = "none+xmonad";
       };
+      extraConfig = ''
+        Section "Device"
+          Identifier "Radeon"
+          Driver "radeon"
+          Option "TearFree" "on"
+        EndSection
+        Section "Device"
+          Identifier "AMD"
+          Driver "amdgpu"
+          Option "TearFree" "true"
+        EndSection
+      '';
       logFile = "/var/log/Xorg.0.log";
       useGlamor = true;
       videoDrivers = [ "radeon" ];
