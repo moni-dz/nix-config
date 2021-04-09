@@ -37,6 +37,7 @@ final: prev: {
       [buildPlans.iosevka-ft.ligations]
       inherits = "dlig"
     '';
+
     set = "ft";
   };
 }

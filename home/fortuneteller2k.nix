@@ -5,50 +5,63 @@ let
 in
 rec {
   fonts.fontconfig.enable = true;
+
   gtk = {
     enable = true;
     font.name = "Sarasa Gothic J";
+
     iconTheme = {
       package = pkgs.papirus-icon-theme;
       name = "${if theme.lightModeEnabled then "Papirus-Light" else "Papirus-Dark"}";
     };
+
     theme = {
       package = pkgs.phocus;
       name = "phocus";
     };
   };
+
   home = {
     activation.reloadPolybar = "${pkgs.polybar}/bin/polybar-msg cmd restart || echo 'skipping...'";
+
     file = {
       ".local/bin/can" = {
         executable = true;
         text = import ./scripts/can.nix;
       };
+
       ".local/bin/ccolor" = {
         executable = true;
         text = import ./scripts/ccolor.nix;
       };
+
       ".local/bin/screenshot" = {
         executable = true;
         text = import ./scripts/screenshot.nix;
       };
+
       ".local/bin/showcase" = {
         executable = true;
         text = import ./scripts/showcase.nix;
       };
+
       ".local/bin/volume" = {
         executable = true;
         text = import ./scripts/volume.nix;
       };
+
       ".config/qt5ct/colors/Horizon.conf".source = ./config/Horizon.conf;
+
       ".icons/default".source = "${
         if theme.lightModeEnabled
         then "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ"
         else "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ-AA"
       }";
     };
+
     homeDirectory = "/home/${home.username}";
     username = "fortuneteller2k";
+
     packages = with pkgs; [
       betterdiscordctl
       bpytop
@@ -104,6 +117,7 @@ rec {
       ueberzug
       woeusb
     ];
+
     stateVersion = "21.03";
   };
   programs = {
@@ -111,6 +125,7 @@ rec {
       enable = true;
       settings = (import ./config/alacritty.nix { inherit theme; });
     };
+
     bat = {
       enable = true;
       config = {
@@ -119,16 +134,20 @@ rec {
         theme = "base16";
       };
     };
+
     dircolors = {
       enable = true;
       settings = pkgs.lib.mkForce { };
       extraConfig = (import ./config/dircolors.nix);
     };
+
     direnv = {
       enable = true;
       enableNixDirenvIntegration = true;
     };
+
     home-manager.enable = true;
+
     htop = {
       enable = true;
       detailedCpuTime = true;
@@ -141,10 +160,12 @@ rec {
         right = [ "Tasks" "LoadAverage" "Uptime" ];
       };
     };
+
     ncmpcpp = {
       enable = true;
       settings = (import ./config/ncmpcpp.nix);
     };
+
     neovim = {
       enable = true;
       package = pkgs.neovim-nightly;
@@ -155,19 +176,23 @@ rec {
       extraConfig = (import ./config/neovim.nix);
       extraPackages = with pkgs; [ rnix-lsp shellcheck ];
     };
+
     rofi = {
       enable = true;
     };
+
     starship = {
       enable = true;
       settings = (import ./config/starship.nix);
     };
+
     termite = with theme.colors; {
       enable = true;
       allowBold = true;
       audibleBell = true;
       backgroundColor = termiteBg;
       clickableUrl = true;
+
       colorsExtra = ''
         color0 = #${c0}
         color1 = #${c1}
@@ -186,6 +211,7 @@ rec {
         color14 = #${c14}
         color15 = #${c15}
       '';
+
       cursorBlink = "on";
       cursorColor = "#${fg}";
       cursorForegroundColor = "#${fg}";
@@ -202,28 +228,34 @@ rec {
       hintsActiveForegroundColor = "#${activeBorderColor}";
       hintsPadding = 8;
     };
+
     qutebrowser = {
       enable = true;
       extraConfig = (import ./config/qutebrowser.nix);
     };
+
     zathura = {
       enable = true;
       package = pkgs.zathura;
       extraConfig = "map <C-i> recolor";
       options = (import ./config/zathura.nix { inherit theme; });
     };
+
     zsh = rec {
       enable = true;
       autocd = true;
       enableAutosuggestions = true;
       dotDir = ".config/zsh";
+
       history = {
         expireDuplicatesFirst = true;
         extended = true;
         path = "${programs.zsh.dotDir}/zsh_history";
         save = 50000;
       };
+
       initExtra = (import ./config/zshrc.nix { inherit dotDir home; });
+
       plugins = [
         rec {
           name = "fast-syntax-highlighting";
@@ -235,39 +267,49 @@ rec {
           };
         }
       ];
+
       shellAliases = (import ./config/sh-aliases.nix);
     };
   };
+
   services = {
     dunst = {
       enable = true;
+
       iconTheme = {
         name = "Papirus";
         size = "32x32";
         package = pkgs.papirus-icon-theme;
       };
+
       settings = (import ./config/dunst.nix { inherit theme; });
     };
+
     mpd = {
       enable = true;
       package = pkgs.head.mpd;
       musicDirectory = "${xdg.userDirs.music}";
       extraConfig = (import ./config/mpd.nix);
     };
+
     mpdris2 = {
       enable = true;
       multimediaKeys = true;
       notifications = true;
     };
+
     playerctld.enable = true;
+
     polybar = {
       enable = true;
       script = "polybar main &";
       config = (import ./config/polybar.nix { inherit pkgs theme; });
     };
   };
+
   xdg = {
     enable = true;
+
     userDirs = {
       enable = true;
       documents = "${home.homeDirectory}/Extras/Documents";
@@ -276,5 +318,6 @@ rec {
       videos = "${home.homeDirectory}/Media/Videos";
     };
   };
+
   xresources.extraConfig = (import ./config/xresources.nix { inherit theme; });
 }

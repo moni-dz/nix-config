@@ -3,6 +3,7 @@
 let opacity = "f0";
 in
 with theme.colors; {
+
   global = {
     padding = 8;
     markup = "full";
@@ -19,18 +20,21 @@ with theme.colors; {
     max_icon_size = 80;
     geometry = "330x5-8+25";
   };
+
   urgency_low = {
     foreground = "#${fg}";
     background = "#${bg}${opacity}";
     frame_color = "#${c2}";
     timeout = 2;
   };
+
   urgency_normal = {
     foreground = "#${fg}";
     background = "#${bg}${opacity}";
     frame_color = "#${c3}";
     timeout = 4;
   };
+
   urgency_critical = {
     foreground = "#${fg}";
     background = "#${bg}${opacity}";

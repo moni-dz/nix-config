@@ -3,11 +3,13 @@ rec {
   flowtuneEnabled = true;
   lightModeEnabled = false;
   primaryColor = "magenta";
+
   colors =
     if lightModeEnabled
     then (import ./colors-light.nix)
     else if flowtuneEnabled then (import ./colors-flowtune.nix { inherit primaryColor; })
     else (import ./colors.nix { inherit primaryColor; });
+
   wallpaper =
     let
       wallpaperPath = ./wallpapers;

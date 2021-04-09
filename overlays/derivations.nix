@@ -1,7 +1,6 @@
 final: prev:
 
-let
-  stdenv = prev.clangStdenv;
+let stdenv = prev.clangStdenv;
 in
 {
   output-fonts = prev.callPackage ../derivations/output-fonts.nix {
@@ -9,6 +8,7 @@ in
     unzip = prev.unzip;
     requireFile = prev.requireFile;
   };
+
   phocus = prev.callPackage ../derivations/phocus.nix {
     inherit stdenv;
     sass = prev.sass;

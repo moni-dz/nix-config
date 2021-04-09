@@ -2,6 +2,7 @@
 
 with theme.colors; {
   env.TERM = "xterm-256color";
+
   font = {
     normal = {
       family = "Iosevka FT";
@@ -13,6 +14,7 @@ with theme.colors; {
       y = -1;
     };
   };
+
   window = {
     dynamic_padding = true;
     padding = {
@@ -20,12 +22,15 @@ with theme.colors; {
       y = 8;
     };
   };
+
   cursor.style = "Beam";
+
   colors = {
     primary = {
       background = "0x${bg}";
       foreground = "0x${fg}";
     };
+
     normal = {
       black = "0x${c0}";
       red = "0x${c1}";
@@ -36,6 +41,7 @@ with theme.colors; {
       cyan = "0x${c6}";
       white = "0x${c7}";
     };
+
     bright = {
       black = "0x${c8}";
       red = "0x${c9}";

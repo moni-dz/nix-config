@@ -1,5 +1,6 @@
 {
   description = "A somewhat huge NixOS configuration using Nix Flakes.";
+
   inputs = {
     comma = { url = "github:Shopify/comma"; flake = false; };
     home = { url = "github:nix-community/home-manager"; inputs.nixpkgs.follows = "unstable"; };
@@ -12,11 +13,13 @@
     nvim-nightly.url = "github:nix-community/neovim-nightly-overlay";
     rust.url = "github:oxalica/rust-overlay";
   };
+
   outputs = { self, home, master, stable, staging, staging-next, unstable, nur, nvim-nightly, rust, ... }@inputs: {
     nixosConfigurations.superfluous = import ./hosts/superfluous {
       inherit home inputs master stable staging staging-next unstable nur nvim-nightly rust;
       nixpkgs = unstable;
     };
+
     superfluous = self.nixosConfigurations.superfluous.config.system.build.toplevel;
   };
 }
