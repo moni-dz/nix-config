@@ -135,7 +135,7 @@ with theme;
     , ("C-<Right>",                  nextWS)
     , ("<Print>",                    safeSpawn "/home/fortuneteller2k/.local/bin/screenshot" ["wind"])
     , ("M-<Print>",                  safeSpawn "/home/fortuneteller2k/.local/bin/screenshot" ["area"])
-    , ("M-S-s",                      safeSpawn "/home/fortuneteller2k/.local/bin/screenshot" ["full"])
+    , ("M4-<Print>",                 safeSpawn "/home/fortuneteller2k/.local/bin/screenshot" ["full"])
     , ("M-S-q",                      io (exitWith ExitSuccess))
     , ("M-S-h",                      safeSpawn "${gxmessage}/bin/gxmessage" ["-fn", fontNameGTK, help])
     , ("M-S-<Delete>",               safeSpawnProg "${xsecurelock}/bin/xsecurelock")
@@ -153,7 +153,7 @@ with theme;
     , ("M-S-<Right>",                shiftToNext >> nextWS)
     , ("M-<Left>",                   focusUp)
     , ("M-<Right>",                  focusDown)
-    , ("M-S-<Tab>",                  resetLayout c)
+    , ("M4-<Tab>",                   resetLayout c)
     , ("M4-q",                       killAll)
     , ("<XF86AudioMute>",            safeSpawn "/home/fortuneteller2k/.local/bin/volume" ["toggle"])
     , ("<XF86AudioRaiseVolume>",     safeSpawn "/home/fortuneteller2k/.local/bin/volume" ["up"])
@@ -339,7 +339,7 @@ with theme;
     , "Alt-RightClick:         float window and resize it"
     , "Alt-[0-9]:              for [1-9] go to nth workspace, for 0 go to 10th workspace"
     , "Alt-Print:              take screenshot of focused window and copy to clipboard"
-    , "Alt-Shift-s:            take screenshot of whole screen and save it to a file"
+    , "Super-Print:            take screenshot of whole screen and save it to a file"
     , "Alt-Shift-q:            exit xmonad"
     , "Alt-Shift-c:            force quit window"
     , "Alt-Shift-Delete:       lock screen"
@@ -347,7 +347,7 @@ with theme;
     , "Alt-Shift-r:            restart xmonad and polybar"
     , "Alt-Shift-Left:         move window to previous workspace and focus that workspace"
     , "Alt-Shift-Right:        move window to next workspace and focus that workspace"
-    , "Alt-Shift-Tab:          reset layout to Tall (master and stack)"
+    , "Super-Tab:              reset layout to default"
     , "Super-LeftClick:        move window to dragged position"
     , "Super-q:                kill all windows in workspace"
     , "Super-Left:             group focused window to it's left"
