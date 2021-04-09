@@ -23,5 +23,5 @@ rec {
     then "${wallpaperPath}/horizonyellow.jpg"
     else if primaryColor == "blue"
     then "${wallpaperPath}/enigma.png"
-    else "${wallpaperPath}/060d16.png";
+    else "${wallpaperPath}/101010.png";
 }
