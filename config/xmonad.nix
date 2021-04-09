@@ -67,7 +67,6 @@ with theme;
   import qualified XMonad.Actions.Sift      as W
   import qualified XMonad.StackSet          as W
 
-  modkey = mod1Mask
   fontNameGTK = "Iosevka FT"
   fontFamily = "xft:" ++ fontNameGTK ++ ":size=9.7:antialias=true:hinting=true"
   sansFontFamily = "xft:Sarasa Gothic J:size=10:antialias=true:hinting=true"
@@ -219,9 +218,9 @@ with theme;
         }
 
   mousebindings = 
-    [ ((modkey .|. shiftMask, button1), dragWindow)
-    , ((modkey, button1), (\w -> focus w >> mouseMoveWindow w >> windows W.shiftMaster))
-    , ((modkey, button3), (\w -> focus w >> mouseResizeWindow w >> windows W.shiftMaster))
+    [ ((mod4Mask, button1), dragWindow)
+    , ((mod1Mask, button1), (\w -> focus w >> mouseMoveWindow w >> windows W.shiftMaster))
+    , ((mod1Mask, button3), (\w -> focus w >> mouseResizeWindow w >> windows W.shiftMaster))
     ]
 
   layouts = avoidStruts 
@@ -295,7 +294,7 @@ with theme;
     , clickJustFocuses   = True
     , borderWidth        = ${theme.borderWidth}
     , keys               = keybindings
-    , modMask            = modkey
+    , modMask            = mod1Mask
     , workspaces         = ws
     , normalBorderColor  = "#${colors.inactiveBorderColor}"
     , focusedBorderColor = "#${colors.activeBorderColor}"
@@ -349,7 +348,7 @@ with theme;
     , "Alt-Shift-Left:         move window to previous workspace and focus that workspace"
     , "Alt-Shift-Right:        move window to next workspace and focus that workspace"
     , "Alt-Shift-Tab:          reset layout to Tall (master and stack)"
-    , "Alt-Shift-LeftClick:    move window to dragged position"
+    , "Super-LeftClick:        move window to dragged position"
     , "Super-q:                kill all windows in workspace"
     , "Super-Left:             group focused window to it's left"
     , "Super-Right:            group focused window to it's right"
