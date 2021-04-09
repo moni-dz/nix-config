@@ -5,7 +5,7 @@ nixpkgs.lib.nixosSystem rec {
 
   modules = [
     {
-      nix = (import ../../config/nix-conf.nix { inherit inputs system nixpkgs; });
+      nix = import ../../config/nix-conf.nix { inherit inputs system nixpkgs; };
 
       nixpkgs = with nixpkgs.lib; let
         config = {
@@ -21,11 +21,11 @@ nixpkgs.lib.nixosSystem rec {
         userOverlays = importNixFiles ../../overlays;
 
         nixpkgsOverlays = _: _: {
-          head = (import master { inherit config system; });
-          unstable = (import unstable { inherit config system; });
-          stable = (import stable { inherit config system; });
-          staging = (import staging { inherit config system; });
-          staging-next = (import staging-next { inherit config system; });
+          head = import master { inherit config system; };
+          unstable = import unstable { inherit config system; };
+          stable = import stable { inherit config system; };
+          staging = import staging { inherit config system; };
+          staging-next = import staging-next { inherit config system; };
         };
 
         inputOverlays = _: _: {

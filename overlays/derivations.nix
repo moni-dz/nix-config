@@ -13,6 +13,6 @@ in
     inherit stdenv;
     sass = prev.sass;
     fetchFromGitHub = prev.fetchFromGitHub;
-    theme = (import ../config/theme.nix);
+    theme = import ../config/theme.nix;
   };
 }

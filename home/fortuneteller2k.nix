@@ -1,7 +1,7 @@
 { config, inputs, lib, pkgs, ... }:
 
 let
-  theme = (import ../config/theme.nix);
+  theme = import ../config/theme.nix;
 in
 rec {
   fonts.fontconfig.enable = true;
@@ -33,6 +33,11 @@ rec {
       ".local/bin/ccolor" = {
         executable = true;
         text = import ./scripts/ccolor.nix;
+      };
+
+      ".local/bin/palette" = {
+        executable = true;
+        text = import ./scripts/palette.nix;
       };
 
       ".local/bin/screenshot" = {
@@ -123,7 +128,7 @@ rec {
   programs = {
     alacritty = {
       enable = true;
-      settings = (import ./config/alacritty.nix { inherit theme; });
+      settings = import ./config/alacritty.nix { inherit theme; };
     };
 
     bat = {
@@ -138,7 +143,7 @@ rec {
     dircolors = {
       enable = true;
       settings = pkgs.lib.mkForce { };
-      extraConfig = (import ./config/dircolors.nix);
+      extraConfig = import ./config/dircolors.nix;
     };
 
     direnv = {
@@ -163,7 +168,7 @@ rec {
 
     ncmpcpp = {
       enable = true;
-      settings = (import ./config/ncmpcpp.nix);
+      settings = import ./config/ncmpcpp.nix;
     };
 
     neovim = {
@@ -173,7 +178,7 @@ rec {
       vimAlias = true;
       vimdiffAlias = true;
       withNodeJs = true;
-      extraConfig = (import ./config/neovim.nix);
+      extraConfig = import ./config/neovim.nix;
       extraPackages = with pkgs; [ rnix-lsp shellcheck ];
     };
 
@@ -183,7 +188,7 @@ rec {
 
     starship = {
       enable = true;
-      settings = (import ./config/starship.nix);
+      settings = import ./config/starship.nix;
     };
 
     termite = with theme.colors; {
@@ -231,14 +236,14 @@ rec {
 
     qutebrowser = {
       enable = true;
-      extraConfig = (import ./config/qutebrowser.nix);
+      extraConfig = import ./config/qutebrowser.nix;
     };
 
     zathura = {
       enable = true;
       package = pkgs.zathura;
       extraConfig = "map <C-i> recolor";
-      options = (import ./config/zathura.nix { inherit theme; });
+      options = import ./config/zathura.nix { inherit theme; };
     };
 
     zsh = rec {
@@ -254,7 +259,7 @@ rec {
         save = 50000;
       };
 
-      initExtra = (import ./config/zshrc.nix { inherit dotDir home; });
+      initExtra = import ./config/zshrc.nix { inherit dotDir home; };
 
       plugins = [
         rec {
@@ -268,7 +273,7 @@ rec {
         }
       ];
 
-      shellAliases = (import ./config/sh-aliases.nix);
+      shellAliases = import ./config/sh-aliases.nix;
     };
   };
 
@@ -282,14 +287,14 @@ rec {
         package = pkgs.papirus-icon-theme;
       };
 
-      settings = (import ./config/dunst.nix { inherit theme; });
+      settings = import ./config/dunst.nix { inherit theme; };
     };
 
     mpd = {
       enable = true;
       package = pkgs.head.mpd;
       musicDirectory = "${xdg.userDirs.music}";
-      extraConfig = (import ./config/mpd.nix);
+      extraConfig = import ./config/mpd.nix;
     };
 
     mpdris2 = {
@@ -303,7 +308,7 @@ rec {
     polybar = {
       enable = true;
       script = "polybar main &";
-      config = (import ./config/polybar.nix { inherit pkgs theme; });
+      config = import ./config/polybar.nix { inherit pkgs theme; };
     };
   };
 
@@ -319,5 +324,5 @@ rec {
     };
   };
 
-  xresources.extraConfig = (import ./config/xresources.nix { inherit theme; });
+  xresources.extraConfig = import ./config/xresources.nix { inherit theme; };
 }

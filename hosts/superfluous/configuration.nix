@@ -1,6 +1,6 @@
 { config, pkgs, options, ... }:
 
-let theme = (import ../../config/theme.nix);
+let theme = import ../../config/theme.nix;
 in
 {
   boot = {
@@ -330,7 +330,7 @@ in
 
         xmonad = {
           enable = true;
-          config = (import ../../config/xmonad.nix { inherit config pkgs theme; });
+          config = import ../../config/xmonad.nix { inherit config pkgs theme; };
           extraPackages = hpkgs: with hpkgs; [ dbus xmonad-contrib ];
 
           ghcArgs = [
