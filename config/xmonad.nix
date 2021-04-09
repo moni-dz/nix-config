@@ -141,21 +141,21 @@ with theme;
     , ("M-S-h",                      safeSpawn "${gxmessage}/bin/gxmessage" ["-fn", fontNameGTK, help])
     , ("M-S-<Delete>",               safeSpawnProg "${xsecurelock}/bin/xsecurelock")
     , ("M-S-c",                      withFocused $ \w -> safeSpawn "${xorg.xkill}/bin/xkill" ["-id", show w])
-    , ("M-C-<Left>",                 sendMessage $ pullGroup L)
-    , ("M-C-<Right>",                sendMessage $ pullGroup R)
-    , ("M-C-<Up>",                   sendMessage $ pullGroup U)
-    , ("M-C-<Down>",                 sendMessage $ pullGroup D)
-    , ("M-C-m",                      withFocused (sendMessage . MergeAll))
-    , ("M-C-u",                      withFocused (sendMessage . UnMerge))
-    , ("M-C-,",                      onGroup W.focusUp')
-    , ("M-C-.",                      onGroup W.focusDown')
+    , ("M4-<Left>",                  sendMessage $ pullGroup L)
+    , ("M4-<Right>",                 sendMessage $ pullGroup R)
+    , ("M4-<Up>",                    sendMessage $ pullGroup U)
+    , ("M4-<Down>",                  sendMessage $ pullGroup D)
+    , ("M4-m",                       withFocused (sendMessage . MergeAll))
+    , ("M4-u",                       withFocused (sendMessage . UnMerge))
+    , ("M4-,",                       onGroup W.focusUp')
+    , ("M4-.",                       onGroup W.focusDown')
     , ("M-S-r",                      unsafeSpawn (restartcmd ++ "&& sleep 2 &&" ++ restackcmd))
     , ("M-S-<Left>",                 shiftToPrev >> prevWS)
     , ("M-S-<Right>",                shiftToNext >> nextWS)
     , ("M-<Left>",                   focusUp)
     , ("M-<Right>",                  focusDown)
     , ("M-S-<Tab>",                  resetLayout c)
-    , ("M-C-q",                      killAll)
+    , ("M4-q",                       killAll)
     , ("<XF86AudioMute>",            safeSpawn "/home/fortuneteller2k/.local/bin/volume" ["toggle"])
     , ("<XF86AudioRaiseVolume>",     safeSpawn "/home/fortuneteller2k/.local/bin/volume" ["up"])
     , ("<XF86AudioLowerVolume>",     safeSpawn "/home/fortuneteller2k/.local/bin/volume" ["down"])
@@ -289,25 +289,27 @@ with theme;
       , ppOrder  = \(_:l:_:_) -> [l]
       }
 
+  xmonadConfig dbus = def
+    { terminal           = "${alacritty}/bin/alacritty"
+    , focusFollowsMouse  = True
+    , clickJustFocuses   = True
+    , borderWidth        = ${theme.borderWidth}
+    , keys               = keybindings
+    , modMask            = modkey
+    , workspaces         = ws
+    , normalBorderColor  = "#${colors.inactiveBorderColor}"
+    , focusedBorderColor = "#${colors.activeBorderColor}"
+    , layoutHook         = layouts
+    , manageHook         = windowRules
+    , logHook            = barHook dbus
+    , handleEventHook    = swallowEventHook (className =? "Alacritty" <||> className =? "XTerm") (return True) <+> hintsEventHook
+    , startupHook        = autostart
+    } `additionalMouseBindings` mousebindings
+
   main = do
     dbus <- D.connectSession
     D.requestName dbus (D.busName_ "org.xmonad.log") [ D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue ]
-    xmonad . ewmhFullscreen . docks . ewmh . javaHack $ def
-      { terminal           = "${alacritty}/bin/alacritty"
-      , focusFollowsMouse  = True
-      , clickJustFocuses   = True
-      , borderWidth        = ${theme.borderWidth}
-      , keys               = keybindings
-      , modMask            = modkey
-      , workspaces         = ws
-      , normalBorderColor  = "#${colors.inactiveBorderColor}"
-      , focusedBorderColor = "#${colors.activeBorderColor}"
-      , layoutHook         = layouts
-      , manageHook         = windowRules
-      , logHook            = barHook dbus
-      , handleEventHook    = swallowEventHook (className =? "Alacritty" <||> className =? "XTerm") (return True) <+> hintsEventHook
-      , startupHook        = autostart
-      } `additionalMouseBindings` mousebindings 
+    xmonad . ewmhFullscreen . docks . ewmh . javaHack $ xmonadConfig dbus
 
   help = unlines 
     [ "fortuneteller2k's XMonad configuration"
@@ -348,15 +350,15 @@ with theme;
     , "Alt-Shift-Right:        move window to next workspace and focus that workspace"
     , "Alt-Shift-Tab:          reset layout to Tall (master and stack)"
     , "Alt-Shift-LeftClick:    move window to dragged position"
-    , "Alt-Ctrl-q:             kill all windows in workspace"
-    , "Alt-Ctrl-Left:          group focused window to it's left"
-    , "Alt-Ctrl-Right:         group focused window to it's right"
-    , "Alt-Ctrl-Up:            group focused window to it's up"
-    , "Alt-Ctrl-Down:          group focused window to it's down"
-    , "Alt-Ctrl-m:             group all windows in workspace"
-    , "Alt-Ctrl-u:             ungroup focused window" 
-    , "Alt-Ctrl-,:             focus previous window in group"
-    , "Alt-Ctrl-.:             focus next window in group"
+    , "Super-q:                kill all windows in workspace"
+    , "Super-Left:             group focused window to it's left"
+    , "Super-Right:            group focused window to it's right"
+    , "Super-Up:               group focused window to it's up"
+    , "Super-Down:             group focused window to it's down"
+    , "Super-m:                group all windows in workspace"
+    , "Super-u:                ungroup focused window"
+    , "Super-,:                focus previous window in group"
+    , "Super-.:                focus next window in group"
     , "Ctrl-Left:              focus previous workspace"
     , "Ctrl-Right:             focus next workspace"
     , "XF86AudioMute:          mute audio"
