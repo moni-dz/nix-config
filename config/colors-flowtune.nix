@@ -25,9 +25,9 @@ rec {
 
   # Version 2
   fg = "e2ecf7";
-  bg = "101010";
+  bg = "151515";
 
-  c0 = "1f1f1f";
+  c0 = "232323";
   c1 = "ea2e58";
   c2 = "3cef85";
   c3 = "fcd148";
@@ -36,7 +36,7 @@ rec {
   c6 = "40c9f2";
   c7 = "f1f6fb";
 
-  c8 = "2f2f2f";
+  c8 = "323232";
   c9 = "ec456b";
   c10 = "54f194";
   c11 = "fcd761";
@@ -79,7 +79,7 @@ rec {
     else if primaryColor == "magenta"
     then c13
     else c12;
-  muted = "3f3f3f";
+  muted = "505050";
   transparent = "00000000";
   textColor = bg;
   activeBorderColor = primary;

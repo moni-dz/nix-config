@@ -346,14 +346,14 @@ in
               xmonad = pkgs.fetchFromGitHub {
                 owner = "xmonad";
                 repo = "xmonad";
-                rev = "a90558c07e3108ec2304cac40e5d66f74f52b803";
-                sha256 = "sha256-+TDKhCVvxoRLzHZGzFnClFqKcr4tUrwFY1at3Rwllus=";
+                rev = "46f637e0bed18fa09e46e8f8ad5ccd0ae19d6fa0";
+                sha256 = "sha256-oCwxyxMbo/LEbQQlw0LnopMnLSysarV/HMcpeK3mVgY=";
               };
               xmonad-contrib = pkgs.fetchFromGitHub {
                 owner = "xmonad";
                 repo = "xmonad-contrib";
-                rev = "8a0151fe77fecaa1e3b3566e6b05f7479687ecb8";
-                sha256 = "sha256-+p/oznVfM/ici9wvpmRp59+W+yZEPShpPkipjOhiguU=";
+                rev = "0ebd3a0534f1b4cdb0aa931bf16b296e557dd811";
+                sha256 = "sha256-v36LYi7muTz/6u2Y7Kdkv73TeM0LmqKhO313Cyvb2jg=";
               };
             });
         };
