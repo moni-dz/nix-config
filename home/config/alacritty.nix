@@ -6,7 +6,7 @@ with theme.colors; {
   font = {
     normal = {
       family = "Iosevka FT";
-      style = "Regular";
+      style = "Light";
     };
     size = 10;
     offset = {

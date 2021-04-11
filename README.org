@@ -17,7 +17,6 @@ Get the latest NixOS 21.05 image [[https://releases.nixos.org/nixos/unstable/nix
 
 *** Caveats
  * You probably should replace [[https://github.com/fortuneteller2k/nix-config/blob/master/hosts/superfluous/hardware-configuration.nix][hosts/superfluous/hardware-configuration.nix]] with your own with =nixos-generate-config=.
- * Remove this [[https://github.com/fortuneteller2k/nix-config/blob/master/hosts/superfluous/configuration.nix#L237][line]] when not running with AMD graphics.
  * You might want to change =users.users.fortuneteller2k= to =users.users.yourname= in this [[https://github.com/fortuneteller2k/nix-config/blob/master/hosts/superfluous/configuration.nix#L320][part]] of =superfluous/configuration.nix=, =username= and =homeDirectory= to your username in this [[https://github.com/fortuneteller2k/nix-config/blob/master/home/fortuneteller2k.nix#L159][part]] of =fortuneteller2k.nix=, and rename [[https://github.com/fortuneteller2k/nix-config/blob/master/home/fortuneteller2k.nix][fortuneteller2k.nix]] to your username and change the import [[https://github.com/fortuneteller2k/nix-config/blob/master/hosts/superfluous/default.nix#L34][here]] accordingly.
 
 ** Description
@@ -39,7 +38,7 @@ Resources and configurations I used to base on:
 |-----------------------------------------+---------------------------------------|
 | =sudo nixos-rebuild switch=             | switch to the new generation          |
 | =nix flake update --update-input flake= | update flake and update lockfile      |
-| =nix flake update --recreate-lock-file= | update all flakes and update lockfile |
+| =nix flake update=                      | update all flakes and update lockfile |
 
 ** Appearance
 
