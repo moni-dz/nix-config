@@ -41,7 +41,7 @@ with theme;
   import XMonad.Layout.LayoutHints
   import XMonad.Layout.LayoutModifier
   import XMonad.Layout.Maximize
-  import XMonad.Layout.NoBorders hiding (Never)
+  import XMonad.Layout.NoBorders
   import XMonad.Layout.Renamed
   import XMonad.Layout.ResizableThreeColumns
   import XMonad.Layout.ResizableTile
@@ -226,15 +226,9 @@ with theme;
     , ((mod1Mask, button3), (\w -> focus w >> mouseResizeWindow w >> windows W.shiftMaster))
     ]
 
-  data AllFloats = AllFloats deriving (Read, Show)
-
-  instance SetsAmbiguous AllFloats where
-    hiddens _ wset _ _ _ = M.keys $ W.floating wset
-
   layouts = avoidStruts 
             . renamed [CutWordsLeft 5]
             . smartBorders
-            . lessBorders AllFloats
             . configurableNavigation noNavigateBorders
             . tabs
             . boringWindows
@@ -317,7 +311,7 @@ with theme;
   main =
     let
       borderUrgHook = BorderUrgencyHook { urgencyBorderColor = "#${colors.c1}" }
-      urgConfig = urgencyConfig { suppressWhen = Never }
+      urgConfig = urgencyConfig { suppressWhen = XMonad.Hooks.UrgencyHook.Never }
     in do
       dbus <- D.connectSession
       D.requestName dbus (D.busName_ "org.xmonad.log") [ D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue ]
