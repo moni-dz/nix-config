@@ -31,6 +31,7 @@ with theme;
   import XMonad.Hooks.ManageDocks
   import XMonad.Hooks.ManageHelpers
   import XMonad.Hooks.Place
+  import XMonad.Hooks.UrgencyHook
   import XMonad.Hooks.WindowSwallowing
 
   import XMonad.Layout.BoringWindows
@@ -40,7 +41,7 @@ with theme;
   import XMonad.Layout.LayoutHints
   import XMonad.Layout.LayoutModifier
   import XMonad.Layout.Maximize
-  import XMonad.Layout.NoBorders
+  import XMonad.Layout.NoBorders hiding (Never)
   import XMonad.Layout.Renamed
   import XMonad.Layout.ResizableThreeColumns
   import XMonad.Layout.ResizableTile
@@ -131,6 +132,8 @@ with theme;
     , ("M-.",                        sendMessage (IncMasterN (-1)))
     , ("M-;",                        sequence_ [ incScreenSpacing 2, incWindowSpacing 2 ])
     , ("M-'",                        sequence_ [ decScreenSpacing 2, decWindowSpacing 2 ])
+    , ("M4-`",                       focusUrgent)
+    , ("M4-<Esc>",                   clearUrgents)
     , ("C-<Left>",                   prevWS)
     , ("C-<Right>",                  nextWS)
     , ("<Print>",                    safeSpawn "/home/fortuneteller2k/.local/bin/screenshot" ["wind"])
@@ -140,10 +143,10 @@ with theme;
     , ("M-S-h",                      safeSpawn "${gxmessage}/bin/gxmessage" ["-fn", fontNameGTK, help])
     , ("M-S-<Delete>",               safeSpawnProg "${xsecurelock}/bin/xsecurelock")
     , ("M-S-c",                      withFocused $ \w -> safeSpawn "${xorg.xkill}/bin/xkill" ["-id", show w])
-    , ("M4-<Left>",                  sendMessage $ pullGroup L)
-    , ("M4-<Right>",                 sendMessage $ pullGroup R)
-    , ("M4-<Up>",                    sendMessage $ pullGroup U)
-    , ("M4-<Down>",                  sendMessage $ pullGroup D)
+    , ("M4-<L>",                     sendMessage $ pullGroup L)
+    , ("M4-<R>",                     sendMessage $ pullGroup R)
+    , ("M4-<U>",                     sendMessage $ pullGroup U)
+    , ("M4-<D>",                     sendMessage $ pullGroup D)
     , ("M4-m",                       withFocused (sendMessage . MergeAll))
     , ("M4-u",                       withFocused (sendMessage . UnMerge))
     , ("M4-,",                       onGroup W.focusUp')
@@ -223,9 +226,15 @@ with theme;
     , ((mod1Mask, button3), (\w -> focus w >> mouseResizeWindow w >> windows W.shiftMaster))
     ]
 
+  data AllFloats = AllFloats deriving (Read, Show)
+
+  instance SetsAmbiguous AllFloats where
+    hiddens _ wset _ _ _ = M.keys $ W.floating wset
+
   layouts = avoidStruts 
             . renamed [CutWordsLeft 5]
             . smartBorders
+            . lessBorders AllFloats
             . configurableNavigation noNavigateBorders
             . tabs
             . boringWindows
@@ -305,10 +314,14 @@ with theme;
     , startupHook        = autostart
     } `additionalMouseBindings` mousebindings
 
-  main = do
-    dbus <- D.connectSession
-    D.requestName dbus (D.busName_ "org.xmonad.log") [ D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue ]
-    xmonad . ewmhFullscreen . docks . ewmh . javaHack $ xmonadConfig dbus
+  main =
+    let
+      borderUrgHook = BorderUrgencyHook { urgencyBorderColor = "#${colors.c1}" }
+      urgConfig = urgencyConfig { suppressWhen = Never }
+    in do
+      dbus <- D.connectSession
+      D.requestName dbus (D.busName_ "org.xmonad.log") [ D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue ]
+      xmonad . ewmhFullscreen . docks . ewmh . javaHack . withUrgencyHookC borderUrgHook urgConfig $ xmonadConfig dbus
 
   help = unlines 
     [ "fortuneteller2k's XMonad configuration"
@@ -347,6 +360,8 @@ with theme;
     , "Alt-Shift-r:            restart xmonad and polybar"
     , "Alt-Shift-Left:         move window to previous workspace and focus that workspace"
     , "Alt-Shift-Right:        move window to next workspace and focus that workspace"
+    , "Super-`:                focus recently urgent window"
+    , "Super-Escape:           clear urgents"
     , "Super-Tab:              reset layout to default"
     , "Super-LeftClick:        move window to dragged position"
     , "Super-q:                kill all windows in workspace"
