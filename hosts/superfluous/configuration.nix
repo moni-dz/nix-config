@@ -81,6 +81,7 @@ in
     sessionVariables = with pkgs; {
       LD_PRELOAD = "/etc/nixos/config/ld-preload-xcreatewindow.so";
       _JAVA_AWT_WM_NONREPARENTING = "1";
+      XSECURELOCK_NO_COMPOSITE = "1";
       XSECURELOCK_BLANK_TIMEOUT = "5";
       XSECURELOCK_BLANK_DPMS_STATE = "suspend";
       XSECURELOCK_KEY_XF86AudioPlay_COMMAND = "${playerctl}/bin/playerctl play-pause";

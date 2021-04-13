@@ -1,7 +1,5 @@
 { theme }:
 
-let opacity = "f0";
-in
 with theme.colors; {
 
   global = {
@@ -23,21 +21,21 @@ with theme.colors; {
 
   urgency_low = {
     foreground = "#${fg}";
-    background = "#${bg}${opacity}";
+    background = "#${bg}";
     frame_color = "#${c2}";
     timeout = 2;
   };
 
   urgency_normal = {
     foreground = "#${fg}";
-    background = "#${bg}${opacity}";
+    background = "#${bg}";
     frame_color = "#${c3}";
     timeout = 4;
   };
 
   urgency_critical = {
     foreground = "#${fg}";
-    background = "#${bg}${opacity}";
+    background = "#${bg}";
     frame_color = "#${c1}";
   };
 }
