@@ -67,7 +67,10 @@ in
     };
   };
 
-  imports = [ ./hardware-configuration.nix ];
+  imports = [
+    ./hardware-configuration.nix
+    ../../modules/xcompmgr.nix
+  ];
 
   i18n.defaultLocale = "en_US.UTF-8";
 
@@ -277,6 +280,7 @@ in
 
     tlp.enable = true;
     upower.enable = true;
+    xcompmgr.enable = true;
 
     xserver = {
       enable = true;
