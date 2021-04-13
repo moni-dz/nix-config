@@ -75,6 +75,7 @@ in
   i18n.defaultLocale = "en_US.UTF-8";
 
   environment = {
+    binsh = "${pkgs.dash}/bin/dash";
     pathsToLink = [ "/share/zsh" ];
 
     sessionVariables = with pkgs; {
