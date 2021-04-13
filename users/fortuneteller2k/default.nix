@@ -1,7 +1,7 @@
 { config, inputs, lib, pkgs, ... }:
 
 let
-  theme = import ../config/theme.nix;
+  theme = import ../../config/theme.nix;
 in
 rec {
   fonts.fontconfig.enable = true;

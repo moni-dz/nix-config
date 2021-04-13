@@ -12,7 +12,7 @@ rec {
 
   wallpaper =
     let
-      wallpaperPath = ./wallpapers;
+      wallpaperPath = ../img/wallpapers;
     in
     if lightModeEnabled then "${wallpaperPath}/horizon_lightmode.jpg"
     else if primaryColor == "red"

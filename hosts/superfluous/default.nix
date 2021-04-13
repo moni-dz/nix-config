@@ -50,7 +50,7 @@ nixpkgs.lib.nixosSystem rec {
       home-manager = {
         useGlobalPkgs = true;
         useUserPackages = true;
-        users.fortuneteller2k = import ../../home/fortuneteller2k.nix;
+        users.fortuneteller2k = import ../../users/fortuneteller2k;
       };
     }
     nixpkgs.nixosModules.notDetected

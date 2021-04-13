@@ -27,6 +27,7 @@
     Plug 'ziglang/zig.vim'
     Plug 'lervag/vimtex'
     Plug 'elixir-lang/vim-elixir'
+    Plug 'axvr/org.vim'
     Plug 'jiangmiao/auto-pairs'
     Plug 'sheerun/vim-polyglot'
     Plug 'neoclide/coc.nvim', { 'branch': 'release' }
