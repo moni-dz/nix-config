@@ -79,7 +79,6 @@ rec {
       discord
       dragon-drop
       element-desktop
-      exa
       ffmpeg
       flavours
       # font-manager
@@ -120,6 +119,7 @@ rec {
       texlive.combined.scheme-medium
       torrential
       ueberzug
+      head.wezterm
       woeusb
     ];
 
@@ -149,6 +149,11 @@ rec {
     direnv = {
       enable = true;
       enableNixDirenvIntegration = true;
+    };
+
+    exa = {
+      enable = true;
+      enableAliases = true;
     };
 
     home-manager.enable = true;

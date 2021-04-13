@@ -1,8 +1,5 @@
 {
   cat = "bat";
-  ls = "exa";
-  la = "exa -la";
-  l = "exa -l";
   sv = "systemctl";
   ga = "git add";
   gp = "git push";
