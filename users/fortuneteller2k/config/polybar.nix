@@ -139,10 +139,6 @@ with theme; {
     content-background = "${colors.transparent}";
   };
 
-  "settings" = {
-    pseudo-transparency = true;
-  };
-
   "bar/main" = {
     override-redirect = true;
     fixed-center = true;

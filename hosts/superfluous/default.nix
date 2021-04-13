@@ -13,10 +13,10 @@ nixpkgs.lib.nixosSystem rec {
           allowUnfree = true;
         };
 
-        filterOverlays = k: v: v == "regular" && hasSuffix ".nix" k;
+        filterNixFiles = k: v: v == "regular" && hasSuffix ".nix" k;
 
         importNixFiles = path: (lists.forEach (mapAttrsToList (name: _: path + ("/" + name))
-          (filterAttrs filterOverlays (builtins.readDir path)))) import;
+          (filterAttrs filterNixFiles (builtins.readDir path)))) import;
 
         userOverlays = importNixFiles ../../overlays;
 
