@@ -8,23 +8,9 @@ in
 {
   options = {
     services.xcompmgr = {
-      enable = mkOption {
-        type = types.bool;
-        default = false;
-        description = "Enable xcompmgr, a simple composite manager";
-      };
-
-      clientSideCompositing = mkOption {
-        type = types.bool;
-        default = false;
-        description = "Enable client-side compositing with soft shadows and translucency support";
-      };
-
-      hardShadows = mkOption {
-        type = types.bool;
-        default = false;
-        description = "Enable hard shadows, requires clientSideCompositing = true;";
-      };
+      enable = mkEnableOption "Enable xcompmgr, a simple composite manager";
+      clientSideCompositing = mkEnableOption "Enable client-side compositing with soft shadows and translucency support";
+      hardShadows = mkEnableOption "Enable hard shadows, requires clientSideCompositing = true;";
     };
   };
 
