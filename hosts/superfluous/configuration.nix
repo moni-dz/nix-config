@@ -232,7 +232,6 @@ in
 
     command-not-found.enable = false;
     qt5ct.enable = true;
-    river.enable = true;
 
     xss-lock = {
       enable = true;
@@ -265,7 +264,6 @@ in
     };
 
     dbus.packages = with pkgs; [ gnome3.dconf ];
-    greetd.enable = true;
     irqbalance.enable = true;
 
     openssh = {
