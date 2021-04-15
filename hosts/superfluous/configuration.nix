@@ -69,7 +69,8 @@ in
 
   imports = [
     ./hardware-configuration.nix
-    ../../modules/xcompmgr.nix
+    ../../modules/services/xcompmgr.nix
+    ../../modules/programs/river.nix
   ];
 
   i18n.defaultLocale = "en_US.UTF-8";
@@ -106,9 +107,11 @@ in
       file
       git
       glxinfo
+      grim
       gxmessage
       hacksaw
       haskell-language-server
+      head.river
       hsetroot
       imagemagick
       jp2a
@@ -229,6 +232,7 @@ in
 
     command-not-found.enable = false;
     qt5ct.enable = true;
+    river.enable = true;
 
     xss-lock = {
       enable = true;
@@ -261,6 +265,7 @@ in
     };
 
     dbus.packages = with pkgs; [ gnome3.dconf ];
+    greetd.enable = true;
     irqbalance.enable = true;
 
     openssh = {
@@ -289,29 +294,7 @@ in
       dpi = 96;
 
       displayManager = {
-        lightdm = {
-          enable = true;
-          background = theme.wallpaper;
-
-          greeters.gtk = {
-            enable = true;
-
-            theme = {
-              name = "phocus";
-              package = pkgs.phocus;
-            };
-
-            cursorTheme = {
-              package = pkgs.vanilla-dmz;
-              name = "${if theme.lightModeEnabled then "Vanilla-DMZ" else "Vanilla-DMZ-AA"}";
-            };
-
-            iconTheme = {
-              package = pkgs.papirus-icon-theme;
-              name = "${if theme.lightModeEnabled then "Papirus-Light" else "Papirus-Dark"}";
-            };
-          };
-        };
+        sddm.enable = true;
         defaultSession = "none+xmonad";
       };
 

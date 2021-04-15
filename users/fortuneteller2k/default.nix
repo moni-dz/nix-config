@@ -119,7 +119,7 @@ rec {
       texlive.combined.scheme-medium
       torrential
       ueberzug
-      head.wezterm
+      # head.wezterm
       woeusb
     ];
 

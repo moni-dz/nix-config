@@ -31,5 +31,5 @@ in
       };
     };
 
-  meta.maintainers = with maintainers; [ fortuneteller2k ];
+  meta.maintainers = with lib.maintainers; [ fortuneteller2k ];
 }
