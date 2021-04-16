@@ -2,7 +2,7 @@
 
 let theme = import ../../config/theme.nix;
 in
-{
+rec {
   boot = {
     kernelPackages = pkgs.head.linuxPackages_xanmod;
 
@@ -238,6 +238,7 @@ in
       lockerCommand = "${pkgs.xsecurelock}/bin/xsecurelock";
     };
   };
+
   security = {
     rtkit.enable = true;
     sudo.wheelNeedsPassword = false;
@@ -292,7 +293,7 @@ in
       dpi = 96;
 
       displayManager = {
-        sddm.enable = true;
+        sddm.enable = services.xserver.enable;
         defaultSession = "none+xmonad";
       };
 
@@ -329,21 +330,21 @@ in
             "-optc-ffast-math"
           ];
 
-          haskellPackages =
-            pkgs.haskellPackages.extend (pkgs.haskell.lib.packageSourceOverrides {
-              xmonad = pkgs.fetchFromGitHub {
-                owner = "xmonad";
-                repo = "xmonad";
-                rev = "46f637e0bed18fa09e46e8f8ad5ccd0ae19d6fa0";
-                sha256 = "sha256-oCwxyxMbo/LEbQQlw0LnopMnLSysarV/HMcpeK3mVgY=";
-              };
-              xmonad-contrib = pkgs.fetchFromGitHub {
-                owner = "xmonad";
-                repo = "xmonad-contrib";
-                rev = "0ebd3a0534f1b4cdb0aa931bf16b296e557dd811";
-                sha256 = "sha256-v36LYi7muTz/6u2Y7Kdkv73TeM0LmqKhO313Cyvb2jg=";
-              };
-            });
+          haskellPackages = pkgs.haskellPackages.extend (pkgs.haskell.lib.packageSourceOverrides {
+            xmonad = pkgs.fetchFromGitHub {
+              owner = "xmonad";
+              repo = "xmonad";
+              rev = "46f637e0bed18fa09e46e8f8ad5ccd0ae19d6fa0";
+              sha256 = "sha256-oCwxyxMbo/LEbQQlw0LnopMnLSysarV/HMcpeK3mVgY=";
+            };
+
+            xmonad-contrib = pkgs.fetchFromGitHub {
+              owner = "xmonad";
+              repo = "xmonad-contrib";
+              rev = "0ebd3a0534f1b4cdb0aa931bf16b296e557dd811";
+              sha256 = "sha256-v36LYi7muTz/6u2Y7Kdkv73TeM0LmqKhO313Cyvb2jg=";
+            };
+          });
         };
       };
 
@@ -359,9 +360,19 @@ in
 
   system = {
     userActivationScripts = {
-      reloadWallpaper.text = "[ $DISPLAY ] && ${pkgs.xwallpaper}/bin/xwallpaper --zoom ${theme.wallpaper} || ${pkgs.coreutils}/bin/echo 'skipping...'";
-      reloadXMonad.text = "[ $DISPLAY ] && ${pkgs.xmonad-with-packages}/bin/xmonad --restart || echo 'not in xmonad, skipping...' || ${pkgs.coreutils}/bin/echo 'skipping...'";
+      reloadWallpaper.text =
+        if services.xserver.enable then
+          "[ $DISPLAY ] && ${pkgs.xwallpaper}/bin/xwallpaper --zoom ${theme.wallpaper} || ${pkgs.coreutils}/bin/echo 'skipping...'"
+        else
+          "${pkgs.coreutils}/bin/echo 'skipping because on wayland...'";
+
+      reloadXMonad.text =
+        if services.xserver.enable then
+          "[ $DISPLAY ] && ${pkgs.xmonad-with-packages}/bin/xmonad --restart || echo 'not in xmonad, skipping...' || ${pkgs.coreutils}/bin/echo 'skipping...'"
+        else
+          "${pkgs.coreutils}/bin/echo 'skipping because on wayland...'";
     };
+
     stateVersion = "20.09";
   };
 

@@ -10,6 +10,9 @@
 ** Installation
 Get the latest NixOS 21.05 image [[https://releases.nixos.org/nixos/unstable/nixos-21.05pre269929.ff96a0fa563][here]], do your partitions (root must be mounted at =/mnt=), then run the following commands
 #+begin_src sh
+  # move the output file of this to hosts/superfluous/hardware-configuration.nix
+  nixos-generate-config
+
   nix-shell -p git nixFlakes
   git clone https://github.com/fortuneteller2k/nix-config /etc/nixos
   sudo nixos-install --flake '.#superfluous'
