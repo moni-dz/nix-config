@@ -18,7 +18,7 @@ in
     ];
 
     kernel.sysctl = {
-      "vm.swappiness" = 1;
+      "vm.swappiness" = 10;
       "vm.vfs_cache_pressure" = 75;
       "kernel.printk" = "3 3 3 3";
       "kernel.unprivileged_userns_clone" = 1;

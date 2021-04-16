@@ -48,7 +48,7 @@ in
         manage = "window";
         name = "river";
         start = ''
-          exec ${pkgs.head.river}/bin/river &
+          systemd-cat -t river -- ${pkgs.head.river}/bin/river &
           waitPID=$!
         '';
       }
