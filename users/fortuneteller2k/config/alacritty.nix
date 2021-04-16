@@ -8,11 +8,7 @@ with theme.colors; {
       family = "Iosevka FT";
       style = "Light";
     };
-    size = 10;
-    offset = {
-      x = -1;
-      y = -1;
-    };
+    size = 11;
   };
 
   window = {

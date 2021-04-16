@@ -81,7 +81,7 @@ rec {
       element-desktop
       ffmpeg
       flavours
-      # font-manager
+      font-manager
       fzf
       gimp
       gitAndTools.gh
@@ -187,9 +187,34 @@ rec {
       extraPackages = with pkgs; [ rnix-lsp shellcheck ];
     };
 
-    rofi = {
+    newsboat = {
       enable = true;
+      autoReload = true;
+
+      urls = [
+        {
+          tags = [ "repology" "nixos" "nixpkgs" ];
+          title = "Nixpkgs Repology";
+          url = "https://repology.org/maintainer/lythe1107%40gmail.com/feed-for-repo/nix_unstable/atom";
+        }
+        {
+          tags = [ "nixos" "nixpkgs" ];
+          title = "NixOS Weekly";
+          url = "https://weekly.nixos.org/feeds/all.rss.xml";
+        }
+      ];
+
+      extraConfig = ''
+        color listnormal color3 color0
+        color listfocus color5 color0
+        color listnormal_unread color0 color3
+        color info  red default bold
+        color listfocus_unread color0 color5 bold
+        color info color4 color0 
+      '';
     };
+
+    rofi.enable = true;
 
     starship = {
       enable = true;

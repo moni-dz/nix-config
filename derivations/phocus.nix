@@ -11,6 +11,8 @@ stdenv.mkDerivation rec {
   };
 
   patchPhase = with theme.colors; ''
+    runHook prePatch
+
     substituteInPlace scss/gtk-3.0/_colors.scss \
       --replace 16161c ${bg} \
       --replace 232530 ${c0} \
@@ -26,6 +28,8 @@ stdenv.mkDerivation rec {
       --replace fdf0ed ${fg} \
       --replace aabbcc ${primary} \
       --replace ccbbaa ${secondary}
+
+    runHook postPatch
   '';
 
   nativeBuildInputs = [ sass ];

@@ -1,4 +1,4 @@
-{ config, pkgs, options, ... }:
+{ config, lib, pkgs, options, ... }:
 
 let theme = import ../../config/theme.nix;
 in
@@ -82,17 +82,6 @@ rec {
     sessionVariables = with pkgs; {
       LD_PRELOAD = "/etc/nixos/config/ld-preload-xcreatewindow.so";
       _JAVA_AWT_WM_NONREPARENTING = "1";
-      XSECURELOCK_NO_COMPOSITE = "1";
-      XSECURELOCK_BLANK_TIMEOUT = "5";
-      XSECURELOCK_BLANK_DPMS_STATE = "suspend";
-      XSECURELOCK_KEY_XF86AudioPlay_COMMAND = "${playerctl}/bin/playerctl play-pause";
-      XSECURELOCK_KEY_XF86AudioPrev_COMMAND = "${playerctl}/bin/playerctl previous";
-      XSECURELOCK_KEY_XF86AudioNext_COMMAND = "${playerctl}/bin/playerctl next";
-      XSECURELOCK_KEY_XF86AudioMute_COMMAND = "/home/fortuneteller2k/.local/bin/volume toggle";
-      XSECURELOCK_KEY_XF86AudioRaiseVolume_COMMAND = "/home/fortuneteller2k/.local/bin/volume up";
-      XSECURELOCK_KEY_XF86AudioLowerVolume_COMMAND = "/home/fortuneteller2k/.local/bin/volume down";
-      XSECURELOCK_KEY_XF86MonBrightnessUp_COMMAND = "${brightnessctl}/bin/brightnessctl s +10%";
-      XSECURELOCK_KEY_XF86MonBrightnessDown_COMMAND = "${brightnessctl}/bin/brightnessctl s 10%-";
     };
 
     systemPackages = with pkgs; [
@@ -143,8 +132,7 @@ rec {
       xorg.xdpyinfo
       xorg.xsetroot
       xorg.xkill
-      xorg.xwininfo
-      xsecurelock
+      xorg.xwininfo 
       xwallpaper
       zip
     ];
@@ -153,6 +141,7 @@ rec {
   fonts = {
     fonts = with pkgs; [
       cozette
+      curie
       emacs-all-the-icons-fonts
       fantasque-sans-mono
       inter
@@ -231,11 +220,12 @@ rec {
     };
 
     command-not-found.enable = false;
+    slock.enable = true;
     qt5ct.enable = true;
 
     xss-lock = {
       enable = true;
-      lockerCommand = "${pkgs.xsecurelock}/bin/xsecurelock";
+      lockerCommand = "${pkgs.slock}/bin/slock";
     };
   };
 
@@ -273,6 +263,33 @@ rec {
       permitRootLogin = "yes";
     };
 
+    picom = {
+      enable = true;
+      refreshRate = 60;
+      experimentalBackends = true;
+      backend = "glx";
+      vSync = true;
+
+      settings = {
+        blur = {
+          method = "dual_kawase";
+          strength = 7;
+          background = false;
+          background-frame = false;
+          background-fixed = false;
+        };
+
+        blur-background-exclude = [
+          "window_type = 'dock'"
+          "window_type = 'desktop'"
+          "_GTK_FRAME_EXTENTS@:c"
+        ];
+
+        daemon = true;
+        use-damage = true;
+      };
+    };
+
     pipewire = {
       enable = true;
       socketActivation = false;
@@ -286,7 +303,6 @@ rec {
 
     tlp.enable = true;
     upower.enable = true;
-    xcompmgr.enable = true;
 
     xserver = {
       enable = true;
@@ -387,6 +403,19 @@ rec {
     user.services = {
       pipewire.wantedBy = [ "default.target" ];
       pipewire-pulse.wantedBy = [ "default.target" ];
+
+      xidlehook = {
+        description = "xidlehook daemon";
+        wantedBy = [ "graphical-session.target" ];
+        partOf = [ "graphical-session.target" ];
+        serviceConfig.ExecStart = lib.strings.concatStringsSep " "
+          [
+            "${pkgs.xidlehook}/bin/xidlehook"
+            "--not-when-fullscreen"
+            "--not-when-audio"
+            "--timer 120 slock ''"
+          ];
+      };
     };
   };
 

@@ -1,0 +1,95 @@
+diff --git a/config.def.h b/config.def.h
+index 699f5b6..89a98c3 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -22,3 +22,6 @@ static const char * text_color = "#ffffff";
+ 
+ /* text size (must be a valid size) */
+ static const char * text_size = "fixed";
++
++/* time in seconds before the monitor shuts down */
++static const int monitortime = 10;
+diff --git a/config.h b/config.h
+index e7158a3..c5971cd 100644
+--- a/config.h
++++ b/config.h
+@@ -3,9 +3,9 @@ static const char *user  = "nobody";
+ static const char *group = "nobody";
+ 
+ static const char *colorname[NUMCOLS] = {
+-	[INIT] =   "#000000",   /* after initialization */
+-	[INPUT] =  "#282c34",   /* during input */
+-	[FAILED] = "#be5046",   /* wrong password */
++	[INIT] =   "#151515",   /* after initialization */
++	[INPUT] =  "#e454f1",   /* during input */
++	[FAILED] = "#ec456b",   /* wrong password */
+ };
+ 
+ /* lock screen opacity */
+@@ -15,10 +15,13 @@ static const float alpha = 0.5;
+ static const int failonclear = 1;
+ 
+ /* default message */
+-static const char * message = "Enter password to unlock";
++static const char * message = "";
+ 
+ /* text color */
+-static const char * text_color = "#abb2bf";
++static const char * text_color = "#e2ecf7";
+ 
+ /* text size (must be a valid size) */
+ static const char * text_size = "fixed";
++
++/* time in seconds before the monitor shuts down */
++static const int monitortime = 10;
+diff --git a/slock.c b/slock.c
+index d5e29ba..7db5d8e 100644
+--- a/slock.c
++++ b/slock.c
+@@ -15,6 +15,7 @@
+ #include <unistd.h>
+ #include <sys/types.h>
+ #include <X11/extensions/Xrandr.h>
++#include <X11/extensions/dpms.h>
+ #include <X11/keysym.h>
+ #include <X11/Xlib.h>
+ #include <X11/Xutil.h>
+@@ -376,6 +377,7 @@ main(int argc, char **argv) {
+ 	const char *hash;
+ 	Display *dpy;
+ 	int s, nlocks, nscreens;
++	CARD16 standby, suspend, off;
+ 
+ 	ARGBEGIN {
+ 	case 'v':
+@@ -441,6 +443,20 @@ main(int argc, char **argv) {
+ 	if (nlocks != nscreens)
+ 		return 1;
+ 
++	/* DPMS magic to disable the monitor */
++	if (!DPMSCapable(dpy))
++		die("slock: DPMSCapable failed\n");
++	if (!DPMSEnable(dpy))
++		die("slock: DPMSEnable failed\n");
++	if (!DPMSGetTimeouts(dpy, &standby, &suspend, &off))
++		die("slock: DPMSGetTimeouts failed\n");
++	if (!standby || !suspend || !off)
++		die("slock: at least one DPMS variable is zero\n");
++	if (!DPMSSetTimeouts(dpy, monitortime, monitortime, monitortime))
++		die("slock: DPMSSetTimeouts failed\n");
++
++	XSync(dpy, 0);
++
+ 	/* run post-lock command */
+ 	if (argc > 0) {
+ 		switch (fork()) {
+@@ -458,5 +474,9 @@ main(int argc, char **argv) {
+ 	/* everything is now blank. Wait for the correct password */
+ 	readpw(dpy, &rr, locks, nscreens, hash);
+ 
++	/* reset DPMS values to inital ones */
++	DPMSSetTimeouts(dpy, standby, suspend, off);
++	XSync(dpy, 0);
++
+ 	return 0;
+ }
