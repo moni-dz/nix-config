@@ -145,9 +145,10 @@ rec {
       emacs-all-the-icons-fonts
       fantasque-sans-mono
       inter
-      iosevka-ft
+      iosevka-bin
       mplus-outline-fonts
       nerdfonts
+      nur.repos.fortuneteller2k.iosevka-ft-bin
       sarasa-gothic
       scientifica
       symbola
