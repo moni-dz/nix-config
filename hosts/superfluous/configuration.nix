@@ -132,7 +132,7 @@ rec {
       xorg.xdpyinfo
       xorg.xsetroot
       xorg.xkill
-      xorg.xwininfo 
+      xorg.xwininfo
       xwallpaper
       zip
     ];
@@ -328,7 +328,6 @@ rec {
 
       logFile = "/var/log/Xorg.0.log";
       useGlamor = true;
-      videoDrivers = [ "radeon" ];
 
       windowManager = {
         "2bwm".enable = true;
