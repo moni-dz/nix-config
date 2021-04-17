@@ -225,7 +225,7 @@ rec {
 
     xss-lock = {
       enable = true;
-      lockerCommand = "${pkgs.slock}/bin/slock";
+      lockerCommand = "${config.security.wrapperDir}/slock";
     };
   };
 
@@ -413,7 +413,7 @@ rec {
             "${pkgs.xidlehook}/bin/xidlehook"
             "--not-when-fullscreen"
             "--not-when-audio"
-            "--timer 120 slock ''"
+            "--timer 120 ${config.security.wrapperDir}/slock ''"
           ];
       };
     };

@@ -12,7 +12,7 @@
         doas nixos-rebuild switch
         ;;
       test)
-        cd ~/.config/nix-config && doas nixos-rebuild test
+        cd ~/.config/nix-config && doas nixos-rebuild test --fast
         ;;
       upgrade)
         cd ~/.config/nix-config && nix flake update && doas nixos-rebuild switch && git add flake.lock && git commit -m "flake: bump flakes" && git push

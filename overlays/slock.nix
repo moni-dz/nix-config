@@ -7,6 +7,6 @@ final: prev: {
       sha256 = "sha256-++R5tTk4nbNo3elzoD2jJbEBAV7gjxUf8Cegeo0fVGA=";
     };
 
-    patches = [ ./patches/slock-patch.diff ];
+    patches = [ ./patches/slock_patch.diff ];
   });
 }

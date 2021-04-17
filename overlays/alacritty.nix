@@ -6,10 +6,11 @@ final: prev: {
       rev = "3ed043046fc74f288d4c8fa7e4463dc201213500";
       sha256 = "sha256-1dGk4ORzMSUQhuKSt5Yo7rOJCJ5/folwPX2tLiu0suA=";
     };
-    doCheck = false; # NOTE: don't compile twice
-    installPhase = ''
-      runHook preInstall
-      install -D $releaseDir/alacritty $out/bin/alacritty
+
+    # NOTE: don't compile twice
+    doCheck = false;
+
+    postInstall = ''
       install -D extra/linux/Alacritty.desktop -t $out/share/applications/
       install -D extra/logo/compat/alacritty-term.svg $out/share/icons/hicolor/scalable/apps/Alacritty.svg
       strip -S $out/bin/alacritty
@@ -28,11 +29,11 @@ final: prev: {
       tic -xe alacritty,alacritty-direct -o "$terminfo/share/terminfo" extra/alacritty.info
       mkdir -p $out/nix-support
       echo "$terminfo" >> $out/nix-support/propagated-user-env-packages
-      runHook postInstall
     '';
+
     cargoDeps = old.cargoDeps.overrideAttrs (_: {
       inherit src;
-      outputHash = "sha256-ztl8zzYuiOH/e6Ja64wiQwUaLCjPHKqlPSITUu16uew=";
+      outputHash = "sha256-Oc5DdthZqSd0Dc6snE3/WAa19+vOe6wkXkR8d6uPWJo=";
     });
   });
 }

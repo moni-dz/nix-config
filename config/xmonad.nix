@@ -75,7 +75,7 @@ with theme;
 
   actions = [ Node (TSNode "Session" "session management" (return ()))
                    [ Node (TSNode "Logout" "exit current XMonad session" (io (exitWith ExitSuccess))) []
-                   , Node (TSNode "Lock" "lock session" (safeSpawnProg "slock")) []
+                   , Node (TSNode "Lock" "lock session" (safeSpawnProg "${config.security.wrapperDir}/slock")) []
                    , Node (TSNode "Reboot" "reboot this machine" (safeSpawn "${systemd}/bin/systemctl" ["reboot"])) []
                    , Node (TSNode "Power Off" "power off this machine" (safeSpawn "${systemd}/bin/systemctl" ["poweroff"])) []
                    ]
@@ -141,7 +141,7 @@ with theme;
     , ("M4-<Print>",                 safeSpawn "/home/fortuneteller2k/.local/bin/screenshot" ["full"])
     , ("M-S-q",                      io (exitWith ExitSuccess))
     , ("M-S-h",                      safeSpawn "${gxmessage}/bin/gxmessage" ["-fn", fontNameGTK, help])
-    , ("M-S-<Delete>",               safeSpawnProg "slock")
+    , ("M-S-<Delete>",               safeSpawnProg "${config.security.wrapperDir}/slock")
     , ("M-S-c",                      withFocused $ \w -> safeSpawn "${xorg.xkill}/bin/xkill" ["-id", show w])
     , ("M4-<L>",                     sendMessage $ pullGroup L)
     , ("M4-<R>",                     sendMessage $ pullGroup R)
