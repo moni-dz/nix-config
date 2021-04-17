@@ -97,6 +97,7 @@ rec {
       git
       glxinfo
       grim
+      gnome3.nautilus
       gxmessage
       hacksaw
       haskell-language-server
@@ -113,7 +114,6 @@ rec {
       pantheon.elementary-files
       pavucontrol
       pciutils
-      pcmanfm
       psmisc
       pulseaudio
       ripgrep

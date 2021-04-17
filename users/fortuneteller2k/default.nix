@@ -114,12 +114,13 @@ rec {
       ripcord
       sacad
       speedtest-cli
+      spotify-adblock
       sxiv
       tdesktop
       texlive.combined.scheme-medium
       torrential
       ueberzug
-      # head.wezterm
+      wezterm
       woeusb
     ];
 

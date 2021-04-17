@@ -1,6 +1,6 @@
-{ lib, stdenv, requireFile, unzip }:
+{ lib, stdenvNoCC, requireFile, unzip }:
 
-stdenv.mkDerivation {
+stdenvNoCC.mkDerivation {
   pname = "output-fonts";
   version = "2021-01-23";
 
