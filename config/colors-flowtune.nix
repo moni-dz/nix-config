@@ -1,29 +1,6 @@
 { primaryColor }:
 
 rec {
-  # Version 1
-  #fg = "edfdf8";
-  #bg = "21212a";
-
-  #c0 = "383847";
-  #c1 = "e95b6e";
-  #c2 = "75e897";
-  #c3 = "e8b358";
-  #c4 = "588de8";
-  #c5 = "e875c6";
-  #c6 = "5be9d6";
-  #c7 = "edfafd";
-
-  #c8 = "434355";
-  #c9 = "ec7182";
-  #c10 = "8beca7";
-  #c11 = "ebbd6e";
-  #c12 = "6e9ceb";
-  #c13 = "ec8bcf";
-  #c14 = "71ecdc";
-  #c15 = "edfafd";
-
-  # Version 2
   fg = "e2ecf7";
   bg = "151515";
 
