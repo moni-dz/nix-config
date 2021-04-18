@@ -15,12 +15,12 @@ in
         swaylock
         swayidle
         alacritty
-        dmenu
+        bemenu
         brightnessctl
         wdisplays
       ];
       defaultText = literalExample ''
-        with pkgs; [ swaylock swayidle dmenu alacritty brightnessctl wdisplays ];
+        with pkgs; [ swaylock swayidle bemenu alacritty brightnessctl wdisplays ];
       '';
       example = literalExample ''
         with pkgs; [
@@ -36,7 +36,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = [ pkgs.head.river ] ++ cfg.extraPackages;
+    environment.systemPackages = [ pkgs.river ] ++ cfg.extraPackages;
     security.pam.services.swaylock = { };
     hardware.opengl.enable = mkDefault true;
     fonts.enableDefaultFonts = mkDefault true;
@@ -48,7 +48,7 @@ in
         manage = "window";
         name = "river";
         start = ''
-          systemd-cat -t river -- ${pkgs.head.river}/bin/river &
+          systemd-cat -t river -- ${pkgs.river}/bin/river &
           waitPID=$!
         '';
       }
