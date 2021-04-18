@@ -124,6 +124,12 @@ rec {
       woeusb
     ];
 
+    sessionPath = [
+      "${config.xdg.configHome}/emacs/bin"
+      "${config.xdg.configHome}/scripts"
+      "${home.homeDirectory}/.local/bin"
+    ];
+
     stateVersion = "21.03";
   };
   programs = {
@@ -150,6 +156,11 @@ rec {
     direnv = {
       enable = true;
       enableNixDirenvIntegration = true;
+    };
+
+    emacs = {
+      enable = true;
+      package = pkgs.emacsPgtkGcc;
     };
 
     exa = {

@@ -5,7 +5,6 @@ with home;
 ''
   compinit -C -d ${dotDir}/zcompdump
   export QT_QPA_PLATFORMTHEME=qt5ct
-  export PATH=$PATH:${homeDirectory}/.config/emacs/bin:${homeDirectory}/.config/scripts:${homeDirectory}/.local/bin
   export RUSTUP_HOME=${homeDirectory}/.local/share/rustup
   export GOPATH=${homeDirectory}/Extras/go
   export EDITOR=nvim
