@@ -1,4 +1,4 @@
-{ home, inputs, master, stable, staging, staging-next, unstable, nixpkgs, nur, nvim-nightly, rust, ... }:
+{ home, inputs, master, stable, staging, staging-next, unstable, nixpkgs, ... }:
 
 nixpkgs.lib.nixosSystem rec {
   system = "x86_64-linux";
@@ -37,9 +37,10 @@ nixpkgs.lib.nixosSystem rec {
 
         overlays = [
           nixpkgsOverlays
-          nvim-nightly.overlay
-          nur.overlay
-          rust.overlay
+          inputs.emacs.overlay
+          inputs.nvim-nightly.overlay
+          inputs.nur.overlay
+          inputs.rust.overlay
           inputOverlays
         ] ++ userOverlays;
       };
