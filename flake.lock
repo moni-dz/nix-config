@@ -16,6 +16,21 @@
         "type": "github"
       }
     },
+    "emacs": {
+      "locked": {
+        "lastModified": 1618715623,
+        "narHash": "sha256-r0YSLQ5MOUdwqCxCwzKwNiUhEwoiCSSNBKSqeQ83WWM=",
+        "owner": "nix-community",
+        "repo": "emacs-overlay",
+        "rev": "5e588134a4e5158a69b40d8d5048e37fc018fbd6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "emacs-overlay",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -218,6 +233,7 @@
     "root": {
       "inputs": {
         "comma": "comma",
+        "emacs": "emacs",
         "home": "home",
         "master": "master",
         "nur": "nur",

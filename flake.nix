@@ -9,14 +9,15 @@
     staging.url = "github:nixos/nixpkgs/staging";
     staging-next.url = "github:nixos/nixpkgs/staging-next";
     unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    emacs.url = "github:nix-community/emacs-overlay";
     nur.url = "github:nix-community/NUR";
     nvim-nightly.url = "github:nix-community/neovim-nightly-overlay";
     rust.url = "github:oxalica/rust-overlay";
   };
 
-  outputs = { self, home, master, stable, staging, staging-next, unstable, nur, nvim-nightly, rust, ... }@inputs: {
+  outputs = { self, home, master, stable, staging, staging-next, unstable, ... }@inputs: {
     nixosConfigurations.superfluous = import ./hosts/superfluous {
-      inherit home inputs master stable staging staging-next unstable nur nvim-nightly rust;
+      inherit home inputs master stable staging staging-next unstable;
       nixpkgs = unstable;
     };
 
