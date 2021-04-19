@@ -88,6 +88,7 @@ rec {
       glava
       graphviz
       hakuneko
+      hydra-check
       hyperfine
       inkscape
       jetbrains.idea-ultimate
