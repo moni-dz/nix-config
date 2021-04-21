@@ -29,18 +29,18 @@ nixpkgs.lib.nixosSystem rec {
         };
 
         inputOverlays = _: _: {
-          comma = import inputs.comma { pkgs = unstable.legacyPackages."${system}"; };
+          comma = import inputs.comma { pkgs = nixpkgs.legacyPackages."${system}"; };
         };
       in
       {
         inherit config;
 
-        overlays = [
+        overlays = with inputs; [
           nixpkgsOverlays
-          inputs.emacs.overlay
-          inputs.nvim-nightly.overlay
-          inputs.nur.overlay
-          inputs.rust.overlay
+          emacs.overlay
+          neovim-nightly.overlay
+          nur.overlay
+          rust.overlay
           inputOverlays
         ] ++ userOverlays;
       };

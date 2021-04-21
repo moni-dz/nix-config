@@ -2,7 +2,7 @@ rec {
   borderWidth = "2";
   flowtuneEnabled = true;
   lightModeEnabled = false;
-  primaryColor = "magenta";
+  primaryColor = "yellow";
 
   colors =
     if lightModeEnabled
@@ -20,8 +20,10 @@ rec {
     else if primaryColor == "green"
     then "${wallpaperPath}/riki.jpg"
     else if primaryColor == "yellow"
-    then "${wallpaperPath}/horizonyellow.jpg"
+    then "${wallpaperPath}/dota_stars_wallpaper.jpg"
     else if primaryColor == "blue"
     then "${wallpaperPath}/enigma.png"
+    else if primaryColor == "magenta"
+    then "${wallpaperPath}/dota_stars_wallpaper.jpg"
     else "${wallpaperPath}/voidclose.png";
 }

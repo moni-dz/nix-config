@@ -4,7 +4,7 @@ final: prev: {
   };
 
   phocus = prev.callPackage ../derivations/phocus.nix {
-    inherit (prev) stdenv fetchFromGitHub sass;
+    inherit (prev) stdenvNoCC fetchFromGitHub sass;
     theme = import ../config/theme.nix;
   };
 

@@ -32,7 +32,7 @@
 
   maxJobs = 4;
 
-  nixPath = let path = toString ../.; in
+  nixPath = let path = toString ./.; in
     [
       "repl=${path}/repl.nix"
       "nixpkgs=${nixpkgs}"

@@ -1,6 +1,6 @@
-{ lib, stdenv, fetchFromGitHub, sass, theme }:
+{ lib, stdenvNoCC, fetchFromGitHub, sass, theme }:
 
-stdenv.mkDerivation rec {
+stdenvNoCC.mkDerivation rec {
   name = "phocus";
 
   src = fetchFromGitHub {
