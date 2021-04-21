@@ -221,6 +221,7 @@ rec {
     };
 
     command-not-found.enable = false;
+    dconf.enable = true;
     slock.enable = true;
     qt5ct.enable = true;
 
@@ -241,6 +242,7 @@ rec {
   };
 
   services = {
+    auto-cpufreq.enable = true;
     blueman.enable = true;
 
     chrony = {
@@ -255,7 +257,6 @@ rec {
       ];
     };
 
-    dbus.packages = with pkgs; [ gnome3.dconf ];
     irqbalance.enable = true;
 
     openssh = {

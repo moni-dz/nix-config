@@ -146,7 +146,7 @@ with theme; {
     foreground = "#${colors.fg}";
     width = "100%";
     height = 17;
-    wm-name = "polybar-xmonad";
+    wm-restack = "generic";
     enable-ipc = true;
     font-0 = "FantasqueSansMono Nerd Font:size=10.5;2";
     modules-left = "wspc ewmh xmonad";

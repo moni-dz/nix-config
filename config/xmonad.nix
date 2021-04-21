@@ -151,7 +151,7 @@ with theme;
     , ("M4-u",                       withFocused (sendMessage . UnMerge))
     , ("M4-,",                       onGroup W.focusUp')
     , ("M4-.",                       onGroup W.focusDown')
-    , ("M-S-r",                      unsafeSpawn (restartcmd ++ "&& sleep 2 &&" ++ restackcmd))
+    , ("M-S-r",                      safeSpawn "${xmonad-with-packages}/bin/xmonad" ["--restart"])
     , ("M-S-<Left>",                 shiftToPrev >> prevWS)
     , ("M-S-<Right>",                shiftToNext >> nextWS)
     , ("M-<Left>",                   focusUp)
@@ -173,8 +173,6 @@ with theme;
         , (otherModMasks, action) <- [ ("", windows . W.greedyView)
                                      , ("S-", windows . W.shift) ] ]
     where 
-      restartcmd = "${xmonad-with-packages}/bin/xmonad --restart && ${polybar}/bin/polybar-msg cmd restart"
-      restackcmd = "${xdo}/bin/xdo lower $(${xorg.xwininfo}/bin/xwininfo -name polybar-xmonad | ${ripgrep}/bin/rg 'Window id' | ${coreutils}/bin/cut -d ' ' -f4)"
       browser = concat
         [ "${qutebrowser}/bin/qutebrowser"
         , " --qt-flag ignore-gpu-blacklist"
@@ -184,8 +182,7 @@ with theme;
         , " --qt-flag enable-oop-rasterization"
         ]
       distractionLess = handlingRefresh $ sequence_
-        [ unsafeSpawn restackcmd
-        , safeSpawn "${polybar}/bin/polybar-msg" [ "cmd", "toggle" ]
+        [ safeSpawn "${polybar}/bin/polybar-msg" [ "cmd", "toggle" ]
         , broadcastMessage ToggleStruts
         , broadcastMessage (ModifyScreenBorderEnabled not)
         , broadcastMessage (ModifyWindowBorderEnabled not)
@@ -196,7 +193,6 @@ with theme;
         , broadcastMessage (ModifyWindowBorderEnabled (return True))
         , safeSpawn "${polybar}/bin/polybar-msg" [ "cmd", "show" ] 
         , setLayout $ layoutHook conf
-        , unsafeSpawn restackcmd
         ]
       toggleFloat w = windows (\s -> if M.member w (W.floating s)
                                       then W.sink w s
@@ -265,7 +261,6 @@ with theme;
     , className  =? "Peek"                                 --> doFloat
     , className  =? "Xephyr"                               --> doFloat
     , className  =? "Sxiv"                                 --> doFloat
-    , appName    =? "polybar"                              --> doLower
     , appName    =? "desktop_window"                       --> doIgnore
     , appName    =? "kdesktop"                             --> doIgnore
     , isDialog                                             --> doF W.siftUp <+> doFloat
@@ -273,8 +268,6 @@ with theme;
     , manageDocks
     , manageHook defaultConfig
     ]
-    where
-      doLower = ask >>= \w -> unsafeSpawn ("${xdo}/bin/xdo lower " ++ show w) >> mempty
 
   autostart = do
     spawnOnce "${xwallpaper}/bin/xwallpaper --zoom ${wallpaper} &"
