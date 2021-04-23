@@ -34,6 +34,7 @@ with theme;
   import XMonad.Hooks.UrgencyHook
   import XMonad.Hooks.WindowSwallowing
 
+  import XMonad.Layout.BinarySpacePartition
   import XMonad.Layout.BoringWindows
   import XMonad.Layout.Decoration
   import XMonad.Layout.DraggingVisualizer
@@ -49,7 +50,7 @@ with theme;
   import XMonad.Layout.Spacing
   import XMonad.Layout.SubLayouts
   import XMonad.Layout.Tabbed
-  import XMonad.Layout.WindowNavigation
+  import XMonad.Layout.WindowNavigation hiding (Swap)
 
   import XMonad.Prompt
   import XMonad.Prompt.FuzzyMatch
@@ -158,6 +159,18 @@ with theme;
     , ("M-<Right>",                  focusDown)
     , ("M4-<Tab>",                   resetLayout c)
     , ("M4-q",                       killAll)
+    , ("M-M4-<Left>",                sendMessage $ ExpandTowards L)
+    , ("M-M4-<Right>",               sendMessage $ ShrinkFrom L)
+    , ("M-M4-<Up>",                  sendMessage $ ExpandTowards U)
+    , ("M-M4-<Down>",                sendMessage $ ShrinkFrom U)
+    , ("M-M4-C-<Left>",              sendMessage $ ShrinkFrom R)
+    , ("M-M4-C-<Right>",             sendMessage $ ExpandTowards R)
+    , ("M-M4-C-<Up>",                sendMessage $ ShrinkFrom D)
+    , ("M-M4-C-<Down>",              sendMessage $ ExpandTowards D)
+    , ("M4-s",                       sendMessage Swap)
+    , ("M-M4-s",                     sendMessage Rotate)
+    , ("M4-j",                       sendMessage $ SplitShift Prev)
+    , ("M4-k",                       sendMessage $ SplitShift Next)
     , ("<XF86AudioMute>",            safeSpawn "/home/fortuneteller2k/.local/bin/volume" ["toggle"])
     , ("<XF86AudioRaiseVolume>",     safeSpawn "/home/fortuneteller2k/.local/bin/volume" ["up"])
     , ("<XF86AudioLowerVolume>",     safeSpawn "/home/fortuneteller2k/.local/bin/volume" ["down"])
@@ -232,7 +245,7 @@ with theme;
             . draggingVisualizer
             . maximizeWithPadding 0
             . layoutHints
-            $ (tall ||| Mirror tall ||| threecol ||| Grid)
+            $ (tall ||| Mirror tall ||| emptyBSP ||| threecol ||| Grid)
     where
       tall = ResizableTall 1 (3/100) (11/20) []
       threecol = ResizableThreeColMid 1 (3/100) (1/2) []
@@ -359,6 +372,18 @@ with theme;
     , "Super-u:                ungroup focused window"
     , "Super-,:                focus previous window in group"
     , "Super-.:                focus next window in group"
+    , "Super-s:                BSP: swap window positions"
+    , "Super-j:                BSP: split previous"
+    , "Super-k:                BSP: split next"
+    , "Alt-Super-Left:         BSP: expand towards left"
+    , "Alt-Super-Right:        BSP: shrink from left"
+    , "Alt-Super-Up:           BSP: expand upwards"
+    , "Alt-Super-Down:         BSP: shrink from above"
+    , "Alt-Super-Ctrl-Left:    BSP: shrink from the right"
+    , "Alt-Super-Ctrl-Right:   BSP: expand to the right"
+    , "Alt-Super-Ctrl-Up:      BSP: shrink from below"
+    , "Alt-Super-Ctrl-Down:    BSP: expand downwards"
+    , "Alt-Super-s:            BSP: rotate"
     , "Ctrl-Left:              focus previous workspace"
     , "Ctrl-Right:             focus next workspace"
     , "XF86AudioMute:          mute audio"

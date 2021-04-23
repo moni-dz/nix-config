@@ -311,7 +311,26 @@ rec {
       dpi = 96;
 
       displayManager = {
-        sddm.enable = services.xserver.enable;
+        lightdm = {
+          enable = services.xserver.enable;
+          background = theme.wallpaper;
+          greeters.gtk = {
+            enable = true;
+            theme = {
+              name = "phocus";
+              package = pkgs.phocus;
+            };
+            cursorTheme = {
+              package = pkgs.vanilla-dmz;
+              name = "${if theme.lightModeEnabled then "Vanilla-DMZ" else "Vanilla-DMZ-AA"}";
+            };
+            iconTheme = {
+              package = pkgs.papirus-icon-theme;
+              name = "${if theme.lightModeEnabled then "Papirus-Light" else "Papirus-Dark"}";
+            };
+          };
+        };
+
         defaultSession = "none+xmonad";
       };
 
@@ -334,7 +353,7 @@ rec {
       windowManager = {
         "2bwm".enable = true;
 
-        xmonad = {
+        xmonad = with pkgs; {
           enable = true;
           config = import ../../config/xmonad.nix { inherit config pkgs theme; };
           extraPackages = hpkgs: with hpkgs; [ dbus xmonad-contrib ];
@@ -347,15 +366,15 @@ rec {
             "-optc-ffast-math"
           ];
 
-          haskellPackages = pkgs.haskellPackages.extend (pkgs.haskell.lib.packageSourceOverrides {
-            xmonad = pkgs.fetchFromGitHub {
+          haskellPackages = haskellPackages.extend (haskell.lib.packageSourceOverrides {
+            xmonad = fetchFromGitHub {
               owner = "xmonad";
               repo = "xmonad";
               rev = "46f637e0bed18fa09e46e8f8ad5ccd0ae19d6fa0";
               sha256 = "sha256-oCwxyxMbo/LEbQQlw0LnopMnLSysarV/HMcpeK3mVgY=";
             };
 
-            xmonad-contrib = pkgs.fetchFromGitHub {
+            xmonad-contrib = fetchFromGitHub {
               owner = "xmonad";
               repo = "xmonad-contrib";
               rev = "0ebd3a0534f1b4cdb0aa931bf16b296e557dd811";

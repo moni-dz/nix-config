@@ -123,6 +123,7 @@ rec {
       ueberzug
       wezterm
       woeusb
+      head.zls
     ];
 
     sessionPath = [
