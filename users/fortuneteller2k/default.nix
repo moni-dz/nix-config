@@ -3,7 +3,7 @@
 let
   theme = import ../../config/theme.nix;
 in
-rec {
+{
   fonts.fontconfig.enable = true;
 
   gtk = {
@@ -64,7 +64,7 @@ rec {
       }";
     };
 
-    homeDirectory = "/home/${home.username}";
+    homeDirectory = "/home/${config.home.username}";
     username = "fortuneteller2k";
 
     packages = with pkgs; [
@@ -97,7 +97,7 @@ rec {
       lazygit
       manix
       mpc_cli
-      neofetch
+      head.neofetch
       nixfmt
       nix-top
       nixpkgs-fmt
@@ -129,8 +129,13 @@ rec {
     sessionPath = [
       "${config.xdg.configHome}/emacs/bin"
       "${config.xdg.configHome}/scripts"
-      "${home.homeDirectory}/.local/bin"
+      "${config.home.homeDirectory}/.local/bin"
     ];
+
+    sessionVariables = {
+      BROWSER = "brave";
+      EDITOR = "nvim";
+    };
 
     stateVersion = "21.03";
   };
@@ -299,11 +304,14 @@ rec {
       history = {
         expireDuplicatesFirst = true;
         extended = true;
-        path = "${programs.zsh.dotDir}/zsh_history";
+        path = "${config.programs.zsh.dotDir}/zsh_history";
         save = 50000;
       };
 
-      initExtra = import ./config/zshrc.nix { inherit dotDir home; };
+      initExtra = import ./config/zshrc.nix {
+        inherit dotDir;
+        inherit (config) home;
+      };
 
       plugins = [
         rec {
@@ -346,7 +354,7 @@ rec {
     mpd = {
       enable = true;
       package = pkgs.head.mpd;
-      musicDirectory = "${xdg.userDirs.music}";
+      musicDirectory = "${config.xdg.userDirs.music}";
       extraConfig = import ./config/mpd.nix;
     };
 
@@ -370,10 +378,10 @@ rec {
 
     userDirs = {
       enable = true;
-      documents = "${home.homeDirectory}/Extras/Documents";
-      music = "${home.homeDirectory}/Media/Music";
-      pictures = "${home.homeDirectory}/Media/Pictures";
-      videos = "${home.homeDirectory}/Media/Videos";
+      documents = "${config.home.homeDirectory}/Extras/Documents";
+      music = "${config.home.homeDirectory}/Media/Music";
+      pictures = "${config.home.homeDirectory}/Media/Pictures";
+      videos = "${config.home.homeDirectory}/Media/Videos";
     };
   };
 
