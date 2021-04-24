@@ -9,6 +9,7 @@
   gst = "git status";
   gck = "git checkout";
   grl = "git reflog";
+  gdf = "git diff";
   mv = "mv -i";
   cp = "cp -i";
   rm = "rm -i";

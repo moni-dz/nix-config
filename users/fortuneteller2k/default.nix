@@ -180,6 +180,7 @@ in
     htop = {
       enable = true;
       detailedCpuTime = true;
+      hideKernelThreads = false;
       showCpuFrequency = true;
       showCpuUsage = true;
       showProgramPath = false;

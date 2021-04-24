@@ -14,6 +14,9 @@
       test)
         cd ~/.config/nix-config && doas nixos-rebuild test --fast
         ;;
+      clean)
+        doas nix-collect-garbage -d
+        ;;
       upgrade)
         cd ~/.config/nix-config && nix flake update && doas nixos-rebuild switch && git add flake.lock && git commit -m "flake: bump flakes" && git push
         ;;
@@ -27,7 +30,7 @@
    ___________
   /_ _ _ _ _ _\\ $nixos_str version: $(nixos-version)
   |           | $nix_str version: $(nix --version)
-  | C   A   N | Last commit: [$(tput setaf 2 && git log -1 --pretty=%h | tr -d '\n' && tput sgr0)] $(git log -1 --pretty=%B)
+  | C   A   N | Last commit: [$(tput setaf 2 && cd ~/.config/nix-config && git log -1 --pretty=%h | tr -d '\n' && tput sgr0)] $(cd ~/.config/nix-config && git log -1 --pretty=%B)
   |           |
   |_ _ _ _ _ _|
   \\___________/
@@ -41,10 +44,5 @@
     esac;
   }
 
-  if can "$1"; then
-    echo "$(tput setaf 2 && tput bold)everything went as planned...$(tput sgr0)"
-  else
-    echo "$(tput setaf 1 && tput bold)something went awry...$(tput sgr0)"
-    return 1
-  fi
+  can "$1"
 ''

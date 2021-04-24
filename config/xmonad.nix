@@ -23,6 +23,7 @@ with theme;
   import XMonad.Actions.Sift
   import XMonad.Actions.TiledWindowDragging
   import XMonad.Actions.TreeSelect
+  import XMonad.Actions.WindowGo
   import XMonad.Actions.WithAll
 
   import XMonad.Hooks.DynamicLog
@@ -72,7 +73,7 @@ with theme;
   fontNameGTK = "Iosevka FT"
   fontFamily = "xft:" ++ fontNameGTK ++ ":size=9.7:antialias=true:hinting=true"
   sansFontFamily = "xft:Sarasa Gothic J:size=10:antialias=true:hinting=true"
-  ws = [ "1", "2", "3", "4", "5", "6", "7", "8", "9", "0" ]
+  ws = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
 
   actions = [ Node (TSNode "Session" "session management" (return ()))
                    [ Node (TSNode "Logout" "exit current XMonad session" (io (exitWith ExitSuccess))) []
@@ -120,7 +121,8 @@ with theme;
     , ("M-d",                        shellPrompt promptConfig)
     , ("M-q",                        kill)
     , ("M-w",                        treeselectAction tsConfig actions)
-    , ("M-<F2>",                     unsafeSpawn browser)
+    , ("M-<F2>",                     raiseBrowser)
+    , ("M4-<F2>",                    unsafeSpawn qutebrowser)
     , ("M-e",                        withFocused (sendMessage . maximizeRestore))
     , ("M-<Tab>",                    sendMessage NextLayout)
     , ("M-s",                        promote)
@@ -131,8 +133,9 @@ with theme;
     , ("M-t",                        withFocused toggleFloat)
     , ("M-,",                        sendMessage (IncMasterN 1))
     , ("M-.",                        sendMessage (IncMasterN (-1)))
-    , ("M-;",                        sequence_ [ incScreenSpacing 2, incWindowSpacing 2 ])
-    , ("M-'",                        sequence_ [ decScreenSpacing 2, decWindowSpacing 2 ])
+    , ("M-;",                        sequence_ [incScreenSpacing 2, incWindowSpacing 2])
+    , ("M-'",                        sequence_ [decScreenSpacing 2, decWindowSpacing 2])
+    , ("M4-<F2>",                    unsafeSpawn qutebrowser)
     , ("M4-`",                       focusUrgent)
     , ("M4-<Esc>",                   clearUrgents)
     , ("C-<Left>",                   prevWS)
@@ -183,10 +186,9 @@ with theme;
     ++
     [ (otherModMasks ++ "M-" ++ key, action tag)
         | (tag, key) <- zip ws (map show ([1..9] ++ [0]))
-        , (otherModMasks, action) <- [ ("", windows . W.greedyView)
-                                     , ("S-", windows . W.shift) ] ]
+        , (otherModMasks, action) <- [("", windows . W.greedyView), ("S-", windows . W.shift)] ]
     where 
-      browser = concat
+      qutebrowser = concat
         [ "${qutebrowser}/bin/qutebrowser"
         , " --qt-flag ignore-gpu-blacklist"
         , " --qt-flag enable-gpu-rasterization"
@@ -195,7 +197,7 @@ with theme;
         , " --qt-flag enable-oop-rasterization"
         ]
       distractionLess = handlingRefresh $ sequence_
-        [ safeSpawn "${polybar}/bin/polybar-msg" [ "cmd", "toggle" ]
+        [ safeSpawn "${polybar}/bin/polybar-msg" ["cmd", "toggle"]
         , broadcastMessage ToggleStruts
         , broadcastMessage (ModifyScreenBorderEnabled not)
         , broadcastMessage (ModifyWindowBorderEnabled not)
@@ -204,7 +206,7 @@ with theme;
         [ broadcastMessage $ SetStruts [minBound .. maxBound] []
         , broadcastMessage (ModifyScreenBorderEnabled (return True))
         , broadcastMessage (ModifyWindowBorderEnabled (return True))
-        , safeSpawn "${polybar}/bin/polybar-msg" [ "cmd", "show" ] 
+        , safeSpawn "${polybar}/bin/polybar-msg" ["cmd", "show"]
         , setLayout $ layoutHook conf
         ]
       toggleFloat w = windows (\s -> if M.member w (W.floating s)
@@ -332,7 +334,7 @@ with theme;
     , "Alt-d:                  show run prompt"
     , "Alt-q:                  quit window"
     , "Alt-w:                  open treeselect for actions"
-    , "Alt-F2:                 spawn qutebrowser"
+    , "Alt-F2:                 go to the window $BROWSER is or spawn $BROWSER"
     , "Alt-e:                  maximize window"
     , "Alt-Tab:                cycle through layouts"
     , "Alt-s:                  swap focused window with master window"
@@ -359,6 +361,7 @@ with theme;
     , "Alt-Shift-r:            restart xmonad and polybar"
     , "Alt-Shift-Left:         move window to previous workspace and focus that workspace"
     , "Alt-Shift-Right:        move window to next workspace and focus that workspace"
+    , "Super-F2:               spawn qutebrowser"
     , "Super-`:                focus recently urgent window"
     , "Super-Escape:           clear urgents"
     , "Super-Tab:              reset layout to default"
