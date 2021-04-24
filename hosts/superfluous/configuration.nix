@@ -232,6 +232,7 @@ in
   };
 
   security = {
+    protectKernelImage = true;
     rtkit.enable = true;
     sudo.wheelNeedsPassword = false;
 
@@ -258,6 +259,7 @@ in
     };
 
     irqbalance.enable = true;
+    journald.extraConfig = lib.mkForce "";
 
     openssh = {
       enable = true;
@@ -300,11 +302,65 @@ in
         enable = true;
         support32Bit = true;
       };
+
+      jack.enable = true;
       pulse.enable = true;
+
+      config = {
+        pipewire."context.properties" = {
+          "link.max-buffers" = 16;
+          "default.clock.min-quantum" = "32/48000";
+          "default.clock.max-quantum" = "2048/48000";
+        };
+
+        pipewire-pulse = {
+          "context.modules" = [
+            { name = "libpipewire-module-protocol-native"; }
+            { name = "libpipewire-module-client-node"; }
+            { name = "libpipewire-module-adapter"; }
+            { name = "libpipewire-module-metadata"; }
+
+            {
+              name = "libpipewire-module-rtkit";
+              flags = [ "ifexists" "nofail" ];
+            }
+
+            {
+              name = "libpipewire-module-protocol-pulse";
+              args = {
+                "server.address" = [ "unix:native" ];
+                "pulse.min.req" = "32/48000";
+                "pulse.min.quantum" = "32/48000";
+                "pulse.min.frag" = "32/48000";
+                "pulse.default.req" = "2048/48000";
+                "pulse.default.frag" = "2048/48000";
+              };
+            }
+          ];
+
+          "stream.properties"."node.latency" = "32/48000";
+        };
+      };
+
+      media-session.config.alsa-monitor.rules = [{
+        # replace with your sink name
+        matches = [{ "node.name" = "alsa_output.pci-0000_00_14.2.analog-stereo"; }];
+
+        actions.update-props = {
+          "audio.format" = "S16LE";
+          "audio.rate" = 48000;
+          "api.alsa.period-size" = 160;
+        };
+      }];
     };
 
     tlp.enable = true;
     upower.enable = true;
+
+    udev.extraRules = ''
+      KERNEL=="rtc0", GROUP="audio"
+      KERNEL=="hpet", GROUP="audio"
+    '';
 
     xserver = {
       enable = true;
@@ -314,16 +370,20 @@ in
         lightdm = {
           enable = config.services.xserver.enable;
           background = theme.wallpaper;
+
           greeters.gtk = {
             enable = true;
+
             theme = {
               name = "phocus";
               package = pkgs.phocus;
             };
+
             cursorTheme = {
               package = pkgs.vanilla-dmz;
               name = "${if theme.lightModeEnabled then "Vanilla-DMZ" else "Vanilla-DMZ-AA"}";
             };
+
             iconTheme = {
               package = pkgs.papirus-icon-theme;
               name = "${if theme.lightModeEnabled then "Papirus-Light" else "Papirus-Dark"}";
