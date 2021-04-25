@@ -22,8 +22,6 @@ in
   };
 
   home = {
-    activation.reloadPolybar = "${pkgs.polybar}/bin/polybar-msg cmd restart || echo 'skipping...'";
-
     file = {
       ".local/bin/can" = {
         executable = true;
@@ -112,7 +110,6 @@ in
       picard
       playerctl
       qutebrowser
-      ripcord
       sacad
       speedtest-cli
       spotify-adblock
@@ -139,6 +136,7 @@ in
 
     stateVersion = "21.03";
   };
+
   programs = {
     alacritty = {
       enable = true;
@@ -373,6 +371,8 @@ in
       config = import ./config/polybar.nix { inherit pkgs theme; };
     };
   };
+
+  systemd.user.startServices = true;
 
   xdg = {
     enable = true;

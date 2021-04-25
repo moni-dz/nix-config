@@ -88,6 +88,7 @@ in
       alsaTools
       alsaUtils
       brightnessctl
+      caffeine-ng
       coreutils
       curl
       dash
