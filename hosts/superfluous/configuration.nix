@@ -35,8 +35,6 @@ in
         gfxmodeEfi = "1366x768";
       };
     };
-
-    plymouth.enable = true;
   };
 
   console = {
