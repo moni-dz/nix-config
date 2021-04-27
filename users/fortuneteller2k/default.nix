@@ -66,60 +66,39 @@ in
     username = "fortuneteller2k";
 
     packages = with pkgs; [
-      betterdiscordctl
-      bpytop
       brave
-      cava
+      cargo
       celluloid
-      cbonsai
-      cmatrix
       comma
       discord
       dragon-drop
-      element-desktop
       ffmpeg
       flavours
       font-manager
-      fzf
-      gimp
+      head.giph
       gitAndTools.gh
       glava
       graphviz
-      hakuneko
       hydra-check
       hyperfine
-      inkscape
-      jetbrains.idea-ultimate
-      kdenlive
-      krita
+      imv
       lazygit
       manix
-      mpc_cli
       head.neofetch
-      nixfmt
-      nix-top
       nixpkgs-fmt
       nixpkgs-review
-      nur.repos.fortuneteller2k.ytmdl
       nur.repos.fortuneteller2k.impure.eww
-      obs-studio
-      onefetch
-      ox
-      peek
       pfetch
-      picard
       playerctl
       qutebrowser
-      sacad
+      rustc
+      rust-analyzer
+      rnix-lsp
       speedtest-cli
       spotify-adblock
-      sxiv
-      tdesktop
-      texlive.combined.scheme-medium
       torrential
       ueberzug
       wezterm
-      woeusb
       head.zls
     ];
 
@@ -187,6 +166,11 @@ in
         left = [ "AllCPUs" "Memory" "Swap" ];
         right = [ "Tasks" "LoadAverage" "Uptime" ];
       };
+    };
+
+    mako = {
+      enable = true;
+      extraConfig = import ./config/mako.nix { inherit theme; };
     };
 
     ncmpcpp = {
@@ -287,6 +271,24 @@ in
       extraConfig = import ./config/qutebrowser.nix;
     };
 
+    waybar = {
+      enable = true;
+
+      settings = [
+        {
+          layer = "bottom";
+          position = "top";
+          height = 17;
+          modules-left = [ "sway/workspaces" "sway/mode" ];
+          modules-right = [ "battery" "pulseaudio" "network" "clock" ];
+          modules = import ./config/waybar-modules.nix;
+        }
+      ];
+
+      style = import ./config/waybar-style.nix { inherit theme; };
+    };
+
+
     zathura = {
       enable = true;
       package = pkgs.zathura;
@@ -373,6 +375,18 @@ in
   };
 
   systemd.user.startServices = true;
+
+  wayland.windowManager.sway = {
+    enable = true;
+    package = null;
+
+    config = {
+      keybindings = { };
+      bars = [{ command = "${pkgs.waybar}/bin/waybar"; }];
+    };
+
+    extraConfig = import ./config/sway.nix { inherit theme; };
+  };
 
   xdg = {
     enable = true;

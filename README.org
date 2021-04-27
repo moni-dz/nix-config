@@ -1,4 +1,6 @@
 #+TITLE: [[https://nixos.org][NixOS]] configuration
+#+AUTHOR: fortuneteller2k
+#+STARTUP: showeverything
 
 [[img/nixos-official-logo.png]]
 
@@ -8,6 +10,7 @@
 
 
 ** Installation
+
 Get the latest NixOS 21.05 image [[https://releases.nixos.org/?prefix=nixos/unstable/][here]], do your partitions (root must be mounted at =/mnt=), then run the following commands
 #+begin_src sh
   # move the output file of this to hosts/superfluous/hardware-configuration.nix
@@ -19,10 +22,12 @@ Get the latest NixOS 21.05 image [[https://releases.nixos.org/?prefix=nixos/unst
 #+end_src
 
 *** Caveats
+
  * You probably should replace [[https://github.com/fortuneteller2k/nix-config/blob/master/hosts/superfluous/hardware-configuration.nix][hosts/superfluous/hardware-configuration.nix]] with your own with =nixos-generate-config=.
  * You might want to change all instances of my username to yours.
 
 ** Description
+
 NixOS configuration that I use daily, it contains the system-wide *AND* home configuration, symlinked to =/etc/nixos=.
 
 See also:
@@ -38,8 +43,9 @@ Resources and configurations I used to base on:
  * [[https://www.youtube.com/watch?v=UeBX7Ide5a0][Nix Flakes talk by Eelco Dolstra on NixCon]]
 
 *** Useful Commands
-| command                                 | description                           |
-|-----------------------------------------+---------------------------------------|
+
+| command                               | description                           |
+|---------------------------------------+---------------------------------------|
 | =sudo nixos-rebuild switch=             | switch to the new generation          |
 | =nix flake update --update-input flake= | update flake and update lockfile      |
 | =nix flake update=                      | update all flakes and update lockfile |

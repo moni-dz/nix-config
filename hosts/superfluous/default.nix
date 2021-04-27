@@ -26,6 +26,7 @@ nixpkgs.lib.nixosSystem rec {
           stable = import stable { inherit config system; };
           staging = import staging { inherit config system; };
           staging-next = import staging-next { inherit config system; };
+          kernel = import inputs.kernel { inherit config system; };
         };
 
         inputOverlays = _: _: {

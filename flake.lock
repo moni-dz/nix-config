@@ -97,6 +97,22 @@
         "type": "github"
       }
     },
+    "kernel": {
+      "locked": {
+        "lastModified": 1619522807,
+        "narHash": "sha256-g6EYJnelJNdk0qU2a81Q2YlMIAjMN6Px08Q4/CwS/YI=",
+        "owner": "fortuneteller2k",
+        "repo": "nixpkgs",
+        "rev": "9c5b80eaac67b3151acc59ce5f18d9027dd5a7b0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "fortuneteller2k",
+        "ref": "update-xanmod-512",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "master": {
       "locked": {
         "lastModified": 1619462193,
@@ -207,6 +223,7 @@
         "comma": "comma",
         "emacs": "emacs",
         "home": "home",
+        "kernel": "kernel",
         "master": "master",
         "neovim-nightly": "neovim-nightly",
         "nixpkgs": [

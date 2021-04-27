@@ -23,6 +23,7 @@
     staging.url = "github:nixos/nixpkgs/staging";
     staging-next.url = "github:nixos/nixpkgs/staging-next";
     unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    kernel.url = "github:fortuneteller2k/nixpkgs/update-xanmod-512";
 
     # default nixpkgs for packages and modules
     nixpkgs.follows = "unstable";

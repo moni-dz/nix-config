@@ -4,7 +4,7 @@ let theme = import ../../config/theme.nix;
 in
 {
   boot = {
-    kernelPackages = pkgs.head.linuxPackages_xanmod;
+    kernelPackages = pkgs.kernel.linuxPackages_xanmod;
 
     kernelParams = [
       "rw"
@@ -142,6 +142,7 @@ in
       cozette
       curie
       emacs-all-the-icons-fonts
+      etBook
       fantasque-sans-mono
       inter
       iosevka-bin
@@ -222,6 +223,26 @@ in
     command-not-found.enable = false;
     dconf.enable = true;
     slock.enable = true;
+
+    sway = {
+      enable = true;
+      wrapperFeatures.gtk = true;
+
+      extraPackages = with pkgs; [
+        swaylock
+        swayidle
+        swaybg
+        wl-clipboard
+        mako
+        brightnessctl
+        grim
+        slurp
+        sway-contrib.grimshot
+        waybar
+        wofi
+      ];
+    };
+
     qt5ct.enable = true;
 
     xss-lock = {
@@ -366,8 +387,10 @@ in
       dpi = 96;
 
       displayManager = {
+        sddm.enable = config.services.xserver.enable;
+
         lightdm = {
-          enable = config.services.xserver.enable;
+          enable = !config.services.xserver.enable;
           background = theme.wallpaper;
 
           greeters.gtk = {
@@ -473,6 +496,7 @@ in
         partOf = [ "graphical-session.target" ];
         serviceConfig.ExecStart = lib.strings.concatStringsSep " "
           [
+            ""
             "${pkgs.xidlehook}/bin/xidlehook"
             "--not-when-fullscreen"
             "--not-when-audio"
