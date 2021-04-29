@@ -21,7 +21,7 @@
         cd ~/.config/nix-config && nix flake update && doas nixos-rebuild switch && git add flake.lock && git commit -m "flake: bump flakes" && git push
         ;;
       info)
-        cd ~/.config/nix-config || return 1
+        cd /etc/nixos || return 1
         nix_str="$(tput setaf 6 && tput bold)Nix$(tput sgr0)"
         nixos_str="$(tput setaf 4 && tput bold)NixOS$(tput sgr0)"
 
@@ -30,7 +30,7 @@
    ___________
   /_ _ _ _ _ _\\ $nixos_str version: $(nixos-version)
   |           | $nix_str version: $(nix --version)
-  | C   A   N | Last commit: [$(tput setaf 2 && cd ~/.config/nix-config && git log -1 --pretty=%h | tr -d '\n' && tput sgr0)] $(cd ~/.config/nix-config && git log -1 --pretty=%B)
+  | C   A   N | Last commit: [$(tput setaf 2 && git log -1 --pretty=%h | tr -d '\n' && tput sgr0)] $(git log -1 --pretty=%B)
   |           |
   |_ _ _ _ _ _|
   \\___________/

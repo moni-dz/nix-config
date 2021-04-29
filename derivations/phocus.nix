@@ -6,8 +6,8 @@ stdenvNoCC.mkDerivation rec {
   src = fetchFromGitHub {
     owner = "fortuneteller2k";
     repo = "gtk";
-    rev = "1ba31ebe9916505cfce7b98713f5fe805c5d39fb";
-    sha256 = "sha256-hqgKht1Wq7yo3uMSqxuiIDqdSlx8XZMs7KfYy9WOLmQ=";
+    rev = "d9b4e057528739ae8c90ae24f71999ec03db3e09";
+    sha256 = "sha256-SkcuD2ju1KMiPKWdLATcFTtdQeliG10Yqo/GxiZB7MA=";
   };
 
   patchPhase = with theme.colors; ''

@@ -145,7 +145,7 @@ in
       etBook
       fantasque-sans-mono
       inter
-      iosevka-bin
+      iosevka
       mplus-outline-fonts
       nerdfonts
       nur.repos.fortuneteller2k.iosevka-ft-bin
