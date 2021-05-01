@@ -76,6 +76,7 @@ in
       flavours
       font-manager
       head.giph
+      gimp
       gitAndTools.gh
       glava
       graphviz

@@ -2,7 +2,7 @@ rec {
   borderWidth = "2";
   flowtuneEnabled = true;
   lightModeEnabled = false;
-  primaryColor = "yellow";
+  primaryColor = "red";
 
   colors =
     if lightModeEnabled
@@ -16,7 +16,8 @@ rec {
     in
     if lightModeEnabled then "${wallpaperPath}/horizon_lightmode.jpg"
     else if primaryColor == "red"
-    then "${wallpaperPath}/horizon.jpg"
+    # then "${wallpaperPath}/horizon.jpg"
+    then "${wallpaperPath}/slarktileddoubleflip.png"
     else if primaryColor == "green"
     then "${wallpaperPath}/riki.jpg"
     else if primaryColor == "yellow"
@@ -26,4 +27,6 @@ rec {
     else if primaryColor == "magenta"
     then "${wallpaperPath}/dota_stars_wallpaper.jpg"
     else "${wallpaperPath}/voidclose.png";
+
+  tiledWallpaper = wallpaper == "slarktileddoubleflip.png";
 }

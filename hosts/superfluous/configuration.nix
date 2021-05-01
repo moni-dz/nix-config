@@ -141,6 +141,7 @@ in
     fonts = with pkgs; [
       cozette
       curie
+      dejavu_fonts
       emacs-all-the-icons-fonts
       etBook
       fantasque-sans-mono
@@ -293,6 +294,12 @@ in
       experimentalBackends = true;
       backend = "glx";
       vSync = true;
+      # shadow = true;
+      # shadowOpacity = 0.6;
+      # shadowOffsets = [ (-2) (-2) ];
+      # fade = true;
+      # fadeDelta = 2;
+      # fadeSteps = [ 0.02 0.02 ];
 
       settings = {
         blur = {
@@ -309,7 +316,12 @@ in
           "_GTK_FRAME_EXTENTS@:c"
         ];
 
-        daemon = true;
+        # shadow-exclude = [ "window_type = 'desktop'" ];
+        # shadow-radius = 10;
+        # clear-shadow = true;
+        glx-no-stencil = true;
+        glx-no-rebind-pixmap = true;
+        unredir-if-possible = true;
         use-damage = true;
       };
     };
@@ -463,8 +475,11 @@ in
   system = {
     userActivationScripts = {
       reloadWallpaper.text =
+        let
+          xwallpaperFlag = if theme.tiledWallpaper then "--tile" else "--zoom";
+        in
         if config.services.xserver.enable then
-          "[ $DISPLAY ] && ${pkgs.xwallpaper}/bin/xwallpaper --zoom ${theme.wallpaper} || ${pkgs.coreutils}/bin/echo 'skipping...'"
+          "[ $DISPLAY ] && ${pkgs.xwallpaper}/bin/xwallpaper ${xwallpaperFlag} ${theme.wallpaper} || ${pkgs.coreutils}/bin/echo 'skipping...'"
         else
           "${pkgs.coreutils}/bin/echo 'skipping because on wayland...'";
 

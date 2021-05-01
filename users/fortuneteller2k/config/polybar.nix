@@ -142,7 +142,7 @@ with theme; {
   "bar/main" = {
     override-redirect = true;
     fixed-center = true;
-    background = "#${colors.transparent}";
+    background = "#${colors.bg}";
     foreground = "#${colors.fg}";
     width = "100%";
     height = 17;

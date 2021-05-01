@@ -3,6 +3,9 @@
 with pkgs;
 with theme;
 
+let
+  xwallpaperArg = if tiledWallpaper then "--tile" else "--zoom";
+in
 ''
   {-# LANGUAGE FlexibleContexts #-}
 
@@ -23,11 +26,11 @@ with theme;
   import XMonad.Actions.Sift
   import XMonad.Actions.TiledWindowDragging
   import XMonad.Actions.TreeSelect
-  import XMonad.Actions.WindowGo
   import XMonad.Actions.WithAll
 
   import XMonad.Hooks.DynamicLog
   import XMonad.Hooks.EwmhDesktops
+  import XMonad.Hooks.FadeInactive
   import XMonad.Hooks.InsertPosition
   import XMonad.Hooks.ManageDocks
   import XMonad.Hooks.ManageHelpers
@@ -43,6 +46,8 @@ with theme;
   import XMonad.Layout.LayoutHints
   import XMonad.Layout.LayoutModifier
   import XMonad.Layout.Maximize
+  import XMonad.Layout.MultiToggle
+  import XMonad.Layout.MultiToggle.Instances
   import XMonad.Layout.NoBorders
   import XMonad.Layout.Renamed
   import XMonad.Layout.ResizableThreeColumns
@@ -121,8 +126,7 @@ with theme;
     , ("M-d",                        shellPrompt promptConfig)
     , ("M-q",                        kill)
     , ("M-w",                        treeselectAction tsConfig actions)
-    , ("M-<F2>",                     raiseBrowser)
-    , ("M4-<F2>",                    unsafeSpawn qutebrowser)
+    , ("M-<F2>",                     unsafeSpawn qutebrowser)
     , ("M-e",                        withFocused (sendMessage . maximizeRestore))
     , ("M-<Tab>",                    sendMessage NextLayout)
     , ("M-s",                        promote)
@@ -135,7 +139,6 @@ with theme;
     , ("M-.",                        sendMessage (IncMasterN (-1)))
     , ("M-;",                        sequence_ [incScreenSpacing 2, incWindowSpacing 2])
     , ("M-'",                        sequence_ [decScreenSpacing 2, decWindowSpacing 2])
-    , ("M4-<F2>",                    unsafeSpawn qutebrowser)
     , ("M4-`",                       focusUrgent)
     , ("M4-<Esc>",                   clearUrgents)
     , ("C-<Left>",                   prevWS)
@@ -201,13 +204,14 @@ with theme;
         , broadcastMessage ToggleStruts
         , broadcastMessage (ModifyScreenBorderEnabled not)
         , broadcastMessage (ModifyWindowBorderEnabled not)
+        , broadcastMessage $ Toggle NOBORDERS
         ]
       resetLayout conf = handlingRefresh $ sequence_
         [ broadcastMessage $ SetStruts [minBound .. maxBound] []
         , broadcastMessage (ModifyScreenBorderEnabled (return True))
         , broadcastMessage (ModifyWindowBorderEnabled (return True))
         , safeSpawn "${polybar}/bin/polybar-msg" ["cmd", "show"]
-        , setLayout $ layoutHook conf
+        , setAllLayout $ layoutHook conf
         ]
       toggleFloat w = windows (\s -> if M.member w (W.floating s)
                                       then W.sink w s
@@ -237,9 +241,19 @@ with theme;
     , ((mod1Mask, button3), (\w -> focus w >> mouseResizeWindow w >> windows W.shiftMaster))
     ]
 
-  layouts = avoidStruts 
+  -- full credit to u/jwofejofwjedf
+  setAllLayout l = do
+      ss@W.StackSet { W.current = c@W.Screen { W.workspace = ws }, W.visible = sVisible, W.hidden = sHidden } <- gets windowset
+      handleMessage (W.layout ws) (SomeMessage ReleaseResources)
+      windows $ const $ ss { W.current = c { W.workspace = ws { W.layout = l } }, W.visible = setSL sVisible, W.hidden = setHL sHidden }
+    where
+      setHL s = map (\w -> w { W.layout = l }) s
+      setSL = map (\w-> w { W.workspace = (W.workspace w) { W.layout = l } })
+
+  layouts = avoidStruts
             . renamed [CutWordsLeft 5]
             . smartBorders
+            . mkToggle1 NOBORDERS
             . configurableNavigation noNavigateBorders
             . tabs
             . boringWindows
@@ -285,7 +299,7 @@ with theme;
     ]
 
   autostart = do
-    spawnOnce "${xwallpaper}/bin/xwallpaper --zoom ${wallpaper} &"
+    spawnOnce "${xwallpaper}/bin/xwallpaper ${xwallpaperArg} ${wallpaper} &"
     spawnOnce "${xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr &"
     spawnOnce "${polybar}/bin/polybar-msg cmd restart &"
     spawnOnce "${notify-desktop}/bin/notify-desktop -u critical 'xmonad' 'started successfully'"
@@ -310,7 +324,7 @@ with theme;
     , focusedBorderColor = "#${colors.activeBorderColor}"
     , layoutHook         = layouts
     , manageHook         = windowRules
-    , logHook            = barHook dbus
+    , logHook            = barHook dbus <+> fadeInactiveLogHook 0.5
     , handleEventHook    = swallowEventHook (className =? "Alacritty" <||> className =? "XTerm") (return True) <+> hintsEventHook
     , startupHook        = autostart
     } `additionalMouseBindings` mousebindings
@@ -334,7 +348,7 @@ with theme;
     , "Alt-d:                  show run prompt"
     , "Alt-q:                  quit window"
     , "Alt-w:                  open treeselect for actions"
-    , "Alt-F2:                 go to the window $BROWSER is or spawn $BROWSER"
+    , "Alt-F2:                 spawn qutebrowser"
     , "Alt-e:                  maximize window"
     , "Alt-Tab:                cycle through layouts"
     , "Alt-s:                  swap focused window with master window"
@@ -361,7 +375,6 @@ with theme;
     , "Alt-Shift-r:            restart xmonad and polybar"
     , "Alt-Shift-Left:         move window to previous workspace and focus that workspace"
     , "Alt-Shift-Right:        move window to next workspace and focus that workspace"
-    , "Super-F2:               spawn qutebrowser"
     , "Super-`:                focus recently urgent window"
     , "Super-Escape:           clear urgents"
     , "Super-Tab:              reset layout to default"
