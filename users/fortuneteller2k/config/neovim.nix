@@ -1,3 +1,5 @@
+{ colors }:
+
 ''
   syntax on
   set noswapfile
@@ -22,6 +24,7 @@
     Plug 'alvan/vim-closetag'
     Plug 'itchyny/lightline.vim'
     Plug 'fortuneteller2k/vim-flowtune'
+    Plug 'fortuneteller2k/vim-horizon'
     Plug 'nvim-treesitter/nvim-treesitter', { 'do': ':TSUpdate' }
     Plug 'LnL7/vim-nix'
     Plug 'ziglang/zig.vim'
@@ -37,8 +40,9 @@
   nnoremap <silent> <leader>      :<c-u>WhichKey ' '<CR>
   nnoremap <silent> <localleader> :<c-u>WhichKey ' '<CR>
 
-  colorscheme flowtune
-  let g:lightline = { 'colorscheme' : 'flowtune' }
+  colorscheme ${colors.vimColorscheme} 
+
+  let g:lightline = { 'colorscheme' : '${colors.vimColorscheme}' }
   
   hi Normal ctermbg=none
   hi NonText ctermbg=none

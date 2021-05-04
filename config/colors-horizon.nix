@@ -62,4 +62,5 @@ rec {
   activeBorderColor = primary;
   inactiveBorderColor = c8;
   highlightColor = primary;
+  vimColorscheme = "horizon";
 }

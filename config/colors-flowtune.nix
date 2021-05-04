@@ -62,4 +62,5 @@ rec {
   activeBorderColor = primary;
   inactiveBorderColor = muted;
   highlightColor = primary;
+  vimColorscheme = "flowtune";
 }

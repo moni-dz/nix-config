@@ -28,4 +28,5 @@ rec {
   textColor = fg;
   activeBorderColor = fg;
   inactiveBorderColor = "fab795";
+  vimColorscheme = "horizon";
 }
