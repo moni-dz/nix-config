@@ -75,7 +75,7 @@ in
       ffmpeg
       flavours
       font-manager
-      head.giph
+      giph
       gimp
       gitAndTools.gh
       glava
@@ -85,7 +85,7 @@ in
       imv
       lazygit
       manix
-      head.neofetch
+      neofetch
       nixpkgs-fmt
       nixpkgs-review
       nur.repos.fortuneteller2k.impure.eww
@@ -100,7 +100,7 @@ in
       torrential
       ueberzug
       wezterm
-      head.zls
+      zls
     ];
 
     sessionPath = [
