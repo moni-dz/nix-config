@@ -30,7 +30,7 @@
     options = "--delete-older-than 7d";
   };
 
-  maxJobs = 4;
+  maxJobs = 2;
 
   nixPath = let path = toString ../.; in
     [
