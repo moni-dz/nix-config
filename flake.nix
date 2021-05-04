@@ -29,7 +29,7 @@
     nixpkgs.follows = "master";
   };
 
-  outputs = { self, home, master, stable, staging, staging-next, unstable, nixpkgs, ... } @ inputs:
+  outputs = { self, home, nixpkgs, ... } @ inputs:
     with nixpkgs.lib;
     let
       config = {
