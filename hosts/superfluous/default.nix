@@ -1,4 +1,4 @@
-{ config, home, inputs, master, stable, staging, staging-next, unstable, nixpkgs, user-overlays, ... }:
+{ config, home, inputs, nixpkgs, user-overlays, ... }:
 
 nixpkgs.lib.nixosSystem rec {
   system = "x86_64-linux";
@@ -13,7 +13,7 @@ nixpkgs.lib.nixosSystem rec {
             comma = import inputs.comma { pkgs = nixpkgs.legacyPackages."${system}"; };
           };
 
-          nixpkgs-overlays = _: _: {
+          nixpkgs-overlays = _: _: with inputs; {
             head = import master { inherit config system; };
             unstable = import unstable { inherit config system; };
             stable = import stable { inherit config system; };

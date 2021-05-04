@@ -46,7 +46,7 @@
     in
     {
       nixosConfigurations.superfluous = import ./hosts/superfluous {
-        inherit config home inputs master stable staging staging-next unstable nixpkgs user-overlays;
+        inherit config home inputs nixpkgs user-overlays;
       };
 
       superfluous = self.nixosConfigurations.superfluous.config.system.build.toplevel;
