@@ -74,6 +74,7 @@ in
   i18n.defaultLocale = "en_US.UTF-8";
 
   environment = {
+    # NOTE: this isn't found in https://search.nixos.org
     binsh = "${pkgs.dash}/bin/dash";
     pathsToLink = [ "/share/zsh" ];
 
@@ -294,36 +295,8 @@ in
       experimentalBackends = true;
       backend = "glx";
       vSync = true;
-      # shadow = true;
-      # shadowOpacity = 0.6;
-      # shadowOffsets = [ (-2) (-2) ];
-      # fade = true;
-      # fadeDelta = 2;
-      # fadeSteps = [ 0.02 0.02 ];
 
-      settings = {
-        blur = {
-          method = "dual_kawase";
-          strength = 7;
-          background = false;
-          background-frame = false;
-          background-fixed = false;
-        };
-
-        blur-background-exclude = [
-          "window_type = 'dock'"
-          "window_type = 'desktop'"
-          "_GTK_FRAME_EXTENTS@:c"
-        ];
-
-        # shadow-exclude = [ "window_type = 'desktop'" ];
-        # shadow-radius = 10;
-        # clear-shadow = true;
-        glx-no-stencil = true;
-        glx-no-rebind-pixmap = true;
-        unredir-if-possible = true;
-        use-damage = true;
-      };
+      settings = import ./config/picom-settings.nix;
     };
 
     pipewire = {
@@ -338,44 +311,10 @@ in
       jack.enable = true;
       pulse.enable = true;
 
-      config = {
-        pipewire."context.properties" = {
-          "link.max-buffers" = 16;
-          "default.clock.min-quantum" = "32/48000";
-          "default.clock.max-quantum" = "2048/48000";
-        };
-
-        pipewire-pulse = {
-          "context.modules" = [
-            { name = "libpipewire-module-protocol-native"; }
-            { name = "libpipewire-module-client-node"; }
-            { name = "libpipewire-module-adapter"; }
-            { name = "libpipewire-module-metadata"; }
-
-            {
-              name = "libpipewire-module-rtkit";
-              flags = [ "ifexists" "nofail" ];
-            }
-
-            {
-              name = "libpipewire-module-protocol-pulse";
-              args = {
-                "server.address" = [ "unix:native" ];
-                "pulse.min.req" = "32/48000";
-                "pulse.min.quantum" = "32/48000";
-                "pulse.min.frag" = "32/48000";
-                "pulse.default.req" = "2048/48000";
-                "pulse.default.frag" = "2048/48000";
-              };
-            }
-          ];
-
-          "stream.properties"."node.latency" = "32/48000";
-        };
-      };
+      config = import ./config/pipewire.nix;
 
       media-session.config.alsa-monitor.rules = [{
-        # replace with your sink name
+        # NOTE: replace with your sink name
         matches = [{ "node.name" = "alsa_output.pci-0000_00_14.2.analog-stereo"; }];
 
         actions.update-props = {
@@ -400,48 +339,10 @@ in
 
       displayManager = {
         sddm.enable = config.services.xserver.enable;
-
-        lightdm = {
-          enable = !config.services.xserver.enable;
-          background = theme.wallpaper;
-
-          greeters.gtk = {
-            enable = true;
-
-            theme = {
-              name = "phocus";
-              package = pkgs.phocus;
-            };
-
-            cursorTheme = {
-              package = pkgs.vanilla-dmz;
-              name = "${if theme.lightModeEnabled then "Vanilla-DMZ" else "Vanilla-DMZ-AA"}";
-            };
-
-            iconTheme = {
-              package = pkgs.papirus-icon-theme;
-              name = "${if theme.lightModeEnabled then "Papirus-Light" else "Papirus-Dark"}";
-            };
-          };
-        };
-
         defaultSession = "none+xmonad";
       };
 
-      extraConfig = ''
-        Section "Device"
-          Identifier "Radeon"
-          Driver "radeon"
-          Option "TearFree" "on"
-        EndSection
-        Section "Device"
-          Identifier "AMD"
-          Driver "amdgpu"
-          Option "TearFree" "true"
-        EndSection
-      '';
-
-      logFile = "/var/log/Xorg.0.log";
+      extraConfig = import ./config/xorg-config.nix;
       useGlamor = true;
 
       windowManager = {
@@ -504,20 +405,7 @@ in
     user.services = {
       pipewire.wantedBy = [ "default.target" ];
       pipewire-pulse.wantedBy = [ "default.target" ];
-
-      xidlehook = {
-        description = "xidlehook daemon";
-        wantedBy = [ "graphical-session.target" ];
-        partOf = [ "graphical-session.target" ];
-        serviceConfig.ExecStart = lib.strings.concatStringsSep " "
-          [
-            ""
-            "${pkgs.xidlehook}/bin/xidlehook"
-            "--not-when-fullscreen"
-            "--not-when-audio"
-            "--timer 120 ${config.security.wrapperDir}/slock ''"
-          ];
-      };
+      xidlehook = import ./services/xidlehook.nix { inherit config lib pkgs; };
     };
   };
 
