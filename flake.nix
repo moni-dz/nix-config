@@ -26,7 +26,7 @@
     kernel.url = "github:fortuneteller2k/nixpkgs/update-xanmod-512";
 
     # default nixpkgs for packages and modules
-    nixpkgs.follows = "unstable";
+    nixpkgs.follows = "master";
   };
 
   outputs = { self, home, master, stable, staging, staging-next, unstable, nixpkgs, ... } @ inputs: {

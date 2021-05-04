@@ -17,7 +17,7 @@ rec {
     if lightModeEnabled then "${wallpaperPath}/horizon_lightmode.jpg"
     else if primaryColor == "red"
     # then "${wallpaperPath}/horizon.jpg"
-    then "${wallpaperPath}/slarktileddoubleflip.png"
+    then "${wallpaperPath}/slark.png"
     else if primaryColor == "green"
     then "${wallpaperPath}/riki.jpg"
     else if primaryColor == "yellow"
@@ -28,5 +28,5 @@ rec {
     then "${wallpaperPath}/dota_stars_wallpaper.jpg"
     else "${wallpaperPath}/voidclose.png";
 
-  tiledWallpaper = wallpaper == "slarktileddoubleflip.png";
+  tiledWallpaper = let wallpaperPath = ../img/wallpapers; in wallpaper == "${wallpaperPath}/slark.png";
 }

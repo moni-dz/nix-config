@@ -4,7 +4,7 @@ with pkgs;
 with theme;
 
 let
-  xwallpaperArg = if tiledWallpaper then "--tile" else "--zoom";
+  xwallpaperFlag = if tiledWallpaper then "--tile" else "--zoom";
 in
 ''
   {-# LANGUAGE FlexibleContexts #-}
@@ -248,7 +248,7 @@ in
       windows $ const $ ss { W.current = c { W.workspace = ws { W.layout = l } }, W.visible = setSL sVisible, W.hidden = setHL sHidden }
     where
       setHL s = map (\w -> w { W.layout = l }) s
-      setSL = map (\w-> w { W.workspace = (W.workspace w) { W.layout = l } })
+      setSL = map (\w -> w { W.workspace = (W.workspace w) { W.layout = l } })
 
   layouts = avoidStruts
             . renamed [CutWordsLeft 5]
@@ -299,7 +299,7 @@ in
     ]
 
   autostart = do
-    spawnOnce "${xwallpaper}/bin/xwallpaper ${xwallpaperArg} ${wallpaper} &"
+    spawnOnce "${xwallpaper}/bin/xwallpaper ${xwallpaperFlag} ${wallpaper} &"
     spawnOnce "${xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr &"
     spawnOnce "${polybar}/bin/polybar-msg cmd restart &"
     spawnOnce "${notify-desktop}/bin/notify-desktop -u critical 'xmonad' 'started successfully'"

@@ -449,7 +449,7 @@ in
 
         xmonad = with pkgs; {
           enable = true;
-          config = import ../../config/xmonad.nix { inherit config pkgs theme; };
+          config = import ./config/xmonad.nix { inherit config pkgs theme; };
           extraPackages = hpkgs: with hpkgs; [ dbus xmonad-contrib ];
 
           ghcArgs = [
