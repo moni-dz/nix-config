@@ -324,7 +324,7 @@ in
     , focusedBorderColor = "#${colors.activeBorderColor}"
     , layoutHook         = layouts
     , manageHook         = windowRules
-    , logHook            = barHook dbus <+> fadeInactiveLogHook 0.5
+    , logHook            = barHook dbus <+> fadeInactiveLogHook 0.8
     , handleEventHook    = swallowEventHook (className =? "Alacritty" <||> className =? "XTerm") (return True) <+> hintsEventHook
     , startupHook        = autostart
     } `additionalMouseBindings` mousebindings
