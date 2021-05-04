@@ -1,18 +1,23 @@
+let
+  wallpaperPath = ../img/wallpapers;
+in
 rec {
   borderWidth = "2";
   primaryColor = "red";
+  lightModeEnabled = false;
 
   # colorscheme to load, see colors-flowtune.nix for a reference impl
-  colors = import ./colors-flowtune.nix { inherit primaryColor; };
+  colors =
+    if !lightModeEnabled
+    then import ./colors-horizon.nix { inherit primaryColor; }
+    else import ./colors-horizon-light.nix;
 
   wallpaper =
-    let
-      wallpaperPath = ../img/wallpapers;
-    in
-    if lightModeEnabled then "${wallpaperPath}/horizon_lightmode.jpg"
+    if primaryColor == "white"
+    then "${wallpaperPath}/horizon_lightmode.jpg"
     else if primaryColor == "red"
-    # then "${wallpaperPath}/horizon.jpg"
-    then "${wallpaperPath}/slark.png"
+    then "${wallpaperPath}/horizon.jpg"
+    # then "${wallpaperPath}/slark.png"
     else if primaryColor == "green"
     then "${wallpaperPath}/riki.jpg"
     else if primaryColor == "yellow"
@@ -23,5 +28,5 @@ rec {
     then "${wallpaperPath}/dota_stars_wallpaper.jpg"
     else "${wallpaperPath}/voidclose.png";
 
-  tiledWallpaper = let wallpaperPath = ../img/wallpapers; in wallpaper == "${wallpaperPath}/slark.png";
+  tiledWallpaper = wallpaper == "${wallpaperPath}/slark.png";
 }
