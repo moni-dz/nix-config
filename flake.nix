@@ -29,11 +29,26 @@
     nixpkgs.follows = "master";
   };
 
-  outputs = { self, home, master, stable, staging, staging-next, unstable, nixpkgs, ... } @ inputs: {
-    nixosConfigurations.superfluous = import ./hosts/superfluous {
-      inherit home inputs master stable staging staging-next unstable nixpkgs;
-    };
+  outputs = { self, home, master, stable, staging, staging-next, unstable, nixpkgs, ... } @ inputs:
+    with nixpkgs.lib;
+    let
+      config = {
+        allowBroken = true;
+        allowUnfree = true;
+      };
 
-    superfluous = self.nixosConfigurations.superfluous.config.system.build.toplevel;
-  };
+      filterNixFiles = k: v: v == "regular" && hasSuffix ".nix" k;
+
+      importNixFiles = path: (lists.forEach (mapAttrsToList (name: _: path + ("/" + name))
+        (filterAttrs filterNixFiles (builtins.readDir path)))) import;
+
+      user-overlays = importNixFiles ./overlays;
+    in
+    {
+      nixosConfigurations.superfluous = import ./hosts/superfluous {
+        inherit config home inputs master stable staging staging-next unstable nixpkgs user-overlays;
+      };
+
+      superfluous = self.nixosConfigurations.superfluous.config.system.build.toplevel;
+    };
 }

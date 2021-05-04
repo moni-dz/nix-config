@@ -1,5 +1,7 @@
 final: prev: {
   polybar = (prev.polybar.overrideAttrs (old: {
+    version = "unstable-2021-04-02";
+
     src = prev.fetchFromGitHub {
       owner = old.pname;
       repo = old.pname;

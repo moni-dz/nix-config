@@ -1,4 +1,4 @@
-{ home, inputs, master, stable, staging, staging-next, unstable, nixpkgs, ... }:
+{ config, home, inputs, master, stable, staging, staging-next, unstable, nixpkgs, user-overlays, ... }:
 
 nixpkgs.lib.nixosSystem rec {
   system = "x86_64-linux";
@@ -7,46 +7,37 @@ nixpkgs.lib.nixosSystem rec {
     {
       nix = import ../../config/nix-conf.nix { inherit inputs system nixpkgs; };
 
-      nixpkgs = with nixpkgs.lib; let
-        config = {
-          allowBroken = true;
-          allowUnfree = true;
+      nixpkgs =
+        let
+          input-overlays = _: _: {
+            comma = import inputs.comma { pkgs = nixpkgs.legacyPackages."${system}"; };
+          };
+
+          nixpkgs-overlays = _: _: {
+            head = import master { inherit config system; };
+            unstable = import unstable { inherit config system; };
+            stable = import stable { inherit config system; };
+            staging = import staging { inherit config system; };
+            staging-next = import staging-next { inherit config system; };
+            kernel = import inputs.kernel { inherit config system; };
+          };
+        in
+        {
+          inherit config;
+
+          overlays = with inputs; [
+            nixpkgs-overlays
+            emacs.overlay
+            neovim-nightly.overlay
+            nur.overlay
+            rust.overlay
+            input-overlays
+          ] ++ user-overlays;
         };
-
-        filterNixFiles = k: v: v == "regular" && hasSuffix ".nix" k;
-
-        importNixFiles = path: (lists.forEach (mapAttrsToList (name: _: path + ("/" + name))
-          (filterAttrs filterNixFiles (builtins.readDir path)))) import;
-
-        userOverlays = importNixFiles ../../overlays;
-
-        nixpkgsOverlays = _: _: {
-          head = import master { inherit config system; };
-          unstable = import unstable { inherit config system; };
-          stable = import stable { inherit config system; };
-          staging = import staging { inherit config system; };
-          staging-next = import staging-next { inherit config system; };
-          kernel = import inputs.kernel { inherit config system; };
-        };
-
-        inputOverlays = _: _: {
-          comma = import inputs.comma { pkgs = nixpkgs.legacyPackages."${system}"; };
-        };
-      in
-      {
-        inherit config;
-
-        overlays = with inputs; [
-          nixpkgsOverlays
-          emacs.overlay
-          neovim-nightly.overlay
-          nur.overlay
-          rust.overlay
-          inputOverlays
-        ] ++ userOverlays;
-      };
     }
+
     ./configuration.nix
+
     home.nixosModules.home-manager
     {
       home-manager = {
@@ -55,6 +46,7 @@ nixpkgs.lib.nixosSystem rec {
         users.fortuneteller2k = import ../../users/fortuneteller2k;
       };
     }
+
     nixpkgs.nixosModules.notDetected
   ];
 
