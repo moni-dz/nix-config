@@ -62,5 +62,4 @@ rec {
   activeBorderColor = primary;
   inactiveBorderColor = c8;
   highlightColor = primary;
-  termiteBg = "rgba(22, 22, 28, 0.97)";
 }

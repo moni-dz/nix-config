@@ -1,14 +1,9 @@
 rec {
   borderWidth = "2";
-  flowtuneEnabled = true;
-  lightModeEnabled = false;
   primaryColor = "red";
 
-  colors =
-    if lightModeEnabled
-    then import ./colors-light.nix
-    else if flowtuneEnabled then import ./colors-flowtune.nix { inherit primaryColor; }
-    else import ./colors.nix { inherit primaryColor; };
+  # colorscheme to load, see colors-flowtune.nix for a reference impl
+  colors = import ./colors-flowtune.nix { inherit primaryColor; };
 
   wallpaper =
     let

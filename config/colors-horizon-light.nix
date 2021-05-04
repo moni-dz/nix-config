@@ -28,5 +28,4 @@ rec {
   textColor = fg;
   activeBorderColor = fg;
   inactiveBorderColor = "fab795";
-  termiteBg = "rgba(253, 240, 237, 0.97)";
 }
