@@ -1,13 +1,14 @@
 { lib, stdenvNoCC, fetchFromGitHub, sass, theme }:
 
 stdenvNoCC.mkDerivation rec {
-  name = "phocus";
+  pname = "phocus";
+  version = "unstable-2021-05-05";
 
   src = fetchFromGitHub {
     owner = "fortuneteller2k";
     repo = "gtk";
-    rev = "d9b4e057528739ae8c90ae24f71999ec03db3e09";
-    sha256 = "sha256-SkcuD2ju1KMiPKWdLATcFTtdQeliG10Yqo/GxiZB7MA=";
+    rev = "cd013dedeeb94cccc534d9e6e50249ef965707bc";
+    sha256 = "sha256-jetVGSSMlzuR0WJD5ExEC71gNGK06QWY2wRFSyhDz80=";
   };
 
   patchPhase = with theme.colors; ''
