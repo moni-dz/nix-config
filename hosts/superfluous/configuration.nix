@@ -4,7 +4,7 @@ let theme = import ../../config/theme.nix;
 in
 {
   boot = {
-    kernelPackages = pkgs.kernel.linuxPackages_xanmod;
+    kernelPackages = pkgs.linuxPackages_xanmod;
 
     kernelParams = [
       "rw"
