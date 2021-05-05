@@ -23,6 +23,13 @@ in
 
   home = {
     file = {
+      ".config/nvim/coc-settings.json".source =
+        let
+          json = pkgs.formats.json { };
+          neovim-coc-settings = import ./config/neovim/coc-settings.nix { inherit pkgs; };
+        in
+        json.generate "coc-settings.json" neovim-coc-settings;
+
       ".local/bin/can" = {
         executable = true;
         text = import ./scripts/can.nix;
@@ -186,8 +193,13 @@ in
       vimAlias = true;
       vimdiffAlias = true;
       withNodeJs = true;
-      extraConfig = import ./config/neovim.nix { inherit (theme) colors; };
+      extraConfig = import ./config/neovim;
       extraPackages = with pkgs; [ rnix-lsp shellcheck ];
+
+      plugins = import ./config/neovim/plugins.nix {
+        inherit pkgs;
+        inherit (theme) colors;
+      };
     };
 
     rofi.enable = true;
@@ -212,11 +224,11 @@ in
           height = 17;
           modules-left = [ "sway/workspaces" "sway/mode" ];
           modules-right = [ "battery" "pulseaudio" "network" "clock" ];
-          modules = import ./config/waybar-modules.nix;
+          modules = import ./config/waybar/modules.nix;
         }
       ];
 
-      style = import ./config/waybar-style.nix { inherit theme; };
+      style = import ./config/waybar/style.nix { inherit theme; };
     };
 
 
