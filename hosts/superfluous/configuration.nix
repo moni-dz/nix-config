@@ -101,7 +101,6 @@ in
       gxmessage
       hacksaw
       haskell-language-server
-      head.river
       hsetroot
       imagemagick
       jp2a

@@ -14,7 +14,7 @@ nixpkgs.lib.nixosSystem rec {
           };
 
           nixpkgs-overlays = _: _: with inputs; {
-            head = import master { inherit config system; };
+            master = import master { inherit config system; };
             unstable = import unstable { inherit config system; };
             stable = import stable { inherit config system; };
             staging = import staging { inherit config system; };
