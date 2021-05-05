@@ -1,4 +1,4 @@
-{ primaryColor }:
+{ primaryColor, wallpaperPath }:
 
 rec {
   fg = "e2ecf7";
@@ -63,4 +63,21 @@ rec {
   inactiveBorderColor = muted;
   highlightColor = primary;
   vimColorscheme = "flowtune";
+
+  wallpaper =
+    if primaryColor == "white"
+    then "${wallpaperPath}/horizon_lightmode.jpg"
+    else if primaryColor == "red"
+    then "${wallpaperPath}/slark.png"
+    else if primaryColor == "green"
+    then "${wallpaperPath}/riki.jpg"
+    else if primaryColor == "yellow"
+    then "${wallpaperPath}/dota_stars_wallpaper.jpg"
+    else if primaryColor == "blue"
+    then "${wallpaperPath}/enigma.png"
+    else if primaryColor == "magenta"
+    then "${wallpaperPath}/dota_stars_wallpaper.jpg"
+    else "${wallpaperPath}/voidclose.png";
+
+  tiledWallpaper = wallpaper == "${wallpaperPath}/slark.png";
 }

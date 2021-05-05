@@ -4,7 +4,7 @@ with pkgs;
 with theme;
 
 let
-  xwallpaperFlag = if tiledWallpaper then "--tile" else "--zoom";
+  xwallpaperFlag = if colors.tiledWallpaper then "--tile" else "--zoom";
 in
 ''
   {-# LANGUAGE FlexibleContexts #-}
@@ -299,7 +299,7 @@ in
     ]
 
   autostart = do
-    spawnOnce "${xwallpaper}/bin/xwallpaper ${xwallpaperFlag} ${wallpaper} &"
+    spawnOnce "${xwallpaper}/bin/xwallpaper ${xwallpaperFlag} ${colors.wallpaper} &"
     spawnOnce "${xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr &"
     spawnOnce "${polybar}/bin/polybar-msg cmd restart &"
     spawnOnce "${notify-desktop}/bin/notify-desktop -u critical 'xmonad' 'started successfully'"

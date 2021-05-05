@@ -29,4 +29,6 @@ rec {
   activeBorderColor = fg;
   inactiveBorderColor = "fab795";
   vimColorscheme = "horizon";
+  wallpaper = "${wallpaperPath}/horizon_lightmode.jpg";
+  tiledWallpaper = false;
 }

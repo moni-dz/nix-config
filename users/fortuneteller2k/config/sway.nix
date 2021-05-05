@@ -153,7 +153,7 @@ with theme;
   client.unfocused        #${colors.muted} ${colors.muted} $color7 $color5
   client.urgent           $color10 $color10 $color0 $color5
 
-  output "*" bg ${wallpaper} fill
+  output "*" bg ${colors.wallpaper} ${if colors.tiledWallpaper then "tile" else "fill"}
 
   exec swayidle -w \
       timeout 600 'swaylock && swaymsg "output * dpms off"' \

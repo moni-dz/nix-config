@@ -362,10 +362,10 @@ in
     userActivationScripts = {
       reloadWallpaper.text =
         let
-          xwallpaperFlag = if theme.tiledWallpaper then "--tile" else "--zoom";
+          xwallpaperFlag = if theme.colors.tiledWallpaper then "--tile" else "--zoom";
         in
         if config.services.xserver.enable then
-          "[ $DISPLAY ] && ${pkgs.xwallpaper}/bin/xwallpaper ${xwallpaperFlag} ${theme.wallpaper} || ${pkgs.coreutils}/bin/echo 'skipping...'"
+          "[ $DISPLAY ] && ${pkgs.xwallpaper}/bin/xwallpaper ${xwallpaperFlag} ${theme.colors.wallpaper} || ${pkgs.coreutils}/bin/echo 'skipping...'"
         else
           "${pkgs.coreutils}/bin/echo 'skipping because on wayland...'";
 
