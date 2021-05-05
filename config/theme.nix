@@ -1,5 +1,5 @@
 let
-  wallpaperPath = ../img/wallpapers;
+  wallpaperPath = ../assets/wallpapers;
 in
 rec {
   borderWidth = "2";

@@ -2,7 +2,7 @@
 #+AUTHOR: fortuneteller2k
 #+STARTUP: showeverything
 
-[[img/nixos-official-logo.png]]
+[[assets/nixos-official-logo.png]]
 
 [[https://github.com/nixos/nixpkgs][file:https://img.shields.io/badge/NixOS-21.05-informational?style=flat.svg]]
 
@@ -56,12 +56,12 @@ Resources and configurations I used to base on:
 
 With =theme.lightModeEnabled = false;=
 
-[[img/dark-mode.png]]
+[[assets/dark-mode.png]]
 
 With =theme.lightModeEnabled = true;=
 
-[[img/light-mode.png]]
+[[assets/light-mode.png]]
 
 *** 2bwm
 
-[[img/twobwm.png]]
+[[assets/twobwm.png]]
