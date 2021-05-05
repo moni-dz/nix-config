@@ -43,19 +43,12 @@ in
   };
 
   hardware = {
-    bluetooth = {
-      enable = true;
-      hsphfpd.enable = true;
-      package = pkgs.bluezFull;
-    };
-
     cpu = {
       amd.updateMicrocode = true;
       intel.updateMicrocode = true;
     };
 
     enableAllFirmware = true;
-
     enableRedistributableFirmware = true;
 
     opengl = {
@@ -74,7 +67,11 @@ in
   i18n.defaultLocale = "en_US.UTF-8";
 
   environment = {
-    # NOTE: this isn't found in https://search.nixos.org
+    # NOTE: this isn't found in https://search.nixos.org/options.
+    #
+    # Here's the warning that came with it:
+    #   Please note that NixOS assumes all over the place that shell to be Bash,
+    #   so override the default setting only if you know exactly what you're doing.
     binsh = "${pkgs.dash}/bin/dash";
     pathsToLink = [ "/share/zsh" ];
 
@@ -265,7 +262,6 @@ in
 
   services = {
     auto-cpufreq.enable = true;
-    blueman.enable = true;
 
     chrony = {
       enable = true;
@@ -310,18 +306,8 @@ in
       jack.enable = true;
       pulse.enable = true;
 
-      config = import ./config/pipewire.nix;
-
-      media-session.config.alsa-monitor.rules = [{
-        # NOTE: replace with your sink name
-        matches = [{ "node.name" = "alsa_output.pci-0000_00_14.2.analog-stereo"; }];
-
-        actions.update-props = {
-          "audio.format" = "S16LE";
-          "audio.rate" = 48000;
-          "api.alsa.period-size" = 160;
-        };
-      }];
+      config = import ./config/pipewire;
+      media-session.config = import ./config/pipewire/media-session.nix;
     };
 
     tlp.enable = true;
