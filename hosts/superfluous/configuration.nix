@@ -341,7 +341,7 @@ in
         defaultSession = "none+xmonad";
       };
 
-      extraConfig = import ./config/xorg-config.nix;
+      extraConfig = import ./config/xorg.nix;
       useGlamor = true;
 
       windowManager = {
