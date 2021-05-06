@@ -14,6 +14,14 @@
 
       {
         name = "libpipewire-module-rtkit";
+
+        args = {
+          "nice.level" = -15;
+          "rt.prio" = 90;
+          "rt.time.soft" = 200000;
+          "rt.time.hard" = 200000;
+        };
+
         flags = [ "ifexists" "nofail" ];
       }
 
@@ -30,6 +38,9 @@
       }
     ];
 
-    "stream.properties"."node.latency" = "32/48000";
+    "stream.properties" = {
+      node.latency = "32/48000";
+      resample.quality = 1;
+    };
   };
 }
