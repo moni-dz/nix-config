@@ -157,7 +157,6 @@ in
 
     fontconfig = {
       enable = true;
-      dpi = 96;
 
       defaultFonts = {
         serif = [
@@ -320,7 +319,6 @@ in
 
     xserver = {
       enable = true;
-      dpi = 96;
 
       displayManager = {
         sddm.enable = config.services.xserver.enable;
