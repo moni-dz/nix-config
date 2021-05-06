@@ -73,6 +73,7 @@ in
     username = "fortuneteller2k";
 
     packages = with pkgs; [
+      betterdiscord-installer
       brave
       cargo
       celluloid

@@ -31,7 +31,7 @@ nixpkgs.lib.nixosSystem rec {
           overlays = with inputs; [
             nixpkgs-overlays
             emacs.overlay
-            neovim-nightly.overlay
+            neovim.overlay
             nur.overlay
             rust.overlay
             input-overlays

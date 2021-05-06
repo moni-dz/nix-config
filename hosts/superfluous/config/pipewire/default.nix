@@ -39,8 +39,8 @@
     ];
 
     "stream.properties" = {
-      node.latency = "32/48000";
-      resample.quality = 1;
+      "node.latency" = "32/48000";
+      "resample.quality" = 1;
     };
   };
 }

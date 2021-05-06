@@ -14,7 +14,7 @@
 
     emacs.url = "github:nix-community/emacs-overlay";
     manix.url = "github:mlvzk/manix";
-    neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
+    neovim.url = "github:nix-community/neovim-nightly-overlay";
     nur.url = "github:nix-community/NUR";
     rust.url = "github:oxalica/rust-overlay";
 
