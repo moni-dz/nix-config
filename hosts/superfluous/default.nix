@@ -11,6 +11,7 @@ nixpkgs.lib.nixosSystem rec {
         let
           input-overlays = _: _: {
             comma = import inputs.comma { pkgs = nixpkgs.legacyPackages."${system}"; };
+            manix = inputs.manix.defaultPackage.x86_64-linux;
           };
 
           nixpkgs-overlays = _: _: with inputs; {

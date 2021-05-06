@@ -9,12 +9,13 @@
 
     home = {
       url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "unstable";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     emacs.url = "github:nix-community/emacs-overlay";
-    nur.url = "github:nix-community/NUR";
+    manix.url = "github:mlvzk/manix";
     neovim-nightly.url = "github:nix-community/neovim-nightly-overlay";
+    nur.url = "github:nix-community/NUR";
     rust.url = "github:oxalica/rust-overlay";
 
     # nixpkgs branches

@@ -12,6 +12,7 @@ with theme;
   # start a terminal
   set $term alacritty
   bindsym $mod+Return exec $term
+  bindsym Mod4+Return exec $term
 
   # change focus
   bindsym $mod+Left focus left
