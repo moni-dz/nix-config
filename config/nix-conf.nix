@@ -15,8 +15,8 @@ rec {
     "fortuneteller2k.cachix.org-1:kXXNkMV5yheEQwT0I4XYh1MaCSz+qg72k8XAi2PthJI="
   ];
 
-  daemonNiceLevel = 10;
-  daemonIONiceLevel = 4;
+  daemonNiceLevel = 1;
+  daemonIONiceLevel = 1;
 
   extraOptions = ''
     experimental-features = nix-command flakes
@@ -30,7 +30,7 @@ rec {
     options = "--delete-older-than 7d";
   };
 
-  maxJobs = 2;
+  maxJobs = 4;
 
   nixPath = let path = toString ../.; in
     [
