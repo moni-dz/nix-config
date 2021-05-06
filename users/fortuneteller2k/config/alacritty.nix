@@ -8,11 +8,13 @@ with theme.colors; {
       family = "Iosevka FT";
       style = "Light";
     };
-    size = 11;
+
+    size = 10;
   };
 
   window = {
     dynamic_padding = true;
+
     padding = {
       x = 8;
       y = 8;
