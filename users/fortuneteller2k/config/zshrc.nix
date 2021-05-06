@@ -11,4 +11,11 @@ with home;
   export MANPAGER='nvim +Man!'
   source ${homeDirectory}/.config/github_token
   rm ${homeDirectory}/.xsession-errors ${homeDirectory}/.xsession-errors.old >/dev/null 2>&1
+
+  gsy() {
+    git checkout "$1"
+    git fetch upstream
+    git merge upstream/"$1"
+    git push
+  }
 ''
