@@ -13,7 +13,8 @@ final: prev: {
   };
 
   spotify-wrapped = prev.callPackage ../derivations/spotify-wrapped.nix {
-    inherit (prev) writeShellScriptBin spotify;
+    inherit (prev) writeShellScriptBin;
+    inherit (final.unstable) spotify;
     spotify-adblock = final.spotify-adblock;
   };
 
