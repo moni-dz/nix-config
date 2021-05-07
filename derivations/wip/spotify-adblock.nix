@@ -1,10 +1,10 @@
 { lib, fetchurl }:
 
 let
-  version = "1.4";
+  version = "1.0.0";
 in
 fetchurl rec {
-  name = "spotify-adblock-linux-${version}";
+  name = "spotify-adblock-${version}";
 
   url = "https://github.com/abba23/spotify-adblock-linux/releases/download/v${version}/spotify-adblock.so";
 
@@ -20,7 +20,7 @@ fetchurl rec {
   '';
 
   meta = with lib; {
-    homepage = "https://github.com/abba23/spotify-adblock-linux";
+    homepage = "https://github.com/abba23/spotify-adblock";
     description = "Spotify adblocker for linux";
     license = licenses.gpl3Only;
     platforms = platforms.linux;

@@ -9,12 +9,12 @@ final: prev: {
   };
 
   spotify-adblock = prev.callPackage ../derivations/spotify-adblock.nix {
-    inherit (prev) writeShellScriptBin spotify;
-    spotify-adblock-linux = final.spotify-adblock-linux;
+    inherit (prev) fetchurl;
   };
 
-  spotify-adblock-linux = prev.callPackage ../derivations/spotify-adblock-linux.nix {
-    inherit (prev) fetchurl;
+  spotify-wrapped = prev.callPackage ../derivations/spotify-wrapped.nix {
+    inherit (prev) writeShellScriptBin spotify;
+    spotify-adblock = final.spotify-adblock;
   };
 
   taiwins = prev.callPackage ../derivations/taiwins.nix {
