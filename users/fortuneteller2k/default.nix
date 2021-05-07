@@ -86,6 +86,7 @@ in
       celluloid
       discord
       dragon-drop
+      element-desktop
       ffmpeg
       flavours
       font-manager

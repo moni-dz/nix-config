@@ -67,11 +67,14 @@ in
   i18n.defaultLocale = "en_US.UTF-8";
 
   environment = {
-    # NOTE: this isn't found in https://search.nixos.org/options.
-    #
-    # Here's the warning that came with it:
-    #   Please note that NixOS assumes all over the place that shell to be Bash,
-    #   so override the default setting only if you know exactly what you're doing.
+    /*
+      NOTE: this isn't found in https://search.nixos.org/options.
+
+      Here's the warning that came with it:
+
+      "Please note that NixOS assumes all over the place that shell to be Bash,
+      so override the default setting only if you know exactly what you're doing."
+    */
     binsh = "${pkgs.dash}/bin/dash";
     pathsToLink = [ "/share/zsh" ];
 
