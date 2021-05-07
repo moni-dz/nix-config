@@ -33,6 +33,8 @@
       config = {
         allowBroken = true;
         allowUnfree = true;
+        # NOTE: experimental option, disable if you don't know what this does
+        contentAddressedByDefault = false;
       };
 
       filterNixFiles = k: v: v == "regular" && hasSuffix ".nix" k;

@@ -19,7 +19,7 @@ rec {
   daemonIONiceLevel = 1;
 
   extraOptions = ''
-    experimental-features = nix-command flakes
+    experimental-features = ca-references ca-derivations nix-command flakes
     keep-outputs = true
     keep-derivations = true
   '';
