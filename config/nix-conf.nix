@@ -39,6 +39,8 @@ rec {
       "home-manager=${inputs.home}"
     ];
 
+  package = nixpkgs.legacyPackages."${system}".nixFlakes;
+
   registry = {
     system.flake = inputs.self;
     nixpkgs.flake = nixpkgs;
@@ -46,7 +48,6 @@ rec {
     home-manager.flake = inputs.home;
   };
 
-  package = nixpkgs.legacyPackages."${system}".nixFlakes;
   trustedBinaryCaches = binaryCaches;
   trustedUsers = [ "root" "fortuneteller2k" ];
 }

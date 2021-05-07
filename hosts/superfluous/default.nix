@@ -9,9 +9,8 @@ nixpkgs.lib.nixosSystem rec {
 
       nixpkgs =
         let
-          input-overlays = _: _: {
-            comma = import inputs.comma { pkgs = nixpkgs.legacyPackages."${system}"; };
-            manix = inputs.manix.defaultPackage.x86_64-linux;
+          input-overlays = _: _: with inputs; {
+            manix = manix.defaultPackage.x86_64-linux;
           };
 
           nixpkgs-overlays = _: _: with inputs; {

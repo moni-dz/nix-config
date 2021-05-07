@@ -2,11 +2,6 @@
   description = "A somewhat huge NixOS configuration using Nix Flakes.";
 
   inputs = {
-    comma = {
-      url = "github:Shopify/comma";
-      flake = false;
-    };
-
     home = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";

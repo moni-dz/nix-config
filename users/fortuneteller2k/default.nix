@@ -30,6 +30,13 @@ in
         in
         json.generate "coc-settings.json" neovim-coc-settings;
 
+      ".config/wezterm/colors/nix-colors.toml".source =
+        let
+          toml = pkgs.formats.toml { };
+          wezterm-colors = import ./config/wezterm-colors.nix { inherit (theme) colors; };
+        in
+        toml.generate "nix-colors.toml" wezterm-colors;
+
       ".local/bin/can" = {
         executable = true;
         text = import ./scripts/can.nix;
@@ -77,7 +84,6 @@ in
       brave
       cargo
       celluloid
-      comma
       discord
       dragon-drop
       ffmpeg
@@ -104,7 +110,7 @@ in
       rust-analyzer
       rnix-lsp
       speedtest-cli
-      spotify-adblock
+      spotify-wrapped
       torrential
       ueberzug
       wezterm
