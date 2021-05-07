@@ -368,7 +368,7 @@ in
           "${pkgs.coreutils}/bin/echo 'skipping because on wayland...'";
 
       reloadXMonad.text =
-        if config.services.xserver.enable then
+        if config.services.xserver.enable && config.services.xserver.windowManager.xmonad.enable then
           "[ $DISPLAY ] && ${pkgs.xmonad-with-packages}/bin/xmonad --restart || echo 'not in xmonad, skipping...' || ${pkgs.coreutils}/bin/echo 'skipping...'"
         else
           "${pkgs.coreutils}/bin/echo 'skipping because on wayland...'";
