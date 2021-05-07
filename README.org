@@ -42,14 +42,6 @@ Resources and configurations I used to base on:
  * [[https://git.sr.ht/~dunklecat/nixos-config/tree/master/flake.nix][dunklecat/nixos-config]]
  * [[https://www.youtube.com/watch?v=UeBX7Ide5a0][Nix Flakes talk by Eelco Dolstra on NixCon]]
 
-*** Useful Commands
-
-| command                               | description                           |
-|---------------------------------------+---------------------------------------|
-| =sudo nixos-rebuild switch=             | switch to the new generation          |
-| =nix flake update --update-input flake= | update flake and update lockfile      |
-| =nix flake update=                      | update all flakes and update lockfile |
-
 ** Appearance
 
 *** XMonad

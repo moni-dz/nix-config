@@ -38,7 +38,7 @@
         ;;
       *)
         echo "$(tput setaf 1 && tput bold)no can do, invalid command $1$(tput sgr0)"
-        echo 'Usage: can <cd/repl/switch/test/upgrade/info>'
+        echo 'Usage: can <cd/switch/test/upgrade/info>'
         return 1;
         ;;
     esac;
