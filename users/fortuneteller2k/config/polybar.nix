@@ -93,12 +93,12 @@ with theme; {
 
   "module/wireless" = {
     type = "internal/network";
-    interface = "wlo1";
+    interface = "wlan0";
     interval = 10;
-    format-connected = "<label-connected>";
+    format-connected = "%{A1:connman-gtk:}<label-connected>%{A}";
     format-connected-foreground = "#${colors.textColor}";
     format-connected-background = "#${colors.primary}";
-    format-disconnected = "<label-disconnected>";
+    format-disconnected = "%{A1:connman-gtk:}<label-disconnected>%{A}";
     format-disconnected-foreground = "#${colors.textColor}";
     format-disconnected-background = "#${colors.primary}";
     label-connected = "   %essid% ";

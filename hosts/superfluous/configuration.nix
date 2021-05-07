@@ -85,6 +85,7 @@ in
       alsaUtils
       brightnessctl
       caffeine-ng
+      connman-gtk
       coreutils
       curl
       dash
@@ -195,18 +196,14 @@ in
     ];
 
     dhcpcd.enable = false;
-
-    networkmanager = {
-      enable = true;
-      dns = "none";
-    };
-
     useDHCP = false;
 
     interfaces = {
       eno1.useDHCP = true;
-      wlo1.useDHCP = true;
+      wlan0.useDHCP = true;
     };
+
+    wireless.iwd.enable = true;
   };
 
   powerManagement.cpuFreqGovernor = "performance";
@@ -272,6 +269,12 @@ in
         "2.nixos.pool.ntp.org"
         "3.nixos.pool.ntp.org"
       ];
+    };
+
+    connman = {
+      enable = true;
+      package = pkgs.connmanFull;
+      wifi.backend = "iwd";
     };
 
     irqbalance.enable = true;
@@ -379,11 +382,7 @@ in
 
   systemd = {
     extraConfig = "RebootWatchdogSec=5";
-
-    services.rtkit-daemon.serviceConfig.ExecStart = [
-      ""
-      "${pkgs.rtkit}/libexec/rtkit-daemon --our-realtime-priority=95 --max-realtime-priority=90"
-    ];
+    services.rtkit-daemon = import ./services/rtkit-daemon.nix { inherit pkgs; };
 
     user.services = {
       pipewire.wantedBy = [ "default.target" ];
