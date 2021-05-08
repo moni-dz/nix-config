@@ -10,7 +10,8 @@ nixpkgs.lib.nixosSystem rec {
       nixpkgs =
         let
           input-overlays = _: _: with inputs; {
-            manix = manix.defaultPackage.x86_64-linux;
+            manix = manix.defaultPackage.${system};
+            neovim-nightly = neovim.packages.${system}.neovim;
           };
 
           nixpkgs-overlays = _: _: with inputs; {
@@ -30,7 +31,6 @@ nixpkgs.lib.nixosSystem rec {
           overlays = with inputs; [
             nixpkgs-overlays
             emacs.overlay
-            neovim.overlay
             nur.overlay
             rust.overlay
             input-overlays

@@ -33,7 +33,11 @@
       config = {
         allowBroken = true;
         allowUnfree = true;
-        # NOTE: experimental option, disable if you don't know what this does
+        /*
+          NOTE: experimental option, disable if you don't know what this does
+
+          See https://github.com/NixOS/rfcs/pull/62 for more information.
+        */
         contentAddressedByDefault = false;
       };
 
