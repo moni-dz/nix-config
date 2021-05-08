@@ -11,6 +11,12 @@
       switch)
         doas nixos-rebuild switch
         ;;
+      rollback)
+        doas nixos-rebuild switch --rollback
+        ;;
+      generations)
+        doas nix-env -p /nix/var/nix/profiles/system --list-generations
+        ;;
       test)
         cd ~/.config/nix-config && doas nixos-rebuild test --fast
         ;;
@@ -38,7 +44,7 @@
         ;;
       *)
         echo "$(tput setaf 1 && tput bold)no can do, invalid command $1$(tput sgr0)"
-        echo 'Usage: can <cd/switch/test/upgrade/info>'
+        echo 'Usage: can <cd/switch/rollback/generations/test/upgrade/info>'
         return 1;
         ;;
     esac;
