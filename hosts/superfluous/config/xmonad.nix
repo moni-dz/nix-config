@@ -30,7 +30,6 @@ in
 
   import XMonad.Hooks.DynamicLog
   import XMonad.Hooks.EwmhDesktops
-  import XMonad.Hooks.FadeInactive
   import XMonad.Hooks.InsertPosition
   import XMonad.Hooks.ManageDocks
   import XMonad.Hooks.ManageHelpers
@@ -324,7 +323,7 @@ in
     , focusedBorderColor = "#${colors.activeBorderColor}"
     , layoutHook         = layouts
     , manageHook         = windowRules
-    , logHook            = barHook dbus <+> fadeInactiveLogHook 0.8
+    , logHook            = barHook dbus
     , handleEventHook    = swallowEventHook (className =? "Alacritty" <||> className =? "XTerm") (return True) <+> hintsEventHook
     , startupHook        = autostart
     } `additionalMouseBindings` mousebindings
