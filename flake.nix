@@ -11,6 +11,7 @@
     manix.url = "github:mlvzk/manix";
     neovim.url = "github:nix-community/neovim-nightly-overlay";
     nur.url = "github:nix-community/NUR";
+    nix-eval-lsp.url = "github:aaronjanse/nix-eval-lsp";
     rust.url = "github:oxalica/rust-overlay";
 
     # nixpkgs branches

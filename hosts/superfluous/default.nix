@@ -12,6 +12,7 @@ nixpkgs.lib.nixosSystem rec {
           input-overlays = _: _: with inputs; {
             manix = manix.defaultPackage.${system};
             neovim-nightly = neovim.packages.${system}.neovim;
+            nix-eval-lsp = nix-eval-lsp.defaultPackage.${system};
           };
 
           nixpkgs-overlays = _: _: with inputs; {

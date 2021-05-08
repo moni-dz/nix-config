@@ -63,6 +63,21 @@
     },
     "flake-utils_3": {
       "locked": {
+        "lastModified": 1618217525,
+        "narHash": "sha256-WGrhVczjXTiswQaoxQ+0PTfbLNeOQM6M36zvLn78AYg=",
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "rev": "c6169a2772643c4a93a0b5ac1c61e296cba68544",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "flake-utils_4": {
+      "locked": {
         "lastModified": 1614513358,
         "narHash": "sha256-LakhOx3S1dRjnh0b5Dg3mbZyH0ToC9I8Y2wKSkBaTzU=",
         "owner": "numtide",
@@ -190,6 +205,25 @@
         "type": "github"
       }
     },
+    "nix-eval-lsp": {
+      "inputs": {
+        "flake-utils": "flake-utils_3",
+        "nixpkgs": "nixpkgs_3"
+      },
+      "locked": {
+        "lastModified": 1620450948,
+        "narHash": "sha256-YJH/HEigGI8a5Yy9t6ze56KrgWxWQE4vs9qzeQ26pOw=",
+        "owner": "aaronjanse",
+        "repo": "nix-eval-lsp",
+        "rev": "c6454efee4fa35a1744a67bb64c518e35e01a461",
+        "type": "github"
+      },
+      "original": {
+        "owner": "aaronjanse",
+        "repo": "nix-eval-lsp",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1599050737,
@@ -222,6 +256,21 @@
       }
     },
     "nixpkgs_3": {
+      "locked": {
+        "lastModified": 1618528968,
+        "narHash": "sha256-UI9tCylyzApZyo2sqXXJjXQOzzg3i97qod2CVmH5y0Q=",
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "rev": "3015c5f9f8f522a71db882bcd1e9401e6b5a41e3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nixos",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_4": {
       "locked": {
         "lastModified": 1617325113,
         "narHash": "sha256-GksR0nvGxfZ79T91UUtWjjccxazv6Yh/MvEJ82v1Xmw=",
@@ -259,6 +308,7 @@
         "manix": "manix",
         "master": "master",
         "neovim": "neovim",
+        "nix-eval-lsp": "nix-eval-lsp",
         "nixpkgs": [
           "master"
         ],
@@ -272,8 +322,8 @@
     },
     "rust": {
       "inputs": {
-        "flake-utils": "flake-utils_3",
-        "nixpkgs": "nixpkgs_3"
+        "flake-utils": "flake-utils_4",
+        "nixpkgs": "nixpkgs_4"
       },
       "locked": {
         "lastModified": 1620268871,

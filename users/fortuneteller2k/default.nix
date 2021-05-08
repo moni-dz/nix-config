@@ -23,20 +23,6 @@ in
 
   home = {
     file = {
-      ".config/nvim/coc-settings.json".source =
-        let
-          json = pkgs.formats.json { };
-          neovim-coc-settings = import ./config/neovim/coc-settings.nix { inherit pkgs; };
-        in
-        json.generate "coc-settings.json" neovim-coc-settings;
-
-      ".config/wezterm/colors/nix-colors.toml".source =
-        let
-          toml = pkgs.formats.toml { };
-          wezterm-colors = import ./config/wezterm-colors.nix { inherit (theme) colors; };
-        in
-        toml.generate "nix-colors.toml" wezterm-colors;
-
       ".local/bin/can" = {
         executable = true;
         text = import ./scripts/can.nix;
@@ -101,6 +87,7 @@ in
       lazygit
       manix
       neofetch
+      nix-eval-lsp
       nixpkgs-fmt
       nixpkgs-review
       nur.repos.fortuneteller2k.impure.eww
@@ -341,6 +328,22 @@ in
 
   xdg = {
     enable = true;
+
+    configFile = {
+      "nvim/coc-settings.json".source =
+        let
+          json = pkgs.formats.json { };
+          neovim-coc-settings = import ./config/neovim/coc-settings.nix { inherit pkgs; };
+        in
+        json.generate "coc-settings.json" neovim-coc-settings;
+
+      "wezterm/colors/nix-colors.toml".source =
+        let
+          toml = pkgs.formats.toml { };
+          wezterm-colors = import ./config/wezterm-colors.nix { inherit (theme) colors; };
+        in
+        toml.generate "nix-colors.toml" wezterm-colors;
+    };
 
     userDirs = {
       enable = true;
