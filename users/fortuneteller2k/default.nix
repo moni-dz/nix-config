@@ -66,6 +66,7 @@ in
     username = "fortuneteller2k";
 
     packages = with pkgs; [
+      agenix
       betterdiscord-installer
       brave
       cargo
@@ -146,7 +147,7 @@ in
     };
 
     emacs = {
-      enable = true;
+      enable = false;
       package = pkgs.emacsPgtkGcc;
     };
 
@@ -330,6 +331,7 @@ in
     enable = true;
 
     configFile = {
+
       "nvim/coc-settings.json".source =
         let
           json = pkgs.formats.json { };

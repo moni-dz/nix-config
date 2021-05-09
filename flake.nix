@@ -2,12 +2,17 @@
   description = "A somewhat huge NixOS configuration using Nix Flakes.";
 
   inputs = {
+    emacs = {
+      url = "github:nix-community/emacs-overlay";
+      inputs.nixpkgs.follows = "stable";
+    };
+
     home = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    emacs.url = "github:nix-community/emacs-overlay";
+    agenix.url = "github:ryantm/agenix";
     manix.url = "github:mlvzk/manix";
     neovim.url = "github:nix-community/neovim-nightly-overlay";
     nur.url = "github:nix-community/NUR";
@@ -28,7 +33,7 @@
     nixpkgs.follows = "master";
   };
 
-  outputs = { self, home, nixpkgs, ... } @ inputs:
+  outputs = { self, agenix, home, nixpkgs, ... } @ inputs:
     with nixpkgs.lib;
     let
       config = {
@@ -51,7 +56,7 @@
     in
     {
       nixosConfigurations.superfluous = import ./hosts/superfluous {
-        inherit config home inputs nixpkgs user-overlays;
+        inherit config agenix home inputs nixpkgs user-overlays;
       };
 
       superfluous = self.nixosConfigurations.superfluous.config.system.build.toplevel;
