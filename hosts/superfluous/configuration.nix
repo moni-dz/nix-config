@@ -151,6 +151,10 @@ in
       mplus-outline-fonts
       nerdfonts
       nur.repos.fortuneteller2k.iosevka-ft-bin
+      /*
+        TODO: use only when current is outdated
+        iosevka-ft
+      */
       sarasa-gothic
       scientifica
       symbola

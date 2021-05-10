@@ -198,6 +198,7 @@ in
       };
     };
 
+    nix-index.enable = true;
     rofi.enable = true;
 
     starship = {

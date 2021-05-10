@@ -38,6 +38,7 @@ nixpkgs.lib.nixosSystem rec {
             stable = import stable { inherit config system; };
             staging = import staging { inherit config system; };
             staging-next = import staging-next { inherit config system; };
+            iosevka-6 = import iosevka-6 { inherit config system; };
 
             # NOTE: remove this, if you're not me or a maintainer of the xanmod kernel in nixpkgs
             kernel = import inputs.kernel { inherit config system; };

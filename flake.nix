@@ -12,7 +12,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    agenix.url = "github:yaxitech/ragenix";
+    agenix.url = "github:ryantm/agenix";
     manix.url = "github:mlvzk/manix";
     neovim.url = "github:nix-community/neovim-nightly-overlay";
     nur.url = "github:nix-community/NUR";
