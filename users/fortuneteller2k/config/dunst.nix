@@ -9,7 +9,7 @@ with theme.colors; {
     word_wrap = "yes";
     horizontal_padding = 8;
     show_indicators = false;
-    frame_width = theme.borderWidth;
+    frame_width = if theme.borderWidth == "0" then "2" else theme.borderWidth;
     format = "<b>%s</b>: %b";
     font = "Sarasa Gothic J 10.4";
     frame_color = "#${c2}";

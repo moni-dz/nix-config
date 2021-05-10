@@ -2,7 +2,7 @@ let
   wallpaperPath = ../assets/wallpapers;
 in
 rec {
-  borderWidth = "2";
+  borderWidth = "0";
   primaryColor = "red";
   lightModeEnabled = false;
 
