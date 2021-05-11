@@ -4,7 +4,7 @@
   inputs = {
     emacs = {
       url = "github:nix-community/emacs-overlay";
-      inputs.nixpkgs.follows = "stable";
+      inputs.nixpkgs.follows = "unstable";
     };
 
     home = {

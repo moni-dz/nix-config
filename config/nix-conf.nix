@@ -21,7 +21,7 @@ rec {
   daemonIONiceLevel = 1;
 
   extraOptions = ''
-    experimental-features = ca-references ca-derivations recursive-nix nix-command flakes
+    experimental-features = ca-references ca-derivations nix-command flakes
     keep-outputs = true
     keep-derivations = true
   '';
@@ -49,7 +49,7 @@ rec {
     home-manager.flake = inputs.home;
   };
 
-  systemFeatures = [ "recursive-nix" ];
+  systemFeatures = [ "big-parallel" "recursive-nix" ];
 
   trustedBinaryCaches = binaryCaches;
   trustedUsers = [ "root" "fortuneteller2k" ];
