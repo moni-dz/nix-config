@@ -4,6 +4,11 @@ let theme = import ../../config/theme.nix;
 in
 {
   boot = {
+    /*
+      NOTE: replace this with your desired kernel
+
+      If you're not me or a xanmod kernel maintainer, use pkgs.linuxPackages_xanmod instead.
+    */
     kernelPackages = pkgs.kernel.linuxPackages_xanmod;
 
     kernelParams = [
@@ -226,7 +231,7 @@ in
     slock.enable = true;
 
     sway = {
-      enable = true;
+      enable = false;
       wrapperFeatures.gtk = true;
 
       extraPackages = with pkgs; [
@@ -331,7 +336,7 @@ in
       enable = true;
 
       displayManager = {
-        sddm.enable = config.services.xserver.enable;
+        gdm.enable = config.services.xserver.enable;
         defaultSession = "none+xmonad";
       };
 
@@ -339,8 +344,6 @@ in
       useGlamor = true;
 
       windowManager = {
-        "2bwm".enable = true;
-
         xmonad = with pkgs; {
           enable = true;
           config = import ./config/xmonad.nix { inherit config pkgs theme; };

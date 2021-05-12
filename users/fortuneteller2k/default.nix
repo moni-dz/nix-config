@@ -91,7 +91,7 @@ in
       nix-eval-lsp
       nixpkgs-fmt
       nixpkgs-review
-      nur.repos.fortuneteller2k.impure.eww
+      # nur.repos.fortuneteller2k.impure.eww
       pfetch
       playerctl
       qutebrowser
@@ -113,8 +113,12 @@ in
     ];
 
     sessionVariables = {
-      BROWSER = "brave";
-      EDITOR = "nvim";
+      BROWSER = "${pkgs.brave}/bin/brave";
+      EDITOR = "${config.programs.neovim.package}/bin/nvim";
+      GOPATH = "${config.home.homeDirectory}/Extras/go";
+      MANPAGER = "${config.programs.neovim.package}/bin/nvim +Man!";
+      QT_QPA_PLATFORMTHEME = "qt5ct";
+      RUSTUP_HOME = "${config.home.homeDirectory}/.local/share/rustup";
     };
 
     stateVersion = "21.03";
@@ -173,12 +177,12 @@ in
     };
 
     mako = {
-      enable = true;
+      enable = config.wayland.windowManager.sway.enable;
       extraConfig = import ./config/mako.nix { inherit theme; };
     };
 
     ncmpcpp = {
-      enable = true;
+      enable = config.services.mpd.enable;
       settings = import ./config/ncmpcpp.nix;
     };
 
@@ -223,7 +227,7 @@ in
       };
 
     waybar = {
-      enable = true;
+      enable = config.wayland.windowManager.sway.enable;
 
       settings = [
         {
@@ -308,7 +312,7 @@ in
   systemd.user.startServices = true;
 
   wayland.windowManager.sway = {
-    enable = true;
+    enable = false;
     package = null;
 
     config = {
