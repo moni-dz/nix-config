@@ -91,7 +91,7 @@ in
       nix-eval-lsp
       nixpkgs-fmt
       nixpkgs-review
-      # nur.repos.fortuneteller2k.impure.eww
+      nur.repos.fortuneteller2k.impure.eww
       pfetch
       playerctl
       qutebrowser
