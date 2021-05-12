@@ -211,6 +211,17 @@ in
       extraConfig = import ./config/qutebrowser.nix;
     };
 
+    vscode =
+      let
+        extraPackages = pkgs: with pkgs; [
+          rustup
+        ];
+      in
+      {
+        enable = true;
+        package = pkgs.vscode.fhsWithPackages (pkgs: extraPackages pkgs);
+      };
+
     waybar = {
       enable = true;
 

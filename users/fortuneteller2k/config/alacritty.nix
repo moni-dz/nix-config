@@ -9,7 +9,12 @@ with theme.colors; {
       style = "Light";
     };
 
-    size = 10;
+    size = 10.5;
+
+    offset = {
+      x = -1;
+      y = 1;
+    };
   };
 
   window = {

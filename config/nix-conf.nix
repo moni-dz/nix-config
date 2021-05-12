@@ -49,8 +49,6 @@ rec {
     home-manager.flake = inputs.home;
   };
 
-  systemFeatures = [ "big-parallel" "recursive-nix" ];
-
   trustedBinaryCaches = binaryCaches;
   trustedUsers = [ "root" "fortuneteller2k" ];
 }
