@@ -312,7 +312,7 @@ in
       }
 
   xmonadConfig dbus = def
-    { terminal           = "${alacritty}/bin/alacritty"
+    { terminal           = "${wezterm}/bin/wezterm"
     , focusFollowsMouse  = True
     , clickJustFocuses   = True
     , borderWidth        = ${theme.borderWidth}
@@ -324,9 +324,11 @@ in
     , layoutHook         = layouts
     , manageHook         = windowRules
     , logHook            = barHook dbus
-    , handleEventHook    = swallowEventHook (className =? "Alacritty" <||> className =? "XTerm") (return True) <+> hintsEventHook
+    , handleEventHook    = swallowEventHook swallowExclude (return True) <+> hintsEventHook
     , startupHook        = autostart
     } `additionalMouseBindings` mousebindings
+    where
+      swallowExclude = className =? "Alacritty" <||> className =? "org.wezfurlong.wezterm" <||> className =? "XTerm"
 
   main =
     let

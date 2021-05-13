@@ -327,7 +327,6 @@ in
     enable = true;
 
     configFile = {
-
       "nvim/coc-settings.json".source =
         let
           json = pkgs.formats.json { };
@@ -341,6 +340,35 @@ in
           wezterm-colors = import ./config/wezterm-colors.nix { inherit (theme) colors; };
         in
         toml.generate "nix-colors.toml" wezterm-colors;
+
+      "wezterm/wezterm.lua".text = ''
+        local w = require 'wezterm';
+
+        return {
+          confirm = false,
+          enable_tab_bar = false,
+          default_cursor_style = "BlinkingBar",
+          color_scheme = "nix-colors",
+          font = w.font("Iosevka FT Light"),
+          font_size = 10.5,
+          dpi = 96.0,
+
+          window_padding = {
+            left = 8,
+            right = 8,
+            top = 14,
+            bottom = 8,
+          },
+
+          freetype_load_target = "HorizontalLcd",
+          freetype_render_target = "HorizontalLcd",
+          freetype_interpreter_version = 40,
+
+          skip_close_confirmation_for_processes_named = {
+            "bash", "sh", "zsh", "fish", "tmux"
+          },
+        }
+      '';
     };
 
     userDirs = {
