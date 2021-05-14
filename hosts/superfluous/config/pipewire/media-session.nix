@@ -8,7 +8,7 @@
     actions.update-props = {
       "audio.format" = "S16LE";
       "audio.rate" = 48000;
-      "api.alsa.period-size" = 160;
+      "api.alsa.period-size" = 32;
     };
   }];
 }
