@@ -10,7 +10,7 @@ with theme.colors; {
     horizontal_padding = 8;
     show_indicators = false;
     frame_width = if theme.borderWidth == "0" then "2" else theme.borderWidth;
-    format = "<b>%s</b>: %b";
+    format = "<b>%s</b>\\n\\n%b";
     font = "Sarasa Gothic J 10.4";
     frame_color = "#${c2}";
     separator_color = "auto";
