@@ -94,6 +94,7 @@ in
       nur.repos.fortuneteller2k.impure.eww
       pfetch
       playerctl
+      python3
       qutebrowser
       rustc
       rust-analyzer
@@ -170,6 +171,7 @@ in
       showCpuUsage = true;
       showProgramPath = false;
       showThreadNames = true;
+
       meters = {
         left = [ "AllCPUs" "Memory" "Swap" ];
         right = [ "Tasks" "LoadAverage" "Uptime" ];
