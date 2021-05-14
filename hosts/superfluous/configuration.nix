@@ -23,10 +23,11 @@ in
     ];
 
     kernel.sysctl = {
-      "vm.swappiness" = 10;
-      "vm.vfs_cache_pressure" = 75;
       "kernel.printk" = "3 3 3 3";
       "kernel.unprivileged_userns_clone" = 1;
+      "net.core.default_qdisc" = "fq_pie";
+      "vm.swappiness" = 10;
+      "vm.vfs_cache_pressure" = 75;
     };
 
     loader = {
@@ -124,6 +125,7 @@ in
       ripgrep
       shellcheck
       shotgun
+      subversion
       unrar
       unzip
       util-linux
