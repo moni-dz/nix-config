@@ -23,9 +23,13 @@ in
     ];
 
     kernel.sysctl = {
+      "fs.file-max" = 2097152;
       "kernel.printk" = "3 3 3 3";
+      "kernel.sched_migration_cost_ns" = 5000000;
       "kernel.unprivileged_userns_clone" = 1;
       "net.core.default_qdisc" = "fq_pie";
+      "vm.dirty_ratio" = 60;
+      "vm.dirty_background_ratio" = 2;
       "vm.swappiness" = 10;
       "vm.vfs_cache_pressure" = 75;
     };
