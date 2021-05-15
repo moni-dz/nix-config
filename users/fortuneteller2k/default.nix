@@ -88,7 +88,6 @@ in
       lazygit
       manix
       neofetch
-      nix-eval-lsp
       nixpkgs-fmt
       nixpkgs-review
       nur.repos.fortuneteller2k.impure.eww
@@ -152,7 +151,7 @@ in
     };
 
     emacs = {
-      enable = false;
+      enable = true;
       package = pkgs.emacsPgtkGcc;
     };
 

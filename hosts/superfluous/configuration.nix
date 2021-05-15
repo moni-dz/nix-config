@@ -118,6 +118,7 @@ in
       jq
       libtool
       libva-utils
+      lm_sensors
       notify-desktop
       ntfs3g
       pandoc
