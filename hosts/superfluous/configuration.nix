@@ -12,14 +12,13 @@ in
     kernelPackages = pkgs.kernel.linuxPackages_xanmod;
 
     kernelParams = [
-      "rw"
+      "ro"
+      "quiet"
+      "splash"
       "mitigations=off"
       "acpi_backlight=vendor"
       "nmi_watchdog=0"
       "systemd.watchdog-device=/dev/watchdog"
-      theme.colors.vt-red
-      theme.colors.vt-grn
-      theme.colors.vt-blu
     ];
 
     kernel.sysctl = {
@@ -47,10 +46,16 @@ in
     };
   };
 
-  console = {
-    font = "Lat2-Terminus16";
-    keyMap = "us";
-  };
+  console =
+    let
+      normal = with theme.colors; [ c0 c1 c2 c3 c4 c5 c6 c7 ];
+      bright = with theme.colors; [ c8 c9 c10 c11 c12 c13 c14 c15 ];
+    in
+    {
+      colors = normal ++ bright;
+      font = "Lat2-Terminus16";
+      keyMap = "us";
+    };
 
   hardware = {
     cpu = {
@@ -85,7 +90,7 @@ in
       "Please note that NixOS assumes all over the place that shell to be Bash,
       so override the default setting only if you know exactly what you're doing."
     */
-    binsh = "${pkgs.dash}/bin/dash";
+    binsh = "${pkgs.mksh}/bin/mksh";
     pathsToLink = [ "/share/zsh" ];
 
     sessionVariables = with pkgs; {
@@ -358,7 +363,21 @@ in
 
           ghcArgs = [
             "-O2"
+            "-fasm-shortcutting"
+            "-fdicts-cheap"
+            "-fdicts-strict"
             "-funfolding-use-threshold=16"
+            "-fspecialise-aggressively"
+            "-fblock-layout-weightless"
+            "-feager-blackholing"
+            "-fexpose-all-unfoldings"
+            "-fregs-iterative"
+            "-fspec-constr-keen"
+            "-fstatic-argument-transformation"
+            "-funbox-strict-fields"
+            "-flate-dmd-anal"
+            "-fignore-interface-pragmas"
+            "-ffun-to-thunk"
             "-fexcess-precision"
             "-optc-O3"
             "-optc-ffast-math"
