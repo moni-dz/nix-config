@@ -83,7 +83,7 @@ in
 
   environment = {
     /*
-      NOTE: this isn't found in https://search.nixos.org/options.
+      NOTE: This isn't found in https://search.nixos.org/options.
 
       Here's the warning that came with it:
 
@@ -112,7 +112,6 @@ in
       file
       git
       glxinfo
-      grim
       gnome3.nautilus
       gxmessage
       hacksaw
@@ -413,7 +412,12 @@ in
           "${pkgs.coreutils}/bin/echo 'skipping because on wayland...'";
     };
 
-    stateVersion = "20.09";
+    /*
+      NOTE: DO NOT CHANGE THIS IF YOU DON'T KNOW WHAT YOU'RE DOING.
+
+      Only change this if you are ABSOLUTELY 100% SURE that you don't have stateful data.
+    */
+    stateVersion = "21.05";
   };
 
   systemd = {

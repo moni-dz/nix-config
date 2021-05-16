@@ -121,7 +121,12 @@ in
       RUSTUP_HOME = "${config.home.homeDirectory}/.local/share/rustup";
     };
 
-    stateVersion = "21.03";
+    /*
+      NOTE: DO NOT CHANGE THIS IF YOU DON'T KNOW WHAT YOU'RE DOING.
+
+      Only change this if you are ABSOLUTELY 100% SURE that you don't have stateful data.
+    */
+    stateVersion = "21.05";
   };
 
   programs = {
@@ -247,7 +252,6 @@ in
 
     zathura = {
       enable = true;
-      package = pkgs.zathura;
       extraConfig = "map <C-i> recolor";
       options = import ./config/zathura.nix { inherit theme; };
     };
