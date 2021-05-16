@@ -40,7 +40,7 @@ in
 
       ".local/bin/screenshot" = {
         executable = true;
-        text = import ./scripts/screenshot.nix;
+        text = import ./scripts/screenshot.nix { inherit theme; };
       };
 
       ".local/bin/showcase" = {

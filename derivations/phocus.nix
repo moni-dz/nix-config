@@ -15,7 +15,7 @@ stdenvNoCC.mkDerivation rec {
     runHook prePatch
 
     substituteInPlace scss/gtk-3.0/_colors.scss \
-      --replace 16161c ${bg} \
+      --replace 16161c ${if theme.lightModeEnabled then fg else bg} \
       --replace 232530 ${c0} \
       --replace 2e303e ${c8} \
       --replace e95678 ${c1} \
@@ -26,7 +26,7 @@ stdenvNoCC.mkDerivation rec {
       --replace 26bbd9 ${c4} \
       --replace ee64ae ${c5} \
       --replace ec6a88 ${c9} \
-      --replace fdf0ed ${fg} \
+      --replace fdf0ed ${if theme.lightModeEnabled then bg else fg} \
       --replace aabbcc ${primary} \
       --replace ccbbaa ${secondary}
 
