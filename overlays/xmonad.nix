@@ -3,15 +3,15 @@ final: prev: {
     xmonad = prev.fetchFromGitHub {
       owner = "xmonad";
       repo = "xmonad";
-      rev = "131fd3669f6c2952d3094016d14873fdfe66f98c";
-      sha256 = "sha256-NU+QAAhCxnkuF9fn6AJ0vvgq4+dFwDHS7oDde2hPfEQ=";
+      rev = "a5cee9bac265485d3e85ea707aeeac5e34a94ba3";
+      sha256 = "sha256-+/4KpO8DzLSMQ3kBocSfgNn/Nz2YhBUeujpW75rYxSE=";
     };
 
     xmonad-contrib = prev.fetchFromGitHub {
       owner = "xmonad";
       repo = "xmonad-contrib";
-      rev = "a622c0808ffd00b479fad5e6d3c6b059f50777e4";
-      sha256 = "sha256-Zh9Yq+1UBkJNig6U/6TI2nURe/HQFU/OspekVTLxjOM=";
+      rev = "bf5dce592fb677e459f32ce0366290149bd7b4ec";
+      sha256 = "sha256-idN19eblF7n+LLveHWfieluzV+SVVy5A5v+Yqo14G/E=";
     };
   });
 }

@@ -403,7 +403,7 @@ in
     , "Alt-Super-s:            BSP: rotate"
     , "Ctrl-Left:              focus previous workspace"
     , "Ctrl-Right:             focus next workspace"
-    , "XF86AudioMute:          mute audio"
+    , "XF86AudioMute:          mute audio sink"
     , "XF86AudioPlay:          toggle play/pause"
     , "XF86AudioPrev:          go to previous"
     , "XF86AudioNext:          go to next"
