@@ -1,7 +1,7 @@
 { theme }:
 
 ''
-  #!/usr/bin/env dash
+  #!/bin/sh
 
   screenshot() {
     case "$1" in

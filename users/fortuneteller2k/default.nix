@@ -30,7 +30,7 @@ in
 
       ".local/bin/ccolor" = {
         executable = true;
-        text = import ./scripts/ccolor.nix;
+        text = import ./scripts/ccolor.nix { inherit pkgs; };
       };
 
       ".local/bin/palette" = {

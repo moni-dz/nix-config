@@ -1,5 +1,5 @@
 ''
-  #!/usr/bin/env dash
+  #!/bin/sh
 
   can() {
     echo "will $(tput setaf 3 && tput bold)$1$(tput sgr0) right away..."

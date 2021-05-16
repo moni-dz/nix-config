@@ -1,5 +1,5 @@
 ''
-  #!/usr/bin/env dash
+  #!/bin/sh
 
   printf "\n"
 
