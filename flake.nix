@@ -3,7 +3,7 @@
 
   inputs = {
     emacs = {
-      url = "github:mjlbach/emacs-overlay";
+      url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "unstable";
     };
 
@@ -23,7 +23,7 @@
     stable.url = "github:nixos/nixpkgs/release-20.09";
     staging.url = "github:nixos/nixpkgs/staging";
     staging-next.url = "github:nixos/nixpkgs/staging-next";
-    unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # NOTE: don't use this, if you're not me or a maintainer of the xanmod kernel in nixpkgs
     kernel.url = "github:fortuneteller2k/nixpkgs/update-xanmod-512";
