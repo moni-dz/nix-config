@@ -103,7 +103,6 @@ in
       alsaUtils
       brightnessctl
       caffeine-ng
-      connman-gtk
       coreutils
       curl
       dash
@@ -209,7 +208,13 @@ in
   };
 
   networking = {
+    dhcpcd.enable = false;
     hostName = "superfluous";
+
+    interfaces = {
+      eno1.useDHCP = true;
+      wlan0.useDHCP = true;
+    };
 
     nameservers = [
       "1.1.1.1"
@@ -218,14 +223,13 @@ in
       "8.8.4.4"
     ];
 
-    dhcpcd.enable = false;
-    useDHCP = false;
-
-    interfaces = {
-      eno1.useDHCP = true;
-      wlan0.useDHCP = true;
+    networkmanager = {
+      enable = true;
+      dns = "none";
+      wifi.backend = "iwd";
     };
 
+    useDHCP = false;
     wireless.iwd.enable = true;
   };
 
@@ -292,12 +296,6 @@ in
         "2.nixos.pool.ntp.org"
         "3.nixos.pool.ntp.org"
       ];
-    };
-
-    connman = {
-      enable = true;
-      package = pkgs.connmanFull;
-      wifi.backend = "iwd";
     };
 
     irqbalance.enable = true;
