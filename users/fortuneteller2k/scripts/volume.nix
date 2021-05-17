@@ -1,5 +1,5 @@
 ''
-  #!/usr/bin/env dash
+  #!/bin/sh
 
   MAX_VOLUME=0
 
