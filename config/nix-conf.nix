@@ -1,8 +1,6 @@
 { inputs, system, nixpkgs }:
 
 rec {
-  autoOptimiseStore = true;
-
   binaryCaches = [
     "https://cache.nixos.org"
     "https://cache.ngi0.nixos.org/"
@@ -36,12 +34,19 @@ rec {
 
   maxJobs = 4;
 
-  nixPath = let path = toString ../.; in
+  nixPath =
+    let path = toString ../.;
+    in
     [
       "repl=${path}/repl.nix"
       "nixpkgs=${nixpkgs}"
       "home-manager=${inputs.home}"
     ];
+
+  optimise = {
+    automatic = true;
+    dates = [ "03:00" ];
+  };
 
   package = nixpkgs.legacyPackages."${system}".nixFlakes;
 
