@@ -343,7 +343,7 @@ in
       enable = true;
 
       displayManager = {
-        gdm.enable = config.services.xserver.enable;
+        sddm.enable = config.services.xserver.enable;
         defaultSession = "none+xmonad";
       };
 
