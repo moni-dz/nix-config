@@ -1,4 +1,4 @@
-{ config, agenix, home, inputs, nixpkgs, input-overlays, nixpkgs-overlays, user-overlays, ... }:
+{ config, agenix, home, inputs, nixpkgs, overlays, ... }:
 
 nixpkgs.lib.nixosSystem rec {
   system = "x86_64-linux";
@@ -22,18 +22,7 @@ nixpkgs.lib.nixosSystem rec {
       };
 
       nix = import ../../config/nix-conf.nix { inherit inputs system nixpkgs; };
-
-      nixpkgs = {
-        inherit config;
-
-        overlays = with inputs; [
-          nixpkgs-overlays
-          emacs.overlay
-          nur.overlay
-          rust.overlay
-          input-overlays
-        ] ++ user-overlays;
-      };
+      nixpkgs = { inherit config overlays; };
     }
 
     ./configuration.nix

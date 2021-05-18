@@ -47,36 +47,39 @@
       importNixFiles = path: (lists.forEach (mapAttrsToList (name: _: path + ("/" + name))
         (filterAttrs filterNixFiles (builtins.readDir path)))) import;
 
-      user-overlays = importNixFiles ./overlays;
+      overlays = with inputs; [
+        (final: _:
+          let
+            system = final.stdenv.hostPlatform.system;
+          in
+          {
+            # input packages
+            agenix = agenix.defaultPackage.${system};
+            manix = manix.defaultPackage.${system};
+            neovim-nightly = neovim.packages.${system}.neovim;
 
-      input-overlays = final: _: with inputs;
-        let
-          system = final.stdenv.hostPlatform.system;
-        in
-        {
-          agenix = agenix.defaultPackage.${system};
-          manix = manix.defaultPackage.${system};
-          neovim-nightly = neovim.packages.${system}.neovim;
-        };
+            # nixpkgs branches
+            master = import master { inherit config system; };
+            unstable = import unstable { inherit config system; };
+            stable = import stable { inherit config system; };
+            staging = import staging { inherit config system; };
+            staging-next = import staging-next { inherit config system; };
 
-      nixpkgs-overlays = final: _: with inputs;
-        let
-          system = final.stdenv.hostPlatform.system;
-        in
-        {
-          master = import master { inherit config system; };
-          unstable = import unstable { inherit config system; };
-          stable = import stable { inherit config system; };
-          staging = import staging { inherit config system; };
-          staging-next = import staging-next { inherit config system; };
+            # NOTE: remove this, if you're not me or a maintainer of the xanmod kernel in nixpkgs
+            kernel = import inputs.kernel { inherit config system; };
+          })
 
-          # NOTE: remove this, if you're not me or a maintainer of the xanmod kernel in nixpkgs
-          kernel = import inputs.kernel { inherit config system; };
-        };
+        # input overlays
+        emacs.overlay
+        nur.overlay
+        rust.overlay
+      ]
+      # overlays from ./overlays directory
+      ++ (importNixFiles ./overlays);
     in
     {
       nixosConfigurations.superfluous = import ./hosts/superfluous {
-        inherit config agenix home inputs nixpkgs input-overlays nixpkgs-overlays user-overlays;
+        inherit config agenix home inputs nixpkgs overlays;
       };
 
       superfluous = self.nixosConfigurations.superfluous.config.system.build.toplevel;
