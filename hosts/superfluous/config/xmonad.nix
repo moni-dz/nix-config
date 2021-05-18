@@ -289,6 +289,7 @@ in
     , className  =? "Peek"                                 --> doFloat
     , className  =? "Xephyr"                               --> doFloat
     , className  =? "Sxiv"                                 --> doFloat
+    , className  =? "Electron"                             --> doFloat
     , appName    =? "desktop_window"                       --> doIgnore
     , appName    =? "kdesktop"                             --> doIgnore
     , isDialog                                             --> doF W.siftUp <+> doFloat
