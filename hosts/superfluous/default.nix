@@ -1,4 +1,4 @@
-{ config, agenix, home, inputs, nixpkgs, user-overlays, ... }:
+{ config, agenix, home, inputs, nixpkgs, input-overlays, nixpkgs-overlays, user-overlays, ... }:
 
 nixpkgs.lib.nixosSystem rec {
   system = "x86_64-linux";
@@ -23,36 +23,17 @@ nixpkgs.lib.nixosSystem rec {
 
       nix = import ../../config/nix-conf.nix { inherit inputs system nixpkgs; };
 
-      nixpkgs =
-        let
-          input-overlays = _: _: with inputs; {
-            agenix = agenix.defaultPackage.${system};
-            manix = manix.defaultPackage.${system};
-            neovim-nightly = neovim.packages.${system}.neovim;
-          };
+      nixpkgs = {
+        inherit config;
 
-          nixpkgs-overlays = _: _: with inputs; {
-            master = import master { inherit config system; };
-            unstable = import unstable { inherit config system; };
-            stable = import stable { inherit config system; };
-            staging = import staging { inherit config system; };
-            staging-next = import staging-next { inherit config system; };
-
-            # NOTE: remove this, if you're not me or a maintainer of the xanmod kernel in nixpkgs
-            kernel = import inputs.kernel { inherit config system; };
-          };
-        in
-        {
-          inherit config;
-
-          overlays = with inputs; [
-            nixpkgs-overlays
-            emacs.overlay
-            nur.overlay
-            rust.overlay
-            input-overlays
-          ] ++ user-overlays;
-        };
+        overlays = with inputs; [
+          nixpkgs-overlays
+          emacs.overlay
+          nur.overlay
+          rust.overlay
+          input-overlays
+        ] ++ user-overlays;
+      };
     }
 
     ./configuration.nix

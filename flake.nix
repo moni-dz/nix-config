@@ -48,10 +48,35 @@
         (filterAttrs filterNixFiles (builtins.readDir path)))) import;
 
       user-overlays = importNixFiles ./overlays;
+
+      input-overlays = final: _: with inputs;
+        let
+          system = final.stdenv.hostPlatform.system;
+        in
+        {
+          agenix = agenix.defaultPackage.${system};
+          manix = manix.defaultPackage.${system};
+          neovim-nightly = neovim.packages.${system}.neovim;
+        };
+
+      nixpkgs-overlays = final: _: with inputs;
+        let
+          system = final.stdenv.hostPlatform.system;
+        in
+        {
+          master = import master { inherit config system; };
+          unstable = import unstable { inherit config system; };
+          stable = import stable { inherit config system; };
+          staging = import staging { inherit config system; };
+          staging-next = import staging-next { inherit config system; };
+
+          # NOTE: remove this, if you're not me or a maintainer of the xanmod kernel in nixpkgs
+          kernel = import inputs.kernel { inherit config system; };
+        };
     in
     {
       nixosConfigurations.superfluous = import ./hosts/superfluous {
-        inherit config agenix home inputs nixpkgs user-overlays;
+        inherit config agenix home inputs nixpkgs input-overlays nixpkgs-overlays user-overlays;
       };
 
       superfluous = self.nixosConfigurations.superfluous.config.system.build.toplevel;
