@@ -53,10 +53,6 @@ in
         '';
       }
     ];
-
-    services.greetd.settings = {
-      default_session.command = "${pkgs.greetd.tuigreet}/bin/tuigreet --cmd ${pkgs.head.river}/bin/river";
-    };
   };
 
   meta.maintainers = with lib.maintainers; [ fortuneteller2k ];
