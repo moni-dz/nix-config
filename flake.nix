@@ -12,6 +12,7 @@
     manix.url = "github:mlvzk/manix";
     neovim.url = "github:nix-community/neovim-nightly-overlay";
     nur.url = "github:nix-community/NUR";
+    review.url = "github:Mic92/nixpkgs-review";
     rust.url = "github:oxalica/rust-overlay";
 
     # nixpkgs branches
@@ -57,6 +58,7 @@
             agenix = agenix.defaultPackage.${system};
             manix = manix.defaultPackage.${system};
             neovim-nightly = neovim.packages.${system}.neovim;
+            nixpkgs-review = review.defaultPackage.${system};
 
             # nixpkgs branches
             master = import master { inherit config system; };
