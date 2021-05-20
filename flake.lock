@@ -346,8 +346,6 @@
         "review": "review",
         "rust": "rust",
         "stable": "stable",
-        "staging": "staging",
-        "staging-next": "staging-next",
         "unstable": "unstable"
       }
     },
@@ -382,38 +380,6 @@
       "original": {
         "owner": "nixos",
         "ref": "release-20.09",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "staging": {
-      "locked": {
-        "lastModified": 1621389876,
-        "narHash": "sha256-8u+uYafADZZ42yCqM38PniMNeVGUXPXJceCpIVUNjzM=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "17689c66d46a2a1ff20ed3b1b83f8ac83aedf0bc",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "ref": "staging",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "staging-next": {
-      "locked": {
-        "lastModified": 1621385736,
-        "narHash": "sha256-3tt7NII4bj7qjtW0oqL+pswkvuB3HnGLbelwGi9GhmY=",
-        "owner": "nixos",
-        "repo": "nixpkgs",
-        "rev": "7000ae2b9a6a6748e87cb11c9a7e314ba63202de",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nixos",
-        "ref": "staging-next",
         "repo": "nixpkgs",
         "type": "github"
       }

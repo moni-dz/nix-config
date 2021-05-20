@@ -2,30 +2,24 @@
   description = "A somewhat huge NixOS configuration using Nix Flakes.";
 
   inputs = {
-    home = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     agenix.url = "github:ryantm/agenix";
     emacs.url = "github:nix-community/emacs-overlay";
+    home.url = "github:nix-community/home-manager";
     manix.url = "github:mlvzk/manix";
     neovim.url = "github:nix-community/neovim-nightly-overlay";
     nur.url = "github:nix-community/NUR";
     review.url = "github:Mic92/nixpkgs-review";
     rust.url = "github:oxalica/rust-overlay";
 
-    # nixpkgs branches
+    # Nixpkgs branches
     master.url = "github:nixos/nixpkgs/master";
     stable.url = "github:nixos/nixpkgs/release-20.09";
-    staging.url = "github:nixos/nixpkgs/staging";
-    staging-next.url = "github:nixos/nixpkgs/staging-next";
     unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    # NOTE: don't use this, if you're not me or a maintainer of the xanmod kernel in nixpkgs
+    # NOTE: don't use this, if you're not me or a maintainer of the XanMod kernel in Nixpkgs
     kernel.url = "github:fortuneteller2k/nixpkgs/update-xanmod-512";
 
-    # default nixpkgs for packages and modules
+    # Default Nixpkgs for packages and modules
     nixpkgs.follows = "unstable";
   };
 
@@ -54,29 +48,34 @@
             system = final.stdenv.hostPlatform.system;
           in
           {
-            # input packages
+            # Packages provided by flake inputs
             agenix = agenix.defaultPackage.${system};
             manix = manix.defaultPackage.${system};
             neovim-nightly = neovim.packages.${system}.neovim;
             nixpkgs-review = review.defaultPackage.${system};
 
-            # nixpkgs branches
+            /*
+              Nixpkgs branches
+
+              One can access these branches like so:
+
+              `pkgs.stable.mpd'
+              `pkgs.master.linuxPackages_xanmod'
+            */
             master = import master { inherit config system; };
             unstable = import unstable { inherit config system; };
             stable = import stable { inherit config system; };
-            staging = import staging { inherit config system; };
-            staging-next = import staging-next { inherit config system; };
 
-            # NOTE: remove this, if you're not me or a maintainer of the xanmod kernel in nixpkgs
+            # NOTE: Remove this, if you're not me or a maintainer of the XanMod kernel in Nixpkgs
             kernel = import inputs.kernel { inherit config system; };
           })
 
-        # input overlays
+        # Overlays provided by inputs
         emacs.overlay
         nur.overlay
         rust.overlay
       ]
-      # overlays from ./overlays directory
+      # Overlays from ./overlays directory
       ++ (importNixFiles ./overlays);
     in
     {

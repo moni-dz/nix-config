@@ -7,7 +7,7 @@ in
     /*
       NOTE: replace this with your desired kernel
 
-      If you're not me or a xanmod kernel maintainer, use pkgs.linuxPackages_xanmod instead.
+      If you're not me or a XanMod kernel maintainer, use pkgs.linuxPackages_xanmod instead.
     */
     kernelPackages = pkgs.kernel.linuxPackages_xanmod;
 
