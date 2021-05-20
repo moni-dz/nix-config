@@ -305,7 +305,7 @@ in
     mpd = {
       enable = true;
       package = pkgs.master.mpd;
-      musicDirectory = "${config.xdg.userDirs.music}";
+      musicDirectory = config.xdg.userDirs.music;
       extraConfig = import ./config/mpd.nix;
     };
 
