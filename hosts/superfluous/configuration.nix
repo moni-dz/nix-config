@@ -168,6 +168,7 @@ in
         TODO: use only when current is outdated
         iosevka-ft
       */
+      roboto-mono
       sarasa-gothic
       scientifica
       symbola
