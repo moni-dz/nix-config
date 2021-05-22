@@ -309,8 +309,8 @@ in
     picom = {
       enable = true;
       refreshRate = 60;
-      experimentalBackends = config.services.picom.backend == "glx";
-      backend = "xrender";
+      # experimentalBackends = config.services.picom.backend == "glx";
+      backend = "glx";
       vSync = true;
 
       settings = import ./config/picom-settings.nix;
