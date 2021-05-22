@@ -313,7 +313,7 @@ in
       }
 
   xmonadConfig dbus = def
-    { terminal           = "${wezterm}/bin/wezterm"
+    { terminal           = "${alacritty}/bin/alacritty"
     , focusFollowsMouse  = True
     , clickJustFocuses   = True
     , borderWidth        = ${theme.borderWidth}

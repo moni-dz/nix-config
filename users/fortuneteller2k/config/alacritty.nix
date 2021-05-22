@@ -9,11 +9,11 @@ with theme.colors; {
       style = "Light";
     };
 
-    size = 10.5;
+    size = 10;
 
     offset = {
-      x = -1;
-      y = 1;
+      x = 0;
+      y = 0;
     };
   };
 
