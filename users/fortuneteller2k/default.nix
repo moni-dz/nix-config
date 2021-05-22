@@ -87,10 +87,12 @@ in
       imv
       lazygit
       manix
+      neochat
       neofetch
       nixpkgs-fmt
       nixpkgs-review
       nur.repos.fortuneteller2k.impure.eww
+      nvd
       pfetch
       playerctl
       python3
@@ -157,7 +159,7 @@ in
 
     emacs = {
       enable = true;
-      package = pkgs.emacsGcc;
+      package = pkgs.emacsPgtkGcc;
     };
 
     exa = {
