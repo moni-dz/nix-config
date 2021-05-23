@@ -16,8 +16,12 @@
     stable.url = "github:nixos/nixpkgs/release-20.09";
     unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    # NOTE: don't use this, if you're not me or a maintainer of the XanMod kernel in Nixpkgs
-    kernel.url = "github:fortuneteller2k/nixpkgs/update-xanmod-512";
+    /*
+      NOTE: don't use this, if you're not me or a maintainer of the XanMod kernel in Nixpkgs
+
+      I nuke this branch from time to time.
+    */
+    # kernel.url = "github:fortuneteller2k/nixpkgs/update-xanmod-512";
 
     # Default Nixpkgs for packages and modules
     nixpkgs.follows = "unstable";
