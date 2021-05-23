@@ -2,7 +2,7 @@
 
 rec {
   binaryCaches = [
-    "https://cache.nixos.org"
+    "https://cache.nixos.org?priority=10"
     "https://cache.ngi0.nixos.org/"
     "https://mjlbach.cachix.org"
     "https://nix-community.cachix.org"
