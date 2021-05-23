@@ -13,7 +13,7 @@
 
     # Nixpkgs branches
     master.url = "github:nixos/nixpkgs/master";
-    stable.url = "github:nixos/nixpkgs/release-20.09";
+    stable.url = "github:nixos/nixpkgs/release-21.05";
     unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     /*
@@ -24,7 +24,7 @@
     # kernel.url = "github:fortuneteller2k/nixpkgs/update-xanmod-512";
 
     # Default Nixpkgs for packages and modules
-    nixpkgs.follows = "unstable";
+    nixpkgs.follows = "master";
   };
 
   outputs = { self, agenix, home, nixpkgs, ... } @ inputs:
