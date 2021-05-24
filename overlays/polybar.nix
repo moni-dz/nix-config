@@ -1,25 +1,13 @@
 final: prev: {
-  polybar = (prev.polybar.overrideAttrs (old: {
-    version = "unstable-2021-04-02";
-
-    src = prev.fetchFromGitHub {
-      owner = old.pname;
-      repo = old.pname;
-      rev = "2901e1e4769e8ffcf2def9ced9b7bda02763294c";
-      sha256 = "sha256-YDFANXiGRTQOJ4peH8hCUk90NauqCG2eiigxRAVpa2A=";
-      fetchSubmodules = true;
-    };
-
-    nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ prev.python3Packages.sphinx ];
-  })).override {
+  polybar = prev.poly.polybar.override {
     stdenv = prev.clangStdenv;
     i3Support = false;
     i3GapsSupport = false;
     alsaSupport = false;
-    iwSupport = true;
+    iwSupport = false;
     githubSupport = false;
     mpdSupport = true;
-    nlSupport = false;
+    nlSupport = true;
     pulseSupport = true;
   };
 }
