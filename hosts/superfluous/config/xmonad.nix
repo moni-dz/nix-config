@@ -301,7 +301,7 @@ in
   autostart = do
     spawnOnce "${xwallpaper}/bin/xwallpaper ${xwallpaperFlag} ${colors.wallpaper} &"
     spawnOnce "${xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr &"
-    spawnOnce "${polybar}/bin/polybar-msg cmd restart &"
+    spawnOnce "${systemd}/bin/systemctl --user restart polybar &"
     spawnOnce "${notify-desktop}/bin/notify-desktop -u critical 'xmonad' 'started successfully'"
 
   barHook dbus =
