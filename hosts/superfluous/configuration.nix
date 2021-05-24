@@ -115,7 +115,6 @@ in
       gnome3.nautilus
       gxmessage
       hacksaw
-      haskell-language-server
       hsetroot
       imagemagick
       jp2a
