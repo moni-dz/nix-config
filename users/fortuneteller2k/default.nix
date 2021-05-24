@@ -159,7 +159,7 @@ in
 
     emacs = {
       enable = true;
-      package = pkgs.emacsPgtkGcc;
+      # package = pkgs.emacsPgtkGcc;
     };
 
     exa = {
@@ -206,7 +206,7 @@ in
 
     neovim = {
       enable = true;
-      package = pkgs.neovim-nightly;
+      # package = pkgs.neovim-nightly;
       viAlias = true;
       vimAlias = true;
       vimdiffAlias = true;
