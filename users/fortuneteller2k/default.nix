@@ -86,6 +86,8 @@ in
       hyperfine
       imv
       lazygit
+      libimobiledevice
+      libirecovery
       manix
       neochat
       neofetch

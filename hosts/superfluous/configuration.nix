@@ -99,6 +99,7 @@ in
       _JAVA_AWT_WM_NONREPARENTING = "1";
     };
 
+    # Font packages should go in fonts.fonts a few lines below this.
     systemPackages = with pkgs; [
       alsaTools
       alsaUtils
@@ -212,6 +213,7 @@ in
     dhcpcd.enable = false;
     hostName = "superfluous";
 
+    # Replace with your interface names.
     interfaces = {
       eno1.useDHCP = true;
       wlan0.useDHCP = true;
@@ -335,12 +337,14 @@ in
     };
 
     tlp.enable = true;
-    upower.enable = true;
+    usbmuxd.enable = true;
 
     udev.extraRules = ''
       KERNEL=="rtc0", GROUP="audio"
       KERNEL=="hpet", GROUP="audio"
     '';
+
+    upower.enable = true;
 
     xserver = {
       enable = true;
@@ -354,9 +358,17 @@ in
       useGlamor = true;
 
       windowManager = {
+        /*
+          NOTE: I primarily use XMonad
+
+          See overlays/2bwm.nix for applied patches.
+        */
+        "2bwm".enable = false;
+
         xmonad = with pkgs; {
           enable = true;
           config = import ./config/xmonad.nix { inherit config pkgs theme; };
+          # Don't use enableContribAndExtras since xmonad-extras doesn't compile on the git versions.
           extraPackages = hpkgs: with hpkgs; [ dbus xmonad-contrib ];
 
           ghcArgs = [
