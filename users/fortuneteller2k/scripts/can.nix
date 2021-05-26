@@ -10,8 +10,8 @@
         ;;
       switch)
         doas nixos-rebuild switch
-        [ "$?" -eq 0 ] && /run/current-system/sw/bin/ls --color=auto -1 /nix/var/nix/profiles | tail -n 2 | awk '{print "/nix/var/nix/profiles/" $0}' - | xargs nvd diff
-        [ "$?" -eq 0 ] && /run/current-system/sw/bin/ls --color=auto -1 /nix/var/nix/profiles/per-user/fortuneteller2k | tail -n 4 | head -n 2 | awk '{print "/nix/var/nix/profiles/per-user/fortuneteller2k/" $0}' - | xargs nvd diff
+        [ "$?" -eq 0 ] && /run/current-system/sw/bin/ls -1 /nix/var/nix/profiles | tail -n 2 | awk '{print "/nix/var/nix/profiles/" $0}' - | xargs nvd diff
+        [ "$?" -eq 0 ] && /run/current-system/sw/bin/ls -1 /nix/var/nix/profiles/per-user/fortuneteller2k | tail -n 4 | head -n 2 | awk '{print "/nix/var/nix/profiles/per-user/fortuneteller2k/" $0}' - | xargs nvd diff
         ;;
       rollback)
         doas nixos-rebuild switch --rollback
@@ -27,8 +27,8 @@
         ;;
       upgrade)
         cd ~/.config/nix-config && nix flake update && doas nixos-rebuild switch && git add flake.lock && git commit -m "flake: bump flakes" && git push
-        [ "$?" -eq 0 ] && /run/current-system/sw/bin/ls --color=auto -1 /nix/var/nix/profiles | tail -n 2 | awk '{print "/nix/var/nix/profiles/" $0}' - | xargs nvd diff
-        [ "$?" -eq 0 ] && /run/current-system/sw/bin/ls --color=auto -1 /nix/var/nix/profiles/per-user/fortuneteller2k | tail -n 4 | head -n 2 | awk '{print "/nix/var/nix/profiles/per-user/fortuneteller2k/" $0}' - | xargs nvd diff
+        [ "$?" -eq 0 ] && /run/current-system/sw/bin/ls -1 /nix/var/nix/profiles | tail -n 2 | awk '{print "/nix/var/nix/profiles/" $0}' - | xargs nvd diff
+        [ "$?" -eq 0 ] && /run/current-system/sw/bin/ls -1 /nix/var/nix/profiles/per-user/fortuneteller2k | tail -n 4 | head -n 2 | awk '{print "/nix/var/nix/profiles/per-user/fortuneteller2k/" $0}' - | xargs nvd diff
         ;;
       info)
         cd /etc/nixos || return 1
