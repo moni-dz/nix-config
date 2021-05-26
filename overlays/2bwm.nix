@@ -1,11 +1,6 @@
 final: prev: {
   _2bwm = prev._2bwm.overrideAttrs (old: {
-    src = prev.fetchFromGitHub {
-      owner = "venam";
-      repo = old.pname;
-      rev = "148d83254ca5f0fbc464ced5c487103aaf959559";
-      sha256 = "sha256-f/wYty1C0OD7Cc2djTo17EpFS26+HRJAZ1K4zLWOo3s=";
-    };
+    src = prev.slock-src;
 
     # libX11 is a dependency of twobwm_config.patch
     buildInputs = (old.buildInputs or [ ]) ++ [ prev.xorg.libX11 ];

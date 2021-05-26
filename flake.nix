@@ -2,6 +2,14 @@
   description = "A somewhat huge NixOS configuration using Nix Flakes.";
 
   inputs = {
+    # Non-flake inputs
+    phocus = { url = "github:fortuneteller2k/gtk"; flake = false; };
+    slock = { url = "github:khuedoan/slock"; flake = false; };
+    twobwm = { url = "github:venam/2bwm"; flake = false; };
+    xmonad = { url = "github:xmonad/xmonad"; flake = false; };
+    xmonad-contrib = { url = "github:xmonad/xmonad-contrib"; flake = false; };
+
+    # Flake inputs
     agenix.url = "github:ryantm/agenix";
     emacs.url = "github:nix-community/emacs-overlay";
     home.url = "github:nix-community/home-manager";
@@ -58,6 +66,13 @@
             manix = manix.defaultPackage.${system};
             neovim-nightly = neovim.packages.${system}.neovim;
             nixpkgs-review = review.defaultPackage.${system};
+
+            # Sources provided by non-flake inputs, to be used in overlays and derivations
+            phocus-src = phocus;
+            slock-src = slock;
+            twobwm-src = twobwm;
+            xmonad-src = xmonad;
+            xmonad-contrib-src = xmonad-contrib;
 
             /*
               Nixpkgs branches
