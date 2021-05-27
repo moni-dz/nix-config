@@ -6,6 +6,8 @@
     phocus = { url = "github:fortuneteller2k/gtk"; flake = false; };
     slock = { url = "github:khuedoan/slock"; flake = false; };
     twobwm = { url = "github:venam/2bwm"; flake = false; };
+    vim-flowtune = { url = "github:fortuneteller2k/vim-flowtune"; flake = false; };
+    vim-horizon = { url = "github:fortuneteller2k/vim-horizon"; flake = false; };
     xmonad = { url = "github:xmonad/xmonad"; flake = false; };
     xmonad-contrib = { url = "github:xmonad/xmonad-contrib"; flake = false; };
 
@@ -70,6 +72,8 @@
             phocus-src = phocus;
             slock-src = slock;
             twobwm-src = twobwm;
+            vim-flowtune-src = vim-flowtune;
+            vim-horizon-src = vim-horizon;
             xmonad-src = xmonad;
             xmonad-contrib-src = xmonad-contrib;
 

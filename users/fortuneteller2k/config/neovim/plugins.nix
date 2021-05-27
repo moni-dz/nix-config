@@ -8,13 +8,7 @@ let
     then {
       plugin = vimUtils.buildVimPlugin rec {
         name = "vim-horizon";
-
-        src = fetchFromGitHub {
-          owner = "fortuneteller2k";
-          repo = name;
-          rev = "e0c0a68f59ba6337517ded340391bab3f8476363";
-          sha256 = "sha256-3NT7ggghEljttcoWzgigK4m0sHOGA+M6k2sYooEAYdM=";
-        };
+        src = vim-horizon-src;
       };
 
       config = "colorscheme ${colors.vimColorscheme}";
@@ -22,13 +16,7 @@ let
     else {
       plugin = vimUtils.buildVimPlugin rec {
         name = "vim-flowtune";
-
-        src = fetchFromGitHub {
-          owner = "fortuneteller2k";
-          repo = name;
-          rev = "e4b54733e8e5aa7b1b0f17ca4476f2a9bd91abe9";
-          sha256 = "sha256-mlIhQi6noq7Hb0LQ8cQzWyZRxiHSrsok56Zl4wLEaHI=";
-        };
+        src = vim-flowtune-src;
       };
 
       config = "colorscheme ${colors.vimColorscheme}";
