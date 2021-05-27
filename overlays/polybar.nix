@@ -1,6 +1,5 @@
 final: prev: {
-  polybar = prev.poly.polybar.override {
-    stdenv = prev.clangStdenv;
+  polybar = prev.polybar.override {
     i3Support = false;
     i3GapsSupport = false;
     alsaSupport = false;

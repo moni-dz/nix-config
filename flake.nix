@@ -23,7 +23,6 @@
     master.url = "github:nixos/nixpkgs/master";
     stable.url = "github:nixos/nixpkgs/release-21.05";
     unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    polybar.url = "github:fortuneteller2k/nixpkgs/polybar";
 
     /*
       NOTE: don't use this, if you're not me or a maintainer of the XanMod kernel in Nixpkgs
@@ -85,7 +84,6 @@
             master = import master { inherit config system; };
             unstable = import unstable { inherit config system; };
             stable = import stable { inherit config system; };
-            poly = import polybar { inherit config system; };
 
             # NOTE: Remove this, if you're not me or a maintainer of the XanMod kernel in Nixpkgs
             kernel = import inputs.kernel { inherit config system; };
