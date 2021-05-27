@@ -323,6 +323,8 @@
         "stable": "stable",
         "twobwm": "twobwm",
         "unstable": "unstable",
+        "vim-flowtune": "vim-flowtune",
+        "vim-horizon": "vim-horizon",
         "xmonad": "xmonad",
         "xmonad-contrib": "xmonad-contrib"
       }
@@ -407,6 +409,38 @@
         "owner": "nixos",
         "ref": "nixpkgs-unstable",
         "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "vim-flowtune": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1619428971,
+        "narHash": "sha256-mlIhQi6noq7Hb0LQ8cQzWyZRxiHSrsok56Zl4wLEaHI=",
+        "owner": "fortuneteller2k",
+        "repo": "vim-flowtune",
+        "rev": "e4b54733e8e5aa7b1b0f17ca4476f2a9bd91abe9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "fortuneteller2k",
+        "repo": "vim-flowtune",
+        "type": "github"
+      }
+    },
+    "vim-horizon": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1613821630,
+        "narHash": "sha256-3NT7ggghEljttcoWzgigK4m0sHOGA+M6k2sYooEAYdM=",
+        "owner": "fortuneteller2k",
+        "repo": "vim-horizon",
+        "rev": "e0c0a68f59ba6337517ded340391bab3f8476363",
+        "type": "github"
+      },
+      "original": {
+        "owner": "fortuneteller2k",
+        "repo": "vim-horizon",
         "type": "github"
       }
     },
