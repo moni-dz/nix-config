@@ -71,7 +71,7 @@ in
       brave
       cargo
       celluloid
-      discord
+      discord-canary
       dragon-drop
       element-desktop
       ffmpeg
@@ -161,7 +161,7 @@ in
 
     emacs = {
       enable = true;
-      # package = pkgs.emacsPgtkGcc;
+      package = pkgs.emacsPgtkGcc;
     };
 
     exa = {
