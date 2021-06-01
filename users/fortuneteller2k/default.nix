@@ -104,6 +104,7 @@ in
       rnix-lsp
       speedtest-cli
       spotify-wrapped
+      sublime4
       torrential
       ueberzug
       wezterm

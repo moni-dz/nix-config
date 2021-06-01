@@ -23,7 +23,7 @@
 
     # Nixpkgs branches
     master.url = "github:nixos/nixpkgs/master";
-    stable.url = "github:nixos/nixpkgs/release-21.05";
+    stable.url = "github:nixos/nixpkgs/nixos-21.05";
     unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
     /*
