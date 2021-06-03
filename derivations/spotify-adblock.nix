@@ -1,12 +1,11 @@
 { lib, fetchurl }:
 
-let
-  version = "1.4";
-in
-fetchurl rec {
+let version = "1.4";
+in fetchurl rec {
   name = "spotify-adblock-${version}";
 
-  url = "https://github.com/abba23/spotify-adblock-linux/releases/download/v${version}/spotify-adblock.so";
+  url =
+    "https://github.com/abba23/spotify-adblock-linux/releases/download/v${version}/spotify-adblock.so";
 
   sha256 = "sha256-MOjQGCaBQcXT/x9m7tO0oBjtpEumHaypGAX/wFt+H/w=";
 

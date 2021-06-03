@@ -3,26 +3,22 @@
 with pkgs;
 
 let
-  colorscheme =
-    if colors.vimColorscheme == "horizon"
-    then {
-      plugin = vimUtils.buildVimPlugin rec {
-        name = "vim-horizon";
-        src = vim-horizon-src;
-      };
-
-      config = "colorscheme ${colors.vimColorscheme}";
-    }
-    else {
-      plugin = vimUtils.buildVimPlugin rec {
-        name = "vim-flowtune";
-        src = vim-flowtune-src;
-      };
-
-      config = "colorscheme ${colors.vimColorscheme}";
+  colorscheme = if colors.vimColorscheme == "horizon" then {
+    plugin = vimUtils.buildVimPlugin rec {
+      name = "vim-horizon";
+      src = vim-horizon-src;
     };
-in
-with vimPlugins; [
+
+    config = "colorscheme ${colors.vimColorscheme}";
+  } else {
+    plugin = vimUtils.buildVimPlugin rec {
+      name = "vim-flowtune";
+      src = vim-flowtune-src;
+    };
+
+    config = "colorscheme ${colors.vimColorscheme}";
+  };
+in with vimPlugins; [
   coc-nvim
   colorscheme
   vim-hexokinase

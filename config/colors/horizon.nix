@@ -20,38 +20,38 @@ rec {
   c14 = "6be6e6";
   c15 = "fdf0ed";
 
-  primary =
-    if primaryColor == "red"
-    then c1
-    else if primaryColor == "green"
-    then c2
-    else if primaryColor == "yellow"
-    then c3
-    else if primaryColor == "magenta"
-    then c5
-    else c4;
+  primary = if primaryColor == "red" then
+    c1
+  else if primaryColor == "green" then
+    c2
+  else if primaryColor == "yellow" then
+    c3
+  else if primaryColor == "magenta" then
+    c5
+  else
+    c4;
 
-  secondary =
-    if primaryColor == "red"
-    then c2
-    else if primaryColor == "green"
-    then c5
-    else if primaryColor == "yellow"
-    then c1
-    else if primaryColor == "magenta"
-    then c3
-    else c5;
+  secondary = if primaryColor == "red" then
+    c2
+  else if primaryColor == "green" then
+    c5
+  else if primaryColor == "yellow" then
+    c1
+  else if primaryColor == "magenta" then
+    c3
+  else
+    c5;
 
-  primaryBright =
-    if primaryColor == "red"
-    then c9
-    else if primaryColor == "green"
-    then c10
-    else if primaryColor == "yellow"
-    then c11
-    else if primaryColor == "magenta"
-    then c13
-    else c12;
+  primaryBright = if primaryColor == "red" then
+    c9
+  else if primaryColor == "green" then
+    c10
+  else if primaryColor == "yellow" then
+    c11
+  else if primaryColor == "magenta" then
+    c13
+  else
+    c12;
 
   muted = "204571";
   transparent = "00000000";
@@ -61,18 +61,18 @@ rec {
   highlightColor = primary;
   vimColorscheme = "horizon";
 
-  wallpaper =
-    if primaryColor == "red"
-    then "${wallpaperPath}/horizon.jpg"
-    else if primaryColor == "green"
-    then "${wallpaperPath}/riki.jpg"
-    else if primaryColor == "yellow"
-    then "${wallpaperPath}/dota_stars_wallpaper.jpg"
-    else if primaryColor == "blue"
-    then "${wallpaperPath}/enigma.png"
-    else if primaryColor == "magenta"
-    then "${wallpaperPath}/dota_stars_wallpaper.jpg"
-    else "${wallpaperPath}/voidclose.png";
+  wallpaper = if primaryColor == "red" then
+    "${wallpaperPath}/horizon.jpg"
+  else if primaryColor == "green" then
+    "${wallpaperPath}/riki.jpg"
+  else if primaryColor == "yellow" then
+    "${wallpaperPath}/dota_stars_wallpaper.jpg"
+  else if primaryColor == "blue" then
+    "${wallpaperPath}/enigma.png"
+  else if primaryColor == "magenta" then
+    "${wallpaperPath}/dota_stars_wallpaper.jpg"
+  else
+    "${wallpaperPath}/voidclose.png";
 
   tiledWallpaper = false;
 }

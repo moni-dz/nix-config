@@ -3,10 +3,8 @@
 with pkgs;
 with theme;
 
-let
-  xwallpaperFlag = if colors.tiledWallpaper then "--tile" else "--zoom";
-in
-''
+let xwallpaperFlag = if colors.tiledWallpaper then "--tile" else "--zoom";
+in ''
   {-# LANGUAGE FlexibleContexts #-}
 
   -- fortuneteller2k's XMonad config

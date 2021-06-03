@@ -7,7 +7,12 @@
     case "$1" in
       area)
         # shellcheck disable=SC2046
-        shotgun $(hacksaw -c "#${if theme.lightModeEnabled then theme.colors.fg else theme.colors.primary}" -f '-i %i -g %g') - | xclip -t 'image/png' -selection clipboard
+        shotgun $(hacksaw -c "#${
+          if theme.lightModeEnabled then
+            theme.colors.fg
+          else
+            theme.colors.primary
+        }" -f '-i %i -g %g') - | xclip -t 'image/png' -selection clipboard
         ;;
       full)
         shotgun ~/Media/Pictures/screenshots/"$(date '+%B-%d-%Y-%I:%M-%p')".png

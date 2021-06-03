@@ -13,5 +13,6 @@
   mv = "mv -i";
   cp = "cp -i";
   rm = "rm -i";
-  repl = ''. /etc/set-environment && nix repl "$(echo "$NIX_PATH" | perl -pe 's|.*(/nix/store/.*-source/repl.nix).*|\1|')"'';
+  repl = ''
+    . /etc/set-environment && nix repl "$(echo "$NIX_PATH" | perl -pe 's|.*(/nix/store/.*-source/repl.nix).*|\1|')"'';
 }
