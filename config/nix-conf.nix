@@ -34,14 +34,12 @@ rec {
 
   maxJobs = 4;
 
-  nixPath =
-    let path = toString ../.;
-    in
-    [
-      "repl=${path}/repl.nix"
-      "nixpkgs=${nixpkgs}"
-      "home-manager=${inputs.home}"
-    ];
+  nixPath = let path = toString ../.;
+  in [
+    "repl=${path}/repl.nix"
+    "nixpkgs=${nixpkgs}"
+    "home-manager=${inputs.home}"
+  ];
 
   optimise = {
     automatic = true;

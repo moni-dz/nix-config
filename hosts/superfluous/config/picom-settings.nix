@@ -1,18 +1,17 @@
 {
-  /*
-    blur = {
-    method = "dual_kawase";
-    strength = 7;
-    background = false;
-    background-frame = false;
-    background-fixed = false;
-    };
+  /* blur = {
+     method = "dual_kawase";
+     strength = 7;
+     background = false;
+     background-frame = false;
+     background-fixed = false;
+     };
 
-    blur-background-exclude = [
-    "window_type = 'dock'"
-    "window_type = 'desktop'"
-    "_GTK_FRAME_EXTENTS@:c"
-    ];
+     blur-background-exclude = [
+     "window_type = 'dock'"
+     "window_type = 'desktop'"
+     "_GTK_FRAME_EXTENTS@:c"
+     ];
   */
   inactive-dim = 0.5;
 

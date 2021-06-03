@@ -1,4 +1,5 @@
-{ lib, rustPlatform, fetchFromGitHub, cmake, curl, expat, freetype, openssl, pkg-config }:
+{ lib, rustPlatform, fetchFromGitHub, cmake, curl, expat, freetype, openssl
+, pkg-config }:
 
 rustPlatform.buildRustPackage rec {
   pname = "neovide";
@@ -13,11 +14,7 @@ rustPlatform.buildRustPackage rec {
 
   nativeBuildInputs = [ cmake pkg-config curl ];
 
-  buildInputs = [
-    openssl
-    expat
-    freetype
-  ];
+  buildInputs = [ openssl expat freetype ];
 
   cargoSha256 = "sha256-NQrslwqacXIx4jZRs6kAX2gkUyhrMZo+jFLr6z3Aj/Y=";
 

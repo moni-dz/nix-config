@@ -1,13 +1,11 @@
 { config, lib, pkgs, options, ... }:
 
 let theme = import ../../config/theme.nix;
-in
-{
+in {
   boot = {
-    /*
-      NOTE: replace this with your desired kernel
+    /* NOTE: replace this with your desired kernel
 
-      If you're not me or a XanMod kernel maintainer, use pkgs.linuxPackages_xanmod instead.
+       If you're not me or a XanMod kernel maintainer, use pkgs.linuxPackages_xanmod instead.
     */
     kernelPackages = pkgs.master.linuxPackages_xanmod;
 
@@ -66,16 +64,14 @@ in
     };
   };
 
-  console =
-    let
-      normal = with theme.colors; [ c0 c1 c2 c3 c4 c5 c6 c7 ];
-      bright = with theme.colors; [ c8 c9 c10 c11 c12 c13 c14 c15 ];
-    in
-    {
-      colors = normal ++ bright;
-      font = "Lat2-Terminus16";
-      keyMap = "us";
-    };
+  console = let
+    normal = with theme.colors; [ c0 c1 c2 c3 c4 c5 c6 c7 ];
+    bright = with theme.colors; [ c8 c9 c10 c11 c12 c13 c14 c15 ];
+  in {
+    colors = normal ++ bright;
+    font = "Lat2-Terminus16";
+    keyMap = "us";
+  };
 
   hardware = {
     cpu = {
@@ -105,13 +101,12 @@ in
   };
 
   environment = {
-    /*
-      NOTE: This isn't found in https://search.nixos.org/options.
+    /* NOTE: This isn't found in https://search.nixos.org/options.
 
-      Here's the warning that came with it:
+       Here's the warning that came with it:
 
-      "Please note that NixOS assumes all over the place that shell to be Bash,
-      so override the default setting only if you know exactly what you're doing."
+       "Please note that NixOS assumes all over the place that shell to be Bash,
+       so override the default setting only if you know exactly what you're doing."
     */
     binsh = "${pkgs.mksh}/bin/mksh";
     pathsToLink = [ "/share/zsh" ];
@@ -189,9 +184,8 @@ in
       mplus-outline-fonts
       nerdfonts
       nur.repos.fortuneteller2k.iosevka-ft-bin
-      /*
-        TODO: use only when current is outdated
-        iosevka-ft
+      /* TODO: use only when current is outdated
+         iosevka-ft
       */
       roboto-mono
       sarasa-gothic
@@ -206,17 +200,9 @@ in
       enable = true;
 
       defaultFonts = {
-        serif = [
-          "Sarasa Gothic C"
-          "Sarasa Gothic J"
-          "Sarasa Gothic K"
-        ];
+        serif = [ "Sarasa Gothic C" "Sarasa Gothic J" "Sarasa Gothic K" ];
 
-        sansSerif = [
-          "Sarasa Gothic C"
-          "Sarasa Gothic J"
-          "Sarasa Gothic K"
-        ];
+        sansSerif = [ "Sarasa Gothic C" "Sarasa Gothic J" "Sarasa Gothic K" ];
 
         monospace = [
           "Iosevka FT"
@@ -241,12 +227,7 @@ in
       wlan0.useDHCP = true;
     };
 
-    nameservers = [
-      "1.1.1.1"
-      "1.0.0.1"
-      "8.8.8.8"
-      "8.8.4.4"
-    ];
+    nameservers = [ "1.1.1.1" "1.0.0.1" "8.8.8.8" "8.8.4.4" ];
 
     networkmanager = {
       enable = true;
@@ -263,7 +244,7 @@ in
   programs = {
     bash = {
       promptInit = ''eval "$(${pkgs.starship}/bin/starship init bash)"'';
-      interactiveShellInit = ''export HISTFILE=$HOME/.config/.bash_history'';
+      interactiveShellInit = "export HISTFILE=$HOME/.config/.bash_history";
     };
 
     command-not-found.enable = false;
@@ -380,10 +361,9 @@ in
       useGlamor = true;
 
       windowManager = {
-        /*
-          NOTE: I primarily use XMonad
+        /* NOTE: I primarily use XMonad
 
-          See overlays/2bwm.nix for applied patches.
+           See overlays/2bwm.nix for applied patches.
         */
         "2bwm".enable = false;
 
@@ -429,33 +409,32 @@ in
 
   system = {
     userActivationScripts = {
-      reloadWallpaper.text =
-        let
-          xwallpaperFlag = if theme.colors.tiledWallpaper then "--tile" else "--zoom";
-        in
-        if config.services.xserver.enable then
-          "[ $DISPLAY ] && ${pkgs.xwallpaper}/bin/xwallpaper ${xwallpaperFlag} ${theme.colors.wallpaper} || ${pkgs.coreutils}/bin/echo 'skipping...'"
-        else
-          "${pkgs.coreutils}/bin/echo 'skipping because on wayland...'";
+      reloadWallpaper.text = let
+        xwallpaperFlag =
+          if theme.colors.tiledWallpaper then "--tile" else "--zoom";
+      in if config.services.xserver.enable then
+        "[ $DISPLAY ] && ${pkgs.xwallpaper}/bin/xwallpaper ${xwallpaperFlag} ${theme.colors.wallpaper} || ${pkgs.coreutils}/bin/echo 'skipping...'"
+      else
+        "${pkgs.coreutils}/bin/echo 'skipping because on wayland...'";
 
-      reloadXMonad.text =
-        if config.services.xserver.enable && config.services.xserver.windowManager.xmonad.enable then
-          "[ $DISPLAY ] && ${pkgs.xmonad-with-packages}/bin/xmonad --restart || echo 'not in xmonad, skipping...' || ${pkgs.coreutils}/bin/echo 'skipping...'"
-        else
-          "${pkgs.coreutils}/bin/echo 'skipping because on wayland...'";
+      reloadXMonad.text = if config.services.xserver.enable
+      && config.services.xserver.windowManager.xmonad.enable then
+        "[ $DISPLAY ] && ${pkgs.xmonad-with-packages}/bin/xmonad --restart || echo 'not in xmonad, skipping...' || ${pkgs.coreutils}/bin/echo 'skipping...'"
+      else
+        "${pkgs.coreutils}/bin/echo 'skipping because on wayland...'";
     };
 
-    /*
-      NOTE: DO NOT CHANGE THIS IF YOU DON'T KNOW WHAT YOU'RE DOING.
+    /* NOTE: DO NOT CHANGE THIS IF YOU DON'T KNOW WHAT YOU'RE DOING.
 
-      Only change this if you are ABSOLUTELY 100% SURE that you don't have stateful data.
+       Only change this if you are ABSOLUTELY 100% SURE that you don't have stateful data.
     */
     stateVersion = "21.05";
   };
 
   systemd = {
     extraConfig = "RebootWatchdogSec=5";
-    services.rtkit-daemon = import ./services/rtkit-daemon.nix { inherit pkgs; };
+    services.rtkit-daemon =
+      import ./services/rtkit-daemon.nix { inherit pkgs; };
 
     user.services = {
       pipewire.wantedBy = [ "default.target" ];
@@ -471,13 +450,7 @@ in
     home = "/home/fortuneteller2k";
     shell = pkgs.zsh;
 
-    extraGroups = [
-      "wheel"
-      "networkmanager"
-      "video"
-      "audio"
-      "realtime"
-    ];
+    extraGroups = [ "wheel" "networkmanager" "video" "audio" "realtime" ];
   };
 
   zramSwap = {

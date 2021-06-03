@@ -2,10 +2,8 @@
 
 with lib;
 
-let
-  cfg = config.programs.river;
-in
-{
+let cfg = config.programs.river;
+in {
   options.programs.river = {
     enable = mkEnableOption "river, a dynamic tiling Wayland compositor";
 
@@ -43,16 +41,14 @@ in
     programs.dconf.enable = mkDefault true;
     programs.xwayland.enable = mkDefault true;
 
-    services.xserver.displayManager.session = [
-      {
-        manage = "window";
-        name = "river";
-        start = ''
-          systemd-cat -t river -- ${pkgs.river}/bin/river &
-          waitPID=$!
-        '';
-      }
-    ];
+    services.xserver.displayManager.session = [{
+      manage = "window";
+      name = "river";
+      start = ''
+        systemd-cat -t river -- ${pkgs.river}/bin/river &
+        waitPID=$!
+      '';
+    }];
   };
 
   meta.maintainers = with lib.maintainers; [ fortuneteller2k ];

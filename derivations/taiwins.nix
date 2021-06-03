@@ -1,27 +1,6 @@
-{ lib
-, stdenv
-, fetchFromGitHub
-, meson
-, ninja
-, pkg-config
-, wayland
-, cairo
-, fontconfig
-, freetype
-, libdrm
-, libinput
-, libGL
-, librsvg
-, libX11
-, libxcb
-, libxkbcommon
-, linux-pam
-, lua5_3
-, mesa
-, wayland-protocols
-, xwayland
-, pixman
-}:
+{ lib, stdenv, fetchFromGitHub, meson, ninja, pkg-config, wayland, cairo
+, fontconfig, freetype, libdrm, libinput, libGL, librsvg, libX11, libxcb
+, libxkbcommon, linux-pam, lua5_3, mesa, wayland-protocols, xwayland, pixman }:
 
 stdenv.mkDerivation rec {
   pname = "taiwins";

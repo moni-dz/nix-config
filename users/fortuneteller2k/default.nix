@@ -1,9 +1,7 @@
 { config, inputs, lib, pkgs, ... }:
 
-let
-  theme = import ../../config/theme.nix;
-in
-{
+let theme = import ../../config/theme.nix;
+in {
   fonts.fontconfig.enable = true;
 
   gtk = {
@@ -12,7 +10,8 @@ in
 
     iconTheme = {
       package = pkgs.papirus-icon-theme;
-      name = "${if theme.lightModeEnabled then "Papirus-Light" else "Papirus-Dark"}";
+      name =
+        "${if theme.lightModeEnabled then "Papirus-Light" else "Papirus-Dark"}";
     };
 
     theme = {
@@ -55,11 +54,10 @@ in
 
       ".config/qt5ct/colors/Horizon.conf".source = ./config/Horizon.conf;
 
-      ".icons/default".source = "${
-        if theme.lightModeEnabled
-        then "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ"
-        else "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ-AA"
-      }";
+      ".icons/default".source = "${if theme.lightModeEnabled then
+        "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ"
+      else
+        "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ-AA"}";
     };
 
     homeDirectory = "/home/${config.home.username}";
@@ -126,10 +124,9 @@ in
       RUSTUP_HOME = "${config.home.homeDirectory}/.local/share/rustup";
     };
 
-    /*
-      NOTE: DO NOT CHANGE THIS IF YOU DON'T KNOW WHAT YOU'RE DOING.
+    /* NOTE: DO NOT CHANGE THIS IF YOU DON'T KNOW WHAT YOU'RE DOING.
 
-      Only change this if you are ABSOLUTELY 100% SURE that you don't have stateful data.
+       Only change this if you are ABSOLUTELY 100% SURE that you don't have stateful data.
     */
     stateVersion = "21.05";
   };
@@ -182,19 +179,19 @@ in
         show_cpu_usage = true;
         show_program_path = false;
         show_thread_names = true;
-      }
-      // (with config.lib.htop; leftMeters {
-        AllCPUs = modes.Bar;
-        Memory = modes.Bar;
-        Swap = modes.Bar;
-        Zram = modes.Bar;
-      })
-      // (with config.lib.htop; rightMeters {
-        Tasks = modes.Text;
-        LoadAverage = modes.Text;
-        Uptime = modes.Text;
-        Systemd = modes.Text;
-      });
+      } // (with config.lib.htop;
+        leftMeters {
+          AllCPUs = modes.Bar;
+          Memory = modes.Bar;
+          Swap = modes.Bar;
+          Zram = modes.Bar;
+        }) // (with config.lib.htop;
+          rightMeters {
+            Tasks = modes.Text;
+            LoadAverage = modes.Text;
+            Uptime = modes.Text;
+            Systemd = modes.Text;
+          });
     };
 
     mako = {
@@ -236,34 +233,26 @@ in
       extraConfig = import ./config/qutebrowser.nix;
     };
 
-    vscode =
-      let
-        extraPackages = pkgs: with pkgs; [
-          rustup
-        ];
-      in
-      {
-        enable = true;
-        package = pkgs.vscode.fhsWithPackages (pkgs: extraPackages pkgs);
-      };
+    vscode = let extraPackages = pkgs: with pkgs; [ rustup ];
+    in {
+      enable = true;
+      package = pkgs.vscode.fhsWithPackages (pkgs: extraPackages pkgs);
+    };
 
     waybar = {
       enable = config.wayland.windowManager.sway.enable;
 
-      settings = [
-        {
-          layer = "bottom";
-          position = "top";
-          height = 17;
-          modules-left = [ "sway/workspaces" "sway/mode" ];
-          modules-right = [ "battery" "pulseaudio" "network" "clock" ];
-          modules = import ./config/waybar/modules.nix;
-        }
-      ];
+      settings = [{
+        layer = "bottom";
+        position = "top";
+        height = 17;
+        modules-left = [ "sway/workspaces" "sway/mode" ];
+        modules-right = [ "battery" "pulseaudio" "network" "clock" ];
+        modules = import ./config/waybar/modules.nix;
+      }];
 
       style = import ./config/waybar/style.nix { inherit theme; };
     };
-
 
     zathura = {
       enable = true;
@@ -347,19 +336,17 @@ in
     enable = true;
 
     configFile = {
-      "nvim/coc-settings.json".source =
-        let
-          json = pkgs.formats.json { };
-          neovim-coc-settings = import ./config/neovim/coc-settings.nix { inherit pkgs; };
-        in
-        json.generate "coc-settings.json" neovim-coc-settings;
+      "nvim/coc-settings.json".source = let
+        json = pkgs.formats.json { };
+        neovim-coc-settings =
+          import ./config/neovim/coc-settings.nix { inherit pkgs; };
+      in json.generate "coc-settings.json" neovim-coc-settings;
 
-      "wezterm/colors/nix-colors.toml".source =
-        let
-          toml = pkgs.formats.toml { };
-          wezterm-colors = import ./config/wezterm-colors.nix { inherit (theme) colors; };
-        in
-        toml.generate "nix-colors.toml" wezterm-colors;
+      "wezterm/colors/nix-colors.toml".source = let
+        toml = pkgs.formats.toml { };
+        wezterm-colors =
+          import ./config/wezterm-colors.nix { inherit (theme) colors; };
+      in toml.generate "nix-colors.toml" wezterm-colors;
 
       "wezterm/wezterm.lua".text = ''
         local w = require 'wezterm';

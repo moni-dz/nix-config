@@ -11,9 +11,10 @@ buildPythonPackage rec {
 
   doCheck = false;
 
-  propagatedBuildInputs = with python38Packages; [
+  propagatedBuildInputs = with python38Packages;
+    [
 
-  ];
+    ];
 
   meta = with lib; {
     description = "WD Passport Ultra Linux Utilities (using Python 3)";

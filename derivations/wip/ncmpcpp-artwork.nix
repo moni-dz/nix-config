@@ -19,12 +19,7 @@ stdenv.mkDerivation rec {
     "--enable-artwork"
   ];
 
-  nativeBuildInputs = with pkgs; [
-    autoconf
-    automake
-    libtool
-    pkg-config
-  ];
+  nativeBuildInputs = with pkgs; [ autoconf automake libtool pkg-config ];
 
   buildInputs = with pkgs; [
     boost
@@ -47,9 +42,11 @@ stdenv.mkDerivation rec {
   installFlags = [ "DESTDIR=$(out)" "PREFIX=/bin" ];
 
   meta = with lib; {
-    description = "A featureful ncurses based MPD client inspired by ncmpc (with artwork support)";
+    description =
+      "A featureful ncurses based MPD client inspired by ncmpc (with artwork support)";
     homepage = "https://rybczak.net/ncmpcpp/";
-    changelog = "https://github.com/ncmpcpp/ncmpcpp/blob/${version}/CHANGELOG.md";
+    changelog =
+      "https://github.com/ncmpcpp/ncmpcpp/blob/${version}/CHANGELOG.md";
     license = licenses.gpl2Plus;
     maintainers = with maintainers; [ fortuneteller2k ];
     platforms = platforms.all;

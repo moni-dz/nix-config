@@ -23,6 +23,6 @@ with theme.colors;
   *.color13: #${c13}
   *.color14: #${c14}
   *.color15: #${c15}
-  
+
   xterm*font: xft:Iosevka FT:size=10.7:style=Regular:antialias=true
 ''
