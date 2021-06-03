@@ -4,7 +4,7 @@
 
 [[assets/nixos-official-logo.png]]
 
-[[https://github.com/nixos/nixpkgs][file:https://img.shields.io/badge/NixOS-21.05-informational?style=flat.svg]]
+[[https://github.com/nixos/nixpkgs][file:https://img.shields.io/badge/NixOS-21.11-informational?style=flat.svg]]
 
 [[https://github.com/fortuneteller2k/nix-config/actions/workflows/check.yml][https://github.com/fortuneteller2k/nix-config/actions/workflows/check.yml/badge.svg]] [[https://github.com/fortuneteller2k/nix-config/actions/workflows/format.yml][https://github.com/fortuneteller2k/nix-config/actions/workflows/format.yml/badge.svg]] 
 
@@ -41,6 +41,10 @@ Resources and configurations I used to base on:
  * [[https://github.com/nrdxp/nixflk][nrdxp/nixflk]]
  * [[https://git.sr.ht/~dunklecat/nixos-config/tree/master/flake.nix][dunklecat/nixos-config]]
  * [[https://www.youtube.com/watch?v=UeBX7Ide5a0][Nix Flakes talk by Eelco Dolstra on NixCon]]
+
+Why flakes?
+
+[[https://github.com/jonringer][jonringer]] gave a [[https://discourse.nixos.org/t/what-are-nix-flakes-and-why-should-i-care/12910/3][brief explanation]] as to why one might want to use Nix flakes.
 
 ** Appearance
 
