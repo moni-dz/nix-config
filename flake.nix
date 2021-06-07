@@ -14,6 +14,7 @@
     # Flake inputs
     agenix.url = "github:ryantm/agenix";
     emacs.url = "github:nix-community/emacs-overlay";
+    emacs-ng.url = "github:emacs-ng/emacs-ng";
     home.url = "github:nix-community/home-manager";
     manix.url = "github:mlvzk/manix";
     neovim.url = "github:neovim/neovim?dir=contrib";
@@ -24,7 +25,7 @@
     # Nixpkgs branches
     master.url = "github:nixos/nixpkgs/master";
     stable.url = "github:nixos/nixpkgs/nixos-21.05";
-    unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     /*
       NOTE: don't use this, if you're not me or a maintainer of the XanMod kernel in Nixpkgs
@@ -32,6 +33,7 @@
       I nuke this branch from time to time.
     */
     # kernel.url = "github:fortuneteller2k/nixpkgs/update-xanmod-512";
+    usbmuxd.url = "github:fortuneteller2k/nixpkgs/usbmuxd";
 
     # Default Nixpkgs for packages and modules
     nixpkgs.follows = "master";
@@ -67,6 +69,7 @@
             manix = manix.defaultPackage.${system};
             neovim-nightly = neovim.packages.${system}.neovim;
             nixpkgs-review = review.defaultPackage.${system};
+            emacsNg = emacs-ng.defaultPackage.${system};
 
             # Sources provided by non-flake inputs, to be used in overlays and derivations
             phocus-src = phocus;
@@ -88,6 +91,7 @@
             master = import master { inherit config system; };
             unstable = import unstable { inherit config system; };
             stable = import stable { inherit config system; };
+            muxd = import usbmuxd { inherit config system; };
 
             # NOTE: Remove this, if you're not me or a maintainer of the XanMod kernel in Nixpkgs
             kernel = import inputs.kernel { inherit config system; };

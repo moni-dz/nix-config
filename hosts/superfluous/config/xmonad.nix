@@ -44,6 +44,7 @@ in
   import XMonad.Layout.Grid
   import XMonad.Layout.LayoutHints
   import XMonad.Layout.LayoutModifier
+  import XMonad.Layout.LimitWindows
   import XMonad.Layout.Maximize
   import XMonad.Layout.MultiToggle
   import XMonad.Layout.MultiToggle.Instances
@@ -254,8 +255,9 @@ in
             . smartBorders
             . mkToggle1 NOBORDERS
             . configurableNavigation noNavigateBorders
+            . boringAuto
             . tabs
-            . boringWindows
+            . limitWindows 4
             . spacingRaw False (Border 4 4 4 4) True (Border 4 4 4 4) True
             . draggingVisualizer
             . maximizeWithPadding 0

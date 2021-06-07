@@ -71,7 +71,7 @@ in
       brave
       cargo
       celluloid
-      discord-canary
+      discord
       dragon-drop
       element-desktop
       ffmpeg
@@ -108,7 +108,8 @@ in
       torrential
       ueberzug
       wezterm
-      zls
+      wmctrl
+      # zls
     ];
 
     sessionPath = [

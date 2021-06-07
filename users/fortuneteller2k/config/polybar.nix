@@ -1,6 +1,9 @@
 { theme, pkgs }:
 
-with theme; {
+with pkgs;
+with theme.colors;
+
+{
   "module/ewmh" = {
     type = "internal/xworkspaces";
     show-all = true;
@@ -20,30 +23,40 @@ with theme; {
     label-dimmed = "%index%";
     label-dimmed-padding = 1;
     label-active = "*";
-    label-active-foreground = "#${colors.textColor}";
+    label-active-foreground = "#${textColor}";
     label-active-padding = 1;
     label-occupied = "%icon%";
-    label-occupied-foreground = "#${colors.textColor}";
+    label-occupied-foreground = "#${textColor}";
     label-occupied-padding = 1;
     label-empty = "_";
-    label-empty-foreground = "#${colors.textColor}";
+    label-empty-foreground = "#${textColor}";
     label-empty-padding = 1;
     label-urgent = "!";
-    label-urgent-foreground = "#${colors.textColor}";
+    label-urgent-foreground = "#${textColor}";
     label-urgent-padding = 1;
     format = ''"    <label-state>"'';
-    format-background = "#${colors.primaryBright}";
-    format-foreground = "#${colors.textColor}";
+    format-background = "#${primaryBright}";
+    format-foreground = "#${textColor}";
   };
 
   "module/xmonad" = {
     type = "custom/script";
-    exec = "${pkgs.xmonad-log}/bin/xmonad-log";
+    exec = "${xmonad-log}/bin/xmonad-log";
     tail = true;
     label = ": %output% ";
     format = "<label>";
-    format-background = "#${colors.primaryBright}";
-    format-foreground = "#${colors.textColor}";
+    format-background = "#${primaryBright}";
+    format-foreground = "#${textColor}";
+  };
+
+  "module/wincount" = {
+    type = "custom/script";
+    exec = "while true; do sleep 0.1; ${xdotool}/bin/xdotool search --desktop $(${xdotool}/bin/xdotool get_desktop) --name '' | ${coreutils}/bin/wc -l ; done";
+    tail = true;
+    label = ": [%output%] ";
+    format = "<label>";
+    format-background = "#${primaryBright}";
+    format-foreground = "#${textColor}";
   };
 
   "module/battery" = {
@@ -52,14 +65,14 @@ with theme; {
     battery = "BAT0";
     adapter = "ACAD";
     format-charging = "<ramp-capacity> <label-charging>";
-    format-charging-foreground = "#${colors.textColor}";
-    format-charging-background = "#${colors.primary}";
+    format-charging-foreground = "#${textColor}";
+    format-charging-background = "#${primary}";
     format-discharging = "<ramp-capacity> <label-discharging>";
-    format-discharging-foreground = "#${colors.textColor}";
-    format-discharging-background = "#${colors.primary}";
+    format-discharging-foreground = "#${textColor}";
+    format-discharging-background = "#${primary}";
     format-full = "<label-full>";
-    format-full-foreground = "#${colors.textColor}";
-    format-full-background = "#${colors.primary}";
+    format-full-foreground = "#${textColor}";
+    format-full-background = "#${primary}";
     label-charging = "%percentage%% ";
     label-discharging = "%percentage%% ";
     label-full = "   %percentage%% ";
@@ -81,11 +94,11 @@ with theme; {
     use-ui-max = true;
     interval = 10;
     format-volume = " <ramp-volume> <label-volume> ";
-    format-volume-foreground = "#${colors.textColor}";
-    format-volume-background = "#${colors.primaryBright}";
+    format-volume-foreground = "#${textColor}";
+    format-volume-background = "#${primaryBright}";
     label-muted = " 婢  Muted ";
-    label-muted-foreground = "#${colors.textColor}";
-    label-muted-background = "#${colors.primaryBright}";
+    label-muted-foreground = "#${textColor}";
+    label-muted-background = "#${primaryBright}";
     ramp-volume-0 = "  ";
     ramp-volume-1 = "  ";
     ramp-volume-2 = "  ";
@@ -96,11 +109,11 @@ with theme; {
     interface = "wlan0";
     interval = 10;
     format-connected = "%{A1:connman-gtk:}<label-connected>%{A}";
-    format-connected-foreground = "#${colors.textColor}";
-    format-connected-background = "#${colors.primary}";
+    format-connected-foreground = "#${textColor}";
+    format-connected-background = "#${primary}";
     format-disconnected = "%{A1:connman-gtk:}<label-disconnected>%{A}";
-    format-disconnected-foreground = "#${colors.textColor}";
-    format-disconnected-background = "#${colors.primary}";
+    format-disconnected-foreground = "#${textColor}";
+    format-disconnected-background = "#${primary}";
     label-connected = "   %essid% ";
     label-disconnected = "   Disconnected ";
   };
@@ -111,16 +124,16 @@ with theme; {
     date = "   %m/%d/%Y";
     time = "%I:%M %p";
     format = "<label>";
-    format-foreground = "#${colors.textColor}";
-    format-background = "#${colors.primaryBright}";
+    format-foreground = "#${textColor}";
+    format-background = "#${primaryBright}";
     label = "%date% %time% ";
   };
 
   "module/window" = {
     type = "internal/xwindow";
     format = "<label>";
-    format-foreground = "#${colors.fg}";
-    format-background = "#${colors.transparent}";
+    format-foreground = "#${fg}";
+    format-background = "#${transparent}";
     label = "%title%";
     label-maxlen = 50;
   };
@@ -128,28 +141,28 @@ with theme; {
   "module/wspc" = {
     type = "custom/text";
     content = " ";
-    content-foreground = "#${colors.primaryBright}";
-    content-background = "#${colors.primaryBright}";
+    content-foreground = "#${primaryBright}";
+    content-background = "#${primaryBright}";
   };
 
   "module/wspc_b" = {
     type = "custom/text";
     content = " ";
-    content-foreground = "${colors.transparent}";
-    content-background = "${colors.transparent}";
+    content-foreground = "${transparent}";
+    content-background = "${transparent}";
   };
 
   "bar/main" = {
     override-redirect = true;
     fixed-center = true;
-    background = "#${colors.bg}";
-    foreground = "#${colors.fg}";
+    background = "#${bg}";
+    foreground = "#${fg}";
     width = "100%";
     height = 17;
     wm-restack = "generic";
     enable-ipc = true;
     font-0 = "FantasqueSansMono Nerd Font:size=10.5;2";
-    modules-left = "wspc ewmh xmonad";
+    modules-left = "wspc ewmh wincount xmonad";
     modules-right = "battery pulseaudio wireless date";
     locale = "en_US.UTF-8";
     border-size = 0;

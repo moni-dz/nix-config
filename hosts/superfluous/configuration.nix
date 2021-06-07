@@ -12,9 +12,7 @@ in
     kernelPackages = pkgs.master.linuxPackages_xanmod;
 
     kernelParams = [
-      "ro"
-      "quiet"
-      "splash"
+      "rw"
       "mitigations=off"
       "acpi_backlight=vendor"
       "nmi_watchdog=0"
@@ -58,10 +56,14 @@ in
     loader = {
       efi.canTouchEfiVariables = true;
 
-      systemd-boot = {
+      grub = {
         enable = true;
-        editor = false;
-        consoleMode = "max";
+        configurationLimit = 5;
+        copyKernels = true;
+        device = "nodev";
+        efiSupport = true;
+        useOSProber = true;
+        gfxmodeEfi = "1366x768";
       };
     };
   };
@@ -133,7 +135,7 @@ in
       envsubst
       fd
       file
-      git
+      (git.override { guiSupport = true; })
       glxinfo
       gnome3.nautilus
       gxmessage
