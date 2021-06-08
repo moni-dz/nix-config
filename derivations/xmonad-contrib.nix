@@ -23,13 +23,9 @@
 mkDerivation {
   pname = "xmonad-contrib";
   version = "0.16.999";
-  #src = fetchgit {
-  #  url = "https://github.com/xmonad/xmonad-contrib";
-  #  sha256 = "0xygvq9sbal6aqb3mk575zz04lilp9wlbilj8fbpni8jmq082mvk";
-  #  rev = "402d29b306950b9f74664b7652d2b9f3bfa40895";
-  #  fetchSubmodules = true;
-  #};
+
   inherit src;
+
   libraryHaskellDepends = [
     base
     bytestring
@@ -46,6 +42,7 @@ mkDerivation {
     X11-xft
     xmonad
   ];
+
   testHaskellDepends = [
     base
     containers
@@ -59,6 +56,7 @@ mkDerivation {
     X11
     xmonad
   ];
+
   homepage = "http://xmonad.org/";
   description = "Third party extensions for xmonad";
   license = lib.licenses.bsd3;
