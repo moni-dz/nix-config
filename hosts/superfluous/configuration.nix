@@ -183,6 +183,7 @@ in
       cozette
       curie
       dejavu_fonts
+      edwin
       emacs-all-the-icons-fonts
       etBook
       fantasque-sans-mono

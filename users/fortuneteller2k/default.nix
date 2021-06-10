@@ -183,19 +183,32 @@ in
         show_cpu_usage = true;
         show_program_path = false;
         show_thread_names = true;
-      }
-      // (with config.lib.htop; leftMeters {
-        AllCPUs = modes.Bar;
-        Memory = modes.Bar;
-        Swap = modes.Bar;
-        Zram = modes.Bar;
-      })
-      // (with config.lib.htop; rightMeters {
-        Tasks = modes.Text;
-        LoadAverage = modes.Text;
-        Uptime = modes.Text;
-        Systemd = modes.Text;
-      });
+
+        fields = with config.lib.htop.fields; [
+          PID
+          USER
+          PRIORITY
+          NICE
+          M_SIZE
+          M_RESIDENT
+          M_SHARE
+          STATE
+          PERCENT_CPU
+          PERCENT_MEM
+          TIME
+          COMM
+        ];
+      } // (with config.lib.htop; leftMeters [
+        (bar "AllCPUs")
+        (bar "Memory")
+        (bar "Swap")
+        (bar "Zram")
+      ]) // (with config.lib.htop; rightMeters [
+        (text "Tasks")
+        (text "LoadAverage")
+        (text "Uptime")
+        (text "Systemd")
+      ]);
     };
 
     mako = {

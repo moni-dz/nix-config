@@ -268,7 +268,7 @@ in
       threecol = ResizableThreeColMid 1 (3/100) (1/2) []
       tabs x = addTabs shrinkText tabTheme $ subLayout [] Simplest x
       tabTheme = def
-        { fontName            = fontFamily
+        { fontName            = sansFontFamily
         , activeColor         = "#${colors.activeBorderColor}"
         , inactiveColor       = "#${colors.inactiveBorderColor}"
         , urgentColor         = "#${colors.c5}"
