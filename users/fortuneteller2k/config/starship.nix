@@ -5,6 +5,8 @@
     vicmd_symbol = "[^](bold yellow)";
   };
 
+  command_timeout = 20;
+
   format = "$all";
 
   username = {
