@@ -255,7 +255,9 @@ in
     vscode =
       let
         extraPackages = pkgs: with pkgs; [
-          rustup
+          llvmPackages_12.llvm
+          clang_12
+          (clang-tools.override { llvmPackages = llvmPackages_12; })
         ];
       in
       {
