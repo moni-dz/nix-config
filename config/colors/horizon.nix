@@ -35,7 +35,7 @@ rec {
     if primaryColor == "red"
     then c2
     else if primaryColor == "green"
-    then c5
+    then c1
     else if primaryColor == "yellow"
     then c1
     else if primaryColor == "magenta"
@@ -53,6 +53,17 @@ rec {
     then c13
     else c12;
 
+  secondaryBright =
+    if primaryColor == "red"
+    then c10
+    else if primaryColor == "green"
+    then c9
+    else if primaryColor == "yellow"
+    then c11
+    else if primaryColor == "magenta"
+    then c13
+    else c12;
+
   muted = "204571";
   transparent = "00000000";
   textColor = bg;
@@ -63,9 +74,9 @@ rec {
 
   wallpaper =
     if primaryColor == "red"
-    then "${wallpaperPath}/horizon.jpg"
+    then "${wallpaperPath}/nixnineishhorizonwhiteborder.jpg"
     else if primaryColor == "green"
-    then "${wallpaperPath}/riki.jpg"
+    then "${wallpaperPath}/nixnineishhorizonwhiteborder.jpg"
     else if primaryColor == "yellow"
     then "${wallpaperPath}/dota_stars_wallpaper.jpg"
     else if primaryColor == "blue"

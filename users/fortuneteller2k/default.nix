@@ -22,6 +22,8 @@ in
   };
 
   home = {
+    activation.reloadPolybar = "${pkgs.polybar}/bin/polybar-msg cmd restart || echo 'skipping...'";
+
     file = {
       ".local/bin/can" = {
         executable = true;
@@ -85,11 +87,11 @@ in
       hydra-check
       hyperfine
       imv
+      inkscape
       lazygit
       libimobiledevice
       libirecovery
       manix
-      neochat
       neofetch
       nixpkgs-fmt
       nixpkgs-review
@@ -109,7 +111,7 @@ in
       ueberzug
       wezterm
       wmctrl
-      # zls
+      zls
     ];
 
     sessionPath = [

@@ -68,16 +68,18 @@ in
   import XMonad.Util.Run
   import XMonad.Util.SpawnOnce
 
-  import qualified Codec.Binary.UTF8.String as UTF8
-  import qualified Data.Map                 as M
-  import qualified DBus                     as D
-  import qualified DBus.Client              as D
-  import qualified XMonad.Actions.Sift      as W
-  import qualified XMonad.StackSet          as W
+  import qualified Codec.Binary.UTF8.String         as UTF8
+  import qualified Data.Map                         as M
+  import qualified DBus                             as D
+  import qualified DBus.Client                      as D
+  import qualified XMonad.Actions.Sift              as W
+  import qualified XMonad.Actions.ConstrainedResize as CR
+  import qualified XMonad.Actions.FlexibleResize    as FR
+  import qualified XMonad.StackSet                  as W
 
   fontNameGTK = "Iosevka FT"
   fontFamily = "xft:" ++ fontNameGTK ++ ":size=9.7:antialias=true:hinting=true"
-  sansFontFamily = "xft:Sarasa Gothic J:size=10:antialias=true:hinting=true"
+  sansFontFamily = "xft:Sarasa Gothic J:size=9.7:antialias=true:hinting=true"
   ws = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
 
   actions = [ Node (TSNode "Session" "session management" (return ()))
@@ -238,7 +240,8 @@ in
   mousebindings = 
     [ ((mod4Mask, button1), dragWindow)
     , ((mod1Mask, button1), (\w -> focus w >> mouseMoveWindow w >> windows W.shiftMaster))
-    , ((mod1Mask, button3), (\w -> focus w >> mouseResizeWindow w >> windows W.shiftMaster))
+    , ((mod1Mask, button3), (\w -> focus w >> FR.mouseResizeWindow w >> windows W.shiftMaster))
+    , ((mod4Mask, button3), (\w -> focus w >> CR.mouseResizeWindow w True >> windows W.shiftMaster))
     ]
 
   -- full credit to u/jwofejofwjedf
@@ -281,6 +284,7 @@ in
         , activeBorderWidth   = ${theme.borderWidth}
         , inactiveBorderWidth = ${theme.borderWidth}
         , urgentBorderWidth   = ${theme.borderWidth}
+        , decoHeight          = 20
         }
 
   windowRules = composeAll
