@@ -48,16 +48,4 @@ Why flakes?
 
 ** Appearance
 
-*** XMonad
-
-With =theme.lightModeEnabled = false;=
-
-[[assets/dark-mode.png]]
-
-With =theme.lightModeEnabled = true;=
-
-[[assets/light-mode.png]]
-
-*** 2bwm
-
-[[assets/twobwm.png]]
+[[assets/screenshot.png]]
