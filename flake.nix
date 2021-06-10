@@ -4,6 +4,7 @@
   inputs = {
     # Non-flake inputs
     phocus = { url = "github:fortuneteller2k/gtk"; flake = false; };
+    picom = { url = "github:yshui/picom"; flake = false; };
     slock = { url = "github:khuedoan/slock"; flake = false; };
     twobwm = { url = "github:venam/2bwm"; flake = false; };
     vim-flowtune = { url = "github:fortuneteller2k/vim-flowtune"; flake = false; };
@@ -73,6 +74,7 @@
 
             # Sources provided by non-flake inputs, to be used in overlays and derivations
             phocus-src = phocus;
+            picom-src = picom;
             slock-src = slock;
             twobwm-src = twobwm;
             vim-flowtune-src = vim-flowtune;

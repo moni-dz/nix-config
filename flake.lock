@@ -432,6 +432,22 @@
         "type": "github"
       }
     },
+    "picom": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1623199893,
+        "narHash": "sha256-lmtLnC01q7NMSdFC7OVrelG2/VO+QqyTfERXvByKo2I=",
+        "owner": "yshui",
+        "repo": "picom",
+        "rev": "d9c97421324b51c8beefacc7e66a2218ab3e5247",
+        "type": "github"
+      },
+      "original": {
+        "owner": "yshui",
+        "repo": "picom",
+        "type": "github"
+      }
+    },
     "review": {
       "inputs": {
         "flake-utils": "flake-utils_5",
@@ -465,6 +481,7 @@
         ],
         "nur": "nur",
         "phocus": "phocus",
+        "picom": "picom",
         "review": "review",
         "rust": "rust",
         "slock": "slock",
