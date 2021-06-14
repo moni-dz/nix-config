@@ -11,7 +11,7 @@
 
 ** Installation
 
-Get the latest NixOS 21.05 image [[https://releases.nixos.org/?prefix=nixos/unstable/][here]], do your partitions (root must be mounted at =/mnt=), then run the following commands
+Get the latest NixOS 21.11 image [[https://releases.nixos.org/?prefix=nixos/unstable/][here]], do your partitions (root must be mounted at =/mnt=), then run the following commands
 #+begin_src sh
   # move the output file of this to hosts/superfluous/hardware-configuration.nix
   nixos-generate-config
@@ -25,10 +25,11 @@ Get the latest NixOS 21.05 image [[https://releases.nixos.org/?prefix=nixos/unst
 
  * You probably should replace [[https://github.com/fortuneteller2k/nix-config/blob/master/hosts/superfluous/hardware-configuration.nix][hosts/superfluous/hardware-configuration.nix]] with your own with =nixos-generate-config=.
  * You might want to change all instances of my username to yours.
+ * You might want to disable =agenix=, for my secret cannot be decrypted without my private key. See [[https://github.com/fortuneteller2k/nix-config/blob/master/hosts/superfluous/default.nix][hosts/superfluous/default.nix]] and [[https://github.com/fortuneteller2k/nix-config/blob/master/users/fortuneteller2k/config/zsh/default.nix][users/fortuneteller2k/config/zsh/default.nix]].
 
 ** Description
 
-NixOS configuration that I use daily, it contains the system-wide *AND* home configuration, symlinked to =/etc/nixos=.
+NixOS configuration that I use daily, it contains the system-wide and home configuration, symlinked to =/etc/nixos=.
 
 See also:
  * [[https://github.com/nix-community/home-manager][home-manager]]
@@ -38,11 +39,10 @@ See also:
 Resources and configurations I used to base on:
  * [[https://github.com/hlissner/dotfiles][hlissner/dotfiles]]
  * [[https://github.com/colemickens/nixos-flake-example][colemickens/nixos-flake-example]]
- * [[https://github.com/nrdxp/nixflk][nrdxp/nixflk]]
  * [[https://git.sr.ht/~dunklecat/nixos-config/tree/master/flake.nix][dunklecat/nixos-config]]
  * [[https://www.youtube.com/watch?v=UeBX7Ide5a0][Nix Flakes talk by Eelco Dolstra on NixCon]]
 
-Why flakes?
+*** Why flakes?
 
 [[https://github.com/jonringer][jonringer]] gave a [[https://discourse.nixos.org/t/what-are-nix-flakes-and-why-should-i-care/12910/3][brief explanation]] as to why one might want to use Nix flakes.
 

@@ -19,7 +19,7 @@
     home.url = "github:nix-community/home-manager";
     manix.url = "github:mlvzk/manix";
     neovim.url = "github:neovim/neovim?dir=contrib";
-    nur.url = "github:nix-community/NUR";
+    nur.url = "github:nix-community/NUR/13d1f3087d69e7ea6845dab0af7c77bb3ad3af53";
     review.url = "github:Mic92/nixpkgs-review";
     rust.url = "github:oxalica/rust-overlay";
 
