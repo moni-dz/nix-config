@@ -1,6 +1,6 @@
 { config, inputs, lib, pkgs, ... }:
 
-let theme = import ../../config/theme.nix;
+let theme = import ../../config/theme.nix { inherit pkgs; };
 in
 {
   fonts.fontconfig.enable = true;

@@ -1,4 +1,4 @@
-{ primaryColor, wallpaperPath }:
+{ pkgs, primaryColor, wallpaperPath }:
 
 rec {
   fg = "fdf0ed";
@@ -74,9 +74,9 @@ rec {
 
   wallpaper =
     if primaryColor == "red"
-    then "${wallpaperPath}/nixnineishhorizonwhiteborder.jpg"
+    then "${pkgs.nixos-wallpapers}/png/horizon/nineish/01.png"
     else if primaryColor == "green"
-    then "${wallpaperPath}/nixnineishhorizonwhiteborder.jpg"
+    then "${pkgs.nixos-wallpapers}/png/horizon/nineish/01.png"
     else if primaryColor == "yellow"
     then "${wallpaperPath}/dota_stars_wallpaper.jpg"
     else if primaryColor == "blue"

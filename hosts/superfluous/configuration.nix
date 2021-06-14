@@ -1,6 +1,6 @@
 { config, lib, pkgs, options, ... }:
 
-let theme = import ../../config/theme.nix;
+let theme = import ../../config/theme.nix { inherit pkgs; };
 in
 {
   boot = {

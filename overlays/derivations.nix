@@ -3,7 +3,7 @@ final: prev: {
 
   phocus = prev.callPackage ../derivations/phocus.nix {
     src = prev.phocus-src;
-    theme = import ../config/theme.nix;
+    theme = import ../config/theme.nix { pkgs = final; };
   };
 
   spotify-adblock = prev.callPackage ../derivations/spotify-adblock.nix { };

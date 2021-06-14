@@ -3,6 +3,7 @@
 
   inputs = {
     # Non-flake inputs
+    nixos-wallpapers = { url = "github:fortuneteller2k/nixos-wallpapers"; flake = false; };
     phocus = { url = "github:fortuneteller2k/gtk"; flake = false; };
     picom = { url = "github:yshui/picom"; flake = false; };
     slock = { url = "github:khuedoan/slock"; flake = false; };
@@ -73,6 +74,7 @@
             emacsNg = emacs-ng.defaultPackage.${system};
 
             # Sources provided by non-flake inputs, to be used in overlays and derivations
+            inherit nixos-wallpapers;
             phocus-src = phocus;
             picom-src = picom;
             slock-src = slock;
