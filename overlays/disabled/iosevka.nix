@@ -1,5 +1,5 @@
 final: prev: {
-  iosevka-ft = prev.iosevka7.iosevka.override {
+  iosevka-ft = prev.iosevka.override {
     privateBuildPlan = ''
       [buildPlans.iosevka-ft]
       family = "Iosevka FT"
@@ -13,7 +13,7 @@ final: prev: {
 
           [buildPlans.iosevka-ft.variants.design]
           capital-r = "curly"
-          g = "earless-corner"
+          g = "single-storey-serifless"
           k = "curly-serifless"
           q = "earless-corner"
           y = "cursive"
@@ -21,7 +21,6 @@ final: prev: {
           lower-lambda = "straight-turn"
           cyrl-ka = "curly-serifless"
           cyrl-capital-u = "cursive"
-          zero = "long-dotted"
           three = "twoarcs"
           four = "closed"
           six = "closed-contour"

@@ -305,7 +305,7 @@ in
     ]
 
   autostart = do
-    spawnOnce "${xwallpaper}/bin/xwallpaper ${xwallpaperFlag} ${colors.wallpaper} &"
+    spawnOnce "${xwallpaper}/bin/xwallpaper ${xwallpaperFlag} /etc/nixos/assets/wallpapers/nixnineishhorizonwhiteborder.png &"
     spawnOnce "${xorg.xsetroot}/bin/xsetroot -cursor_name left_ptr &"
     spawnOnce "${systemd}/bin/systemctl --user restart polybar &"
     spawnOnce "${notify-desktop}/bin/notify-desktop -u critical 'xmonad' 'started successfully'"
