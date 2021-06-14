@@ -1,7 +1,6 @@
 { config, inputs, lib, pkgs, ... }:
 
-let
-  theme = import ../../config/theme.nix;
+let theme = import ../../config/theme.nix;
 in
 {
   fonts.fontconfig.enable = true;
@@ -88,6 +87,7 @@ in
       hyperfine
       imv
       inkscape
+      jetbrains.idea-ultimate
       lazygit
       libimobiledevice
       libirecovery

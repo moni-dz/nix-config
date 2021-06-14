@@ -135,9 +135,10 @@ in
       envsubst
       fd
       file
-      (git.override { guiSupport = true; })
+      git
       glxinfo
       gnome3.nautilus
+      gradle
       gxmessage
       hacksaw
       hsetroot
@@ -269,6 +270,7 @@ in
 
     command-not-found.enable = false;
     dconf.enable = true;
+    java.enable = true;
     slock.enable = true;
 
     sway = {
