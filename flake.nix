@@ -3,6 +3,7 @@
 
   inputs = {
     # Non-flake inputs
+    kile-wl = { url = "gitlab:snakedye/kile"; flake = false; };
     nixos-wallpapers = { url = "github:fortuneteller2k/nixos-wallpapers"; flake = false; };
     phocus = { url = "github:fortuneteller2k/gtk"; flake = false; };
     picom = { url = "github:yshui/picom"; flake = false; };
@@ -12,6 +13,8 @@
     vim-horizon = { url = "github:fortuneteller2k/vim-horizon"; flake = false; };
     xmonad = { url = "github:xmonad/xmonad"; flake = false; };
     xmonad-contrib = { url = "github:xmonad/xmonad-contrib"; flake = false; };
+    zsh-doas = { url = "github:anatolykopyl/doas-zsh-plugin"; flake = false; };
+    zsh-f-sy-h = { url = "github:zdharma/fast-syntax-highlighting"; flake = false; };
 
     # Flake inputs
     agenix.url = "github:ryantm/agenix";
@@ -35,7 +38,6 @@
       I nuke this branch from time to time.
     */
     # kernel.url = "github:fortuneteller2k/nixpkgs/update-xanmod-512";
-    usbmuxd.url = "github:fortuneteller2k/nixpkgs/usbmuxd";
 
     # Default Nixpkgs for packages and modules
     nixpkgs.follows = "master";
@@ -74,7 +76,8 @@
             emacsNg = emacs-ng.defaultPackage.${system};
 
             # Sources provided by non-flake inputs, to be used in overlays and derivations
-            inherit nixos-wallpapers;
+            inherit nixos-wallpapers zsh-doas zsh-f-sy-h;
+            kile-wl-src = kile-wl;
             phocus-src = phocus;
             picom-src = picom;
             slock-src = slock;
@@ -95,10 +98,9 @@
             master = import master { inherit config system; };
             unstable = import unstable { inherit config system; };
             stable = import stable { inherit config system; };
-            muxd = import usbmuxd { inherit config system; };
 
             # NOTE: Remove this, if you're not me or a maintainer of the XanMod kernel in Nixpkgs
-            kernel = import inputs.kernel { inherit config system; };
+            # kernel = import inputs.kernel { inherit config system; };
           })
 
         # Overlays provided by inputs
