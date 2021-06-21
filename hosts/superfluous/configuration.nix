@@ -160,6 +160,7 @@ in
       shellcheck
       shotgun
       subversion
+      taiwins
       unrar
       unzip
       util-linux
@@ -263,14 +264,25 @@ in
   powerManagement.cpuFreqGovernor = "performance";
 
   programs = {
-    bash = {
-      promptInit = ''eval "$(${pkgs.starship}/bin/starship init bash)"'';
-      interactiveShellInit = ''export HISTFILE=$HOME/.config/.bash_history'';
-    };
-
+    bash.interactiveShellInit = ''export HISTFILE=$HOME/.config/.bash_history'';
     command-not-found.enable = false;
     dconf.enable = true;
     java.enable = true;
+
+    river = {
+      enable = true;
+
+      extraPackages = with pkgs; [
+        swaylock
+        swayidle
+        kile-wl
+        alacritty
+        bemenu
+        brightnessctl
+        wdisplays
+      ];
+    };
+
     slock.enable = true;
 
     sway = {
