@@ -93,6 +93,7 @@ in
       libirecovery
       manix
       neofetch
+      nimble-unwrapped
       nixpkgs-fmt
       nixpkgs-review
       nur.repos.fortuneteller2k.impure.eww
@@ -104,6 +105,7 @@ in
       rustc
       rust-analyzer
       rnix-lsp
+      spaceship-prompt
       speedtest-cli
       spotify-wrapped
       sublime4
@@ -160,7 +162,10 @@ in
 
     direnv = {
       enable = true;
-      enableNixDirenvIntegration = true;
+      nix-direnv = {
+        enable = true;
+        enableFlakes = true;
+      };
     };
 
     emacs = {
@@ -243,7 +248,7 @@ in
     rofi.enable = true;
 
     starship = {
-      enable = true;
+      enable = false;
       settings = import ./config/starship.nix;
     };
 
