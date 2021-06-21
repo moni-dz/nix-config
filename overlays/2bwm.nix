@@ -1,6 +1,6 @@
 final: prev: {
   _2bwm = prev._2bwm.overrideAttrs (old: {
-    src = prev.slock-src;
+    src = prev.twobwm-src;
 
     # libX11 is a dependency of twobwm_config.patch
     buildInputs = (old.buildInputs or [ ]) ++ [ prev.xorg.libX11 ];
