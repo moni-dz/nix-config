@@ -6,11 +6,13 @@
 , pkg-config
 , wayland
 , cairo
+, dbus
 , fontconfig
 , freetype
 , libdrm
 , libinput
 , libGL
+, libGLU
 , librsvg
 , libX11
 , libxcb
@@ -20,18 +22,19 @@
 , mesa
 , wayland-protocols
 , xwayland
+, pam
 , pixman
 }:
 
 stdenv.mkDerivation rec {
   pname = "taiwins";
-  version = "unstable-2021-04-21";
+  version = "unstable-2021-06-07";
 
   src = fetchFromGitHub {
     owner = pname;
     repo = pname;
-    rev = "1ce60a07f0e3fc0e10051e9ab2e49bab261c1e28";
-    sha256 = "sha256-IKES9nQESgsryVY57EIeX+7QbA6rwX5FsGPEQ45MqUg=";
+    rev = "6b669f8770fefb1da5114471b02c54e3dcb69539";
+    sha256 = "sha256-ANzQkKEf2/tBuMBl10WWlMGIwa84C+GR8mihqqpLbO4=";
     fetchSubmodules = true;
   };
 
@@ -39,11 +42,13 @@ stdenv.mkDerivation rec {
 
   buildInputs = [
     cairo
+    dbus
     fontconfig
     freetype
     libdrm
     libinput
     libGL
+    libGLU
     librsvg
     libX11
     libxcb
@@ -53,6 +58,7 @@ stdenv.mkDerivation rec {
     mesa
     wayland-protocols
     xwayland
+    pam
     pixman
   ];
 }
