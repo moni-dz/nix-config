@@ -12,19 +12,19 @@ with theme.colors;
   }
 
   window#waybar {
-    background: transparent;
+    background: #${bg};
     color: #${fg};
   }
 
   #workspaces button {
     padding: 0 6px;
-    background: #${primary};
+    background: #${primaryBright};
     color: #${bg};
-    border-bottom: 2px solid #${primary};
+    border-bottom: 2px solid #${primaryBright};
   }
 
   #workspaces button.focused {
-    background: #${primary};
+    background: #${primaryBright};
     border-bottom: 2px solid #${bg};
   }
 
@@ -41,39 +41,43 @@ with theme.colors;
   #mpd {
     padding: 0 6px;
     margin: 0;
-    background-color: #${primary};
+    background-color: #${primaryBright};
     color: #${bg};
   }
 
   @keyframes blink {
     to {
-      background-color: #${primary};
+      background-color: #${primaryBright};
       color: #${bg};
     }
   }
 
+  #network {
+    background-color: #${secondaryBright};
+  }
+
   #battery {
-    background-color: #${primary};
+    background-color: #${secondaryBright};
     color: #${bg};
   }
 
   #battery.full {
-    background-color: #${primary};
+    background-color: #${secondaryBright};
     color: #${bg};
   }
 
   #battery.discharging {
-    background-color: #${primary};
+    background-color: #${secondaryBright};
     color: #${bg};
   }
 
   #battery.charging {
-    background-color: #${primary};
+    background-color: #${secondaryBright};
     color: #${bg};
   }
 
   #battery.warning:not(.charging) {
-    background-color: #${primary};
+    background-color: #${secondaryBright};
     color: #${bg};
     animation-name: blink;
     animation-duration: 0.5s;

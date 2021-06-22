@@ -193,7 +193,7 @@ in
       iosevka
       mplus-outline-fonts
       nerdfonts
-      nur.repos.fortuneteller2k.iosevka-ft-bin
+      iosevka-ft-bin
       # TODO: use only when current is outdated
       # iosevka-ft
       roboto-mono
@@ -270,7 +270,7 @@ in
     java.enable = true;
 
     river = {
-      enable = true;
+      enable = false;
 
       extraPackages = with pkgs; [
         swaylock
@@ -286,7 +286,7 @@ in
     slock.enable = true;
 
     sway = {
-      enable = false;
+      enable = true;
       wrapperFeatures.gtk = true;
 
       extraPackages = with pkgs; [
@@ -294,20 +294,19 @@ in
         swayidle
         swaybg
         wl-clipboard
-        mako
         brightnessctl
         grim
         slurp
         sway-contrib.grimshot
         waybar
-        wofi
+        bemenu
       ];
     };
 
     qt5ct.enable = true;
 
     xss-lock = {
-      enable = true;
+      enable = !config.programs.sway.enable;
       lockerCommand = "${config.security.wrapperDir}/slock";
     };
   };
@@ -348,7 +347,7 @@ in
     };
 
     picom = {
-      enable = true;
+      enable = !config.programs.sway.enable;
       refreshRate = 60;
       # experimentalBackends = config.services.picom.backend == "glx";
       backend = "glx";
@@ -388,7 +387,7 @@ in
 
       displayManager = {
         sddm.enable = config.services.xserver.enable;
-        defaultSession = "none+xmonad";
+        defaultSession = if !config.programs.sway.enable then "none+xmonad" else "Sway";
       };
 
       extraConfig = import ./config/xorg.nix;
@@ -402,8 +401,15 @@ in
         */
         "2bwm".enable = false;
 
-        xmonad = with pkgs; {
+        awesome = {
           enable = true;
+          luaModules = [
+            pkgs.bling
+          ];
+        };
+
+        xmonad = with pkgs; {
+          enable = !config.programs.sway.enable;
           config = import ./config/xmonad.nix { inherit config pkgs theme; };
           # Don't use enableContribAndExtras since xmonad-extras doesn't compile on the git versions.
           extraPackages = hpkgs: with hpkgs; [ dbus xmonad-contrib ];
@@ -448,7 +454,7 @@ in
         let
           xwallpaperFlag = if theme.colors.tiledWallpaper then "--tile" else "--zoom";
         in
-        if config.services.xserver.enable then
+        if config.services.xserver.enable && !config.programs.sway.enable then
           "[ $DISPLAY ] && ${pkgs.xwallpaper}/bin/xwallpaper ${xwallpaperFlag} ${theme.colors.wallpaper} || ${pkgs.coreutils}/bin/echo 'skipping...'"
         else
           "${pkgs.coreutils}/bin/echo 'skipping because on wayland...'";
@@ -493,6 +499,11 @@ in
       "audio"
       "realtime"
     ];
+  };
+
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [ xdg-desktop-portal-wlr ];
   };
 
   zramSwap = {

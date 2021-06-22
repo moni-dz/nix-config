@@ -95,22 +95,22 @@ with theme;
   bindsym $mod+Shift+0 move container to workspace $ws10
 
   # Workspace back-and-forth
-  workspace_auto_back_and_forth yes
+  workspace_auto_back_and_forth no
 
   # reload the configuration file
   bindsym $mod+Shift+r reload
 
   # start a program launcher
-  bindsym $mod+d exec wofi --show drun
+  bindsym $mod+d exec bemenu-run
 
   # applications shortcuts
-  bindsym $mod+F2 exec qutebrowser
-  bindsym $mod+w  exec emacsclient -nc
+  bindsym $mod+F2 exec brave
+  bindsym $mod+w  exec emacs
 
   # Volume
   bindsym XF86AudioRaiseVolume exec ~/.config/scripts/volume.sh up
   bindsym XF86AudioLowerVolume exec ~/.config/scripts/volume.sh down
-  bindsym XF86AudioMute       exec ~/.config/scripts/volume.sh mute
+  bindsym XF86AudioMute        exec ~/.config/scripts/volume.sh toggle
 
   # Brightness
   bindsym XF86MonBrightnessDown exec brightnessctl -q set 10%-
@@ -119,7 +119,7 @@ with theme;
   # Screenshot
   bindsym $mod+Print   exec grimshot copy area
   bindsym Print        exec grimshot copy active
-  bindsym $mod+Shift+s exec grimshot save screen ~/Pictures/screenshots/$(date "+%B-%d-%Y-%I:%M-%p").png
+  bindsym Mod4+Print   exec grimshot save screen ~/Pictures/screenshots/$(date "+%B-%d-%Y-%I:%M-%p").png
 
   # Toggle waybar
   bindsym $mod+b exec pkill -USR1 waybar
@@ -156,9 +156,12 @@ with theme;
 
   output "*" bg ${colors.wallpaper} ${if colors.tiledWallpaper then "tile" else "fill"}
 
+  input type:touchpad {
+    tap enabled
+    natural_scroll enabled
+  }
+
   exec swayidle -w \
       timeout 600 'swaylock && swaymsg "output * dpms off"' \
       resume 'swaymsg "output * dpms on"' \
-
-  exec mako
 ''

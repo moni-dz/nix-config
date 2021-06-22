@@ -23,7 +23,7 @@
     home.url = "github:nix-community/home-manager";
     manix.url = "github:mlvzk/manix";
     neovim.url = "github:neovim/neovim?dir=contrib";
-    nur.url = "github:nix-community/NUR/13d1f3087d69e7ea6845dab0af7c77bb3ad3af53";
+    nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k/testing";
     review.url = "github:Mic92/nixpkgs-review";
     rust.url = "github:oxalica/rust-overlay";
 
@@ -70,6 +70,8 @@
           {
             # Packages provided by flake inputs
             agenix = agenix.defaultPackage.${system};
+            awesome = nixpkgs-f2k.packages.${system}.awesome-git;
+            iosevka-ft-bin = nixpkgs-f2k.packages.${system}.iosevka;
             manix = manix.defaultPackage.${system};
             neovim-nightly = neovim.packages.${system}.neovim;
             nixpkgs-review = review.defaultPackage.${system};
@@ -105,8 +107,8 @@
 
         # Overlays provided by inputs
         emacs.overlay
-        nur.overlay
         rust.overlay
+        nixpkgs-f2k.overlay
       ]
       # Overlays from ./overlays directory
       ++ (importNixFiles ./overlays);

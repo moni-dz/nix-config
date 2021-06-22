@@ -96,7 +96,7 @@ in
       nimble-unwrapped
       nixpkgs-fmt
       nixpkgs-review
-      nur.repos.fortuneteller2k.impure.eww
+      eww
       nvd
       pfetch
       playerctl
@@ -105,7 +105,6 @@ in
       rustc
       rust-analyzer
       rnix-lsp
-      spaceship-prompt
       speedtest-cli
       spotify-wrapped
       sublime4
@@ -142,7 +141,10 @@ in
   programs = {
     alacritty = {
       enable = true;
-      settings = import ./config/alacritty.nix { inherit theme; };
+      settings = import ./config/alacritty.nix {
+        inherit theme;
+        isWayland = config.wayland.windowManager.sway.enable;
+      };
     };
 
     bat = {
@@ -176,6 +178,19 @@ in
     exa = {
       enable = true;
       enableAliases = true;
+    };
+
+    foot = {
+      enable = true;
+      server.enable = true;
+
+      settings = {
+        main = {
+          term = "xterm-256color";
+          font = "Iosevka FT Light:size=11";
+          dpi-aware = "yes";
+        };
+      };
     };
 
     home-manager.enable = true;
@@ -218,11 +233,6 @@ in
       ]);
     };
 
-    mako = {
-      enable = config.wayland.windowManager.sway.enable;
-      extraConfig = import ./config/mako.nix { inherit theme; };
-    };
-
     ncmpcpp = {
       enable = config.services.mpd.enable;
       settings = import ./config/ncmpcpp.nix;
@@ -248,7 +258,7 @@ in
     rofi.enable = true;
 
     starship = {
-      enable = false;
+      enable = true;
       settings = import ./config/starship.nix;
     };
 
@@ -346,7 +356,7 @@ in
     playerctld.enable = true;
 
     polybar = {
-      enable = true;
+      enable = !config.wayland.windowManager.sway.enable;
       script = "polybar main &";
       config = import ./config/polybar.nix { inherit pkgs theme; };
     };
@@ -355,7 +365,7 @@ in
   systemd.user.startServices = true;
 
   wayland.windowManager.sway = {
-    enable = false;
+    enable = true;
     package = null;
 
     config = {

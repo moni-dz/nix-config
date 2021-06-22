@@ -4,7 +4,7 @@ let
   wallpaperPath = ../assets/wallpapers;
 in
 rec {
-  borderWidth = "0";
+  borderWidth = "2";
   primaryColor = "red";
   lightModeEnabled = false;
 

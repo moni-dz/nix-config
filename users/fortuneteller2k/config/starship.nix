@@ -5,7 +5,7 @@
     vicmd_symbol = "[^](bold yellow)";
   };
 
-  command_timeout = 20;
+  command_timeout = 1000;
 
   format = "$all";
 

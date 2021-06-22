@@ -29,15 +29,15 @@
       critical = 15;
     };
 
-    format = "{icon} {capacity}%";
-    format-charging = "{icon} {capacity}%";
-    format-plugged = "{icon} {capacity}%";
-    format-full = "{icon} {capacity}%";
+    format = "{icon}  {capacity}%";
+    format-charging = "{icon}  {capacity}%";
+    format-plugged = "{icon}  {capacity}%";
+    format-full = "{icon}  {capacity}%";
     format-icons = [ "" "" "" "" "" ];
   };
 
   "network" = {
-    interface = "wlo1";
+    interface = "wlan0";
     format = "{ifname}";
     format-wifi = "  {essid}";
     format-ethernet = "  {ifname}";

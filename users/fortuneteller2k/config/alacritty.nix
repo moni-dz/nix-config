@@ -1,4 +1,4 @@
-{ theme }:
+{ theme, isWayland ? false }:
 
 with theme.colors; {
   env.TERM = "xterm-256color";
@@ -9,7 +9,7 @@ with theme.colors; {
       style = "Light";
     };
 
-    size = 10;
+    size = if isWayland then 11 else 10;
 
     offset = {
       x = 0;
