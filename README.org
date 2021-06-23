@@ -34,7 +34,7 @@ NixOS configuration that I use daily, it contains the system-wide and home confi
 See also:
  * [[https://github.com/nix-community/home-manager][home-manager]]
  * [[https://nixos.wiki/wiki/Flakes][flakes]]
- * [[https://github.com/fortuneteller2k/nur][my NUR repo]]
+ * [[https://github.com/fortuneteller2k/nixpkgs-f2k][nixpkgs-f2k]], my package collection
 
 Resources and configurations I used to base on:
  * [[https://github.com/hlissner/dotfiles][hlissner/dotfiles]]
