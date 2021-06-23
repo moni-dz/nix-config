@@ -490,11 +490,11 @@
         "ytmdl-src": "ytmdl-src"
       },
       "locked": {
-        "lastModified": 1624422050,
-        "narHash": "sha256-i9E8kF/A+CaGo3iQU8LbuTI5bhtpH+jWXQwZg3of0Ro=",
+        "lastModified": 1624424882,
+        "narHash": "sha256-8V67BbUNXtNBSlM6HkfnfDOTJE9chSZlrCImwADXOh8=",
         "owner": "fortuneteller2k",
         "repo": "nixpkgs-f2k",
-        "rev": "afce10d8a6366ffb9477101789979bda4821b8aa",
+        "rev": "45a560728e96ef57706cf7224f96ddff01657ae6",
         "type": "github"
       },
       "original": {
