@@ -401,12 +401,11 @@ in
         */
         "2bwm".enable = false;
 
-        awesome = {
-          enable = true;
-          luaModules = [
-            pkgs.bling
-          ];
-        };
+        # FIXME: bling can't be detected
+        # awesome = {
+        #   enable = false;
+        #   luaModules = with pkgs; [ bling ];
+        # };
 
         xmonad = with pkgs; {
           enable = !config.programs.sway.enable;

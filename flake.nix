@@ -3,16 +3,11 @@
 
   inputs = {
     # Non-flake inputs
-    kile-wl = { url = "gitlab:snakedye/kile"; flake = false; };
     nixos-wallpapers = { url = "github:fortuneteller2k/nixos-wallpapers"; flake = false; };
     phocus = { url = "github:fortuneteller2k/gtk"; flake = false; };
-    picom = { url = "github:yshui/picom"; flake = false; };
-    slock = { url = "github:khuedoan/slock"; flake = false; };
     twobwm = { url = "github:venam/2bwm"; flake = false; };
     vim-flowtune = { url = "github:fortuneteller2k/vim-flowtune"; flake = false; };
     vim-horizon = { url = "github:fortuneteller2k/vim-horizon"; flake = false; };
-    xmonad = { url = "github:xmonad/xmonad"; flake = false; };
-    xmonad-contrib = { url = "github:xmonad/xmonad-contrib"; flake = false; };
     zsh-doas = { url = "github:anatolykopyl/doas-zsh-plugin"; flake = false; };
     zsh-f-sy-h = { url = "github:zdharma/fast-syntax-highlighting"; flake = false; };
 
@@ -23,7 +18,7 @@
     home.url = "github:nix-community/home-manager";
     manix.url = "github:mlvzk/manix";
     neovim.url = "github:neovim/neovim?dir=contrib";
-    nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k/testing";
+    nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
     review.url = "github:Mic92/nixpkgs-review";
     rust.url = "github:oxalica/rust-overlay";
 
@@ -71,6 +66,8 @@
             # Packages provided by flake inputs
             agenix = agenix.defaultPackage.${system};
             awesome = nixpkgs-f2k.packages.${system}.awesome-git;
+            picom = nixpkgs-f2k.packages.${system}.picom-git;
+            slock = nixpkgs-f2k.packages.${system}.slock-fancy;
             iosevka-ft-bin = nixpkgs-f2k.packages.${system}.iosevka;
             manix = manix.defaultPackage.${system};
             neovim-nightly = neovim.packages.${system}.neovim;
@@ -79,15 +76,10 @@
 
             # Sources provided by non-flake inputs, to be used in overlays and derivations
             inherit nixos-wallpapers zsh-doas zsh-f-sy-h;
-            kile-wl-src = kile-wl;
             phocus-src = phocus;
-            picom-src = picom;
-            slock-src = slock;
             twobwm-src = twobwm;
             vim-flowtune-src = vim-flowtune;
             vim-horizon-src = vim-horizon;
-            xmonad-src = xmonad;
-            xmonad-contrib-src = xmonad-contrib;
 
             /*
               Nixpkgs branches
