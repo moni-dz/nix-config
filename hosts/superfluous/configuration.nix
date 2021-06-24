@@ -9,7 +9,7 @@ in
 
       If you're not me or a XanMod kernel maintainer, use pkgs.linuxPackages_xanmod instead.
     */
-    kernelPackages = pkgs.master.linuxPackages_xanmod;
+    kernelPackages = pkgs.kernel.linuxPackages_xanmod;
 
     kernelParams = [
       "rw"
