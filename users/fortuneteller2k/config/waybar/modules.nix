@@ -38,9 +38,9 @@
 
   "network" = {
     interface = "wlan0";
-    format = "{ifname}";
+    format = "  {ifname}";
     format-wifi = "  {essid}";
-    format-ethernet = "  {ifname}";
+    format-ethernet = "  {essid}";
     format-disconnected = "  Disconnected";
     max-length = 50;
   };

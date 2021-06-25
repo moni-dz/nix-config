@@ -368,12 +368,13 @@ in
     enable = true;
     package = null;
 
-    config = {
-      keybindings = { };
+    config = with theme.colors; {
       bars = [{ command = "${pkgs.waybar}/bin/waybar"; }];
+      keybindings = { };
+      menu = "${pkgs.bemenu}/bin/bemenu-run -H 18 --fn 'Iosevka FT 11' --tb '#${primaryBright}' --tf '#${bg}' --hb '#${primaryBright}' --hf '#${bg}' -p 'run:'";
     };
 
-    extraConfig = import ./config/sway.nix { inherit theme; };
+    extraConfig = import ./config/sway.nix { inherit pkgs theme; };
   };
 
   xdg = {

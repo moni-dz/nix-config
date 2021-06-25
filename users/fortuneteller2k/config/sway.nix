@@ -1,6 +1,6 @@
-{ theme }:
+{ pkgs, theme }:
 
-with theme;
+with theme.colors;
 
 ''
   # modkey
@@ -13,6 +13,10 @@ with theme;
   set $term alacritty
   bindsym $mod+Return exec $term
   bindsym Mod4+Return exec $term
+
+  # spawn menu
+  set $menu "${pkgs.bemenu}/bin/bemenu-run -H 18 --fn 'Iosevka FT 11' --tb '#${primaryBright}' --tf '#${bg}' --hb '#${primaryBright}' --hf '#${bg}' -p 'run:'"
+  bindsym $mod+d exec $menu
 
   # change focus
   bindsym $mod+Left focus left
@@ -100,9 +104,6 @@ with theme;
   # reload the configuration file
   bindsym $mod+Shift+r reload
 
-  # start a program launcher
-  bindsym $mod+d exec bemenu-run
-
   # applications shortcuts
   bindsym $mod+F2 exec brave
   bindsym $mod+w  exec emacs
@@ -126,39 +127,46 @@ with theme;
 
   bindsym $mod+Shift+q exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
 
-  default_border pixel ${borderWidth}
+  default_border pixel ${theme.borderWidth}
 
   gaps              inner 8
   smart_borders     on
 
-  set $color0 #${colors.c0}
-  set $color1 #${colors.c1}
-  set $color2 #${colors.c2}
-  set $color3 #${colors.c3}
-  set $color4 #${colors.c4}
-  set $color5 #${colors.c5}
-  set $color6 #${colors.c6}
-  set $color7 #${colors.c7}
-  set $color8 #${colors.c8}
-  set $color9 #${colors.c9}
-  set $color10 #${colors.c10}
-  set $color11 #${colors.c11}
-  set $color12 #${colors.c12}
-  set $color13 #${colors.c13}
-  set $color14 #${colors.c14}
-  set $color15 #${colors.c15}
+  set $color0 #${c0}
+  set $color1 #${c1}
+  set $color2 #${c2}
+  set $color3 #${c3}
+  set $color4 #${c4}
+  set $color5 #${c5}
+  set $color6 #${c6}
+  set $color7 #${c7}
+  set $color8 #${c8}
+  set $color9 #${c9}
+  set $color10 #${c10}
+  set $color11 #${c11}
+  set $color12 #${c12}
+  set $color13 #${c13}
+  set $color14 #${c14}
+  set $color15 #${c15}
 
   # class                 border    backgr    text    indicator
-  client.focused          #${colors.primary} ${colors.primary} $color7 $color5
-  client.focused_inactive #${colors.muted} ${colors.muted} $color7 $color5
-  client.unfocused        #${colors.muted} ${colors.muted} $color7 $color5
+  client.focused          #${primary} ${primary} $color7 $color5
+  client.focused_inactive #${muted} ${muted} $color7 $color5
+  client.unfocused        #${muted} ${muted} $color7 $color5
   client.urgent           $color10 $color10 $color0 $color5
 
-  output "*" bg ${colors.wallpaper} ${if colors.tiledWallpaper then "tile" else "fill"}
+  output "*" bg ${wallpaper} ${if tiledWallpaper then "tile" else "fill"}
+  output "*" scale 1
+  output "*" scale_filter nearest
 
   input type:touchpad {
     tap enabled
     natural_scroll enabled
+  }
+
+  input type:keyboard {
+    repeat_rate 40
+    repeat_delay 350
   }
 
   exec swayidle -w \
