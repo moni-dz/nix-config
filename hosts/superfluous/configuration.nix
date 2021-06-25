@@ -4,15 +4,17 @@ let theme = import ../../config/theme.nix { inherit pkgs; };
 in
 {
   boot = {
+    blacklistedKernelModules = [ "amdgpu" ];
+
     /*
       NOTE: replace this with your desired kernel
 
       If you're not me or a XanMod kernel maintainer, use pkgs.linuxPackages_xanmod instead.
     */
     kernelPackages = pkgs.kernel.linuxPackages_xanmod;
+    # kernelPackages = pkgs.linuxPackages_latest;
 
     kernelParams = [
-      "rw"
       "mitigations=off"
       "acpi_backlight=vendor"
       "nmi_watchdog=0"
@@ -115,13 +117,21 @@ in
       "Please note that NixOS assumes all over the place that shell to be Bash,
       so override the default setting only if you know exactly what you're doing."
     */
-    binsh = "${pkgs.mksh}/bin/mksh";
+    binsh = "${pkgs.zsh}/bin/zsh";
+
+    etc."iwd/main.conf".text = ''
+      [Settings]
+      AutoConnect=true
+    '';
+
     pathsToLink = [ "/share/zsh" ];
 
     sessionVariables = with pkgs; {
       LD_PRELOAD = "/etc/nixos/config/ld-preload-xcreatewindow.so";
       _JAVA_AWT_WM_NONREPARENTING = "1";
     };
+
+    shells = with pkgs; [ zsh ];
 
     # Font packages should go in fonts.fonts a few lines below this.
     systemPackages = with pkgs; [
@@ -261,7 +271,7 @@ in
     wireless.iwd.enable = true;
   };
 
-  powerManagement.cpuFreqGovernor = "performance";
+  powerManagement.cpuFreqGovernor = "schedutil";
 
   programs = {
     bash.interactiveShellInit = ''export HISTFILE=$HOME/.config/.bash_history'';
@@ -323,8 +333,6 @@ in
   };
 
   services = {
-    auto-cpufreq.enable = true;
-
     chrony = {
       enable = true;
 
@@ -372,7 +380,6 @@ in
       media-session.config = import ./config/pipewire/media-session.nix;
     };
 
-    tlp.enable = true;
     usbmuxd.enable = true;
 
     udev.extraRules = ''
@@ -386,8 +393,9 @@ in
       enable = true;
 
       displayManager = {
-        sddm.enable = config.services.xserver.enable;
-        defaultSession = if !config.programs.sway.enable then "none+xmonad" else "Sway";
+        sddm.enable = config.services.xserver.enable && !config.programs.sway.enable;
+        gdm.enable = config.programs.sway.enable;
+        defaultSession = if !config.programs.sway.enable then "none+xmonad" else "sway";
       };
 
       extraConfig = import ./config/xorg.nix;
@@ -480,7 +488,7 @@ in
     user.services = {
       pipewire.wantedBy = [ "default.target" ];
       pipewire-pulse.wantedBy = [ "default.target" ];
-      xidlehook = import ./services/xidlehook.nix { inherit config lib pkgs; };
+      # xidlehook = import ./services/xidlehook.nix { inherit config lib pkgs; };
     };
   };
 
