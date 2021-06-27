@@ -28,7 +28,7 @@ in
       "kernel.sched_nr_fork_threshold" = 3;
       "kernel.sched_fake_interactive_win_time_ms" = 1000;
       "kernel.unprivileged_userns_clone" = 1;
-      "net.core.default_qdisc" = "cake";
+      "net.core.default_qdisc" = "fq_pie";
       "vm.dirty_ratio" = 60;
       "vm.dirty_background_ratio" = 2;
       "vm.swappiness" = 10;
