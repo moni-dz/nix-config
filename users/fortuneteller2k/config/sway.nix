@@ -15,7 +15,7 @@ with theme.colors;
   bindsym Mod4+Return exec $term
 
   # spawn menu
-  set $menu "${pkgs.bemenu}/bin/bemenu-run -H 18 --fn 'Iosevka FT 11' --tb '#${primaryBright}' --tf '#${bg}' --hb '#${primaryBright}' --hf '#${bg}' -p 'run:'"
+  set $menu "${pkgs.bemenu}/bin/bemenu-run -H 18 -l 5 --fn 'Iosevka FT 10.5' --tb '#${primaryBright}' --tf '#${bg}' --hb '#${primaryBright}' --hf '#${bg}'"
   bindsym $mod+d exec $menu
 
   # change focus
