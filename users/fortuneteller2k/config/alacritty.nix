@@ -6,7 +6,7 @@ with theme.colors; {
   font = {
     normal = {
       family = "Iosevka FT";
-      style = "Light";
+      # style = "Light";
     };
 
     size = if isWayland then 11 else 10;
