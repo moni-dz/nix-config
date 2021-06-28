@@ -9,10 +9,10 @@ in
     /*
       NOTE: replace this with your desired kernel
 
-      If you're not me or a XanMod kernel maintainer, use pkgs.linuxPackages_xanmod instead.
+      If you're not me or a XanMod kernel maintainer in Nixpkgs, use pkgs.linuxPackages_xanmod instead.
     */
-    kernelPackages = pkgs.kernel.linuxPackages_xanmod;
-    # kernelPackages = pkgs.linuxPackages_latest;
+    # kernelPackages = pkgs.kernel.linuxPackages_xanmod;
+    kernelPackages = pkgs.master.linuxPackages_xanmod;
 
     kernelParams = [
       "mitigations=off"
