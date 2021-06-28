@@ -111,7 +111,7 @@ in
       torrential
       ueberzug
       wezterm
-      weechat-unwrapped-git
+      weechat
       wmctrl
       zls
     ];

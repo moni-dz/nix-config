@@ -73,6 +73,7 @@
             neovim-nightly = neovim.packages.${system}.neovim;
             nixpkgs-review = review.defaultPackage.${system};
             emacsNg = emacs-ng.defaultPackage.${system};
+            weechat-unwrapped = nixpkgs-f2k.packages.${system}.weechat-unwrapped-git;
 
             # Sources provided by non-flake inputs, to be used in overlays and derivations
             inherit nixos-wallpapers zsh-doas zsh-f-sy-h;
