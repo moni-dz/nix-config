@@ -93,7 +93,6 @@ in
       libirecovery
       manix
       neofetch
-      nimble-unwrapped
       nixpkgs-fmt
       nixpkgs-review
       eww
