@@ -60,7 +60,7 @@
       overlays = with inputs; [
         (final: _:
           let
-            system = final.stdenv.hostPlatform.system;
+            system = final.system;
           in
           {
             # Packages provided by flake inputs
