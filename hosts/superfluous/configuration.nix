@@ -345,6 +345,11 @@ in
       ];
     };
 
+    greetd = {
+      enable = config.programs.sway.enable;
+      settings.default_session.command = "${pkgs.greetd.tuigreet}/bin/tuigreet --cmd sway";
+    };
+
     irqbalance.enable = true;
     journald.extraConfig = lib.mkForce "";
 
@@ -390,12 +395,11 @@ in
     upower.enable = true;
 
     xserver = {
-      enable = true;
+      enable = !config.programs.sway.enable;
 
       displayManager = {
-        sddm.enable = config.services.xserver.enable && !config.programs.sway.enable;
-        gdm.enable = config.programs.sway.enable;
-        defaultSession = if !config.programs.sway.enable then "none+xmonad" else "sway";
+        sddm.enable = config.services.xserver.enable;
+        defaultSession = "none+xmonad";
       };
 
       extraConfig = import ./config/xorg.nix;
@@ -416,7 +420,7 @@ in
         # };
 
         xmonad = with pkgs; {
-          enable = !config.programs.sway.enable;
+          enable = config.services.xserver.enable;
           config = import ./config/xmonad.nix { inherit config pkgs theme; };
           # Don't use enableContribAndExtras since xmonad-extras doesn't compile on the git versions.
           extraPackages = hpkgs: with hpkgs; [ dbus xmonad-contrib ];
