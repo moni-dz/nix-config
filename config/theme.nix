@@ -4,8 +4,8 @@ let
   wallpaperPath = ../assets/wallpapers;
 in
 rec {
-  borderWidth = "2";
-  primaryColor = "red";
+  borderWidth = "0";
+  primaryColor = "green";
   lightModeEnabled = false;
 
   # colorscheme to load, see colors/flowtune.nix for a reference impl

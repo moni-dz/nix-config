@@ -45,6 +45,8 @@ with theme.colors;
   # kill focused window
   bindsym $mod+q kill
 
+  font "pango:FantasqueSansMono Nerd Font 5"
+
   # Window rules
   for_window [window_role="pop-up"]      floating enable
   for_window [window_role="bubble"]      floating enable
@@ -56,6 +58,11 @@ with theme.colors;
   for_window [class="Gimp"]              floating enable
   for_window [class="mpv"]               floating enable
   for_window [class=".*"]                inhibit_idle fullscreen
+  for_window [app_id=".*"]               title_format ""
+  for_window [class=".*"]                title_format ""
+
+  titlebar_border_thickness 0
+  titlebar_padding 0 0
 
   # Define names for default workspaces for which we configure key bindings later on.
   # We use variables to avoid repeating the names in multiple places.
@@ -125,12 +132,12 @@ with theme.colors;
   # Toggle waybar
   bindsym $mod+b exec pkill -USR1 waybar
 
-  bindsym $mod+Shift+q exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
+  bindsym $mod+Shift+q exec swaynag -t warning -m 'Do you really want to exit sway?' -b 'Yes, exit sway' 'swaymsg exit'
 
-  default_border pixel ${theme.borderWidth}
-
-  gaps              inner 8
-  smart_borders     on
+  default_border normal ${theme.borderWidth}
+  hide_edge_borders --i3 smart
+  gaps inner 8
+  smart_borders on
 
   set $color0 #${c0}
   set $color1 #${c1}
@@ -150,8 +157,8 @@ with theme.colors;
   set $color15 #${c15}
 
   # class                 border    backgr    text    indicator
-  client.focused          #${primary} ${primary} $color7 $color5
-  client.focused_inactive #${muted} ${muted} $color7 $color5
+  client.focused          #${primary} ${primary} $color0 $color5
+  client.focused_inactive #${muted} ${muted} $color0 $color5
   client.unfocused        #${muted} ${muted} $color7 $color5
   client.urgent           $color10 $color10 $color0 $color5
 
@@ -170,6 +177,6 @@ with theme.colors;
   }
 
   exec swayidle -w \
-      timeout 600 'swaylock && swaymsg "output * dpms off"' \
+      timeout 300 'swaylock && swaymsg "output * dpms off"' \
       resume 'swaymsg "output * dpms on"' \
 ''
