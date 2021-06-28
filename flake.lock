@@ -355,22 +355,6 @@
         "type": "github"
       }
     },
-    "kernel": {
-      "locked": {
-        "lastModified": 1624741630,
-        "narHash": "sha256-tDUgvJVXq6oOMh7XnHkPcCPnK4BhLYLpnVSE3Rerl74=",
-        "owner": "samuelgrf",
-        "repo": "nixpkgs",
-        "rev": "6f1dfda75dcca3f5d95d6aea970fd611433aedeb",
-        "type": "github"
-      },
-      "original": {
-        "owner": "samuelgrf",
-        "ref": "xanmod-features-kconfig",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "kile-wl-src": {
       "flake": false,
       "locked": {
@@ -732,7 +716,6 @@
         "emacs": "emacs",
         "emacs-ng": "emacs-ng",
         "home": "home",
-        "kernel": "kernel",
         "manix": "manix",
         "master": "master_2",
         "neovim": "neovim",
