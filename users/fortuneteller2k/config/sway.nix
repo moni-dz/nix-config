@@ -127,7 +127,7 @@ with theme.colors;
   # Screenshot
   bindsym $mod+Print   exec grimshot copy area
   bindsym Print        exec grimshot copy active
-  bindsym Mod4+Print   exec grimshot save screen ~/Pictures/screenshots/$(date "+%B-%d-%Y-%I:%M-%p").png
+  bindsym Mod4+Print   exec grimshot save screen
 
   # Toggle waybar
   bindsym $mod+b exec pkill -USR1 waybar

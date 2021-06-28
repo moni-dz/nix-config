@@ -127,7 +127,7 @@ in
     pathsToLink = [ "/share/zsh" ];
 
     sessionVariables = with pkgs; {
-      LD_PRELOAD = "/etc/nixos/config/ld-preload-xcreatewindow.so";
+      # LD_PRELOAD = "/etc/nixos/config/ld-preload-xcreatewindow.so";
       _JAVA_AWT_WM_NONREPARENTING = "1";
     };
 
@@ -304,13 +304,27 @@ in
         swayidle
         swaybg
         wl-clipboard
+        wf-recorder
         brightnessctl
         grim
         slurp
         sway-contrib.grimshot
         waybar
         bemenu
+        qt5.qtwayland
       ];
+
+      extraSessionCommands = ''
+        export XDG_SESSION_DESKTOP=sway
+        export SDL_VIDEODRIVER=wayland
+        export QT_QPA_PLATFORM=wayland-egl
+        export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
+        export MOZ_ENABLE_WAYLAND=1
+        export CLUTTER_BACKEND=wayland
+        export ECORE_EVAS_ENGINE=wayland-egl
+        export ELM_ENGINE=wayland_egl
+        export NO_AT_BRIDGE=1
+      '';
     };
 
     qt5ct.enable = true;
@@ -347,7 +361,15 @@ in
 
     greetd = {
       enable = config.programs.sway.enable;
-      settings.default_session.command = "${pkgs.greetd.tuigreet}/bin/tuigreet --cmd sway";
+
+      settings = {
+        default_session.command = "${pkgs.cage}/bin/cage -s -- ${pkgs.greetd.gtkgreet}/bin/gtkgreet";
+
+        initial_session = {
+          command = "sway";
+          user = "fortuneteller2k";
+        };
+      };
     };
 
     irqbalance.enable = true;
@@ -512,10 +534,7 @@ in
     ];
   };
 
-  xdg.portal = {
-    enable = true;
-    extraPortals = with pkgs; [ xdg-desktop-portal-wlr ];
-  };
+  xdg.portal.enable = true;
 
   zramSwap = {
     enable = true;
