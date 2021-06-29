@@ -506,16 +506,17 @@
         "sway-src": "sway-src",
         "weechat-src": "weechat-src",
         "wlroots-src": "wlroots-src",
+        "xdpw-src": "xdpw-src",
         "xmonad-contrib-src": "xmonad-contrib-src",
         "xmonad-src": "xmonad-src",
         "ytmdl-src": "ytmdl-src"
       },
       "locked": {
-        "lastModified": 1624867365,
-        "narHash": "sha256-OzfL3P2elcEJswRlTLGPyfLRyP+n6IB+W8Z4EiQ416s=",
+        "lastModified": 1624892392,
+        "narHash": "sha256-h7HXLJ/Uu0hMtmKlBibeAsG6ddGhcnA+3Z3V9229VR4=",
         "owner": "fortuneteller2k",
         "repo": "nixpkgs-f2k",
-        "rev": "e2bf5ea72976db8b48edd5e72efdea447c6b8f21",
+        "rev": "12cfcfde14157a873e78e2c949bc52ab2d9ab8f3",
         "type": "github"
       },
       "original": {
@@ -937,6 +938,22 @@
       "original": {
         "owner": "swaywm",
         "repo": "wlroots",
+        "type": "github"
+      }
+    },
+    "xdpw-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1624433528,
+        "narHash": "sha256-rNPnid5RSJhVA3AtlL767Dl3LVWuJwGvfR45G8+PjkM=",
+        "owner": "emersion",
+        "repo": "xdg-desktop-portal-wlr",
+        "rev": "bb24b226e4c9c3f3b72ebc20520d380400e77dd5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "emersion",
+        "repo": "xdg-desktop-portal-wlr",
         "type": "github"
       }
     },

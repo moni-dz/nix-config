@@ -278,21 +278,6 @@ in
     command-not-found.enable = false;
     dconf.enable = true;
     java.enable = true;
-
-    river = {
-      enable = false;
-
-      extraPackages = with pkgs; [
-        swaylock
-        swayidle
-        kile-wl
-        alacritty
-        bemenu
-        brightnessctl
-        wdisplays
-      ];
-    };
-
     slock.enable = true;
 
     sway = {
@@ -300,6 +285,7 @@ in
       wrapperFeatures.gtk = true;
 
       extraPackages = with pkgs; [
+        autotiling
         swaylock
         swayidle
         swaybg
@@ -312,6 +298,7 @@ in
         waybar
         bemenu
         qt5.qtwayland
+        xdg_utils
       ];
 
       extraSessionCommands = ''

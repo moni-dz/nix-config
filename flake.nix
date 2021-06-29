@@ -65,16 +65,22 @@
           {
             # Packages provided by flake inputs
             agenix = agenix.defaultPackage.${system};
-            awesome = nixpkgs-f2k.packages.${system}.awesome-git;
-            picom = nixpkgs-f2k.packages.${system}.picom-git;
-            slock = nixpkgs-f2k.packages.${system}.slock-fancy;
-            iosevka-ft-bin = nixpkgs-f2k.packages.${system}.iosevka;
+            emacsNg = emacs-ng.defaultPackage.${system};
             manix = manix.defaultPackage.${system};
             neovim-nightly = neovim.packages.${system}.neovim;
             nixpkgs-review = review.defaultPackage.${system};
-            emacsNg = emacs-ng.defaultPackage.${system};
-            weechat-unwrapped = nixpkgs-f2k.packages.${system}.weechat-unwrapped-git;
-
+          }
+          //
+          (with nixpkgs-f2k.packages.${system}; {
+            awesome = awesome-git;
+            picom = picom-git;
+            slock = slock-fancy;
+            iosevka-ft-bin = iosevka;
+            weechat-unwrapped = weechat-unwrapped-git;
+            xdg-desktop-portal-wlr = xdg-desktop-portal-wlr-git;
+          })
+          //
+          {
             # Sources provided by non-flake inputs, to be used in overlays and derivations
             inherit nixos-wallpapers zsh-doas zsh-f-sy-h;
             phocus-src = phocus;
