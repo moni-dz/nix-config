@@ -21,7 +21,10 @@ in
   };
 
   home = {
-    activation.reloadPolybar = "${pkgs.polybar}/bin/polybar-msg cmd restart || echo 'skipping...'";
+    activation.reloadPolybar =
+      if config.services.polybar.enable
+      then "${pkgs.polybar}/bin/polybar-msg cmd restart || echo 'skipping...'"
+      else "echo 'wayland, skipping'";
 
     file = {
       ".local/bin/can" = {
@@ -68,9 +71,7 @@ in
 
     packages = with pkgs; [
       agenix
-      betterdiscord-installer
       brave
-      cargo
       celluloid
       discord
       dragon-drop
@@ -78,16 +79,15 @@ in
       ffmpeg
       flavours
       font-manager
-      giph
       gimp
       gitAndTools.gh
-      glava
       graphviz
       hydra-check
       hyperfine
+      imagemagick
       imv
       inkscape
-      jetbrains.idea-ultimate
+      jq
       lazygit
       libimobiledevice
       libirecovery
@@ -95,24 +95,18 @@ in
       neofetch
       nixpkgs-fmt
       nixpkgs-review
+      notify-desktop
       eww
       nvd
       pfetch
       playerctl
       python3
       qutebrowser
-      rustc
-      rust-analyzer
-      rnix-lsp
       speedtest-cli
       spotify-wrapped
       sublime4
       torrential
-      ueberzug
-      wezterm
       weechat
-      wmctrl
-      zls
     ];
 
     sessionPath = [
@@ -217,12 +211,11 @@ in
         (bar "AllCPUs")
         (bar "Memory")
         (bar "Swap")
-        (bar "Zram")
       ]) // (with config.lib.htop; rightMeters [
+        (bar "Zram")
         (text "Tasks")
         (text "LoadAverage")
         (text "Uptime")
-        (text "Systemd")
       ]);
     };
 
@@ -259,19 +252,6 @@ in
       enable = true;
       extraConfig = import ./config/qutebrowser.nix;
     };
-
-    vscode =
-      let
-        extraPackages = pkgs: with pkgs; [
-          llvmPackages_12.llvm
-          clang_12
-          (clang-tools.override { llvmPackages = llvmPackages_12; })
-        ];
-      in
-      {
-        enable = true;
-        package = pkgs.vscode.fhsWithPackages (pkgs: extraPackages pkgs);
-      };
 
     waybar = {
       enable = config.wayland.windowManager.sway.enable;
@@ -341,7 +321,7 @@ in
     };
 
     mpdris2 = {
-      enable = true;
+      enable = config.services.mpd.enable;
       multimediaKeys = true;
       notifications = true;
     };
@@ -355,16 +335,15 @@ in
     };
   };
 
-  systemd.user.startServices = true;
+  systemd.user.startServices = "sd-switch";
 
   wayland.windowManager.sway = {
     enable = true;
-    package = null;
+    package = null; # Using the NixOS module
 
     config = with theme.colors; {
       bars = [{ command = "${pkgs.waybar}/bin/waybar"; }];
       keybindings = { };
-      menu = "${pkgs.bemenu}/bin/bemenu-run -H 18 --fn 'Iosevka FT 11' --tb '#${primaryBright}' --tf '#${bg}' --hb '#${primaryBright}' --hf '#${bg}' -p 'run:'";
     };
 
     extraConfig = import ./config/sway.nix { inherit pkgs theme; };
@@ -375,47 +354,8 @@ in
 
     configFile = {
       "nvim/coc-settings.json".source =
-        let
-          json = pkgs.formats.json { };
-          neovim-coc-settings = import ./config/neovim/coc-settings.nix { inherit pkgs; };
-        in
-        json.generate "coc-settings.json" neovim-coc-settings;
-
-      "wezterm/colors/nix-colors.toml".source =
-        let
-          toml = pkgs.formats.toml { };
-          wezterm-colors = import ./config/wezterm-colors.nix { inherit (theme) colors; };
-        in
-        toml.generate "nix-colors.toml" wezterm-colors;
-
-      "wezterm/wezterm.lua".text = ''
-        local w = require 'wezterm';
-
-        return {
-          confirm = false,
-          enable_tab_bar = false,
-          default_cursor_style = "BlinkingBar",
-          color_scheme = "nix-colors",
-          font = w.font("Iosevka FT Light"),
-          font_size = 10.5,
-          dpi = 96.0,
-
-          window_padding = {
-            left = 8,
-            right = 8,
-            top = 14,
-            bottom = 8,
-          },
-
-          freetype_load_target = "HorizontalLcd",
-          freetype_render_target = "HorizontalLcd",
-          freetype_interpreter_version = 40,
-
-          skip_close_confirmation_for_processes_named = {
-            "bash", "sh", "zsh", "fish", "tmux"
-          },
-        }
-      '';
+        let neovim-coc-settings = import ./config/neovim/coc-settings.nix { inherit pkgs; };
+        in (pkgs.formats.json { }).generate "coc-settings.json" neovim-coc-settings;
     };
 
     userDirs = {

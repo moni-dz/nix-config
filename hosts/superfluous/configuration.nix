@@ -81,6 +81,8 @@ in
       keyMap = "us";
     };
 
+  documentation.man.generateCaches = true;
+
   hardware = {
     cpu = {
       amd.updateMicrocode = true;
@@ -108,7 +110,11 @@ in
     supportedLocales = [ "en_US.UTF-8/UTF-8" ];
   };
 
-  environment = {
+  environment =
+    let
+      iwdSettings.Settings.AutoConnect = true;
+      iwdConfigFile = (pkgs.formats.ini { }).generate "main.conf" iwdSettings;
+    in {
     /*
       NOTE: This isn't found in https://search.nixos.org/options.
 
@@ -118,11 +124,7 @@ in
       so override the default setting only if you know exactly what you're doing."
     */
     binsh = "${pkgs.zsh}/bin/zsh";
-
-    etc."iwd/main.conf".text = ''
-      [Settings]
-      AutoConnect=true
-    '';
+    etc."iwd/main.conf".source = iwdConfigFile;
 
     pathsToLink = [ "/share/zsh" ];
 
@@ -138,81 +140,49 @@ in
       alsaTools
       alsaUtils
       brightnessctl
-      caffeine-ng
       coreutils
       curl
       dash
-      envsubst
       fd
       file
       git
       glxinfo
       gnome3.nautilus
-      gradle
-      gxmessage
-      hacksaw
-      hsetroot
-      imagemagick
-      jp2a
-      jq
-      libtool
       libva-utils
       lm_sensors
-      notify-desktop
+      man-pages
+      man-pages-posix
       ntfs3g
-      pandoc
-      pantheon.elementary-files
       pavucontrol
       pciutils
       psmisc
       pulseaudio
       ripgrep
-      shellcheck
-      shotgun
       subversion
-      taiwins
+      util-linux
       unrar
       unzip
-      util-linux
       wget
       xarchiver
-      xclip
-      xdo
-      xdotool
-      xidlehook
-      xmonad-log
-      xorg.xdpyinfo
-      xorg.xsetroot
-      xorg.xkill
-      xorg.xwininfo
-      xwallpaper
       zip
     ];
   };
 
   fonts = {
     fonts = with pkgs; [
-      cozette
       curie
-      dejavu_fonts
       edwin
       emacs-all-the-icons-fonts
-      etBook
       fantasque-sans-mono
-      inter
-      iosevka
-      mplus-outline-fonts
-      nerdfonts
+      (nerdfonts.override { fonts = [ "Iosevka" ]; })
       iosevka-ft-bin
       # TODO: use only when current is outdated
       # iosevka-ft
-      roboto-mono
       sarasa-gothic
       scientifica
       symbola
       terminus_font
       twemoji-color-font
-      xorg.fontbh100dpi
     ];
 
     fontconfig = {
@@ -254,12 +224,7 @@ in
       wlan0.useDHCP = true;
     };
 
-    nameservers = [
-      "1.1.1.1"
-      "1.0.0.1"
-      "8.8.8.8"
-      "8.8.4.4"
-    ];
+    nameservers = [ "1.1.1.1" "1.0.0.1" "8.8.8.8" "8.8.4.4" ];
 
     networkmanager = {
       enable = true;
@@ -276,9 +241,7 @@ in
   programs = {
     bash.interactiveShellInit = ''export HISTFILE=$HOME/.config/.bash_history'';
     command-not-found.enable = false;
-    dconf.enable = true;
-    java.enable = true;
-    slock.enable = true;
+    slock.enable = config.services.xserver.enable;
 
     sway = {
       enable = true;
@@ -350,7 +313,7 @@ in
       enable = config.programs.sway.enable;
 
       settings = {
-        default_session.command = "${pkgs.cage}/bin/cage -s -- ${pkgs.greetd.gtkgreet}/bin/gtkgreet";
+        default_session.command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd sway";
 
         initial_session = {
           command = "sway";
@@ -359,7 +322,6 @@ in
       };
     };
 
-    irqbalance.enable = true;
     journald.extraConfig = lib.mkForce "";
 
     openssh = {
@@ -369,9 +331,9 @@ in
     };
 
     picom = {
-      enable = !config.programs.sway.enable;
+      enable = config.services.xserver.enable;
       refreshRate = 60;
-      # experimentalBackends = config.services.picom.backend == "glx";
+      experimentalBackends = config.services.picom.backend == "glx";
       backend = "glx";
       vSync = true;
 
@@ -395,12 +357,6 @@ in
     };
 
     usbmuxd.enable = true;
-
-    udev.extraRules = ''
-      KERNEL=="rtc0", GROUP="audio"
-      KERNEL=="hpet", GROUP="audio"
-    '';
-
     upower.enable = true;
 
     xserver = {
@@ -416,7 +372,7 @@ in
 
       windowManager = {
         /*
-          NOTE: I primarily use XMonad
+          NOTE: I primarily use Sway
 
           See overlays/2bwm.nix for applied patches.
         */
