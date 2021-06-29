@@ -140,7 +140,7 @@ in
 
   programs = {
     alacritty = {
-      enable = true;
+      enable = false;
       settings = import ./config/alacritty.nix {
         inherit theme;
         isWayland = config.wayland.windowManager.sway.enable;
@@ -183,14 +183,7 @@ in
     foot = {
       enable = true;
       server.enable = true;
-
-      settings = {
-        main = {
-          term = "xterm-256color";
-          font = "Iosevka FT Light:size=11";
-          dpi-aware = "yes";
-        };
-      };
+      settings = import ./config/foot.nix { inherit theme; };
     };
 
     home-manager.enable = true;

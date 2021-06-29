@@ -3,6 +3,8 @@
 with theme.colors;
 
 ''
+  exec autotiling
+
   # modkey
   set $mod Mod1
 
@@ -10,7 +12,7 @@ with theme.colors;
   floating_modifier $mod
 
   # start a terminal
-  set $term alacritty
+  set $term footclient
   bindsym $mod+Return exec $term
   bindsym Mod4+Return exec $term
 
