@@ -17,7 +17,7 @@
     emacs-ng.url = "github:emacs-ng/emacs-ng";
     home.url = "github:nix-community/home-manager";
     manix.url = "github:mlvzk/manix";
-    neovim.url = "github:neovim/neovim?dir=contrib";
+    neovim.url = "github:clason/neovim/ts-ifdef-fixup?dir=contrib";
     nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
     review.url = "github:Mic92/nixpkgs-review";
     rust.url = "github:oxalica/rust-overlay";
