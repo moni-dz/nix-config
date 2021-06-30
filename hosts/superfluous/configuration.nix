@@ -174,7 +174,7 @@ in
       edwin
       emacs-all-the-icons-fonts
       fantasque-sans-mono
-      (nerdfonts.override { fonts = [ "Iosevka" ]; })
+      (nerdfonts.override { fonts = [ "FantasqueSansMono"  "Iosevka" ]; })
       iosevka-ft-bin
       # TODO: use only when current is outdated
       # iosevka-ft

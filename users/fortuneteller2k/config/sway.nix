@@ -179,6 +179,6 @@ with theme.colors;
   }
 
   exec swayidle -w \
-      timeout 300 'swaylock && swaymsg "output * dpms off"' \
+      timeout 300 'swaylock -c ${bg} --font "Sarasa Gothic J" && swaymsg "output * dpms off"' \
       resume 'swaymsg "output * dpms on"' \
 ''

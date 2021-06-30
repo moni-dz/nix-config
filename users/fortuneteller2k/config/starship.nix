@@ -1,12 +1,5 @@
 {
-  character = {
-    success_symbol = "[^](bold green)";
-    error_symbol = "[^](bold red)";
-    vicmd_symbol = "[^](bold yellow)";
-  };
-
-  command_timeout = 1000;
-
+  command_timeout = 3000;
   format = "$all";
 
   username = {
