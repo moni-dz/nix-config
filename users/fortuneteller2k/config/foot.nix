@@ -7,6 +7,7 @@ with theme.colors;
     term = "xterm-256color";
     font = "Iosevka FT:size=10.5";
     letter-spacing = -1;
+    line-height = 13.5;
     dpi-aware = "yes";
     pad = "8x8";
   };
