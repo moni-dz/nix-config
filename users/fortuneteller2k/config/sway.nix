@@ -118,9 +118,9 @@ with theme.colors;
   bindsym $mod+w  exec emacs
 
   # Volume
-  bindsym XF86AudioRaiseVolume exec ~/.config/scripts/volume.sh up
-  bindsym XF86AudioLowerVolume exec ~/.config/scripts/volume.sh down
-  bindsym XF86AudioMute        exec ~/.config/scripts/volume.sh toggle
+  bindsym XF86AudioRaiseVolume exec ~/.local/bin/volume up
+  bindsym XF86AudioLowerVolume exec ~/.local/bin/volume down
+  bindsym XF86AudioMute        exec ~/.local/bin/volume toggle
 
   # Brightness
   bindsym XF86MonBrightnessDown exec brightnessctl -q set 10%-
