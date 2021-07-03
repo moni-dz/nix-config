@@ -14,7 +14,6 @@ with theme.colors;
   # start a terminal
   set $term footclient
   bindsym $mod+Return exec $term
-  bindsym Mod4+Return exec $term
 
   # spawn menu
   set $menu "${pkgs.bemenu}/bin/bemenu-run -H 18 -l 5 --fn 'Iosevka FT 10.5' --tb '#${primaryBright}' --tf '#${bg}' --hb '#${primaryBright}' --hf '#${bg}'"
