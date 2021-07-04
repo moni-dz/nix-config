@@ -32,7 +32,7 @@
 
       I nuke this branch from time to time.
     */
-    # kernel.url = "github:samuelgrf/nixpkgs/xanmod-features-kconfig";
+    kernel.url = "github:fortuneteller2k/nixpkgs/xanmod-5.13";
 
     # Default Nixpkgs for packages and modules
     nixpkgs.follows = "master";
@@ -101,7 +101,7 @@
             stable = import stable { inherit config system; };
 
             # NOTE: Remove this, if you're not me or a maintainer of the XanMod kernel in Nixpkgs
-            # kernel = import inputs.kernel { inherit config system; };
+            kernel = import inputs.kernel { inherit config system; };
           })
 
         # Overlays provided by inputs

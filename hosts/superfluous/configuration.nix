@@ -11,8 +11,8 @@ in
 
       If you're not me or a XanMod kernel maintainer in Nixpkgs, use pkgs.linuxPackages_xanmod instead.
     */
-    # kernelPackages = pkgs.kernel.linuxPackages_xanmod;
-    kernelPackages = pkgs.master.linuxPackages_xanmod;
+    kernelPackages = pkgs.kernel.linuxPackages_xanmod;
+    # kernelPackages = pkgs.master.linuxPackages_xanmod;
 
     kernelParams = [
       "mitigations=off"
@@ -149,6 +149,7 @@ in
         git
         glxinfo
         gnome3.nautilus
+        hikari
         libva-utils
         lm_sensors
         man-pages
@@ -253,6 +254,7 @@ in
         swaylock
         swayidle
         swaybg
+        wayland-utils
         wl-clipboard
         wf-recorder
         brightnessctl
