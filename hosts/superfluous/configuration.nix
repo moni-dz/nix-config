@@ -110,65 +110,59 @@ in
     supportedLocales = [ "en_US.UTF-8/UTF-8" ];
   };
 
-  environment =
-    let
-      iwdSettings.Settings.AutoConnect = true;
-      iwdConfigFile = (pkgs.formats.ini { }).generate "main.conf" iwdSettings;
-    in
-    {
-      /*
-        NOTE: This isn't found in https://search.nixos.org/options.
+  environment = {
+    /*
+      NOTE: This isn't found in https://search.nixos.org/options.
 
-        Here's the warning that came with it:
+      Here's the warning that came with it:
 
-        "Please note that NixOS assumes all over the place that shell to be Bash,
-        so override the default setting only if you know exactly what you're doing."
-      */
-      binsh = "${pkgs.zsh}/bin/zsh";
-      etc."iwd/main.conf".source = iwdConfigFile;
+      "Please note that NixOS assumes all over the place that shell to be Bash,
+      so override the default setting only if you know exactly what you're doing."
+    */
+    binsh = "${pkgs.zsh}/bin/zsh";
 
-      pathsToLink = [ "/share/zsh" ];
+    pathsToLink = [ "/share/zsh" ];
 
-      sessionVariables = with pkgs; {
-        # LD_PRELOAD = "/etc/nixos/config/ld-preload-xcreatewindow.so";
-        _JAVA_AWT_WM_NONREPARENTING = "1";
-      };
-
-      shells = with pkgs; [ zsh ];
-
-      # Font packages should go in fonts.fonts a few lines below this.
-      systemPackages = with pkgs; [
-        alsaTools
-        alsaUtils
-        brightnessctl
-        coreutils
-        curl
-        dash
-        fd
-        file
-        git
-        glxinfo
-        gnome3.nautilus
-        hikari
-        libva-utils
-        lm_sensors
-        man-pages
-        man-pages-posix
-        ntfs3g
-        pavucontrol
-        pciutils
-        psmisc
-        pulseaudio
-        ripgrep
-        subversion
-        util-linux
-        unrar
-        unzip
-        wget
-        xarchiver
-        zip
-      ];
+    sessionVariables = with pkgs; {
+      # LD_PRELOAD = "/etc/nixos/config/ld-preload-xcreatewindow.so";
+      _JAVA_AWT_WM_NONREPARENTING = "1";
     };
+
+    shells = with pkgs; [ zsh ];
+
+    # Font packages should go in fonts.fonts a few lines below this.
+    systemPackages = with pkgs; [
+      alsaTools
+      alsaUtils
+      brightnessctl
+      coreutils
+      curl
+      dash
+      fd
+      file
+      git
+      glxinfo
+      gnome3.nautilus
+      hikari
+      libva-utils
+      lm_sensors
+      man-pages
+      man-pages-posix
+      ntfs3g
+      pavucontrol
+      pciutils
+      psmisc
+      pulseaudio
+      ripgrep
+      subversion
+      util-linux
+      unrar
+      unzip
+      wget
+      xarchiver
+      zip
+    ];
+  };
 
   fonts = {
     fonts = with pkgs; [
@@ -235,7 +229,11 @@ in
     };
 
     useDHCP = false;
-    wireless.iwd.enable = true;
+
+    wireless.iwd = {
+      enable = true;
+      settings.Settings.AutoConnect = true;
+    };
   };
 
   powerManagement.cpuFreqGovernor = "schedutil";
@@ -359,6 +357,7 @@ in
       media-session.config = import ./config/pipewire/media-session.nix;
     };
 
+    thelounge.enable = true;
     usbmuxd.enable = true;
     upower.enable = true;
 

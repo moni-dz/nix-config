@@ -7,4 +7,6 @@
     command = "${pkgs.rnix-lsp}/bin/rnix-lsp";
     filetypes = [ "nix" ];
   };
+
+  rust-analyzer.server.path = "rust-analyzer";
 }

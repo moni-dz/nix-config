@@ -96,6 +96,7 @@ in
       nixpkgs-fmt
       nixpkgs-review
       notify-desktop
+      obsidian
       eww
       nvd
       pfetch
@@ -105,8 +106,10 @@ in
       speedtest-cli
       spotify-wrapped
       sublime4
+      teams
       torrential
       weechat
+      zoom
     ];
 
     sessionPath = [
