@@ -168,8 +168,8 @@ in
     };
 
     emacs = {
-      enable = true;
-      package = pkgs.emacsPgtkGcc;
+      enable = false;
+      package = pkgs.emacsGcc;
     };
 
     exa = {
