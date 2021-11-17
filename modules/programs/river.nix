@@ -43,16 +43,18 @@ in
     programs.dconf.enable = mkDefault true;
     programs.xwayland.enable = mkDefault true;
 
-    services.xserver.displayManager.session = [
-      {
-        manage = "window";
-        name = "river";
-        start = ''
-          systemd-cat -t river -- ${pkgs.river}/bin/river &
-          waitPID=$!
-        '';
-      }
-    ];
+    services.greetd = {
+      enable = true;
+
+      settings = {
+        default_session.command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd river";
+
+        initial_session = {
+          command = "river";
+          user = "fortuneteller2k";
+        };
+      };
+    };
   };
 
   meta.maintainers = with lib.maintainers; [ fortuneteller2k ];

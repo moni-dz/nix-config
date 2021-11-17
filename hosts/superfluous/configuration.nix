@@ -243,15 +243,12 @@ in
     command-not-found.enable = false;
     slock.enable = config.services.xserver.enable;
 
-    sway = {
+    river = {
       enable = true;
-      wrapperFeatures.gtk = true;
 
       extraPackages = with pkgs; [
-        autotiling
         swaylock
         swayidle
-        swaybg
         wayland-utils
         wl-clipboard
         wf-recorder
@@ -263,19 +260,8 @@ in
         bemenu
         qt5.qtwayland
         xdg_utils
+        kile-wl
       ];
-
-      extraSessionCommands = ''
-        export XDG_SESSION_DESKTOP=sway
-        export SDL_VIDEODRIVER=wayland
-        export QT_QPA_PLATFORM=wayland-egl
-        export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
-        export MOZ_ENABLE_WAYLAND=1
-        export CLUTTER_BACKEND=wayland
-        export ECORE_EVAS_ENGINE=wayland-egl
-        export ELM_ENGINE=wayland_egl
-        export NO_AT_BRIDGE=1
-      '';
     };
 
     qt5ct.enable = true;
@@ -308,19 +294,6 @@ in
         "2.nixos.pool.ntp.org"
         "3.nixos.pool.ntp.org"
       ];
-    };
-
-    greetd = {
-      enable = config.programs.sway.enable;
-
-      settings = {
-        default_session.command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd sway";
-
-        initial_session = {
-          command = "sway";
-          user = "fortuneteller2k";
-        };
-      };
     };
 
     journald.extraConfig = lib.mkForce "";
@@ -362,7 +335,7 @@ in
     upower.enable = true;
 
     xserver = {
-      enable = !config.programs.sway.enable;
+      enable = !config.programs.river.enable;
 
       displayManager = {
         sddm.enable = config.services.xserver.enable;

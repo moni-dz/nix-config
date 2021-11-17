@@ -77,7 +77,7 @@ in
       dragon-drop
       element-desktop
       ffmpeg
-      flavours
+      # flavours
       font-manager
       gimp
       gitAndTools.gh
@@ -91,25 +91,25 @@ in
       lazygit
       libimobiledevice
       libirecovery
-      manix
-      neofetch
+      # manix
+      # neofetch
       nixpkgs-fmt
       nixpkgs-review
       notify-desktop
-      obsidian
-      eww
+      # obsidian
+      # eww
       nvd
-      pfetch
+      # pfetch
       playerctl
       python3
       qutebrowser
       speedtest-cli
       spotify-wrapped
-      sublime4
-      teams
-      torrential
-      weechat
-      zoom
+      # sublime4
+      # teams
+      # torrential
+      # weechat
+      # zoom
     ];
 
     sessionPath = [
@@ -140,7 +140,7 @@ in
       enable = false;
       settings = import ./config/alacritty.nix {
         inherit theme;
-        isWayland = config.wayland.windowManager.sway.enable;
+        isWayland = true;
       };
     };
 
@@ -179,7 +179,6 @@ in
 
     foot = {
       enable = true;
-      server.enable = true;
       settings = import ./config/foot.nix { inherit theme; };
     };
 
@@ -332,7 +331,7 @@ in
     playerctld.enable = true;
 
     polybar = {
-      enable = !config.wayland.windowManager.sway.enable;
+      enable = false;
       script = "polybar main &";
       config = import ./config/polybar.nix { inherit pkgs theme; };
     };
@@ -341,7 +340,7 @@ in
   systemd.user.startServices = "sd-switch";
 
   wayland.windowManager.sway = {
-    enable = true;
+    enable = false;
     package = null; # Using the NixOS module
 
     config = with theme.colors; {

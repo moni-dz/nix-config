@@ -9,21 +9,27 @@
     vim-flowtune = { url = "github:fortuneteller2k/vim-flowtune"; flake = false; };
     vim-horizon = { url = "github:fortuneteller2k/vim-horizon"; flake = false; };
     zsh-doas = { url = "github:anatolykopyl/doas-zsh-plugin"; flake = false; };
-    zsh-f-sy-h = { url = "github:zdharma/fast-syntax-highlighting"; flake = false; };
+    # zsh-f-sy-h = { url = "git+https://github.com/zdharma/fast-syntax-highlighting"; flake = false; };
 
     # Flake inputs
     agenix.url = "github:ryantm/agenix";
+    agenix.inputs.nixpkgs.follows = "nixpkgs";
     emacs.url = "github:nix-community/emacs-overlay";
-    home.url = "github:nix-community/home-manager";
+    home.url = "git+https://github.com/nix-community/home-manager";
+    home.inputs.nixpkgs.follows = "nixpkgs";
     manix.url = "github:mlvzk/manix";
+    manix.inputs.nixpkgs.follows = "nixpkgs";
     neovim.url = "github:neovim/neovim?dir=contrib";
-    nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
+    neovim.inputs.nixpkgs.follows = "nixpkgs";
+    nixpkgs-f2k.url = "git+https://github.com/fortuneteller2k/nixpkgs-f2k";
+    nixpkgs-f2k.inputs.nixpkgs.follows = "nixpkgs";
     review.url = "github:Mic92/nixpkgs-review";
+    review.inputs.nixpkgs.follows = "nixpkgs";
 
     # Nixpkgs branches
-    master.url = "github:nixos/nixpkgs/master";
+    master.url = "git+https://github.com/nixos/nixpkgs";
     stable.url = "github:nixos/nixpkgs/nixos-21.05";
-    unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    unstable.url = "git+https://github.com/nixos/nixpkgs?ref=nixos-unstable";
 
     /*
       NOTE: don't use this, if you're not me or a maintainer of the XanMod kernel in Nixpkgs
@@ -33,7 +39,7 @@
     kernel.url = "github:fortuneteller2k/nixpkgs/xanmod-5.13";
 
     # Default Nixpkgs for packages and modules
-    nixpkgs.follows = "master";
+    nixpkgs.follows = "unstable";
   };
 
   outputs = { self, agenix, home, nixpkgs, ... } @ inputs:
@@ -76,11 +82,12 @@
             iosevka-ft-bin = iosevka;
             weechat-unwrapped = weechat-unwrapped-git;
             xdg-desktop-portal-wlr = xdg-desktop-portal-wlr-git;
+            river = river-git;
           })
           //
           {
             # Sources provided by non-flake inputs, to be used in overlays and derivations
-            inherit nixos-wallpapers zsh-doas zsh-f-sy-h;
+            inherit nixos-wallpapers zsh-doas;
             phocus-src = phocus;
             twobwm-src = twobwm;
             vim-flowtune-src = vim-flowtune;
