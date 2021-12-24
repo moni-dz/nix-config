@@ -19,11 +19,11 @@ rec {
     "fortuneteller2k.cachix.org-1:kXXNkMV5yheEQwT0I4XYh1MaCSz+qg72k8XAi2PthJI="
   ];
 
-  daemonNiceLevel = 1;
+  daemonCPUSchedPolicy = "idle";
   daemonIONiceLevel = 1;
 
   extraOptions = ''
-    experimental-features = ca-references ca-derivations nix-command flakes
+    experimental-features = ca-derivations nix-command flakes
     keep-outputs = true
     keep-derivations = true
   '';

@@ -104,7 +104,7 @@ in
       python3
       qutebrowser
       speedtest-cli
-      spotify-wrapped
+      # spotify-wrapped
       # sublime4
       # teams
       # torrential
@@ -161,10 +161,7 @@ in
 
     direnv = {
       enable = true;
-      nix-direnv = {
-        enable = true;
-        enableFlakes = true;
-      };
+      nix-direnv.enable = true;
     };
 
     emacs = {

@@ -330,7 +330,6 @@ in
       media-session.config = import ./config/pipewire/media-session.nix;
     };
 
-    thelounge.enable = true;
     usbmuxd.enable = true;
     upower.enable = true;
 
@@ -352,12 +351,6 @@ in
           See overlays/2bwm.nix for applied patches.
         */
         "2bwm".enable = false;
-
-        # FIXME: bling can't be detected
-        # awesome = {
-        #   enable = false;
-        #   luaModules = with pkgs; [ bling ];
-        # };
 
         xmonad = with pkgs; {
           enable = config.services.xserver.enable;

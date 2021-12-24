@@ -15,21 +15,21 @@
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
     emacs.url = "github:nix-community/emacs-overlay";
-    home.url = "git+https://github.com/nix-community/home-manager";
+    home.url = "github:nix-community/home-manager";
     home.inputs.nixpkgs.follows = "nixpkgs";
     manix.url = "github:mlvzk/manix";
     manix.inputs.nixpkgs.follows = "nixpkgs";
     neovim.url = "github:neovim/neovim?dir=contrib";
     neovim.inputs.nixpkgs.follows = "nixpkgs";
-    nixpkgs-f2k.url = "git+https://github.com/fortuneteller2k/nixpkgs-f2k";
+    nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
     nixpkgs-f2k.inputs.nixpkgs.follows = "nixpkgs";
     review.url = "github:Mic92/nixpkgs-review";
     review.inputs.nixpkgs.follows = "nixpkgs";
 
     # Nixpkgs branches
-    master.url = "git+https://github.com/nixos/nixpkgs";
+    master.url = "github:nixos/nixpkgs";
     stable.url = "github:nixos/nixpkgs/nixos-21.05";
-    unstable.url = "git+https://github.com/nixos/nixpkgs?ref=nixos-unstable";
+    unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     /*
       NOTE: don't use this, if you're not me or a maintainer of the XanMod kernel in Nixpkgs
@@ -39,7 +39,7 @@
     kernel.url = "github:fortuneteller2k/nixpkgs/xanmod-5.13";
 
     # Default Nixpkgs for packages and modules
-    nixpkgs.follows = "unstable";
+    nixpkgs.follows = "master";
   };
 
   outputs = { self, agenix, home, nixpkgs, ... } @ inputs:
@@ -80,7 +80,6 @@
             picom = picom-git;
             slock = slock-fancy;
             iosevka-ft-bin = iosevka;
-            weechat-unwrapped = weechat-unwrapped-git;
             xdg-desktop-portal-wlr = xdg-desktop-portal-wlr-git;
             river = river-git;
           })
