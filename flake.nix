@@ -15,6 +15,7 @@
     home.url = "github:nix-community/home-manager";
     neovim.url = "github:neovim/neovim?dir=contrib";
     nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
+    nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
     review.url = "github:Mic92/nixpkgs-review";
 
     # Nixpkgs branches
@@ -68,8 +69,11 @@
             picom = picom-git;
             slock = slock-fancy;
             iosevka-ft-bin = iosevka;
-            xdg-desktop-portal-wlr = xdg-desktop-portal-wlr-git;
-            # river = river-git;
+            river = river-git;
+          })
+          //
+          (with nixpkgs-wayland.packages.${system}; {
+            inherit sway-unwrapped swayidle swaylock slurp oguri waybar wf-recorder xdg-desktop-portal-wlr;
           })
           //
           {

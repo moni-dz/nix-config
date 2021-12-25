@@ -7,6 +7,7 @@ rec {
     "https://emacsng.cachix.org"
     "https://mjlbach.cachix.org"
     "https://nix-community.cachix.org"
+    "https://nixpkgs-wayland.cachix.org"
     "https://fortuneteller2k.cachix.org"
   ];
 
@@ -16,6 +17,7 @@ rec {
     "emacsng.cachix.org-1:i7wOr4YpdRpWWtShI8bT6V7lOTnPeI7Ho6HaZegFWMI="
     "mjlbach.cachix.org-1:dR0V90mvaPbXuYria5mXvnDtFibKYqYc2gtl9MWSkqI="
     "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
     "fortuneteller2k.cachix.org-1:kXXNkMV5yheEQwT0I4XYh1MaCSz+qg72k8XAi2PthJI="
   ];
 
