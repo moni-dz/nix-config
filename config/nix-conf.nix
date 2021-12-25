@@ -20,7 +20,8 @@ rec {
   ];
 
   daemonCPUSchedPolicy = "idle";
-  daemonIONiceLevel = 1;
+  daemonIOSchedClass = "idle";
+  daemonIOSchedPriority = 5;
 
   extraOptions = ''
     experimental-features = ca-derivations nix-command flakes
