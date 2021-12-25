@@ -4,14 +4,14 @@
 
 [[assets/nixos-official-logo.png]]
 
-[[https://github.com/nixos/nixpkgs][file:https://img.shields.io/badge/NixOS-21.11-informational?style=flat.svg]]
+[[https://github.com/nixos/nixpkgs][file:https://img.shields.io/badge/NixOS-22.05-informational?style=flat.svg]]
 
 [[https://github.com/fortuneteller2k/nix-config/actions/workflows/check.yml][https://github.com/fortuneteller2k/nix-config/actions/workflows/check.yml/badge.svg]] [[https://github.com/fortuneteller2k/nix-config/actions/workflows/format.yml][https://github.com/fortuneteller2k/nix-config/actions/workflows/format.yml/badge.svg]] 
 
 
 ** Installation
 
-Get the latest NixOS 21.11 image [[https://releases.nixos.org/?prefix=nixos/unstable/][here]], do your partitions (root must be mounted at =/mnt=), then run the following commands
+Get the latest NixOS 22.05 image [[https://releases.nixos.org/?prefix=nixos/unstable/][here]], do your partitions (root must be mounted at =/mnt=), then run the following commands
 #+begin_src sh
   # move the output file of this to hosts/superfluous/hardware-configuration.nix
   nixos-generate-config
