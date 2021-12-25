@@ -260,6 +260,7 @@ in
         bemenu
         qt5.qtwayland
         xdg_utils
+        oguri
         # kile-wl
       ];
 
