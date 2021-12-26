@@ -143,7 +143,6 @@ in
       git
       glxinfo
       gnome3.nautilus
-      hikari
       libva-utils
       lm_sensors
       man-pages
@@ -241,12 +240,13 @@ in
   programs = {
     bash.interactiveShellInit = ''export HISTFILE=$HOME/.config/.bash_history'';
     command-not-found.enable = false;
-    slock.enable = config.services.xserver.enable;
 
-    river = {
+    sway = {
       enable = true;
 
       extraPackages = with pkgs; [
+        autotiling
+        swaybg
         swaylock
         swayidle
         wayland-utils
@@ -260,16 +260,23 @@ in
         bemenu
         qt5.qtwayland
         xdg_utils
-        kile-wl
+        # kile-wl
       ];
+
+      extraSessionCommands = ''
+        export XDG_SESSION_DESKTOP=sway
+        export SDL_VIDEODRIVER=wayland
+        export QT_QPA_PLATFORM=wayland-egl
+        export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
+        export MOZ_ENABLE_WAYLAND=1
+        export CLUTTER_BACKEND=wayland
+        export ECORE_EVAS_ENGINE=wayland-egl
+        export ELM_ENGINE=wayland_eg
+        export NO_AT_BRIDGE=1
+      '';
     };
 
     qt5ct.enable = true;
-
-    xss-lock = {
-      enable = !config.programs.sway.enable;
-      lockerCommand = "${config.security.wrapperDir}/slock";
-    };
   };
 
   security = {
@@ -296,6 +303,19 @@ in
       ];
     };
 
+    greetd = {
+      enable = true;
+
+      settings = {
+        default_session.command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd sway";
+
+        initial_session = {
+          command = "sway";
+          user = "fortuneteller2k";
+        };
+      };
+    };
+
     journald.extraConfig = lib.mkForce "";
 
     openssh = {
@@ -304,15 +324,6 @@ in
       permitRootLogin = "yes";
     };
 
-    picom = {
-      enable = config.services.xserver.enable;
-      refreshRate = 60;
-      experimentalBackends = config.services.picom.backend == "glx";
-      backend = "glx";
-      vSync = true;
-
-      settings = import ./config/picom-settings.nix;
-    };
 
     pipewire = {
       enable = true;
@@ -332,83 +343,9 @@ in
 
     usbmuxd.enable = true;
     upower.enable = true;
-
-    xserver = {
-      enable = !config.programs.river.enable;
-
-      displayManager = {
-        sddm.enable = config.services.xserver.enable;
-        defaultSession = "none+xmonad";
-      };
-
-      extraConfig = import ./config/xorg.nix;
-      useGlamor = true;
-
-      windowManager = {
-        /*
-          NOTE: I primarily use Sway
-
-          See overlays/2bwm.nix for applied patches.
-        */
-        "2bwm".enable = false;
-
-        xmonad = with pkgs; {
-          enable = config.services.xserver.enable;
-          config = import ./config/xmonad.nix { inherit config pkgs theme; };
-          # Don't use enableContribAndExtras since xmonad-extras doesn't compile on the git versions.
-          extraPackages = hpkgs: with hpkgs; [ dbus xmonad-contrib ];
-
-          ghcArgs = [
-            "-O2"
-            "-fasm-shortcutting"
-            "-fdicts-cheap"
-            "-fdicts-strict"
-            "-funfolding-use-threshold=16"
-            "-fspecialise-aggressively"
-            "-fblock-layout-weightless"
-            "-feager-blackholing"
-            "-fexpose-all-unfoldings"
-            "-fregs-iterative"
-            "-fspec-constr-keen"
-            "-fstatic-argument-transformation"
-            "-funbox-strict-fields"
-            "-flate-dmd-anal"
-            "-fignore-interface-pragmas"
-            "-ffun-to-thunk"
-            "-fexcess-precision"
-            "-optc-O3"
-            "-optc-ffast-math"
-          ];
-        };
-      };
-
-      layout = "us";
-
-      libinput = {
-        enable = true;
-        mouse.accelProfile = "flat";
-        touchpad.naturalScrolling = true;
-      };
-    };
   };
 
   system = {
-    userActivationScripts = {
-      reloadWallpaper.text =
-        let
-          xwallpaperFlag = if theme.colors.tiledWallpaper then "--tile" else "--zoom";
-        in
-        if config.services.xserver.enable && !config.programs.sway.enable then
-          "[ $DISPLAY ] && ${pkgs.xwallpaper}/bin/xwallpaper ${xwallpaperFlag} ${theme.colors.wallpaper} || ${pkgs.coreutils}/bin/echo 'skipping...'"
-        else
-          "${pkgs.coreutils}/bin/echo 'skipping because on wayland...'";
-
-      reloadXMonad.text =
-        if config.services.xserver.enable && config.services.xserver.windowManager.xmonad.enable then
-          "[ $DISPLAY ] && ${pkgs.xmonad-with-packages}/bin/xmonad --restart || echo 'not in xmonad, skipping...' || ${pkgs.coreutils}/bin/echo 'skipping...'"
-        else
-          "${pkgs.coreutils}/bin/echo 'skipping because on wayland...'";
-    };
 
     /*
       NOTE: DO NOT CHANGE THIS IF YOU DON'T KNOW WHAT YOU'RE DOING.
@@ -425,7 +362,6 @@ in
     user.services = {
       pipewire.wantedBy = [ "default.target" ];
       pipewire-pulse.wantedBy = [ "default.target" ];
-      # xidlehook = import ./services/xidlehook.nix { inherit config lib pkgs; };
     };
   };
 

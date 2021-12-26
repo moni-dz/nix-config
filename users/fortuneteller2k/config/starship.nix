@@ -15,6 +15,8 @@
     disabled = true;
   };
 
+  battery.disabled = true;
+
   line_break.disabled = true;
   directory.format = "[$path]($style) [$read_only]($read_only_style)";
   nix_shell.symbol = "🌨  ";

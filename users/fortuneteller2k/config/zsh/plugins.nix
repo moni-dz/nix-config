@@ -1,10 +1,10 @@
 { pkgs }:
 
 [
-  #{
-  #  name = "fast-syntax-highlighting";
-  #  src = pkgs.zsh-f-sy-h;
-  #}
+  {
+    name = "fast-syntax-highlighting";
+    src = pkgs.zsh-f-sy-h;
+  }
 
   {
     name = "doas";

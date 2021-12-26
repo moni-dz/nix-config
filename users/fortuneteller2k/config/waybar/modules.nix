@@ -21,21 +21,6 @@
     format = "{:  %m/%d/%Y %I:%M %p}";
   };
 
-  "battery" = {
-    bat = "BAT0";
-
-    states = {
-      warning = 30;
-      critical = 15;
-    };
-
-    format = "{icon}  {capacity}%";
-    format-charging = "{icon}  {capacity}%";
-    format-plugged = "{icon}  {capacity}%";
-    format-full = "{icon}  {capacity}%";
-    format-icons = [ "" "" "" "" "" ];
-  };
-
   "network" = {
     interface = "wlan0";
     format = "  {ifname}";

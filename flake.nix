@@ -5,30 +5,21 @@
     # Non-flake inputs
     nixos-wallpapers = { url = "github:fortuneteller2k/nixos-wallpapers"; flake = false; };
     phocus = { url = "github:fortuneteller2k/gtk"; flake = false; };
-    twobwm = { url = "github:venam/2bwm"; flake = false; };
-    vim-flowtune = { url = "github:fortuneteller2k/vim-flowtune"; flake = false; };
     vim-horizon = { url = "github:fortuneteller2k/vim-horizon"; flake = false; };
     zsh-doas = { url = "github:anatolykopyl/doas-zsh-plugin"; flake = false; };
-    # zsh-f-sy-h = { url = "git+https://github.com/zdharma/fast-syntax-highlighting"; flake = false; };
+    zsh-f-sy-h = { url = "github:zdharma-continuum/fast-syntax-highlighting"; flake = false; };
 
     # Flake inputs
     agenix.url = "github:ryantm/agenix";
-    agenix.inputs.nixpkgs.follows = "nixpkgs";
     emacs.url = "github:nix-community/emacs-overlay";
     home.url = "github:nix-community/home-manager";
-    home.inputs.nixpkgs.follows = "nixpkgs";
-    manix.url = "github:mlvzk/manix";
-    manix.inputs.nixpkgs.follows = "nixpkgs";
     neovim.url = "github:neovim/neovim?dir=contrib";
-    neovim.inputs.nixpkgs.follows = "nixpkgs";
     nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
-    nixpkgs-f2k.inputs.nixpkgs.follows = "nixpkgs";
     review.url = "github:Mic92/nixpkgs-review";
-    review.inputs.nixpkgs.follows = "nixpkgs";
 
     # Nixpkgs branches
     master.url = "github:nixos/nixpkgs";
-    stable.url = "github:nixos/nixpkgs/nixos-21.05";
+    stable.url = "github:nixos/nixpkgs/nixos-21.11";
     unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
     /*
@@ -69,10 +60,7 @@
           {
             # Packages provided by flake inputs
             agenix = agenix.defaultPackage.${system};
-            emacsNg = emacs-ng.defaultPackage.${system};
-            manix = manix.defaultPackage.${system};
             neovim-nightly = neovim.packages.${system}.neovim;
-            nixpkgs-review = review.defaultPackage.${system};
           }
           //
           (with nixpkgs-f2k.packages.${system}; {
@@ -81,15 +69,13 @@
             slock = slock-fancy;
             iosevka-ft-bin = iosevka;
             xdg-desktop-portal-wlr = xdg-desktop-portal-wlr-git;
-            river = river-git;
+            # river = river-git;
           })
           //
           {
             # Sources provided by non-flake inputs, to be used in overlays and derivations
-            inherit nixos-wallpapers zsh-doas;
+            inherit nixos-wallpapers zsh-doas zsh-f-sy-h;
             phocus-src = phocus;
-            twobwm-src = twobwm;
-            vim-flowtune-src = vim-flowtune;
             vim-horizon-src = vim-horizon;
 
             /*

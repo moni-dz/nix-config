@@ -12,7 +12,7 @@ with theme.colors;
   floating_modifier $mod
 
   # start a terminal
-  set $term footclient
+  set $term foot
   bindsym $mod+Return exec $term
 
   # spawn menu

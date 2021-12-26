@@ -21,11 +21,6 @@ in
   };
 
   home = {
-    activation.reloadPolybar =
-      if config.services.polybar.enable
-      then "${pkgs.polybar}/bin/polybar-msg cmd restart || echo 'skipping...'"
-      else "echo 'wayland, skipping'";
-
     file = {
       ".local/bin/can" = {
         executable = true;
@@ -77,7 +72,6 @@ in
       dragon-drop
       element-desktop
       ffmpeg
-      # flavours
       font-manager
       gimp
       gitAndTools.gh
@@ -91,25 +85,12 @@ in
       lazygit
       libimobiledevice
       libirecovery
-      # manix
-      # neofetch
       nixpkgs-fmt
       nixpkgs-review
       notify-desktop
-      # obsidian
-      # eww
       nvd
-      # pfetch
       playerctl
       python3
-      qutebrowser
-      speedtest-cli
-      # spotify-wrapped
-      # sublime4
-      # teams
-      # torrential
-      # weechat
-      # zoom
     ];
 
     sessionPath = [
@@ -247,13 +228,8 @@ in
       settings = import ./config/starship.nix;
     };
 
-    qutebrowser = {
-      enable = true;
-      extraConfig = import ./config/qutebrowser.nix;
-    };
-
     waybar = {
-      enable = config.wayland.windowManager.sway.enable;
+      enable = true;
 
       settings = [
         {
@@ -261,7 +237,7 @@ in
           position = "top";
           height = 17;
           modules-left = [ "sway/workspaces" "sway/mode" ];
-          modules-right = [ "battery" "pulseaudio" "network" "clock" ];
+          modules-right = [ "pulseaudio" "network" "clock" ];
           modules = import ./config/waybar/modules.nix;
         }
       ];
@@ -326,18 +302,12 @@ in
     };
 
     playerctld.enable = true;
-
-    polybar = {
-      enable = false;
-      script = "polybar main &";
-      config = import ./config/polybar.nix { inherit pkgs theme; };
-    };
   };
 
   systemd.user.startServices = "sd-switch";
 
   wayland.windowManager.sway = {
-    enable = false;
+    enable = true;
     package = null; # Using the NixOS module
 
     config = with theme.colors; {
@@ -365,6 +335,4 @@ in
       videos = "${config.home.homeDirectory}/Media/Videos";
     };
   };
-
-  xresources.extraConfig = import ./config/xresources.nix { inherit theme; };
 }
