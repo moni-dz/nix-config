@@ -14,21 +14,15 @@
     emacs.url = "github:nix-community/emacs-overlay";
     home.url = "github:nix-community/home-manager";
     neovim.url = "github:neovim/neovim?dir=contrib";
+    nixvim.url = "github:pta2002/nixvim";
+    nix-colors.url = "github:Misterio77/nix-colors";
     nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
     nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
-    review.url = "github:Mic92/nixpkgs-review";
 
     # Nixpkgs branches
     master.url = "github:nixos/nixpkgs";
     stable.url = "github:nixos/nixpkgs/nixos-21.11";
     unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-
-    /*
-      NOTE: don't use this, if you're not me or a maintainer of the XanMod kernel in Nixpkgs
-
-      I nuke this branch from time to time.
-    */
-    kernel.url = "github:fortuneteller2k/nixpkgs/xanmod-5.13";
 
     # Default Nixpkgs for packages and modules
     nixpkgs.follows = "master";
@@ -93,9 +87,6 @@
             master = import master { inherit config system; };
             unstable = import unstable { inherit config system; };
             stable = import stable { inherit config system; };
-
-            # NOTE: Remove this, if you're not me or a maintainer of the XanMod kernel in Nixpkgs
-            kernel = import inputs.kernel { inherit config system; };
           })
 
         # Overlays provided by inputs

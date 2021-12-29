@@ -1,8 +1,6 @@
-{ theme }:
+{ colorscheme }:
 
-with theme.colors;
-
-{
+with colorscheme.colors; {
   main = {
     term = "xterm-256color";
     font = "Iosevka FT:size=10.5";
@@ -15,24 +13,24 @@ with theme.colors;
   cursor.style = "beam";
 
   colors = {
-    background = bg;
-    foreground = fg;
-    regular0 = c0;
-    regular1 = c1;
-    regular2 = c2;
-    regular3 = c3;
-    regular4 = c4;
-    regular5 = c5;
-    regular6 = c6;
-    regular7 = c7;
-    bright0 = c8;
-    bright1 = c9;
-    bright2 = c10;
-    bright3 = c11;
-    bright4 = c12;
-    bright5 = c13;
-    bright6 = c14;
-    bright7 = c15;
+    background = base00;
+    foreground = base05;
+    regular0 = base01;
+    regular1 = base08;
+    regular2 = base0B;
+    regular3 = base0A;
+    regular4 = base0D;
+    regular5 = base0E;
+    regular6 = base0C;
+    regular7 = base06;
+    bright0 = base02;
+    bright1 = base08;
+    bright2 = base0B;
+    bright3 = base0A;
+    bright4 = base0D;
+    bright5 = base0E;
+    bright6 = base0C;
+    bright7 = base07;
   };
 }
 

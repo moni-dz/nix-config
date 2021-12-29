@@ -278,21 +278,6 @@
         "type": "github"
       }
     },
-    "flake-utils_5": {
-      "locked": {
-        "lastModified": 1638122382,
-        "narHash": "sha256-sQzZzAbvKEqN9s0bzWuYmRaA03v40gaJ4+iL1LXjaeI=",
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "rev": "74f7e4319258e287b0f9cb95426c9853b282730b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "numtide",
-        "repo": "flake-utils",
-        "type": "github"
-      }
-    },
     "home": {
       "inputs": {
         "nixpkgs": "nixpkgs_2"
@@ -308,22 +293,6 @@
       "original": {
         "owner": "nix-community",
         "repo": "home-manager",
-        "type": "github"
-      }
-    },
-    "kernel": {
-      "locked": {
-        "lastModified": 1628355087,
-        "narHash": "sha256-iN407pRYXlhMIWD6G5naiCl9cBqolNjsNK/PI6wOD6Y=",
-        "owner": "fortuneteller2k",
-        "repo": "nixpkgs",
-        "rev": "a80f274f32bec61fc3b26ad59780159a13a925ff",
-        "type": "github"
-      },
-      "original": {
-        "owner": "fortuneteller2k",
-        "ref": "xanmod-5.13",
-        "repo": "nixpkgs",
         "type": "github"
       }
     },
@@ -410,6 +379,21 @@
         "dir": "contrib",
         "owner": "neovim",
         "repo": "neovim",
+        "type": "github"
+      }
+    },
+    "nix-colors": {
+      "locked": {
+        "lastModified": 1640622288,
+        "narHash": "sha256-412WgnPI3DkgucKkZfbdG3mpbcUO2K329YuR0VU2b0I=",
+        "owner": "Misterio77",
+        "repo": "nix-colors",
+        "rev": "962d7f2e4c128e0fbe951e0d71b66ba857357b5e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Misterio77",
+        "repo": "nix-colors",
         "type": "github"
       }
     },
@@ -505,16 +489,16 @@
     },
     "nixpkgs_10": {
       "locked": {
-        "lastModified": 1640418986,
-        "narHash": "sha256-a8GGtxn2iL3WAkY5H+4E0s3Q7XJt6bTOvos9qqxT5OQ=",
+        "lastModified": 1638986258,
+        "narHash": "sha256-OceRdctKZRSgqQxVRvvNB0MaEnFMzQqjUffecoDE9eI=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "5c37ad87222cfc1ec36d6cd1364514a9efc2f7f2",
+        "rev": "581d2d6c9cd5c289002203581d8aa0861963a933",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "nixpkgs-unstable",
+        "ref": "nixos-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -641,6 +625,24 @@
         "type": "github"
       }
     },
+    "nixvim": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_10"
+      },
+      "locked": {
+        "lastModified": 1639502393,
+        "narHash": "sha256-uLUEtPXJcQe49s7kGVsmDxBLiM7VYHxeuQ2d+iYAqRk=",
+        "owner": "pta2002",
+        "repo": "nixvim",
+        "rev": "4f796070f93cdbb857c93a399d5c7377d5e7193a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pta2002",
+        "repo": "nixvim",
+        "type": "github"
+      }
+    },
     "phocus": {
       "flake": false,
       "locked": {
@@ -707,25 +709,6 @@
         "type": "github"
       }
     },
-    "review": {
-      "inputs": {
-        "flake-utils": "flake-utils_5",
-        "nixpkgs": "nixpkgs_10"
-      },
-      "locked": {
-        "lastModified": 1640065647,
-        "narHash": "sha256-rarlYXbZ30nWLPF5dwInTJm4Ep2Z/zz7jKgIAsheOuw=",
-        "owner": "Mic92",
-        "repo": "nixpkgs-review",
-        "rev": "08ea7427def3d2e24ac8c7c6be0a941465a0369e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "Mic92",
-        "repo": "nixpkgs-review",
-        "type": "github"
-      }
-    },
     "river-src": {
       "flake": false,
       "locked": {
@@ -749,17 +732,17 @@
         "agenix": "agenix",
         "emacs": "emacs",
         "home": "home",
-        "kernel": "kernel",
         "master": "master",
         "neovim": "neovim",
+        "nix-colors": "nix-colors",
         "nixos-wallpapers": "nixos-wallpapers",
         "nixpkgs": [
           "master"
         ],
         "nixpkgs-f2k": "nixpkgs-f2k",
         "nixpkgs-wayland": "nixpkgs-wayland",
+        "nixvim": "nixvim",
         "phocus": "phocus",
-        "review": "review",
         "stable": "stable",
         "unstable": "unstable",
         "vim-horizon": "vim-horizon",
@@ -870,11 +853,11 @@
     "vim-horizon": {
       "flake": false,
       "locked": {
-        "lastModified": 1613821630,
-        "narHash": "sha256-3NT7ggghEljttcoWzgigK4m0sHOGA+M6k2sYooEAYdM=",
+        "lastModified": 1640767878,
+        "narHash": "sha256-zidEemRMlM1w7m2FLkBaJIMLB91rsvpki/pnkOf/cNQ=",
         "owner": "fortuneteller2k",
         "repo": "vim-horizon",
-        "rev": "e0c0a68f59ba6337517ded340391bab3f8476363",
+        "rev": "c38f66e33beb77823e88582f60a482c1e533f215",
         "type": "github"
       },
       "original": {

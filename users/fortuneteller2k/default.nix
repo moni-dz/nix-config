@@ -1,8 +1,8 @@
 { config, inputs, lib, pkgs, ... }:
 
-let theme = import ../../config/theme.nix { inherit pkgs; };
-in
 {
+  colorscheme = inputs.nix-colors.colorSchemes.horizon-terminal-dark;
+
   fonts.fontconfig.enable = true;
 
   gtk = {
@@ -11,7 +11,7 @@ in
 
     iconTheme = {
       package = pkgs.papirus-icon-theme;
-      name = "${if theme.lightModeEnabled then "Papirus-Light" else "Papirus-Dark"}";
+      name = "${if config.colorscheme.kind == "light" then "Papirus-Light" else "Papirus-Dark"}";
     };
 
     theme = {
@@ -37,25 +37,13 @@ in
         text = import ./scripts/palette.nix;
       };
 
-      ".local/bin/screenshot" = {
-        executable = true;
-        text = import ./scripts/screenshot.nix { inherit theme; };
-      };
-
-      ".local/bin/showcase" = {
-        executable = true;
-        text = import ./scripts/showcase.nix;
-      };
-
       ".local/bin/volume" = {
         executable = true;
         text = import ./scripts/volume.nix;
       };
 
-      ".config/qt5ct/colors/Horizon.conf".source = ./config/Horizon.conf;
-
       ".icons/default".source = "${
-        if theme.lightModeEnabled
+        if config.colorscheme.kind == "light"
         then "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ"
         else "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ-AA"
       }";
@@ -67,6 +55,7 @@ in
     packages = with pkgs; [
       agenix
       brave
+      clang
       celluloid
       discord
       dragon-drop
@@ -91,6 +80,7 @@ in
       nvd
       playerctl
       python3
+      rnix-lsp
     ];
 
     sessionPath = [
@@ -101,9 +91,9 @@ in
 
     sessionVariables = {
       BROWSER = "${pkgs.brave}/bin/brave";
-      EDITOR = "${config.programs.neovim.package}/bin/nvim";
+      EDITOR = "${config.programs.nixvim.package}/bin/nvim";
       GOPATH = "${config.home.homeDirectory}/Extras/go";
-      MANPAGER = "${config.programs.neovim.package}/bin/nvim +Man!";
+      MANPAGER = "${config.programs.nixvim.package}/bin/nvim +Man!";
       QT_QPA_PLATFORMTHEME = "qt5ct";
       RUSTUP_HOME = "${config.home.homeDirectory}/.local/share/rustup";
     };
@@ -120,7 +110,7 @@ in
     alacritty = {
       enable = false;
       settings = import ./config/alacritty.nix {
-        inherit theme;
+        inherit (config) colorscheme;
         isWayland = true;
       };
     };
@@ -157,7 +147,7 @@ in
 
     foot = {
       enable = true;
-      settings = import ./config/foot.nix { inherit theme; };
+      settings = import ./config/foot.nix { inherit (config) colorscheme; };
     };
 
     home-manager.enable = true;
@@ -204,24 +194,88 @@ in
       settings = import ./config/ncmpcpp.nix;
     };
 
-    neovim = {
+    nix-index.enable = true;
+
+    nixvim = {
       enable = true;
       package = pkgs.neovim-nightly;
-      viAlias = true;
-      vimAlias = true;
-      vimdiffAlias = true;
-      withNodeJs = true;
-      extraConfig = import ./config/neovim;
-      extraPackages = with pkgs; [ rnix-lsp shellcheck ];
+      colorscheme = "horizon";
 
-      plugins = import ./config/neovim/plugins.nix {
-        inherit pkgs;
-        inherit (theme) colors;
+      extraPlugins = with pkgs; with vimPlugins; [
+        cmp-buffer
+        cmp-cmdline
+        cmp-path
+        cmp-vsnip
+        nvim-cmp
+        vim-vsnip
+
+        (vimUtils.buildVimPlugin {
+          name = "vim-horizon";
+          src = vim-horizon-src;
+        })
+      ];
+
+      plugins = {
+        gitgutter.enable = true;
+        lualine.enable = true;
+
+        lsp = {
+          enable = true;
+          servers.rnix-lsp.enable = true;
+        };
+
+        lspsaga.enable = true;
+
+        treesitter = {
+          enable = true;
+          ensureInstalled = [ "nix" ];
+        };
+
+        nix.enable = true;
       };
-    };
 
-    nix-index.enable = true;
-    rofi.enable = true;
+      options = {
+        clipboard = "unnamedplus";
+        completeopt = "menu,menuone,noselect";
+        guifont = "monospace:h11";
+        guicursor = "a:ver25-iCursor";
+        mouse = "a";
+        number = true;
+        termguicolors = true;
+      };
+
+      extraConfigLua = ''
+        local cmp = require'cmp'
+
+        cmp.setup({
+          snippet = {
+            -- REQUIRED - you must specify a snippet engine
+            expand = function(args)
+              vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
+            end,
+          },
+          
+          mapping = {
+            ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+            ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+            ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+            ['<C-y>'] = cmp.config.disable,
+            ['<C-e>'] = cmp.mapping({
+              i = cmp.mapping.abort(),
+              c = cmp.mapping.close(),
+            }),
+            ['<CR>'] = cmp.mapping.confirm({ select = true }),
+          },
+
+          sources = cmp.config.sources({
+            { name = 'nvim_lsp' },
+            { name = 'vsnip' }, -- For vsnip users.
+          }, {
+            { name = 'buffer' },
+          })
+        })
+      '';
+    };
 
     starship = {
       enable = true;
@@ -242,14 +296,13 @@ in
         }
       ];
 
-      style = import ./config/waybar/style.nix { inherit theme; };
+      style = import ./config/waybar/style.nix { inherit (config) colorscheme; };
     };
-
 
     zathura = {
       enable = true;
       extraConfig = "map <C-i> recolor";
-      options = import ./config/zathura.nix { inherit theme; };
+      options = import ./config/zathura.nix { inherit (config) colorscheme; };
     };
 
     zsh = rec {
@@ -265,11 +318,7 @@ in
         save = 50000;
       };
 
-      initExtra = import ./config/zsh {
-        inherit dotDir;
-        inherit (config) home;
-      };
-
+      initExtra = import ./config/zsh { inherit dotDir; };
       plugins = import ./config/zsh/plugins.nix { inherit pkgs; };
       shellAliases = import ./config/sh-aliases.nix;
     };
@@ -285,7 +334,7 @@ in
         package = pkgs.papirus-icon-theme;
       };
 
-      settings = import ./config/dunst.nix { inherit theme; };
+      settings = import ./config/dunst.nix { inherit (config) colorscheme; };
     };
 
     mpd = {
@@ -310,22 +359,19 @@ in
     enable = true;
     package = null; # Using the NixOS module
 
-    config = with theme.colors; {
+    config = {
       bars = [{ command = "${pkgs.waybar}/bin/waybar"; }];
       keybindings = { };
     };
 
-    extraConfig = import ./config/sway.nix { inherit pkgs theme; };
+    extraConfig = import ./config/sway.nix {
+      inherit (config) colorscheme;
+      inherit pkgs;
+    };
   };
 
   xdg = {
     enable = true;
-
-    configFile = {
-      "nvim/coc-settings.json".source =
-        let neovim-coc-settings = import ./config/neovim/coc-settings.nix { inherit pkgs; };
-        in (pkgs.formats.json { }).generate "coc-settings.json" neovim-coc-settings;
-    };
 
     userDirs = {
       enable = true;

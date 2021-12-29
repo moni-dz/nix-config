@@ -1,6 +1,6 @@
-{ theme, isWayland ? false }:
+{ colorscheme, isWayland ? false }:
 
-with theme.colors; {
+with colorscheme.colors; {
   env.TERM = "xterm-256color";
 
   font = {
@@ -9,6 +9,7 @@ with theme.colors; {
       # style = "Light";
     };
 
+    # Weird, but it works...
     size = if isWayland then 11 else 10;
 
     offset = {
@@ -30,30 +31,30 @@ with theme.colors; {
 
   colors = {
     primary = {
-      background = "0x${bg}";
-      foreground = "0x${fg}";
+      background = "0x${base01}";
+      foreground = "0x${base05}";
     };
 
     normal = {
-      black = "0x${c0}";
-      red = "0x${c1}";
-      green = "0x${c2}";
-      yellow = "0x${c3}";
-      blue = "0x${c4}";
-      magenta = "0x${c5}";
-      cyan = "0x${c6}";
-      white = "0x${c7}";
+      black = "0x${base00}";
+      red = "0x${base08}";
+      green = "0x${base0B}";
+      yellow = "0x${base0A}";
+      blue = "0x${base0D}";
+      magenta = "0x${base0E}";
+      cyan = "0x${base0C}";
+      white = "0x${base06}";
     };
 
     bright = {
-      black = "0x${c8}";
-      red = "0x${c9}";
-      green = "0x${c10}";
-      yellow = "0x${c11}";
-      blue = "0x${c12}";
-      magenta = "0x${c13}";
-      cyan = "0x${c14}";
-      white = "0x${c15}";
+      black = "0x${base02}";
+      red = "0x${base08}";
+      green = "0x${base0B}";
+      yellow = "0x${base0A}";
+      blue = "0x${base0D}";
+      magenta = "0x${base0E}";
+      cyan = "0x${baseOC}";
+      white = "0x${base07}";
     };
   };
 }

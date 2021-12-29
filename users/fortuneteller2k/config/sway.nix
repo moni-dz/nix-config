@@ -1,7 +1,10 @@
-{ pkgs, theme }:
+{ pkgs, colorscheme }:
 
-with theme.colors;
+with colorscheme.colors;
 
+let
+  wallpaper = ../../../assets/wallpapers/horizon.jpg;
+in
 ''
   exec autotiling
 
@@ -16,7 +19,7 @@ with theme.colors;
   bindsym $mod+Return exec $term
 
   # spawn menu
-  set $menu "${pkgs.bemenu}/bin/bemenu-run -H 18 -l 5 --fn 'Iosevka FT 10.5' --tb '#${primaryBright}' --tf '#${bg}' --hb '#${primaryBright}' --hf '#${bg}'"
+  set $menu "${pkgs.bemenu}/bin/bemenu-run -H 18 -l 5 --fn 'Iosevka FT 10.5' --tb '#${base0B}' --tf '#${base02}' --hb '#${base0B}' --hf '#${base02}'"
   bindsym $mod+d exec $menu
 
   # change focus
@@ -135,35 +138,35 @@ with theme.colors;
 
   bindsym $mod+Shift+q exec swaynag -t warning -m 'Do you really want to exit sway?' -b 'Yes, exit sway' 'swaymsg exit'
 
-  default_border normal ${theme.borderWidth}
+  default_border normal 0
   hide_edge_borders --i3 smart
   gaps inner 8
   smart_borders on
 
-  set $color0 #${c0}
-  set $color1 #${c1}
-  set $color2 #${c2}
-  set $color3 #${c3}
-  set $color4 #${c4}
-  set $color5 #${c5}
-  set $color6 #${c6}
-  set $color7 #${c7}
-  set $color8 #${c8}
-  set $color9 #${c9}
-  set $color10 #${c10}
-  set $color11 #${c11}
-  set $color12 #${c12}
-  set $color13 #${c13}
-  set $color14 #${c14}
-  set $color15 #${c15}
+  set $color0 #${base00}
+  set $color1 #${base08}
+  set $color2 #${base0B}
+  set $color3 #${base0A}
+  set $color4 #${base0D}
+  set $color5 #${base0E}
+  set $color6 #${base0C}
+  set $color7 #${base06}
+  set $color8 #${base02}
+  set $color9 #${base08}
+  set $color10 #${base0B}
+  set $color11 #${base0A}
+  set $color12 #${base0D}
+  set $color13 #${base0E}
+  set $color14 #${base0C}
+  set $color15 #${base07}
 
   # class                 border    backgr    text    indicator
-  client.focused          #${primary} ${primary} $color0 $color5
-  client.focused_inactive #${muted} ${muted} $color0 $color5
-  client.unfocused        #${muted} ${muted} $color7 $color5
+  client.focused          #${base0B} #${base0B} $color0 $color5
+  client.focused_inactive $color8 $color8 $color0 $color5
+  client.unfocused        $color8 $color8 $color7 $color5
   client.urgent           $color10 $color10 $color0 $color5
 
-  output "*" bg ${wallpaper} ${if tiledWallpaper then "tile" else "fill"}
+  output "*" bg ${wallpaper} fill
   output "*" scale 1
   output "*" scale_filter nearest
 
@@ -178,7 +181,7 @@ with theme.colors;
   }
 
   exec swayidle -w \
-      timeout 300 'swaylock -c "${bg}" --font "Sarasa Gothic J"' \
+      timeout 300 'swaylock -c "${base01}" --font "Sarasa Gothic J"' \
       timeout 310 'swaymsg "output * dpms off"' \
       resume 'swaymsg "output * dpms on"' \
 ''

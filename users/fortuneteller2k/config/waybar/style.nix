@@ -1,6 +1,6 @@
-{ theme }:
+{ colorscheme }:
 
-with theme.colors;
+with colorscheme.colors;
 
 ''
   * {
@@ -12,77 +12,32 @@ with theme.colors;
   }
 
   window#waybar {
-    background: #${bg};
-    color: #${fg};
+    background: #${base01};
+    color: #${base05};
   }
 
   #workspaces button {
     padding: 0 6px;
-    background: #${primaryBright};
-    color: #${bg};
-    border-bottom: 2px solid #${primaryBright};
+    background: #${base0B};
+    color: #${base01};
+    border-bottom: 2px solid #${base0B};
   }
 
   #workspaces button.focused {
-    background: #${primaryBright};
-    border-bottom: 2px solid #${bg};
+    background: #${base0B};
+    border-bottom: 2px solid #${base01};
   }
 
   #clock,
-  #battery,
-  #cpu,
-  #memory,
-  #temperature,
-  #backlight,
   #network,
-  #pulseaudio,
-  #tray,
-  #mode,
-  #mpd {
+  #pulseaudio {
     padding: 0 6px;
     margin: 0;
-    background-color: #${primaryBright};
-    color: #${bg};
-  }
-
-  @keyframes blink {
-    to {
-      background-color: #${primaryBright};
-      color: #${bg};
-    }
+    background-color: #${base0B};
+    color: #${base01};
   }
 
   #network {
-    background-color: #${secondaryBright};
-  }
-
-  #battery {
-    background-color: #${secondaryBright};
-    color: #${bg};
-  }
-
-  #battery.full {
-    background-color: #${secondaryBright};
-    color: #${bg};
-  }
-
-  #battery.discharging {
-    background-color: #${secondaryBright};
-    color: #${bg};
-  }
-
-  #battery.charging {
-    background-color: #${secondaryBright};
-    color: #${bg};
-  }
-
-  #battery.warning:not(.charging) {
-    background-color: #${secondaryBright};
-    color: #${bg};
-    animation-name: blink;
-    animation-duration: 0.5s;
-    animation-timing-function: linear;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
+    background-color: #${base08};
   }
 ''

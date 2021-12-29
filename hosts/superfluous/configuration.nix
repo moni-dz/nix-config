@@ -1,7 +1,5 @@
 { config, lib, pkgs, options, ... }:
 
-let theme = import ../../config/theme.nix { inherit pkgs; };
-in
 {
   boot = {
     blacklistedKernelModules = [ "amdgpu" ];
@@ -11,7 +9,6 @@ in
 
       If you're not me or a XanMod kernel maintainer in Nixpkgs, use pkgs.linuxPackages_xanmod instead.
     */
-    # kernelPackages = pkgs.kernel.linuxPackages_xanmod;
     kernelPackages = pkgs.master.linuxPackages_xanmod;
 
     kernelParams = [
@@ -70,16 +67,10 @@ in
     };
   };
 
-  console =
-    let
-      normal = with theme.colors; [ c0 c1 c2 c3 c4 c5 c6 c7 ];
-      bright = with theme.colors; [ c8 c9 c10 c11 c12 c13 c14 c15 ];
-    in
-    {
-      colors = normal ++ bright;
-      font = "Lat2-Terminus16";
-      keyMap = "us";
-    };
+  console = {
+    font = "Lat2-Terminus16";
+    keyMap = "us";
+  };
 
   documentation.man.generateCaches = true;
 

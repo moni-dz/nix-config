@@ -1,7 +1,6 @@
-{ theme }:
+{ colorscheme }:
 
-with theme.colors; {
-
+with colorscheme.colors; {
   global = {
     padding = 8;
     markup = "full";
@@ -9,10 +8,10 @@ with theme.colors; {
     word_wrap = "yes";
     horizontal_padding = 8;
     show_indicators = false;
-    frame_width = if theme.borderWidth == "0" then "2" else theme.borderWidth;
+    frame_width = "2";
     format = "<b>%s</b>\\n\\n%b";
     font = "Sarasa Gothic J 10.4";
-    frame_color = "#${c2}";
+    frame_color = "#${base0B}";
     separator_color = "auto";
     icon_position = "left";
     max_icon_size = 80;
@@ -20,22 +19,22 @@ with theme.colors; {
   };
 
   urgency_low = {
-    foreground = "#${fg}";
-    background = "#${bg}";
-    frame_color = "#${c2}";
+    foreground = "#${base05}";
+    background = "#${base01}";
+    frame_color = "#${base0B}";
     timeout = 2;
   };
 
   urgency_normal = {
-    foreground = "#${fg}";
-    background = "#${bg}";
-    frame_color = "#${c3}";
+    foreground = "#${base05}";
+    background = "#${base01}";
+    frame_color = "#${base0A}";
     timeout = 4;
   };
 
   urgency_critical = {
-    foreground = "#${fg}";
-    background = "#${bg}";
-    frame_color = "#${c1}";
+    foreground = "#${base05}";
+    background = "#${base01}";
+    frame_color = "#${base08}";
   };
 }
