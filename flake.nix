@@ -10,7 +10,7 @@
     zsh-f-sy-h = { url = "github:zdharma-continuum/fast-syntax-highlighting"; flake = false; };
 
     # Flake inputs
-    agenix.url = "github:ryantm/agenix";
+    ragenix.url = "github:yaxitech/ragenix";
     emacs.url = "github:nix-community/emacs-overlay";
     home.url = "github:nix-community/home-manager";
     neovim.url = "github:neovim/neovim?dir=contrib";
@@ -28,7 +28,7 @@
     nixpkgs.follows = "master";
   };
 
-  outputs = { self, agenix, home, nixpkgs, ... } @ inputs:
+  outputs = { self, ragenix, home, nixpkgs, ... } @ inputs:
     with nixpkgs.lib;
     let
       config = {
@@ -54,7 +54,7 @@
           in
           {
             # Packages provided by flake inputs
-            agenix = agenix.defaultPackage.${system};
+            ragenix = ragenix.defaultPackage.${system};
             neovim-nightly = neovim.packages.${system}.neovim;
           }
           //
@@ -98,7 +98,7 @@
     in
     {
       nixosConfigurations.superfluous = import ./hosts/superfluous {
-        inherit config agenix home inputs nixpkgs overlays;
+        inherit config ragenix home inputs nixpkgs overlays;
       };
 
       superfluous = self.nixosConfigurations.superfluous.config.system.build.toplevel;

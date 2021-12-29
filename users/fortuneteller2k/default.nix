@@ -53,7 +53,7 @@
     username = "fortuneteller2k";
 
     packages = with pkgs; [
-      agenix
+      ragenix
       brave
       clang
       celluloid
