@@ -8,9 +8,10 @@
     vim-horizon = { url = "github:fortuneteller2k/vim-horizon"; flake = false; };
     zsh-doas = { url = "github:anatolykopyl/doas-zsh-plugin"; flake = false; };
     zsh-f-sy-h = { url = "github:zdharma-continuum/fast-syntax-highlighting"; flake = false; };
+    zen-mode-nvim = { url = "github:folke/zen-mode.nvim"; flake = false; };
 
     # Flake inputs
-    ragenix.url = "github:yaxitech/ragenix";
+    discocss.url = "github:mlvzk/discocss/flake";
     emacs.url = "github:nix-community/emacs-overlay";
     home.url = "github:nix-community/home-manager";
     neovim.url = "github:neovim/neovim?dir=contrib";
@@ -18,6 +19,7 @@
     nix-colors.url = "github:Misterio77/nix-colors";
     nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
     nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
+    ragenix.url = "github:yaxitech/ragenix";
 
     # Nixpkgs branches
     master.url = "github:nixos/nixpkgs";
@@ -59,9 +61,7 @@
           }
           //
           (with nixpkgs-f2k.packages.${system}; {
-            awesome = awesome-git;
-            picom = picom-git;
-            slock = slock-fancy;
+            alacritty = alacritty-ligatures;
             iosevka-ft-bin = iosevka;
             river = river-git;
           })
@@ -75,6 +75,7 @@
             inherit nixos-wallpapers zsh-doas zsh-f-sy-h;
             phocus-src = phocus;
             vim-horizon-src = vim-horizon;
+            zen-mode-nvim-src = zen-mode-nvim;
 
             /*
               Nixpkgs branches

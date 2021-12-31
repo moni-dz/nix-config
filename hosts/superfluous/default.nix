@@ -20,16 +20,15 @@ nixpkgs.lib.nixosSystem rec {
         useGlobalPkgs = true;
         useUserPackages = true;
 
-        sharedModules = [
-          inputs.nix-colors.homeManagerModule
-          inputs.nixvim.homeManagerModules.nixvim
+        sharedModules = with inputs; [
+          discocss.hmModule
+          nix-colors.homeManagerModule
+          nixvim.homeManagerModules.nixvim
         ];
 
         users.fortuneteller2k = import ../../users/fortuneteller2k;
 
-        extraSpecialArgs = {
-          inherit inputs;
-        };
+        extraSpecialArgs = { inherit inputs; };
       };
 
       nix = import ../../config/nix-conf.nix { inherit inputs system nixpkgs; };

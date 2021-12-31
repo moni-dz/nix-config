@@ -162,8 +162,10 @@
       fantasque-sans-mono
       (nerdfonts.override { fonts = [ "FantasqueSansMono" "Iosevka" ]; })
       iosevka-ft-bin
-      # TODO: use only when current is outdated
+      iosevka-ft-qp-bin
+      # NOTE: use only when current is outdated
       # iosevka-ft
+      # iosevka-ft-qp
       sarasa-gothic
       scientifica
       symbola
@@ -176,12 +178,14 @@
 
       defaultFonts = {
         serif = [
+          "Iosevka FT QP"
           "Sarasa Gothic C"
           "Sarasa Gothic J"
           "Sarasa Gothic K"
         ];
 
         sansSerif = [
+          "Iosevka FT QP"
           "Sarasa Gothic C"
           "Sarasa Gothic J"
           "Sarasa Gothic K"

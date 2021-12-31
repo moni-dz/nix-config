@@ -31,12 +31,12 @@ with colorscheme.colors; {
 
   colors = {
     primary = {
-      background = "0x${base01}";
+      background = "0x${base00}";
       foreground = "0x${base05}";
     };
 
     normal = {
-      black = "0x${base00}";
+      black = "0x${base01}";
       red = "0x${base08}";
       green = "0x${base0B}";
       yellow = "0x${base0A}";
@@ -53,7 +53,7 @@ with colorscheme.colors; {
       yellow = "0x${base0A}";
       blue = "0x${base0D}";
       magenta = "0x${base0E}";
-      cyan = "0x${baseOC}";
+      cyan = "0x${base0C}";
       white = "0x${base07}";
     };
   };

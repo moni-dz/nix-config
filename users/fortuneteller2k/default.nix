@@ -53,11 +53,9 @@
     username = "fortuneteller2k";
 
     packages = with pkgs; [
-      ragenix
       brave
       clang
       celluloid
-      discord
       dragon-drop
       element-desktop
       ffmpeg
@@ -80,6 +78,7 @@
       nvd
       playerctl
       python3
+      ragenix
       rnix-lsp
     ];
 
@@ -108,7 +107,8 @@
 
   programs = {
     alacritty = {
-      enable = false;
+      enable = true;
+
       settings = import ./config/alacritty.nix {
         inherit (config) colorscheme;
         isWayland = true;
@@ -133,6 +133,13 @@
     direnv = {
       enable = true;
       nix-direnv.enable = true;
+    };
+
+    discocss = {
+      enable = true;
+      discord = pkgs.discord-openasar;
+      discordAlias = true;
+      css = import ./config/discocss-css.nix { inherit (config) colorscheme; };
     };
 
     emacs = {
@@ -207,11 +214,17 @@
         cmp-path
         cmp-vsnip
         nvim-cmp
+        vim-elixir
         vim-vsnip
 
         (vimUtils.buildVimPlugin {
           name = "vim-horizon";
           src = vim-horizon-src;
+        })
+
+        (vimUtils.buildVimPlugin {
+          name = "zen-mode-nvim";
+          src = zen-mode-nvim-src;
         })
       ];
 
