@@ -30,6 +30,11 @@ with colorscheme.colors;
     background-color: #${base0D}4d !important;
   }
 
+  span[class *= "botTag"] {
+    background-color: #${base0D} !important;
+    color: #${base01} !important;
+  }
+
   pre,
   code,
   .codeBlockText-9TnoxQ,
@@ -37,12 +42,13 @@ with colorscheme.colors;
   .syntaxBefore-1YQ9lW.before_inlineCode-1G9rTK,
   .inlineCode-2ngu6Y > span,
   .syntaxAfter-hcA4AH.after_inlineCode-1KfVgj,
-  span[class ^= "hljs"],
-  span[class *= "hljs"],
+  [class ^= "hljs"],
+  [class *= "hljs"],
   .markup-2BOw-j.slateTextArea-1Mkdgw.fontSize16Padding-3Wk7zP.textAreaWithoutAttachmentButton-qiaiTB,
   .markup-2BOw-j.slateTextArea-1Mkdgw.fontSize16Padding-3Wk7zP.textAreaWithoutAttachmentButton-qiaiTB > div > span {
     font-family: var(--font-code) !important;
     color: var(--text-normal);
+    font-size: 14.5px !important;
   }
 
   a[href ^= "http:"], a[href ^= "https:"] {
@@ -62,6 +68,22 @@ with colorscheme.colors;
   }
 
   .hljs-string {
+    color: #${base0A} !important;
+  }
+
+  .hljs-number {
+    color: #${base09} !important;
+  }
+
+  .hljs-symbol {
+    color: #${base0F} !important;
+  }
+
+  .hljs-meta, .hljs-meta-keyword {
+    color: #${base0E} !important;
+  }
+
+  .hljs-meta-string {
     color: #${base0A} !important;
   }
 
@@ -107,6 +129,8 @@ with colorscheme.colors;
     --background-modifier-active: rgba(79,84,92,0.24);
     --background-modifier-selected: rgba(79,84,92,0.32);
     --background-modifier-accent: hsla(0,0%,100%,0.06);
+    --brand-experiment: #${base0D} !important;
+    --brand-experiment-05a: #${base0D}5a !important;
     --info-positive-text: #fff;
     --info-warning-text: #fff;
     --info-warning-foreground: #${base08} !important;

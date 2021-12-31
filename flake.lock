@@ -550,11 +550,11 @@
         "xmonad-contrib": "xmonad-contrib"
       },
       "locked": {
-        "lastModified": 1640942875,
-        "narHash": "sha256-mKQ+bHUBuJYInPBcs9/eO8bYB+cy/z/pVnE9M6cMfyI=",
+        "lastModified": 1640952909,
+        "narHash": "sha256-ONUE8AjP/gqAXZw/3YsDtDJAY6YoG10LF5G6ypFfvN8=",
         "owner": "fortuneteller2k",
         "repo": "nixpkgs-f2k",
-        "rev": "36e93de56b6c0588b56e1d809029d9644c6022de",
+        "rev": "dc65b6340858cfe179c561a491c4fce3771e6557",
         "type": "github"
       },
       "original": {

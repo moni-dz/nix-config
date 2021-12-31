@@ -142,11 +142,6 @@
       css = import ./config/discocss-css.nix { inherit (config) colorscheme; };
     };
 
-    emacs = {
-      enable = false;
-      package = pkgs.emacsGcc;
-    };
-
     exa = {
       enable = true;
       enableAliases = true;
@@ -230,7 +225,14 @@
 
       plugins = {
         gitgutter.enable = true;
-        lualine.enable = true;
+
+        lualine = let separators = { left = ""; right = ""; }; in
+          {
+            enable = true;
+
+            sectionSeparators = separators;
+            componentSeparators = separators;
+          };
 
         lsp = {
           enable = true;
@@ -258,7 +260,7 @@
       };
 
       extraConfigLua = ''
-        local cmp = require'cmp'
+        local cmp = require 'cmp'
 
         cmp.setup({
           snippet = {
