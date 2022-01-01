@@ -6,12 +6,12 @@ with colorscheme.colors;
   :root {
     --font-primary: "Iosevka FT QP" !important;
     --font-display: "Iosevka FT QP" !important;
-    --font-code: "Iosevka FT" !important;
+    --font-code: "Iosevka FT Light" !important;
     --font-headline: "Iosevka FT QP" !important;
-    --font-korean: "Sarasa Term K" !important;
-    --font-japanese: "Sarasa Term J" !important;
-    --font-chinese-simplified: "Sarasa Term C" !important;
-    --font-chinese-traditional: "Sarasa Term C" !important;
+    --font-korean: "Sarasa Term K Light" !important;
+    --font-japanese: "Sarasa Term J Light" !important;
+    --font-chinese-simplified: "Sarasa Term C Light" !important;
+    --font-chinese-traditional: "Sarasa Term C Light" !important;
   }
 
   div[id ^= "uid_"], .content-1LAB8Z {
@@ -42,7 +42,6 @@ with colorscheme.colors;
   .syntaxBefore-1YQ9lW.before_inlineCode-1G9rTK,
   .inlineCode-2ngu6Y > span,
   .syntaxAfter-hcA4AH.after_inlineCode-1KfVgj,
-  [class ^= "hljs"],
   [class *= "hljs"],
   .markup-2BOw-j.slateTextArea-1Mkdgw.fontSize16Padding-3Wk7zP.textAreaWithoutAttachmentButton-qiaiTB,
   .markup-2BOw-j.slateTextArea-1Mkdgw.fontSize16Padding-3Wk7zP.textAreaWithoutAttachmentButton-qiaiTB > div > span {
