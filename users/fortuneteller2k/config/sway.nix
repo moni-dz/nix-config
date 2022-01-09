@@ -180,8 +180,8 @@ in
     repeat_delay 350
   }
 
-  exec swayidle -w \
-      timeout 300 'swaylock -c "${base01}" --font "Sarasa Gothic J"' \
+  exec ${pkgs.swayidle}/bin/swayidle -w \
+      timeout 300 '${pkgs.swaylock}/bin/swaylock -c "${base01}" --font "Sarasa Gothic J"' \
       timeout 310 'swaymsg "output * dpms off"' \
       resume 'swaymsg "output * dpms on"' \
 ''

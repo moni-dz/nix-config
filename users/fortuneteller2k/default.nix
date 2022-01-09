@@ -207,6 +207,7 @@
         cmp-buffer
         cmp-cmdline
         cmp-path
+        cmp-nvim-lsp
         cmp-vsnip
         nvim-cmp
         vim-elixir
@@ -236,6 +237,7 @@
 
         lsp = {
           enable = true;
+          capabilities = "require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())";
           servers.rnix-lsp.enable = true;
         };
 
