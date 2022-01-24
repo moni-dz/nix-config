@@ -107,7 +107,7 @@
 
   programs = {
     alacritty = {
-      enable = true;
+      enable = false;
 
       settings = import ./config/alacritty.nix {
         inherit (config) colorscheme;
@@ -237,7 +237,6 @@
 
         lsp = {
           enable = true;
-          capabilities = "require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())";
           servers.rnix-lsp.enable = true;
         };
 

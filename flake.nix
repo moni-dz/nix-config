@@ -64,6 +64,7 @@
             alacritty = alacritty-ligatures;
             iosevka-ft-bin = iosevka;
             river = river-git;
+            # sway-unwrapped = sway-borders;
           })
           //
           (with nixpkgs-wayland.packages.${system}; {
