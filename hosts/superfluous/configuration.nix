@@ -55,14 +55,11 @@
     loader = {
       efi.canTouchEfiVariables = true;
 
-      grub = {
+      systemd-boot = {
         enable = true;
         configurationLimit = 5;
-        copyKernels = true;
-        device = "nodev";
-        efiSupport = true;
-        useOSProber = true;
-        gfxmodeEfi = "1366x768";
+        consoleMode = "max";
+        editor = false;
       };
     };
   };
