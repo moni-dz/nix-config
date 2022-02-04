@@ -75,6 +75,11 @@
   documentation.man.generateCaches = true;
 
   hardware = {
+    bluetooth = {
+      enable = true;
+      package = pkgs.bluezFull;
+    };
+
     cpu = {
       amd.updateMicrocode = true;
       intel.updateMicrocode = true;
@@ -143,6 +148,7 @@
       pciutils
       psmisc
       pulseaudio
+      qtile
       ripgrep
       subversion
       util-linux
@@ -303,7 +309,7 @@
       enable = true;
 
       settings = {
-        default_session.command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd sway";
+        default_session.command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd 'sway'";
 
         initial_session = {
           command = "sway";

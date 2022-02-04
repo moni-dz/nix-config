@@ -1,5 +1,4 @@
 {
-  cat = "bat";
   sv = "systemctl";
   ga = "git add";
   gp = "git push";

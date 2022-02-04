@@ -8,7 +8,6 @@
     vim-horizon = { url = "github:fortuneteller2k/vim-horizon"; flake = false; };
     zsh-doas = { url = "github:anatolykopyl/doas-zsh-plugin"; flake = false; };
     zsh-f-sy-h = { url = "github:zdharma-continuum/fast-syntax-highlighting"; flake = false; };
-    zen-mode-nvim = { url = "github:folke/zen-mode.nvim"; flake = false; };
 
     # Flake inputs
     discocss.url = "github:mlvzk/discocss/flake";
@@ -36,6 +35,7 @@
       config = {
         allowBroken = true;
         allowUnfree = true;
+        tarball-ttl = 0;
         /*
           NOTE: experimental option, disable if you don't know what this does
 
@@ -76,7 +76,6 @@
             inherit nixos-wallpapers zsh-doas zsh-f-sy-h;
             phocus-src = phocus;
             vim-horizon-src = vim-horizon;
-            zen-mode-nvim-src = zen-mode-nvim;
 
             /*
               Nixpkgs branches

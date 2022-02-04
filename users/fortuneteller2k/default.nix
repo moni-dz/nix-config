@@ -18,6 +18,10 @@
       package = pkgs.phocus;
       name = "phocus";
     };
+
+    gtk2.extraConfig = "gtk-cursor-theme-size=64";
+    gtk3.extraConfig."gtk-cursor-theme-size" = 64;
+    gtk4.extraConfig."gtk-cursor-theme-size" = 64;
   };
 
   home = {
@@ -44,8 +48,8 @@
 
       ".icons/default".source = "${
         if config.colorscheme.kind == "light"
-        then "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ"
-        else "${pkgs.vanilla-dmz}/share/icons/Vanilla-DMZ-AA"
+        then "${pkgs.phinger-cursors}/share/icons/phinger-cursors-light"
+        else "${pkgs.phinger-cursors}/share/icons/phinger-cursors"
       }";
     };
 
@@ -112,15 +116,6 @@
       settings = import ./config/alacritty.nix {
         inherit (config) colorscheme;
         isWayland = true;
-      };
-    };
-
-    bat = {
-      enable = true;
-      config = {
-        pager = "never";
-        style = "plain";
-        theme = "base16";
       };
     };
 
@@ -196,101 +191,36 @@
       settings = import ./config/ncmpcpp.nix;
     };
 
-    nix-index.enable = true;
-
     nixvim = {
       enable = true;
       package = pkgs.neovim-nightly;
       colorscheme = "horizon";
 
       extraPlugins = with pkgs; with vimPlugins; [
-        cmp-buffer
-        cmp-cmdline
-        cmp-path
-        cmp-nvim-lsp
-        cmp-vsnip
-        nvim-cmp
         vim-elixir
-        vim-vsnip
 
         (vimUtils.buildVimPlugin {
           name = "vim-horizon";
           src = vim-horizon-src;
         })
-
-        (vimUtils.buildVimPlugin {
-          name = "zen-mode-nvim";
-          src = zen-mode-nvim-src;
-        })
       ];
 
-      plugins = {
-        gitgutter.enable = true;
-
-        lualine = let separators = { left = ""; right = ""; }; in
-          {
-            enable = true;
-
-            sectionSeparators = separators;
-            componentSeparators = separators;
-          };
-
-        lsp = {
-          enable = true;
-          servers.rnix-lsp.enable = true;
-        };
-
-        lspsaga.enable = true;
-
-        treesitter = {
-          enable = true;
-          ensureInstalled = [ "nix" ];
-        };
-
-        nix.enable = true;
-      };
+      plugins.nix.enable = true;
 
       options = {
         clipboard = "unnamedplus";
         completeopt = "menu,menuone,noselect";
         guifont = "monospace:h11";
         guicursor = "a:ver25-iCursor";
+        laststatus = "0";
         mouse = "a";
-        number = true;
+        modelines = "0";
+        ruler = false;
+        showmode = true;
+        number = false;
         termguicolors = true;
       };
 
-      extraConfigLua = ''
-        local cmp = require 'cmp'
-
-        cmp.setup({
-          snippet = {
-            -- REQUIRED - you must specify a snippet engine
-            expand = function(args)
-              vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-            end,
-          },
-          
-          mapping = {
-            ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-            ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-            ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-            ['<C-y>'] = cmp.config.disable,
-            ['<C-e>'] = cmp.mapping({
-              i = cmp.mapping.abort(),
-              c = cmp.mapping.close(),
-            }),
-            ['<CR>'] = cmp.mapping.confirm({ select = true }),
-          },
-
-          sources = cmp.config.sources({
-            { name = 'nvim_lsp' },
-            { name = 'vsnip' }, -- For vsnip users.
-          }, {
-            { name = 'buffer' },
-          })
-        })
-      '';
     };
 
     starship = {

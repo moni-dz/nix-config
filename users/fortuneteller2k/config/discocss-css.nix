@@ -4,10 +4,10 @@ with colorscheme.colors;
 
 ''
   :root {
-    --font-primary: "Iosevka FT QP" !important;
-    --font-display: "Iosevka FT QP" !important;
+    --font-primary: "Sarasa Gothic J" !important;
+    --font-display: "Sarasa Gothic J" !important;
     --font-code: "Iosevka FT Light" !important;
-    --font-headline: "Iosevka FT QP" !important;
+    --font-headline: "Sarasa Gothic J" !important;
     --font-korean: "Sarasa Term K Light" !important;
     --font-japanese: "Sarasa Term J Light" !important;
     --font-chinese-simplified: "Sarasa Term C Light" !important;
@@ -38,7 +38,7 @@ with colorscheme.colors;
   pre,
   code,
   .codeBlockText-9TnoxQ,
-  .codeLine-14BKbG,
+  [class *= "codeLine"],
   .syntaxBefore-1YQ9lW.before_inlineCode-1G9rTK,
   .inlineCode-2ngu6Y > span,
   .syntaxAfter-hcA4AH.after_inlineCode-1KfVgj,
@@ -62,7 +62,7 @@ with colorscheme.colors;
     color: #${base08} !important;
   }
 
-  .hljs-title {
+  .hljs-title, .hljs-name {
     color: #${base0D} !important;
   }
 
