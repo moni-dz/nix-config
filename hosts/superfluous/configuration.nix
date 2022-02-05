@@ -106,7 +106,6 @@
 
   imports = [
     ./hardware-configuration.nix
-    ../../modules/services/xcompmgr.nix
     ../../modules/programs/river.nix
   ];
 

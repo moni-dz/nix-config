@@ -31,7 +31,7 @@ nixpkgs.lib.nixosSystem rec {
         extraSpecialArgs = { inherit inputs; };
       };
 
-      nix = import ../../config/nix-conf.nix { inherit inputs system nixpkgs; };
+      nix = import ../../nix-settings.nix { inherit inputs system nixpkgs; };
       nixpkgs = { inherit config overlays; };
     }
 

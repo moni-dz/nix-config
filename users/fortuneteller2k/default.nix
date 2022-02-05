@@ -99,6 +99,7 @@
       MANPAGER = "${config.programs.nixvim.package}/bin/nvim +Man!";
       QT_QPA_PLATFORMTHEME = "qt5ct";
       RUSTUP_HOME = "${config.home.homeDirectory}/.local/share/rustup";
+      XCURSOR_SIZE = "64";
     };
 
     /*
@@ -299,7 +300,7 @@
     playerctld.enable = true;
   };
 
-  systemd.user.startServices = "sd-switch";
+  systemd.user.startServices = "suggest";
 
   wayland.windowManager.sway = {
     enable = true;

@@ -11,6 +11,7 @@ in
 
     extraPackages = mkOption {
       type = types.listOf types.package;
+
       default = with pkgs; [
         swaylock
         swayidle
@@ -19,9 +20,11 @@ in
         brightnessctl
         wdisplays
       ];
+
       defaultText = literalExample ''
         with pkgs; [ swaylock swayidle bemenu alacritty brightnessctl wdisplays ];
       '';
+
       example = literalExample ''
         with pkgs; [
           grim
@@ -29,6 +32,7 @@ in
           rofi
         ]
       '';
+
       description = ''
         Extra packages to be installed system wide.
       '';
