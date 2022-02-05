@@ -313,23 +313,25 @@
 
     playerctld.enable = true;
 
-    swayidle = let
-      locker = "swaylock -c ${config.colorscheme.colors.base00} --font 'Sarasa UI J'";
-      dpms = status: "swaymsg 'output * dpms ${status}'";
-    in {
-      enable = true;
+    swayidle =
+      let
+        locker = "swaylock -c ${config.colorscheme.colors.base00} --font 'Sarasa UI J'";
+        dpms = status: "swaymsg 'output * dpms ${status}'";
+      in
+      {
+        enable = true;
 
-      events = [
-        { event = "before-sleep"; command = dpms "off"; }
-        { event = "before-sleep"; command = locker; }
-        { event = "after-resume"; command = dpms "on"; }
-      ];
+        events = [
+          { event = "before-sleep"; command = dpms "off"; }
+          { event = "before-sleep"; command = locker; }
+          { event = "after-resume"; command = dpms "on"; }
+        ];
 
-      timeouts = [
-        { timeout = 300; command = locker; }
-        { timeout = 310; command = dpms "on"; }
-      ];
-    };
+        timeouts = [
+          { timeout = 300; command = locker; }
+          { timeout = 310; command = dpms "on"; }
+        ];
+      };
   };
 
   systemd.user.startServices = "sd-switch";
@@ -345,29 +347,31 @@
       terminal = "${config.programs.foot.package}/bin/foot";
       menu = "${pkgs.bemenu}/bin/bemenu-run -H 18 -l 5 --fn 'Iosevka FT QP 10.5' --tb '#${base0B}' --tf '#${base02}' --hb '#${base0B}' --hf '#${base02}' --nb '#${base02}' --fb '#${base02}'";
 
-      colors = let
-        inactive = {
-          background = "#${base02}";
-          border = "#${base02}";
-          childBorder = "#${base02}";
-          indicator = "#${base02}";
-          text = "#${base00}";
-        };
-      in {
-        inherit (inactive) background;
+      colors =
+        let
+          inactive = {
+            background = "#${base02}";
+            border = "#${base02}";
+            childBorder = "#${base02}";
+            indicator = "#${base02}";
+            text = "#${base00}";
+          };
+        in
+        {
+          inherit (inactive) background;
 
-        focused = {
-          background = "#${base08}";
-          border = "#${base08}";
-          childBorder = "#${base08}";
-          indicator = "#${base08}";
-          text = "#${base00}";
-        };
+          focused = {
+            background = "#${base08}";
+            border = "#${base08}";
+            childBorder = "#${base08}";
+            indicator = "#${base08}";
+            text = "#${base00}";
+          };
 
-        focusedInactive = inactive;
-        unfocused = inactive;
-        urgent = inactive;
-      };
+          focusedInactive = inactive;
+          unfocused = inactive;
+          urgent = inactive;
+        };
 
       input = {
         "type:keyboard" = {
@@ -386,29 +390,31 @@
         smartGaps = false;
       };
 
-      keybindings = let
-        grimshot = action: target: "exec grimshot ${action} ${target}";
-        volume = action: "exec ~/.local/bin/volume ${action}";
-        brightness = action: "exec brightnessctl -q set ${if action == "up" then "10%+" else "10%-"}";
-      in lib.mkOptionDefault {
-        "${modifier}+Return" = "exec ${terminal}";
-        "${modifier}+d" = "exec ${menu}";
-        "${modifier}+e" = "fullscreen toggle";
-        "${modifier}+t" = "floating toggle";
-        "${modifier}+q" = "kill";
-        "${modifier}+Shift+q" = "exec swaymsg exit";
-        "${modifier}+Print" = grimshot "copy" "area";
-        "${modifier}+0" = "workspace number 10";
-        "${modifier}+Shift+0" = "move container to workspace number 10";
-        "Print" = grimshot "copy" "active";
-        "Control+Print" = grimshot "copy" "screen";
-        "Mod4+Print" = grimshot "save" "screen";
-        "XF86AudioRaiseVolume" = volume "up";
-        "XF86AudioLowerVolume" = volume "down";
-        "XF86AudioMute" = volume "toggle";
-        "XF86MonBrightnessUp" = brightness "up";
-        "XF86MonBrightnessDown" = brightness "down";
-      };
+      keybindings =
+        let
+          grimshot = action: target: "exec grimshot ${action} ${target}";
+          volume = action: "exec ~/.local/bin/volume ${action}";
+          brightness = action: "exec brightnessctl -q set ${if action == "up" then "10%+" else "10%-"}";
+        in
+        lib.mkOptionDefault {
+          "${modifier}+Return" = "exec ${terminal}";
+          "${modifier}+d" = "exec ${menu}";
+          "${modifier}+e" = "fullscreen toggle";
+          "${modifier}+t" = "floating toggle";
+          "${modifier}+q" = "kill";
+          "${modifier}+Shift+q" = "exec swaymsg exit";
+          "${modifier}+Print" = grimshot "copy" "area";
+          "${modifier}+0" = "workspace number 10";
+          "${modifier}+Shift+0" = "move container to workspace number 10";
+          "Print" = grimshot "copy" "active";
+          "Control+Print" = grimshot "copy" "screen";
+          "Mod4+Print" = grimshot "save" "screen";
+          "XF86AudioRaiseVolume" = volume "up";
+          "XF86AudioLowerVolume" = volume "down";
+          "XF86AudioMute" = volume "toggle";
+          "XF86MonBrightnessUp" = brightness "up";
+          "XF86MonBrightnessDown" = brightness "down";
+        };
 
       output."*".bg = "#${base00} solid_color";
 

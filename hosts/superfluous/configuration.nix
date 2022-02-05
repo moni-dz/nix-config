@@ -69,19 +69,21 @@
     keyMap = "us";
   };
 
-  documentation.man = let
-    activeManOutputs = [ "man" ] ++ lib.optionals config.documentation.dev.enable [ "devman" ];
-  in {
-    generateCaches = true;
+  documentation.man =
+    let
+      activeManOutputs = [ "man" ] ++ lib.optionals config.documentation.dev.enable [ "devman" ];
+    in
+    {
+      generateCaches = true;
 
-    man-db.manualPages = (pkgs.buildEnv {
-      name = "man-paths";
-      paths = config.environment.systemPackages;
-      pathsToLink = [ "/share/man" ];
-      extraOutputsToInstall = activeManOutputs;
-      ignoreCollisions = true;
-    }).overrideAttrs (_: { __contentAddressed = true; });
-  };
+      man-db.manualPages = (pkgs.buildEnv {
+        name = "man-paths";
+        paths = config.environment.systemPackages;
+        pathsToLink = [ "/share/man" ];
+        extraOutputsToInstall = activeManOutputs;
+        ignoreCollisions = true;
+      }).overrideAttrs (_: { __contentAddressed = true; });
+    };
 
   hardware = {
     bluetooth = {
