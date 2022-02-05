@@ -437,6 +437,22 @@
         "type": "github"
       }
     },
+    "material-nvim-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1643941748,
+        "narHash": "sha256-XeLbjTangPxCCEJyqrkj7JksXa4odUv2H+0chveZ1Rg=",
+        "owner": "marko-cerovac",
+        "repo": "material.nvim",
+        "rev": "e57df0a28e3cec66f4c4287aca4324ad4c8bf278",
+        "type": "github"
+      },
+      "original": {
+        "owner": "marko-cerovac",
+        "repo": "material.nvim",
+        "type": "github"
+      }
+    },
     "naersk": {
       "inputs": {
         "nixpkgs": "nixpkgs_4"
@@ -488,22 +504,6 @@
       "original": {
         "owner": "Misterio77",
         "repo": "nix-colors",
-        "type": "github"
-      }
-    },
-    "nixos-wallpapers": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1623475359,
-        "narHash": "sha256-wWNT91znVL0v4DCH5NmKa7LOjlilp0J20ZFgrfl2/Ok=",
-        "owner": "fortuneteller2k",
-        "repo": "nixos-wallpapers",
-        "rev": "48b66beb37d007d3dfe5a3cc30b29d814719b23f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "fortuneteller2k",
-        "repo": "nixos-wallpapers",
         "type": "github"
       }
     },
@@ -975,9 +975,9 @@
         "emacs": "emacs",
         "home": "home",
         "master": "master",
+        "material-nvim-src": "material-nvim-src",
         "neovim": "neovim",
         "nix-colors": "nix-colors",
-        "nixos-wallpapers": "nixos-wallpapers",
         "nixpkgs": [
           "master"
         ],
@@ -988,7 +988,6 @@
         "ragenix": "ragenix",
         "stable": "stable",
         "unstable": "unstable",
-        "vim-horizon": "vim-horizon",
         "zsh-doas": "zsh-doas",
         "zsh-f-sy-h": "zsh-f-sy-h"
       }
@@ -1099,22 +1098,6 @@
         "owner": "nixos",
         "ref": "nixos-unstable",
         "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "vim-horizon": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1640767878,
-        "narHash": "sha256-zidEemRMlM1w7m2FLkBaJIMLB91rsvpki/pnkOf/cNQ=",
-        "owner": "fortuneteller2k",
-        "repo": "vim-horizon",
-        "rev": "c38f66e33beb77823e88582f60a482c1e533f215",
-        "type": "github"
-      },
-      "original": {
-        "owner": "fortuneteller2k",
-        "repo": "vim-horizon",
         "type": "github"
       }
     },

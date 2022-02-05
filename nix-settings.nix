@@ -18,7 +18,7 @@
   };
 
   nixPath =
-    let path = toString ../.;
+    let path = toString ./.;
     in
     [
       "repl=${path}/repl.nix"

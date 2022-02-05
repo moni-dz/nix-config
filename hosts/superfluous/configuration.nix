@@ -192,14 +192,12 @@
 
       defaultFonts = {
         serif = [
-          "Iosevka FT QP"
           "Sarasa Gothic C"
           "Sarasa Gothic J"
           "Sarasa Gothic K"
         ];
 
         sansSerif = [
-          "Iosevka FT QP"
           "Sarasa Gothic C"
           "Sarasa Gothic J"
           "Sarasa Gothic K"
@@ -244,7 +242,7 @@
     };
   };
 
-  powerManagement.cpuFreqGovernor = "schedutil";
+  powerManagement.cpuFreqGovernor = "performance";
 
   programs = {
     bash.interactiveShellInit = ''export HISTFILE=$HOME/.config/.bash_history'';
@@ -265,7 +263,6 @@
         grim
         slurp
         sway-contrib.grimshot
-        waybar
         bemenu
         qt5.qtwayland
         xdg_utils

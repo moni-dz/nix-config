@@ -2,9 +2,6 @@
 
 with colorscheme.colors;
 
-let
-  wallpaper = ../../../assets/wallpapers/horizon.jpg;
-in
 ''
   exec autotiling
 
@@ -115,10 +112,6 @@ in
   # reload the configuration file
   bindsym $mod+Shift+r reload
 
-  # applications shortcuts
-  bindsym $mod+F2 exec brave
-  bindsym $mod+w  exec emacs
-
   # Volume
   bindsym XF86AudioRaiseVolume exec ~/.local/bin/volume up
   bindsym XF86AudioLowerVolume exec ~/.local/bin/volume down
@@ -129,19 +122,17 @@ in
   bindsym XF86MonBrightnessUp   exec brightnessctl -q set 10%+
 
   # Screenshot
-  bindsym $mod+Print   exec grimshot copy area
-  bindsym Print        exec grimshot copy active
-  bindsym Mod4+Print   exec grimshot save screen
-
-  # Toggle waybar
-  bindsym $mod+b exec pkill -USR1 waybar
+  bindsym $mod+Print    exec grimshot copy area
+  bindsym Print         exec grimshot copy active
+  bindsym Control+Print exec grimshot copy screen
+  bindsym Mod4+Print    exec grimshot save screen
 
   bindsym $mod+Shift+q exec swaynag -t warning -m 'Do you really want to exit sway?' -b 'Yes, exit sway' 'swaymsg exit'
 
-  default_border normal 0
+  default_border pixel 4
   hide_edge_borders --i3 smart
   gaps inner 8
-  smart_borders on
+  smart_borders off
 
   set $color0 #${base00}
   set $color1 #${base08}
@@ -160,13 +151,13 @@ in
   set $color14 #${base0C}
   set $color15 #${base07}
 
-  # class                 border    backgr    text    indicator
-  client.focused          #${base0B} #${base0B} $color0 $color5
-  client.focused_inactive $color8 $color8 $color0 $color5
-  client.unfocused        $color8 $color8 $color7 $color5
-  client.urgent           $color10 $color10 $color0 $color5
+  # class                 border  backgr  text    indicator
+  client.focused          $color9 $color9 $color0 $color9
+  client.focused_inactive $color8 $color8 $color0 $color8
+  client.unfocused        $color8 $color8 $color7 $color8
+  client.urgent           $color8 $color8 $color0 $color8
 
-  output "*" bg ${wallpaper} fill
+  output "*" bg $color0 solid_color
   output "*" scale 1
   output "*" scale_filter nearest
 
@@ -179,9 +170,4 @@ in
     repeat_rate 40
     repeat_delay 350
   }
-
-  exec ${pkgs.swayidle}/bin/swayidle -w \
-      timeout 300 '${pkgs.swaylock}/bin/swaylock -c "${base01}" --font "Sarasa Gothic J"' \
-      timeout 310 'swaymsg "output * dpms off"' \
-      resume 'swaymsg "output * dpms on"' \
 ''
