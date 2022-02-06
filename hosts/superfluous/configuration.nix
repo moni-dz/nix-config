@@ -180,7 +180,7 @@
       pciutils
       psmisc
       pulseaudio
-      qtile
+      qt5.qtwayland
       ripgrep
       subversion
       util-linux
@@ -271,42 +271,7 @@
   programs = {
     bash.interactiveShellInit = ''export HISTFILE=$HOME/.config/.bash_history'';
     command-not-found.enable = false;
-
-    sway = {
-      enable = true;
-
-      extraPackages = with pkgs; [
-        autotiling
-        swaybg
-        (inputs.nixpkgs-wayland.packages.${system}.swaylock)
-        swayidle
-        wayland-utils
-        wl-clipboard
-        (inputs.nixpkgs-wayland.packages.${system}.wf-recorder)
-        brightnessctl
-        grim
-        slurp
-        sway-contrib.grimshot
-        bemenu
-        qt5.qtwayland
-        xdg_utils
-        (inputs.nixpkgs-wayland.packages.${system}.oguri)
-        # kile-wl
-      ];
-
-      extraSessionCommands = ''
-        export XDG_SESSION_DESKTOP=sway
-        export SDL_VIDEODRIVER=wayland
-        export QT_QPA_PLATFORM=wayland-egl
-        export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
-        export MOZ_ENABLE_WAYLAND=1
-        export CLUTTER_BACKEND=wayland
-        export ECORE_EVAS_ENGINE=wayland-egl
-        export ELM_ENGINE=wayland_eg
-        export NO_AT_BRIDGE=1
-      '';
-    };
-
+    dconf.enable = true;
     qt5ct.enable = true;
   };
 
@@ -412,7 +377,10 @@
     ];
   };
 
-  xdg.portal.enable = true;
+  xdg.portal = {
+    enable = true;
+    wlr.enable = true;
+  };
 
   zramSwap = {
     enable = true;

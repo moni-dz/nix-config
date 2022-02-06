@@ -19,9 +19,9 @@
       name = "phocus";
     };
 
-    gtk2.extraConfig = "gtk-cursor-theme-size=64";
-    gtk3.extraConfig."gtk-cursor-theme-size" = 64;
-    gtk4.extraConfig."gtk-cursor-theme-size" = 64;
+    gtk2.extraConfig = "gtk-cursor-theme-size=32";
+    gtk3.extraConfig."gtk-cursor-theme-size" = 32;
+    gtk4.extraConfig."gtk-cursor-theme-size" = 32;
   };
 
   home = {
@@ -56,35 +56,52 @@
     homeDirectory = "/home/${config.home.username}";
     username = "fortuneteller2k";
 
-    packages = with pkgs; [
-      brave
-      clang
-      celluloid
-      dragon-drop
-      element-desktop
-      ffmpeg
-      font-manager
-      gimp
-      gitAndTools.gh
-      graphviz
-      hydra-check
-      hyperfine
-      imagemagick
-      imv
-      inkscape
-      jq
-      lazygit
-      libimobiledevice
-      libirecovery
-      nixpkgs-fmt
-      nixpkgs-review
-      notify-desktop
-      nvd
-      playerctl
-      python3
-      (inputs.ragenix.defaultPackage.${system})
-      rnix-lsp
-    ];
+    packages = lib.attrValues {
+      inherit (pkgs)
+        autotiling
+        bemenu
+        brave
+        brightnessctl
+        clang
+        celluloid
+        dragon-drop
+        element-desktop
+        ffmpeg
+        font-manager
+        gimp
+        graphviz
+        hydra-check
+        hyperfine
+        imagemagick
+        imv
+        inkscape
+        jq
+        lazygit
+        libimobiledevice
+        libirecovery
+        nixpkgs-fmt
+        nixpkgs-review
+        notify-desktop
+        nvd
+        playerctl
+        python3
+        rnix-lsp
+        wayland-utils
+        xdg_utils;
+
+      inherit (pkgs.gitAndTools) gh;
+      inherit (pkgs.sway-contrib) grimshot;
+      inherit (inputs.ragenix.packages.${pkgs.system}) ragenix;
+
+      inherit (inputs.nixpkgs-wayland.packages.${pkgs.system})
+        grim
+        slurp
+        swaybg
+        swayidle
+        swaylock
+        wf-recorder
+        wl-clipboard;
+    };
 
     sessionPath = [
       "${config.xdg.configHome}/emacs/bin"
@@ -353,7 +370,8 @@
 
   wayland.windowManager.sway = {
     enable = true;
-    package = null; # Using the NixOS module
+    package = inputs.nixpkgs-wayland.packages.${pkgs.system}.sway-unwrapped;
+    wrapperFeatures.gtk = true;
 
     config = with config.colorscheme.colors; rec {
       bars = [ ];
@@ -439,6 +457,18 @@
     extraConfig = ''
       exec_always autotiling
       smart_borders off
+    '';
+
+    extraSessionCommands = ''
+      export XDG_SESSION_DESKTOP=sway
+      export SDL_VIDEODRIVER=wayland
+      export QT_QPA_PLATFORM=wayland-egl
+      export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
+      export MOZ_ENABLE_WAYLAND=1
+      export CLUTTER_BACKEND=wayland
+      export ECORE_EVAS_ENGINE=wayland-egl
+      export ELM_ENGINE=wayland_eg
+      export NO_AT_BRIDGE=1
     '';
   };
 
