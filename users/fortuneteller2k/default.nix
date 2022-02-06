@@ -237,14 +237,14 @@
             comments = true,
             keywords = false,
             functions = false,
-	    strings = false,
+            strings = false,
             variables = false
-	  },
+          },
 
           high_visibility = {
-	    lighter = false,
+            lighter = false,
             darker = true
-	  },
+          },
         })
       '';
     };
@@ -326,7 +326,7 @@
 
     swayidle =
       let
-        locker = "swaylock -c ${config.colorscheme.colors.base00} --font 'Sarasa UI J'";
+        locker = "swaylock -fF -c ${config.colorscheme.colors.base00} --font 'Sarasa UI J'";
         dpms = status: "swaymsg 'output * dpms ${status}'";
       in
       {
@@ -341,7 +341,7 @@
         ];
 
         timeouts = [
-          { timeout = 300; command = dpms "off"; resumeCommand = dpms "on";  }
+          { timeout = 300; command = dpms "off"; resumeCommand = dpms "on"; }
           { timeout = 310; command = locker; }
         ];
       };
