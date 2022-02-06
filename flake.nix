@@ -4,7 +4,6 @@
   inputs = {
     # Non-flake inputs
     phocus = { url = "github:fortuneteller2k/gtk"; flake = false; };
-    material-nvim-src = { url = "github:marko-cerovac/material.nvim"; flake = false; };
     zsh-doas = { url = "github:anatolykopyl/doas-zsh-plugin"; flake = false; };
     zsh-f-sy-h = { url = "github:zdharma-continuum/fast-syntax-highlighting"; flake = false; };
 
@@ -72,7 +71,7 @@
           //
           {
             # Sources provided by non-flake inputs, to be used in overlays and derivations
-            inherit material-nvim-src zsh-doas zsh-f-sy-h;
+            inherit zsh-doas zsh-f-sy-h;
             phocus-src = phocus;
 
             /*
