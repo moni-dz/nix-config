@@ -40,7 +40,7 @@ with colorscheme.colors;
   .codeBlockText-9TnoxQ,
   [class *= "codeLine"],
   .syntaxBefore-1YQ9lW.before_inlineCode-1G9rTK,
-  .inlineCode-2ngu6Y > span,
+  [class *= "inlineCode"] > span,
   .syntaxAfter-hcA4AH.after_inlineCode-1KfVgj,
   [class *= "hljs"],
   .markup-2BOw-j.slateTextArea-1Mkdgw.fontSize16Padding-3Wk7zP.textAreaWithoutAttachmentButton-qiaiTB,
