@@ -326,7 +326,6 @@
 
     swayidle =
       let
-        locker = "swaylock -fF -c ${config.colorscheme.colors.base00} --font 'Sarasa UI J'";
         dpms = status: "swaymsg 'output * dpms ${status}'";
       in
       {
@@ -334,7 +333,7 @@
 
         events = [
           { event = "before-sleep"; command = dpms "off"; }
-          { event = "before-sleep"; command = locker; }
+          { event = "before-sleep"; command = "swaylock"; }
           { event = "after-resume"; command = dpms "on"; }
           { event = "lock"; command = dpms "off"; }
           { event = "unlock"; command = dpms "on"; }
@@ -342,7 +341,7 @@
 
         timeouts = [
           { timeout = 300; command = dpms "off"; resumeCommand = dpms "on"; }
-          { timeout = 310; command = locker; }
+          { timeout = 310; command = "swaylock"; }
         ];
       };
   };
@@ -442,6 +441,14 @@
 
   xdg = {
     enable = true;
+
+    configFile."swaylock/config".text = ''
+      daemonize
+      ignore-empty-password
+      show-failed-attempts
+      color=${config.colorscheme.colors.base00}
+      font=Sarasa UI J
+    '';
 
     userDirs = {
       enable = true;
