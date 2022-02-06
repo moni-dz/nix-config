@@ -145,6 +145,7 @@
 
     foot = {
       enable = true;
+      server.enable = true;
       settings = import ./config/foot.nix { inherit (config) colorscheme; };
     };
 
@@ -197,13 +198,10 @@
       package = pkgs.neovim-nightly;
       colorscheme = "material";
 
-      extraPlugins = with pkgs; with vimPlugins; [
+      extraPlugins = with pkgs.vimPlugins; [
         vim-elixir
-
-        (vimUtils.buildVimPlugin {
-          name = "material-nvim";
-          src = material-nvim-src;
-        })
+        material-nvim
+        zen-mode-nvim
       ];
 
       plugins = {
@@ -234,7 +232,20 @@
       '';
 
       extraConfigLua = ''
-        require('material').setup()
+        require('material').setup({
+          italics = {
+            comments = true,
+            keywords = false,
+            functions = false,
+	    strings = false,
+            variables = false
+	  },
+
+          high_visibility = {
+	    lighter = false,
+            darker = true
+	  },
+        })
       '';
     };
 
@@ -325,11 +336,13 @@
           { event = "before-sleep"; command = dpms "off"; }
           { event = "before-sleep"; command = locker; }
           { event = "after-resume"; command = dpms "on"; }
+          { event = "lock"; command = dpms "off"; }
+          { event = "unlock"; command = dpms "on"; }
         ];
 
         timeouts = [
-          { timeout = 300; command = locker; }
-          { timeout = 310; command = dpms "on"; }
+          { timeout = 300; command = dpms "off"; resumeCommand = dpms "on";  }
+          { timeout = 310; command = locker; }
         ];
       };
   };
@@ -342,9 +355,8 @@
 
     config = with config.colorscheme.colors; rec {
       bars = [ ];
-      defaultWorkspace = "workspace number 1";
       modifier = "Mod1";
-      terminal = "${config.programs.foot.package}/bin/foot";
+      terminal = "${config.programs.foot.package}/bin/footclient";
       menu = "${pkgs.bemenu}/bin/bemenu-run -H 18 -l 5 --fn 'Iosevka FT QP 10.5' --tb '#${base0B}' --tf '#${base02}' --hb '#${base0B}' --hf '#${base02}' --nb '#${base02}' --fb '#${base02}'";
 
       colors =
@@ -404,8 +416,6 @@
           "${modifier}+q" = "kill";
           "${modifier}+Shift+q" = "exec swaymsg exit";
           "${modifier}+Print" = grimshot "copy" "area";
-          "${modifier}+0" = "workspace number 10";
-          "${modifier}+Shift+0" = "move container to workspace number 10";
           "Print" = grimshot "copy" "active";
           "Control+Print" = grimshot "copy" "screen";
           "Mod4+Print" = grimshot "save" "screen";
