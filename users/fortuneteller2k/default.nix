@@ -82,7 +82,7 @@
       nvd
       playerctl
       python3
-      ragenix
+      (inputs.ragenix.defaultPackage.${system})
       rnix-lsp
     ];
 
@@ -113,6 +113,7 @@
   programs = {
     alacritty = {
       enable = false;
+      package = inputs.nixpkgs-f2k.packages.${pkgs.system}.alacritty-ligatures;
 
       settings = import ./config/alacritty.nix {
         inherit (config) colorscheme;
@@ -195,7 +196,7 @@
 
     nixvim = {
       enable = true;
-      package = pkgs.neovim-nightly;
+      package = inputs.neovim.packages.${pkgs.system}.neovim;
       colorscheme = "material";
 
       extraPlugins = with pkgs.vimPlugins; [
@@ -256,6 +257,7 @@
 
     waybar = {
       enable = false;
+      package = inputs.nixpkgs-wayland.packages.${pkgs.system}.waybar;
 
       settings = [
         {
@@ -291,7 +293,7 @@
       };
 
       initExtra = import ./config/zsh { inherit dotDir; };
-      plugins = import ./config/zsh/plugins.nix { inherit pkgs; };
+      plugins = import ./config/zsh/plugins.nix { inherit inputs; };
       shellAliases = import ./config/sh-aliases.nix;
     };
   };
@@ -330,6 +332,7 @@
       in
       {
         enable = true;
+        package = inputs.nixpkgs-wayland.packages.${pkgs.system}.swaylock;
 
         events = [
           { event = "before-sleep"; command = dpms "off"; }

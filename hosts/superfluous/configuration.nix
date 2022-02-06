@@ -1,4 +1,4 @@
-{ config, lib, pkgs, options, ... }:
+{ config, lib, pkgs, options, inputs, ... }:
 
 {
   boot = {
@@ -177,8 +177,8 @@
       emacs-all-the-icons-fonts
       fantasque-sans-mono
       (nerdfonts.override { fonts = [ "FantasqueSansMono" "Iosevka" ]; })
-      iosevka-ft-bin
-      iosevka-ft-qp-bin
+      (inputs.nixpkgs-f2k.packages.${system}.iosevka-ft-bin)
+      (inputs.nixpkgs-f2k.packages.${system}.iosevka-ft-qp-bin)
       # NOTE: use only when current is outdated
       # iosevka-ft
       # iosevka-ft-qp
@@ -256,11 +256,11 @@
       extraPackages = with pkgs; [
         autotiling
         swaybg
-        swaylock
+        (inputs.nixpkgs-wayland.packages.${system}.swaylock)
         swayidle
         wayland-utils
         wl-clipboard
-        wf-recorder
+        (inputs.nixpkgs-wayland.packages.${system}.wf-recorder)
         brightnessctl
         grim
         slurp
@@ -268,7 +268,7 @@
         bemenu
         qt5.qtwayland
         xdg_utils
-        oguri
+        (inputs.nixpkgs-wayland.packages.${system}.oguri)
         # kile-wl
       ];
 

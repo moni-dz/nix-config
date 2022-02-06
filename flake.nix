@@ -53,25 +53,7 @@
             system = final.system;
           in
           {
-            # Packages provided by flake inputs
-            ragenix = ragenix.defaultPackage.${system};
-            neovim-nightly = neovim.packages.${system}.neovim;
-          }
-          //
-          (with nixpkgs-f2k.packages.${system}; {
-            alacritty = alacritty-ligatures;
-            iosevka-ft-bin = iosevka;
-            river = river-git;
-            # sway-unwrapped = sway-borders;
-          })
-          //
-          (with nixpkgs-wayland.packages.${system}; {
-            inherit sway-unwrapped swayidle swaylock slurp oguri waybar wf-recorder xdg-desktop-portal-wlr;
-          })
-          //
-          {
             # Sources provided by non-flake inputs, to be used in overlays and derivations
-            inherit zsh-doas zsh-f-sy-h;
             phocus-src = phocus;
 
             /*

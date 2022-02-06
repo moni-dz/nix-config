@@ -1,13 +1,13 @@
-{ pkgs }:
+{ inputs }:
 
 [
   {
     name = "fast-syntax-highlighting";
-    src = pkgs.zsh-f-sy-h;
+    src = inputs.zsh-f-sy-h;
   }
 
   {
     name = "doas";
-    src = pkgs.zsh-doas;
+    src = inputs.zsh-doas;
   }
 ]
