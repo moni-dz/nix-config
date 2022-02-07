@@ -27,7 +27,7 @@
     nixpkgs.follows = "master";
   };
 
-  outputs = { self, ragenix, home, nixpkgs, ... } @ inputs:
+  outputs = { self, ragenix, home, nixpkgs, discocss, nix-colors, nixvim, ... } @ inputs:
     with nixpkgs.lib;
     let
       config = {
@@ -78,7 +78,11 @@
     in
     {
       nixosConfigurations.superfluous = import ./hosts/superfluous {
-        inherit config ragenix home inputs nixpkgs overlays;
+        inherit config nixpkgs ragenix overlays inputs;
+      };
+
+      homeConfigurations.fortuneteller2k = import ./users/fortuneteller2k {
+        inherit config nixpkgs home discocss nix-colors nixvim overlays inputs;
       };
 
       superfluous = self.nixosConfigurations.superfluous.config.system.build.toplevel;

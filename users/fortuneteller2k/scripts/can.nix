@@ -1,23 +1,45 @@
 ''
   #!/bin/sh
 
+  specify() { echo "specify either 'nixos' or 'home'" }
+
   can() {
     echo "will $(tput setaf 3 && tput bold)$1$(tput sgr0) right away..."
+    echo "1:$1"
+    echo "2:$2"
     case "$1" in
       cd)
         echo "source this file (i.e. $(tput setaf 2). can cd$(tput sgr0)) if it has no effect$(tput sgr0)"
         cd "$HOME/.config/nix-config" || return 1
         ;;
       switch)
-        doas nixos-rebuild switch
-        [ "$?" -eq 0 ] && /run/current-system/sw/bin/ls -1 /nix/var/nix/profiles | tail -n 2 | awk '{print "/nix/var/nix/profiles/" $0}' - | xargs nvd diff
-        [ "$?" -eq 0 ] && /run/current-system/sw/bin/ls -1 /nix/var/nix/profiles/per-user/fortuneteller2k | tail -n 4 | head -n 2 | awk '{print "/nix/var/nix/profiles/per-user/fortuneteller2k/" $0}' - | xargs nvd diff
-        ;;
-      rollback)
-        doas nixos-rebuild switch --rollback
+        cd ~/.config/nix-config
+        case "$2" in
+          nixos)
+            doas nixos-rebuild switch
+            [ "$?" -eq 0 ] && /run/current-system/sw/bin/ls -1 /nix/var/nix/profiles | tail -n 2 | awk '{print "/nix/var/nix/profiles/" $0}' - | xargs nvd diff
+            ;;
+          home)
+            home-manager switch --flake .#fortuneteller2k
+            [ "$?" -eq 0 ] && /run/current-system/sw/bin/ls -1 /nix/var/nix/profiles/per-user/fortuneteller2k | tail -n 4 | head -n 2 | awk '{print "/nix/var/nix/profiles/per-user/fortuneteller2k/" $0}' - | xargs nvd diff
+            ;;
+          *)
+            specify
+            ;;
+        esac
         ;;
       generations)
-        doas nix-env -p /nix/var/nix/profiles/system --list-generations
+        case "$2" in
+          nixos)
+            doas nix-env -p /nix/var/nix/profiles/system --list-generations
+            ;;
+          home)
+            home-manager generations
+            ;;
+          *)
+            specify
+            ;;
+        esac
         ;;
       test)
         cd ~/.config/nix-config && doas nixos-rebuild test --fast
@@ -26,8 +48,25 @@
         doas nix-collect-garbage -d
         ;;
       upgrade)
-        cd ~/.config/nix-config && nix flake update --commit-lock-file --commit-lockfile-summary 'flake: bump flakes' && doas nixos-rebuild switch
-        [ "$?" -eq 0 ] && /run/current-system/sw/bin/ls -1 /nix/var/nix/profiles | tail -n 2 | awk '{print "/nix/var/nix/profiles/" $0}' - | xargs nvd diff
+        cd ~/.config/nix-config && nix flake update --commit-lock-file --commit-lockfile-summary 'flake: bump flakes'
+
+        case "$2" in
+          nixos)
+            doas nixos-rebuild switch
+            [ "$?" -eq 0 ] && /run/current-system/sw/bin/ls -1 /nix/var/nix/profiles | tail -n 2 | awk '{print "/nix/var/nix/profiles/" $0}' - | xargs nvd diff
+            ;;
+          home)
+            home-manager switch --flake .#fortuneteller2k
+            [ "$?" -eq 0 ] && /run/current-system/sw/bin/ls -1 /nix/var/nix/profiles/per-user/fortuneteller2k | tail -n 4 | head -n 2 | awk '{print "/nix/var/nix/profiles/per-user/fortuneteller2k/" $0}' - | xargs nvd diff
+            ;;
+          *)
+            doas nixos-rebuild switch
+            [ "$?" -eq 0 ] && /run/current-system/sw/bin/ls -1 /nix/var/nix/profiles | tail -n 2 | awk '{print "/nix/var/nix/profiles/" $0}' - | xargs nvd diff
+
+            home-manager switch --flake .#fortuneteller2k
+            [ "$?" -eq 0 ] && /run/current-system/sw/bin/ls -1 /nix/var/nix/profiles/per-user/fortuneteller2k | tail -n 4 | head -n 2 | awk '{print "/nix/var/nix/profiles/per-user/fortuneteller2k/" $0}' - | xargs nvd diff
+            ;;
+        esac
         [ "$?" -eq 0 ] && /run/current-system/sw/bin/ls -1 /nix/var/nix/profiles/per-user/fortuneteller2k | tail -n 4 | head -n 2 | awk '{print "/nix/var/nix/profiles/per-user/fortuneteller2k/" $0}' - | xargs nvd diff
         ;;
       info)

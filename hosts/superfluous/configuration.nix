@@ -170,8 +170,8 @@
       file
       git
       glxinfo
-      glfw-wayland
       gnome3.nautilus
+      home-manager
       libva-utils
       lm_sensors
       man-pages
@@ -194,23 +194,27 @@
   };
 
   fonts = {
-    fonts = with pkgs; [
-      curie
-      edwin
-      emacs-all-the-icons-fonts
-      fantasque-sans-mono
-      (nerdfonts.override { fonts = [ "FantasqueSansMono" "Iosevka" ]; })
-      (inputs.nixpkgs-f2k.packages.${system}.iosevka-ft-bin)
-      (inputs.nixpkgs-f2k.packages.${system}.iosevka-ft-qp-bin)
-      # NOTE: use only when current is outdated
-      # iosevka-ft
-      # iosevka-ft-qp
-      sarasa-gothic
-      scientifica
-      symbola
-      terminus_font
-      twemoji-color-font
-    ];
+    fonts = lib.attrValues {
+      inherit (pkgs)
+        curie
+        edwin
+        emacs-all-the-icons-fonts
+        fantasque-sans-mono
+        # NOTE: use only when current is outdated
+        # iosevka-ft
+        # iosevka-ft-qp
+        sarasa-gothic
+        scientifica
+        symbola
+        terminus_font
+        twemoji-color-font;
+
+      inherit (inputs.nixpkgs-f2k.packages.${pkgs.system})
+        iosevka-ft-bin
+        iosevka-ft-qp-bin;
+
+      nerdfonts = (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" "Iosevka" ]; });
+    };
 
     fontconfig = {
       enable = true;

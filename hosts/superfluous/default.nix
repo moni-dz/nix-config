@@ -1,11 +1,10 @@
-{ config, ragenix, home, inputs, nixpkgs, overlays, ... }:
+{ config, ragenix, inputs, nixpkgs, overlays, ... }:
 
 nixpkgs.lib.nixosSystem rec {
   system = "x86_64-linux";
 
   modules = [
     ragenix.nixosModules.age
-    home.nixosModules.home-manager
     nixpkgs.nixosModules.notDetected
 
     {
@@ -14,21 +13,6 @@ nixpkgs.lib.nixosSystem rec {
         file = ../../secrets/github-token.age;
         owner = "fortuneteller2k";
         mode = "0444";
-      };
-
-      home-manager = {
-        useGlobalPkgs = true;
-        useUserPackages = true;
-
-        sharedModules = with inputs; [
-          discocss.hmModule
-          nix-colors.homeManagerModule
-          nixvim.homeManagerModules.nixvim
-        ];
-
-        users.fortuneteller2k = import ../../users/fortuneteller2k;
-
-        extraSpecialArgs = { inherit inputs; };
       };
 
       nix = import ../../nix-settings.nix { inherit inputs system nixpkgs; };
