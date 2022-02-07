@@ -78,7 +78,6 @@
         nvd
         playerctl
         python3
-        rnix-lsp
         wayland-utils
         xdg_utils;
 
@@ -214,9 +213,20 @@
       ];
 
       plugins = {
+        lsp = {
+          enable = true;
+
+          servers = {
+            rust-analyzer.enable = true;
+            rnix-lsp.enable = true;
+          };
+        };
+
+        lspsaga.enable = true;
+
         treesitter = {
           enable = true;
-          ensureInstalled = [ "nix" ];
+          ensureInstalled = [ "nix" "rust" ];
         };
 
         nix.enable = true;
