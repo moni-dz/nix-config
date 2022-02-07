@@ -368,7 +368,7 @@
       bars = [ ];
       modifier = "Mod1";
       terminal = "${config.programs.foot.package}/bin/footclient";
-      menu = "${pkgs.bemenu}/bin/bemenu-run -H 18 -l 5 --fn 'Iosevka FT QP 10.5' --tb '#${base0B}' --tf '#${base02}' --hb '#${base0B}' --hf '#${base02}' --nb '#${base02}' --fb '#${base02}'";
+      menu = "${pkgs.bemenu}/bin/bemenu-run -H 18 -l 5 --fn 'Iosevka FT QP 10.5' --tb '#${base08}' --tf '#${base02}' --hb '#${base08}' --hf '#${base02}' --nb '#${base02}' --fb '#${base02}'";
 
       colors =
         let
