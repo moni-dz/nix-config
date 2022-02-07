@@ -84,7 +84,5 @@
       homeConfigurations.fortuneteller2k = import ./users/fortuneteller2k {
         inherit config nixpkgs home discocss nix-colors nixvim overlays inputs;
       };
-
-      superfluous = self.nixosConfigurations.superfluous.config.system.build.toplevel;
     };
 }
