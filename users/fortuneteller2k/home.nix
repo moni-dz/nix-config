@@ -83,7 +83,7 @@
         let
           writePython310Bin = name: pkgs.writers.makePythonWriter pkgs.python310 pkgs.python310Packages "/bin/${name}";
         in
-        writePython310Bin "pls" { flakeIgnore = [ "E501" ]; } (import ./scripts/pls.nix);
+        writePython310Bin "pls" { } (import ./scripts/pls.nix);
 
       volume = pkgs.writers.writeDashBin "volume" (import ./scripts/volume.nix);
     };

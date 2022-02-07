@@ -9,12 +9,12 @@
 
   def switch_nixos():
       if os.system("doas -n nixos-rebuild switch --flake ~/.config/nix-config#superfluous") == 0:
-          os.system("ls -1 /nix/var/nix/profiles | tail -n 2 | awk '{print \"/nix/var/nix/profiles/\" $0}' - | xargs nvd diff")
+          os.system("fd . /nix/var/nix/profiles -d 1 | tail -2 | xargs nvd diff")
 
 
   def switch_home():
       if os.system("home-manager switch --flake ~/.config/nix-config#fortuneteller2k") == 0:
-          os.system("ls -1 /nix/var/nix/profiles/per-user/fortuneteller2k | tail -n 2 | awk '{print \"/nix/var/nix/profiles/per-user/fortuneteller2k/\" $0}' - | xargs nvd diff")
+          os.system("fd . /nix/var/nix/profiles/per-user/fortuneteller2k -d 1 | tail -2 | xargs nvd diff")
 
 
   def pls(args):
