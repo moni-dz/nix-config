@@ -1,10 +1,10 @@
-{ config, ragenix, inputs, nixpkgs, overlays, ... }:
+{ config, agenix, inputs, nixpkgs, overlays, ... }:
 
 nixpkgs.lib.nixosSystem rec {
   system = "x86_64-linux";
 
   modules = [
-    ragenix.nixosModules.age
+    agenix.nixosModules.age
     nixpkgs.nixosModules.notDetected
 
     {

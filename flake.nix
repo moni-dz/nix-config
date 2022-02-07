@@ -8,6 +8,7 @@
     zsh-f-sy-h = { url = "github:zdharma-continuum/fast-syntax-highlighting"; flake = false; };
 
     # Flake inputs
+    agenix.url = "github:ryantm/agenix";
     discocss.url = "github:mlvzk/discocss/flake";
     emacs.url = "github:nix-community/emacs-overlay";
     home.url = "github:nix-community/home-manager";
@@ -17,7 +18,6 @@
     nix-colors.url = "github:Misterio77/nix-colors";
     nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
     nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
-    ragenix.url = "github:yaxitech/ragenix";
 
     # Nixpkgs branches
     master.url = "github:nixos/nixpkgs";
@@ -28,7 +28,7 @@
     nixpkgs.follows = "master";
   };
 
-  outputs = { self, ragenix, home, nixpkgs, discocss, nix-colors, nixvim, ... } @ inputs:
+  outputs = { self, agenix, home, nixpkgs, discocss, nix-colors, nixvim, ... } @ inputs:
     with nixpkgs.lib;
     let
       config = {
@@ -79,7 +79,7 @@
     in
     {
       nixosConfigurations.superfluous = import ./hosts/superfluous {
-        inherit config nixpkgs ragenix overlays inputs;
+        inherit config nixpkgs agenix overlays inputs;
       };
 
       homeConfigurations.fortuneteller2k = import ./users/fortuneteller2k {

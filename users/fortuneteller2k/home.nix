@@ -66,7 +66,7 @@
 
       inherit (pkgs.gitAndTools) gh;
       inherit (pkgs.sway-contrib) grimshot;
-      inherit (inputs.ragenix.packages.${pkgs.system}) ragenix;
+      inherit (inputs.agenix.packages.${pkgs.system}) agenix;
 
       inherit (inputs.nixpkgs-wayland.packages.${pkgs.system})
         grim
