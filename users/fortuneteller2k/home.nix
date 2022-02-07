@@ -25,28 +25,11 @@
   };
 
   home = {
-    file = {
-      ".local/bin/ccolor" = {
-        executable = true;
-        text = import ./scripts/ccolor.nix { inherit pkgs; };
-      };
-
-      ".local/bin/palette" = {
-        executable = true;
-        text = import ./scripts/palette.nix;
-      };
-
-      ".local/bin/volume" = {
-        executable = true;
-        text = import ./scripts/volume.nix;
-      };
-
-      ".icons/default".source = "${
-        if config.colorscheme.kind == "light"
-        then "${pkgs.phinger-cursors}/share/icons/phinger-cursors-light"
-        else "${pkgs.phinger-cursors}/share/icons/phinger-cursors"
-      }";
-    };
+    file.".icons/default".source = "${
+      if config.colorscheme.kind == "light"
+      then "${pkgs.phinger-cursors}/share/icons/phinger-cursors-light"
+      else "${pkgs.phinger-cursors}/share/icons/phinger-cursors"
+    }";
 
     packages = lib.attrValues {
       inherit (pkgs)
@@ -77,7 +60,7 @@
         notify-desktop
         nvd
         playerctl
-        python3
+        python310
         wayland-utils
         xdg_utils;
 
@@ -93,6 +76,16 @@
         swaylock
         wf-recorder
         wl-clipboard;
+
+      palette = pkgs.writers.writeDashBin "palette" (import ./scripts/palette.nix);
+
+      pls =
+        let
+          writePython310Bin = name: pkgs.writers.makePythonWriter pkgs.python310 pkgs.python310Packages "/bin/${name}";
+        in
+        writePython310Bin "pls" { flakeIgnore = [ "E501" ]; } (import ./scripts/pls.nix);
+
+      volume = pkgs.writers.writeDashBin "volume" (import ./scripts/volume.nix);
     };
 
     sessionPath = [
@@ -217,6 +210,7 @@
           enable = true;
 
           servers = {
+            pyright.enable = true;
             rust-analyzer.enable = true;
             rnix-lsp.enable = true;
           };
@@ -426,7 +420,7 @@
       keybindings =
         let
           grimshot = action: target: "exec grimshot ${action} ${target}";
-          volume = action: "exec ~/.local/bin/volume ${action}";
+          volume = action: "exec volume ${action}";
           brightness = action: "exec brightnessctl -q set ${if action == "up" then "10%+" else "10%-"}";
         in
         lib.mkOptionDefault {

@@ -1,6 +1,4 @@
 ''
-  #!/bin/sh
-
   MAX_VOLUME=0
 
   current=$(pactl list sinks | rg 'Volume:' | head -n $((SINK + 1)) | tail -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')

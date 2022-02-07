@@ -1,6 +1,4 @@
 ''
-  #!/bin/sh
-
   printf "\n"
 
   for i in $(seq 0 15); do
