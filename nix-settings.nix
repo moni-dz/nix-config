@@ -31,7 +31,7 @@
     dates = [ "03:00" ];
   };
 
-  package = nixpkgs.legacyPackages."${system}".nixUnstable;
+  package = inputs.nix.defaultPackage.${system};
 
   registry = {
     system.flake = inputs.self;

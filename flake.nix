@@ -12,6 +12,7 @@
     emacs.url = "github:nix-community/emacs-overlay";
     home.url = "github:nix-community/home-manager";
     neovim.url = "github:neovim/neovim?dir=contrib";
+    nix.url = "github:nixos/nix";
     nixvim.url = "github:pta2002/nixvim";
     nix-colors.url = "github:Misterio77/nix-colors";
     nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
