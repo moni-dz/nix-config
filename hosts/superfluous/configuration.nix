@@ -170,6 +170,7 @@
       file
       git
       glxinfo
+      glfw-wayland
       gnome3.nautilus
       libva-utils
       lm_sensors

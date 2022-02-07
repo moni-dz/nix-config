@@ -79,6 +79,7 @@
         lazygit
         libimobiledevice
         libirecovery
+        multimc-offline
         nixpkgs-fmt
         nixpkgs-review
         notify-desktop
@@ -86,6 +87,8 @@
         playerctl
         python3
         rnix-lsp
+        steam
+        steam-run
         wayland-utils
         xdg_utils;
 
@@ -116,7 +119,7 @@
       MANPAGER = "${config.programs.nixvim.package}/bin/nvim +Man!";
       QT_QPA_PLATFORMTHEME = "qt5ct";
       RUSTUP_HOME = "${config.home.homeDirectory}/.local/share/rustup";
-      XCURSOR_SIZE = "64";
+      XCURSOR_SIZE = "32";
     };
 
     /*
@@ -349,11 +352,11 @@
       in
       {
         enable = true;
-        package = inputs.nixpkgs-wayland.packages.${pkgs.system}.swaylock;
+        package = inputs.nixpkgs-wayland.packages.${pkgs.system}.swayidle;
 
         events = [
           { event = "before-sleep"; command = dpms "off"; }
-          { event = "before-sleep"; command = "swaylock"; }
+          # { event = "before-sleep"; command = "swaylock"; }
           { event = "after-resume"; command = dpms "on"; }
           { event = "lock"; command = dpms "off"; }
           { event = "unlock"; command = dpms "on"; }
@@ -361,7 +364,7 @@
 
         timeouts = [
           { timeout = 300; command = dpms "off"; resumeCommand = dpms "on"; }
-          { timeout = 310; command = "swaylock"; }
+          # { timeout = 310; command = "swaylock"; }
         ];
       };
   };
