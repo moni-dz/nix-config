@@ -113,12 +113,11 @@
 
   programs = {
     alacritty = {
-      enable = false;
-      package = inputs.nixpkgs-f2k.packages.${pkgs.system}.alacritty-ligatures;
+      enable = true;
 
       settings = import ./config/alacritty.nix {
         inherit (config) colorscheme;
-        isWayland = true;
+        isWayland = config.wayland.windowManager.sway.enable;
       };
     };
 
@@ -151,7 +150,7 @@
     };
 
     foot = {
-      enable = true;
+      enable = false;
       server.enable = true;
       settings = import ./config/foot.nix { inherit (config) colorscheme; };
     };
@@ -378,7 +377,7 @@
     config = with config.colorscheme.colors; rec {
       bars = [ ];
       modifier = "Mod1";
-      terminal = "${config.programs.foot.package}/bin/footclient";
+      terminal = "${config.programs.alacritty.package}/bin/alacritty";
       menu = "${pkgs.bemenu}/bin/bemenu-run -H 18 -l 5 --fn 'Iosevka FT QP 10.5' --tb '#${base08}' --tf '#${base02}' --hb '#${base08}' --hf '#${base02}' --nb '#${base02}' --fb '#${base02}'";
 
       colors =

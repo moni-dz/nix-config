@@ -14,7 +14,7 @@
 
   def switch_home():
       if os.system("home-manager switch --flake ~/.config/nix-config#fortuneteller2k") == 0:
-          os.system("fd . /nix/var/nix/profiles/per-user/fortuneteller2k -d 1 | tail -2 | xargs nvd diff")
+          os.system("fd home-manager /nix/var/nix/profiles/per-user/fortuneteller2k -d 1 | tail -2 | xargs nvd diff")
 
 
   def pls(args):

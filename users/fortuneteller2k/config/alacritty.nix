@@ -6,7 +6,12 @@ with colorscheme.colors; {
   font = {
     normal = {
       family = "Iosevka FT";
-      # style = "Light";
+      style = "Light";
+    };
+
+    bold = {
+      family = "Iosevka FT";
+      style = "Semibold";
     };
 
     # Weird, but it works...

@@ -3,7 +3,7 @@
 with colorscheme.colors; {
   main = {
     term = "xterm-256color";
-    font = "Iosevka FT:size=10.5";
+    font = "Iosevka FT Light:size=10.5";
     letter-spacing = -1;
     line-height = 13.5;
     dpi-aware = "yes";

@@ -104,7 +104,7 @@ with colorscheme.colors;
     --header-primary: #${base05} !important;
     --header-secondary: #${base04} !important;
     --text-normal: #${base05} !important;
-    --text-muted: #${base03} !important;
+    --text-muted: #${base04} !important;
     --text-link: #${base0B} !important;
     --text-link-low-saturation: #${base0B} !important;
     --text-positive: hsl(139,calc(var(--saturation-factor, 1)*66.8%),58.6%);
