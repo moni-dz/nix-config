@@ -91,7 +91,6 @@
         in
         pkgs.python310.withPackages extraPythonPackages;
 
-      sway-active-ws = pkgs.writers.writeDashBin "sway-active-ws" (import ./scripts/sway-active-ws.nix);
       volume = pkgs.writers.writeDashBin "volume" (import ./scripts/volume.nix);
     };
 
@@ -459,9 +458,6 @@
 
     extraConfig = ''
       exec_always autotiling
-      exec_always eww kill
-      exec_always eww daemon
-      exec_always eww open active-workspace-indicator
       smart_borders off
     '';
 
@@ -481,18 +477,13 @@
   xdg = {
     enable = true;
 
-    configFile = {
-      "eww/eww.scss".text = import ./config/eww-scss.nix { inherit (config) colorscheme; };
-      "eww/eww.yuck".text = import ./config/eww-config.nix;
-
-      "swaylock/config".text = ''
-        daemonize
-        ignore-empty-password
-        show-failed-attempts
-        color=${config.colorscheme.colors.base00}
-        font=Sarasa UI J
-      '';
-    };
+    configFile."swaylock/config".text = ''
+      daemonize
+      ignore-empty-password
+      show-failed-attempts
+      color=${config.colorscheme.colors.base00}
+      font=Sarasa UI J
+    '';
 
     userDirs = {
       enable = true;
