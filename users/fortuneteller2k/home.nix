@@ -60,13 +60,13 @@
         notify-desktop
         nvd
         playerctl
-        python310
         wayland-utils
         xdg_utils;
 
       inherit (pkgs.gitAndTools) gh;
       inherit (pkgs.sway-contrib) grimshot;
       inherit (inputs.agenix.packages.${pkgs.system}) agenix;
+      inherit (inputs.nixpkgs-f2k.packages.${pkgs.system}) eww-wayland;
 
       inherit (inputs.nixpkgs-wayland.packages.${pkgs.system})
         grim
@@ -84,6 +84,12 @@
           writePython310Bin = name: pkgs.writers.makePythonWriter pkgs.python310 pkgs.python310Packages "/bin/${name}";
         in
         writePython310Bin "pls" { flakeIgnore = [ "E501" ]; } (import ./scripts/pls.nix);
+
+      python3 =
+        let
+          extraPythonPackages = pypkgs: with pypkgs; [ i3ipc ];
+        in
+        pkgs.python310.withPackages extraPythonPackages;
 
       volume = pkgs.writers.writeDashBin "volume" (import ./scripts/volume.nix);
     };
@@ -201,6 +207,7 @@
 
       extraPlugins = with pkgs.vimPlugins; [
         vim-elixir
+        vim-nixhash
         material-nvim
         zen-mode-nvim
       ];
