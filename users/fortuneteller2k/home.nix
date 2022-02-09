@@ -438,7 +438,7 @@
       gaps = {
         inner = 8;
         smartGaps = false;
-        smartBorders = "off";
+        smartBorders = "no_gaps";
       };
 
       keybindings =
