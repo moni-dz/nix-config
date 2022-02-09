@@ -61,15 +61,16 @@
         lazygit
         libimobiledevice
         libirecovery
-        multimc-offline
         nixpkgs-fmt
         nixpkgs-review
         notify-desktop
         nvd
         playerctl
+        rnix-lsp
         wayland-utils
         xdg_utils;
 
+      inherit (pkgs.nodePackages) insect;
       inherit (pkgs.gitAndTools) gh;
       inherit (pkgs.sway-contrib) grimshot;
       inherit (inputs.agenix.packages.${pkgs.system}) agenix;
@@ -147,8 +148,45 @@
     };
 
     emacs = {
-      enable = false;
-      package = pkgs.emacsPgtkGcc;
+      enable = true;
+
+      package = (pkgs.emacsWithPackagesFromUsePackage {
+        package = pkgs.emacsPgtkGcc;
+        config = ./config/emacs.org;
+
+        extraEmacsPackages = epkgs: with epkgs; [
+          aggressive-indent
+          company
+          ctrlf
+          doom-themes
+          eglot
+          elfeed
+          elisp-def
+          evil
+          exec-path-from-shell
+          flycheck
+          flycheck-popup-tip
+          flycheck-posframe
+          gcmh
+          helpful
+          hide-mode-line
+          highlight-defined
+          highlight-quoted
+          hl-todo
+          lisp-butt-mode
+          marginalia
+          mixed-pitch
+          nix-mode
+          no-littering
+          olivetti
+          prescient
+          selectrum
+          selectrum-prescient
+          solaire-mode
+          super-save
+          which-key
+        ];
+      });
     };
 
     exa = {
@@ -495,13 +533,22 @@
   xdg = {
     enable = true;
 
-    configFile."swaylock/config".text = ''
-      daemonize
-      ignore-empty-password
-      show-failed-attempts
-      color=${config.colorscheme.colors.base00}
-      font=Sarasa UI J
-    '';
+    configFile = {
+      "emacs/init.org" = {
+        source = ./config/emacs.org;
+        onChange = ''
+          emacs --batch --load org --eval '(org-babel-tangle-file "~/.config/emacs/init.org")'
+        '';
+      };
+
+      "swaylock/config".text = ''
+        daemonize
+        ignore-empty-password
+        show-failed-attempts
+        color=${config.colorscheme.colors.base00}
+        font=Sarasa UI J
+      '';
+    };
 
     userDirs = {
       enable = true;

@@ -3,6 +3,10 @@
   import sys
 
 
+  def help():
+      sys.exit("pls: <switch/generations/clean/upgrade>")
+
+
   def specify():
       sys.exit("Please specify either 'home' or 'nixos'.")
 
@@ -18,6 +22,9 @@
 
 
   def pls(args):
+      if len(args) < 2:
+          help()
+
       match args[1]:
           case "clean":
               os.system("sudo -n nix-collect-garbage -d")
@@ -45,7 +52,7 @@
               switch_home()
               os.system("cd ~/.config/nix-config && git push")
           case _:
-              sys.exit("pls: <switch/generations/clean/upgrade>")
+              help()
 
 
   if __name__ == "__main__":
