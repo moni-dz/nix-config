@@ -132,7 +132,7 @@
 
       See https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/installer/scan/not-detected.nix
     */
-    enableRedistributableFirmware = false;
+    enableRedistributableFirmware = true;
 
     opengl = {
       enable = true;
@@ -388,6 +388,6 @@
 
   zramSwap = {
     enable = true;
-    memoryPercent = 30;
+    memoryPercent = 40;
   };
 }
