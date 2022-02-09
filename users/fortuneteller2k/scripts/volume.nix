@@ -9,7 +9,7 @@
     if [ "$active_port" = "analog-output-headphones" ]; then
       MAX_VOLUME=100
     elif [ "$active_port" = "analog-output-speaker" ]; then
-      MAX_VOLUME=200
+      MAX_VOLUME=130
     else
       MAX_VOLUME=100
     fi
