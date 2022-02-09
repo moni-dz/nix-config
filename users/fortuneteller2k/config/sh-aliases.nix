@@ -12,5 +12,6 @@
   mv = "mv -i";
   cp = "cp -i";
   rm = "rm -i";
+  vi = "nvim";
   cfg = "cd ~/.config/nix-config";
 }

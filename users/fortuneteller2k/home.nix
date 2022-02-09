@@ -281,7 +281,7 @@
     };
 
     waybar = {
-      enable = false;
+      enable = true;
       package = inputs.nixpkgs-wayland.packages.${pkgs.system}.waybar;
 
       settings = [
@@ -296,6 +296,11 @@
       ];
 
       style = import ./config/waybar/style.nix { inherit (config) colorscheme; };
+
+      systemd = {
+        enable = true;
+        target = "sway-session.target";
+      };
     };
 
     zathura = {
@@ -304,10 +309,11 @@
       options = import ./config/zathura.nix { inherit (config) colorscheme; };
     };
 
-    zsh = rec {
+    zsh = {
       enable = true;
       autocd = true;
       enableAutosuggestions = true;
+      completionInit = "autoload -U compinit && compinit -d ${config.programs.zsh.dotDir}/zcompdump";
       dotDir = ".config/zsh";
 
       history = {
@@ -317,8 +323,12 @@
         save = 50000;
       };
 
-      initExtra = import ./config/zsh { inherit dotDir; };
-      plugins = import ./config/zsh/plugins.nix { inherit inputs; };
+      initExtra = ''
+        # You should comment this out, this is useless without my private key
+        . /run/agenix/github-token
+      '';
+
+      plugins = [{ name = "fast-syntax-highlighting"; src = inputs.zsh-f-sy-h; }];
       shellAliases = import ./config/sh-aliases.nix;
     };
   };
