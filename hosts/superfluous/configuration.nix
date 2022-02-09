@@ -1,13 +1,20 @@
 { config, lib, pkgs, options, inputs, ... }:
 
+/*
+  NixOS configuration
+
+  Useful links:
+    - Package Search: https://search.nixos.org/packages?channel=unstable
+    - Options Search: https://search.nixos.org/options?channel=unstable
+*/
 {
   boot = {
     blacklistedKernelModules = [ "amdgpu" ];
 
     /*
-      NOTE: replace this with your desired kernel
+      NOTE: replace this with your desired kernel, see: https://nixos.wiki/wiki/Linux_kernel for reference.
 
-      If you're not me or a XanMod kernel maintainer in Nixpkgs, use pkgs.linuxPackages_xanmod instead.
+      If you're not me or a XanMod kernel maintainer in Nixpkgs, use pkgs.linuxPackages_xanmod instead to avoid compilation.
     */
     kernelPackages = pkgs.master.linuxPackages_xanmod;
 
@@ -118,8 +125,14 @@
       intel.updateMicrocode = true;
     };
 
-    enableAllFirmware = true;
-    enableRedistributableFirmware = true;
+    /*
+      hardware-configuration.nix enables this by default because of this line:
+
+      >  imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
+
+      See https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/installer/scan/not-detected.nix
+    */
+    enableRedistributableFirmware = false;
 
     opengl = {
       enable = true;
@@ -130,6 +143,7 @@
 
   imports = [
     ./hardware-configuration.nix
+    # Append your custom NixOS modules in this list
     ../../modules/programs/river.nix
   ];
 
@@ -148,14 +162,8 @@
       so override the default setting only if you know exactly what you're doing."
     */
     binsh = "${pkgs.zsh}/bin/zsh";
-
+    
     pathsToLink = [ "/share/zsh" ];
-
-    sessionVariables = with pkgs; {
-      # LD_PRELOAD = "/etc/nixos/config/ld-preload-xcreatewindow.so";
-      _JAVA_AWT_WM_NONREPARENTING = "1";
-    };
-
     shells = with pkgs; [ zsh ];
 
     # Font packages should go in fonts.fonts a few lines below this.
@@ -386,6 +394,6 @@
 
   zramSwap = {
     enable = true;
-    memoryPercent = 100;
+    memoryPercent = 30;
   };
 }

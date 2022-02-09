@@ -1,11 +1,11 @@
 { config, agenix, inputs, nixpkgs, overlays, ... }:
 
+# See https://github.com/NixOS/nixpkgs/blob/master/flake.nix#L24 for reference.
 nixpkgs.lib.nixosSystem rec {
   system = "x86_64-linux";
 
   modules = [
     agenix.nixosModules.age
-    nixpkgs.nixosModules.notDetected
 
     {
       # NOTE: you should either change this or disable it completely by commenting it out

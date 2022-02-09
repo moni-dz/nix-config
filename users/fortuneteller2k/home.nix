@@ -1,5 +1,12 @@
 { config, inputs, lib, pkgs, ... }:
 
+/*
+  home-manager configuration
+
+  Useful links:
+    - Home Manager Manual: https://rycee.gitlab.io/home-manager/
+    - Appendix A. Configuration Options: https://rycee.gitlab.io/home-manager/options.html
+*/
 {
   colorscheme = inputs.nix-colors.colorSchemes.material-darker;
 
@@ -470,6 +477,7 @@
       export ECORE_EVAS_ENGINE=wayland-egl
       export ELM_ENGINE=wayland_eg
       export NO_AT_BRIDGE=1
+      export _JAVA_AWT_WM_NONREPARENTING=1
     '';
   };
 
