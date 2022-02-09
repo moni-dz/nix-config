@@ -4,8 +4,8 @@
   NixOS configuration
 
   Useful links:
-    - Package Search: https://search.nixos.org/packages?channel=unstable
-    - Options Search: https://search.nixos.org/options?channel=unstable
+  - Package Search: https://search.nixos.org/packages?channel=unstable
+  - Options Search: https://search.nixos.org/options?channel=unstable
 */
 {
   boot = {
@@ -162,7 +162,7 @@
       so override the default setting only if you know exactly what you're doing."
     */
     binsh = "${pkgs.zsh}/bin/zsh";
-    
+
     pathsToLink = [ "/share/zsh" ];
     shells = with pkgs; [ zsh ];
 

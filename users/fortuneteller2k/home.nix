@@ -4,8 +4,8 @@
   home-manager configuration
 
   Useful links:
-    - Home Manager Manual: https://rycee.gitlab.io/home-manager/
-    - Appendix A. Configuration Options: https://rycee.gitlab.io/home-manager/options.html
+  - Home Manager Manual: https://rycee.gitlab.io/home-manager/
+  - Appendix A. Configuration Options: https://rycee.gitlab.io/home-manager/options.html
 */
 {
   colorscheme = inputs.nix-colors.colorSchemes.material-darker;
@@ -438,6 +438,7 @@
       gaps = {
         inner = 8;
         smartGaps = false;
+        smartBorders = "off";
       };
 
       keybindings =
@@ -454,6 +455,8 @@
           "${modifier}+q" = "kill";
           "${modifier}+Shift+q" = "exec swaymsg exit";
           "${modifier}+Print" = grimshot "copy" "area";
+          "${modifier}+0" = "workspace number 10";
+          "${modifier}+Shift+0" = "move container to workspace number 10";
           "Print" = grimshot "copy" "active";
           "Control+Print" = grimshot "copy" "screen";
           "Mod4+Print" = grimshot "save" "screen";
@@ -472,10 +475,7 @@
       };
     };
 
-    extraConfig = ''
-      exec_always autotiling
-      smart_borders off
-    '';
+    extraConfig = "exec_always autotiling";
 
     extraSessionCommands = ''
       export XDG_SESSION_DESKTOP=sway
