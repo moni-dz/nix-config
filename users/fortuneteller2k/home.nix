@@ -486,7 +486,7 @@
       export MOZ_ENABLE_WAYLAND=1
       export CLUTTER_BACKEND=wayland
       export ECORE_EVAS_ENGINE=wayland-egl
-      export ELM_ENGINE=wayland_eg
+      export ELM_ENGINE=wayland_egl
       export NO_AT_BRIDGE=1
       export _JAVA_AWT_WM_NONREPARENTING=1
     '';
