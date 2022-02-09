@@ -25,9 +25,15 @@
               os.system(". /etc/set-environment && nix repl \"$(echo \"$NIX_PATH\" | perl -pe 's|.*(/nix/store/.*-source/repl.nix).*|\\1|')\"")
           case "switch":
               match args[2]:
-                  case "home": switch_home()
-                  case "nixos": switch_nixos()
-                  case _: specify()
+                  case "home":
+                      switch_home()
+                  case "nixos":
+                      switch_nixos()
+                  case "all":
+                      switch_nixos()
+                      switch_home()
+                  case _:
+                      specify()
           case "generations":
               match args[2]:
                   case "home": os.system("home-manager generations")
