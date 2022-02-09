@@ -337,9 +337,6 @@
 
       jack.enable = true;
       pulse.enable = true;
-
-      config = import ./config/pipewire;
-      media-session.config = import ./config/pipewire/media-session.nix;
     };
 
     usbmuxd.enable = true;
