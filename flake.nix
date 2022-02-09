@@ -27,8 +27,7 @@
     nixpkgs.follows = "master";
   };
 
-  outputs = { self, agenix, home, nixpkgs, discocss, nix-colors, nixvim, ... } @ inputs:
-    with nixpkgs.lib;
+  outputs = { self, agenix, home, nixpkgs, discocss, nix-colors, nixvim, ... }@inputs:
     let
       config = {
         allowBroken = true;
@@ -42,9 +41,9 @@
         contentAddressedByDefault = false;
       };
 
-      filterNixFiles = k: v: v == "regular" && hasSuffix ".nix" k;
+      filterNixFiles = k: v: v == "regular" && nixpkgs.lib.hasSuffix ".nix" k;
 
-      importNixFiles = path: (lists.forEach (mapAttrsToList (name: _: path + ("/" + name))
+      importNixFiles = path: with nixpkgs.lib; (lists.forEach (mapAttrsToList (name: _: path + ("/" + name))
         (filterAttrs filterNixFiles (builtins.readDir path)))) import;
 
       overlays = with inputs; [

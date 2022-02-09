@@ -5,6 +5,7 @@ home.lib.homeManagerConfiguration rec {
   system = "x86_64-linux";
   username = "fortuneteller2k";
   homeDirectory = "/home/${username}";
+
   configuration.imports = [
     { nixpkgs = { inherit config overlays; }; }
     ./home.nix
