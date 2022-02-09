@@ -292,11 +292,6 @@
     protectKernelImage = true;
     rtkit.enable = true;
     sudo.wheelNeedsPassword = false;
-
-    doas = {
-      enable = true;
-      wheelNeedsPassword = false;
-    };
   };
 
   services = {
@@ -332,7 +327,6 @@
       gatewayPorts = "yes";
       permitRootLogin = "yes";
     };
-
 
     pipewire = {
       enable = true;

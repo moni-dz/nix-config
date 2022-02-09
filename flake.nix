@@ -4,7 +4,6 @@
   inputs = {
     # Non-flake inputs
     phocus = { url = "github:fortuneteller2k/gtk"; flake = false; };
-    zsh-doas = { url = "github:anatolykopyl/doas-zsh-plugin"; flake = false; };
     zsh-f-sy-h = { url = "github:zdharma-continuum/fast-syntax-highlighting"; flake = false; };
 
     # Flake inputs
