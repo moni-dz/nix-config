@@ -1,5 +1,6 @@
 ''
-  import os
+  from subprocess import run
+  from signal import SIGINT
   import sys
 
 
@@ -12,13 +13,45 @@
 
 
   def switch_nixos():
-      if os.system("sudo -n nixos-rebuild switch --flake ~/.config/nix-config#superfluous") == 0:
-          os.system("fd . /nix/var/nix/profiles -d 1 | tail -2 | xargs nvd diff")
+      try:
+          process = run("sudo -n nixos-rebuild switch --flake ~/.config/nix-config#superfluous", shell=True)
+
+          if process.returncode == 0:
+              return run("fd . /nix/var/nix/profiles -d 1 | tail -2 | xargs nvd diff", shell=True).returncode
+          else:
+              return process.returncode
+      except KeyboardInterrupt:
+          return SIGINT
 
 
   def switch_home():
-      if os.system("home-manager switch --flake ~/.config/nix-config#fortuneteller2k") == 0:
-          os.system("fd home-manager /nix/var/nix/profiles/per-user/fortuneteller2k -d 1 | tail -2 | xargs nvd diff")
+      try:
+          process = run("home-manager switch --flake ~/.config/nix-config#fortuneteller2k", shell=True)
+
+          if process.returncode == 0:
+              return run("fd home-manager /nix/var/nix/profiles/per-user/fortuneteller2k -d 1 | tail -2 | xargs nvd diff", shell=True).returncode
+          else:
+              return process.returncode
+      except KeyboardInterrupt:
+          return SIGINT
+
+
+  def switch_all():
+      retcode = switch_nixos()
+
+      if retcode == 0:
+          switch_home()
+      else:
+          sys.exit(retcode)
+
+
+  def upgrade():
+      try:
+          run("cd ~/.config/nix-config && nix flake update --commit-lock-file --commit-lockfile-summary 'flake: bump flakes'", shell=True)
+          switch_all()
+          run("cd ~/.config/nix-config && git push", shell=True)
+      except KeyboardInterrupt:
+          sys.exit(SIGINT)
 
 
   def pls(args):
@@ -27,30 +60,22 @@
 
       match args[1]:
           case "clean":
-              os.system("sudo -n nix-collect-garbage -d")
+              run("sudo -n nix-collect-garbage -d", shell=True)
           case "repl":
-              os.system(". /etc/set-environment && nix repl \"$(echo \"$NIX_PATH\" | perl -pe 's|.*(/nix/store/.*-source/repl.nix).*|\\1|')\"")
+              run(". /etc/set-environment && nix repl \"$(echo \"$NIX_PATH\" | perl -pe 's|.*(/nix/store/.*-source/repl.nix).*|\\1|')\"", shell=True)
           case "switch":
               match args[2]:
-                  case "home":
-                      switch_home()
-                  case "nixos":
-                      switch_nixos()
-                  case "all":
-                      switch_nixos()
-                      switch_home()
-                  case _:
-                      specify()
+                  case "home": switch_home()
+                  case "nixos": switch_nixos()
+                  case "all": switch_all()
+                  case _: specify()
           case "generations":
               match args[2]:
-                  case "home": os.system("home-manager generations")
-                  case "nixos": os.system("sudo -n nix-env -p /nix/var/nix/profiles/system --list-generations")
+                  case "home": run("home-manager generations", shell=True)
+                  case "nixos": run("sudo -n nix-env -p /nix/var/nix/profiles/system --list-generations", shell=True)
                   case _: specify()
           case "upgrade":
-              os.system("cd ~/.config/nix-config && nix flake update --commit-lock-file --commit-lockfile-summary 'flake: bump flakes'")
-              switch_nixos()
-              switch_home()
-              os.system("cd ~/.config/nix-config && git push")
+              upgrade()
           case _:
               help()
 
