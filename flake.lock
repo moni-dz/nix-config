@@ -544,11 +544,11 @@
         "xmonad-contrib": "xmonad-contrib"
       },
       "locked": {
-        "lastModified": 1644501809,
-        "narHash": "sha256-T3yw7XlHiPE5RFHLJDl8KOJ9moXNVTAck5odUV9YXf0=",
+        "lastModified": 1644519162,
+        "narHash": "sha256-m5q6oCxK/wjyqQn+teN7LuUGKytj1XZyLxO0/7phY98=",
         "owner": "fortuneteller2k",
         "repo": "nixpkgs-f2k",
-        "rev": "6c05a6cea0920f5177f9db40667589b0d6f54a0c",
+        "rev": "5fd686b4aa0ffdc0d12f934ada1f6a38b1daab50",
         "type": "github"
       },
       "original": {
@@ -898,15 +898,15 @@
     "phocus-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1620191988,
-        "narHash": "sha256-jetVGSSMlzuR0WJD5ExEC71gNGK06QWY2wRFSyhDz80=",
-        "owner": "fortuneteller2k",
+        "lastModified": 1619871645,
+        "narHash": "sha256-MiSrbOlG/XxEBWwCRlVe0kbC5NqPqgrsRyx6So3oRr8=",
+        "owner": "phocus",
         "repo": "gtk",
-        "rev": "cd013dedeeb94cccc534d9e6e50249ef965707bc",
+        "rev": "898584f0e51c5e72a49e308039bb57f6c59e5f8e",
         "type": "github"
       },
       "original": {
-        "owner": "fortuneteller2k",
+        "owner": "phocus",
         "repo": "gtk",
         "type": "github"
       }

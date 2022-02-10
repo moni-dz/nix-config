@@ -24,9 +24,11 @@
     theme = {
       name = "phocus";
 
-      package = (inputs.nixpkgs-f2k.packages.${pkgs.system}.phocus.override {
+      package = inputs.nixpkgs-f2k.packages.${pkgs.system}.phocus.override {
         inherit (config.colorscheme) colors;
-      });
+        primary = config.colorscheme.colors.base08;
+        secondary = config.colorscheme.colors.base0B;
+      };
     };
 
     gtk2.extraConfig = "gtk-cursor-theme-size=32";
