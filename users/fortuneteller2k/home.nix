@@ -52,16 +52,13 @@
         clang
         celluloid
         dragon-drop
-        element-desktop
         ffmpeg
         font-manager
-        gimp
         graphviz
         hydra-check
         hyperfine
         imagemagick
         imv
-        inkscape
         jq
         lazygit
         libimobiledevice
@@ -70,7 +67,6 @@
         nixpkgs-review
         notify-desktop
         nvd
-        playerctl
         rnix-lsp
         wayland-utils
         xdg_utils;
@@ -244,14 +240,13 @@
       ]);
     };
 
-    ncmpcpp = {
-      enable = config.services.mpd.enable;
-      settings = import ./config/ncmpcpp.nix;
-    };
-
     nixvim = {
       enable = true;
-      package = inputs.neovim.packages.${pkgs.system}.neovim;
+      
+      package = inputs.neovim.packages.${pkgs.system}.neovim.overrideAttrs (_: {
+        __contentAddressed = true;  
+      });
+
       colorscheme = "material";
 
       extraPlugins = with pkgs.vimPlugins; [
@@ -396,21 +391,6 @@
 
       settings = import ./config/dunst.nix { inherit (config) colorscheme; };
     };
-
-    mpd = {
-      enable = true;
-      package = pkgs.master.mpd;
-      musicDirectory = config.xdg.userDirs.music;
-      extraConfig = import ./config/mpd.nix;
-    };
-
-    mpdris2 = {
-      enable = config.services.mpd.enable;
-      multimediaKeys = true;
-      notifications = true;
-    };
-
-    playerctld.enable = true;
 
     swayidle =
       let
