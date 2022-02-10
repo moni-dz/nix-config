@@ -22,8 +22,11 @@
     };
 
     theme = {
-      package = pkgs.phocus;
       name = "phocus";
+
+      package = (inputs.nixpkgs-f2k.packages.${pkgs.system}.phocus.override {
+        inherit (config.colorscheme) colors;
+      });
     };
 
     gtk2.extraConfig = "gtk-cursor-theme-size=32";
@@ -253,6 +256,7 @@
         vim-elixir
         vim-nixhash
         material-nvim
+        nvim-colorizer-lua
         zen-mode-nvim
       ];
 
@@ -309,6 +313,13 @@
             lighter = false,
             darker = true
           },
+        })
+
+        require('colorizer').setup({ '*' }, {
+          names    = true;
+          RRGGBBAA = true;
+          css      = true;
+          mode     = 'background';
         })
       '';
     };

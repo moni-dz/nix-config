@@ -533,6 +533,7 @@
         "kile-wl-src": "kile-wl-src",
         "nixpkgs": "nixpkgs_8",
         "nixpkgs-wayland": "nixpkgs-wayland",
+        "phocus-src": "phocus-src",
         "picom-dccsillag": "picom-dccsillag",
         "picom-pijulius": "picom-pijulius",
         "picom-src": "picom-src",
@@ -543,11 +544,11 @@
         "xmonad-contrib": "xmonad-contrib"
       },
       "locked": {
-        "lastModified": 1644460293,
-        "narHash": "sha256-HmNuoEWAQ6k4zAGeY9uMnocMDSUN2uL4rv7mYXxpCvM=",
+        "lastModified": 1644501809,
+        "narHash": "sha256-T3yw7XlHiPE5RFHLJDl8KOJ9moXNVTAck5odUV9YXf0=",
         "owner": "fortuneteller2k",
         "repo": "nixpkgs-f2k",
-        "rev": "3834089847e63b9f663829057ce64d39796de37f",
+        "rev": "6c05a6cea0920f5177f9db40667589b0d6f54a0c",
         "type": "github"
       },
       "original": {
@@ -894,7 +895,7 @@
         "type": "gitlab"
       }
     },
-    "phocus": {
+    "phocus-src": {
       "flake": false,
       "locked": {
         "lastModified": 1620191988,
@@ -994,7 +995,6 @@
         "nixpkgs-f2k": "nixpkgs-f2k",
         "nixpkgs-wayland": "nixpkgs-wayland_2",
         "nixvim": "nixvim",
-        "phocus": "phocus",
         "stable": "stable",
         "unstable": "unstable",
         "zsh-f-sy-h": "zsh-f-sy-h"

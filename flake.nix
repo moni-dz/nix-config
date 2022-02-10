@@ -3,7 +3,6 @@
 
   inputs = {
     # Non-flake inputs
-    phocus = { url = "github:fortuneteller2k/gtk"; flake = false; };
     zsh-f-sy-h = { url = "github:zdharma-continuum/fast-syntax-highlighting"; flake = false; };
 
     # Flake inputs
@@ -52,9 +51,6 @@
             system = final.system;
           in
           {
-            # Sources provided by non-flake inputs, to be used in overlays and derivations
-            phocus-src = phocus;
-
             /*
               Nixpkgs branches
 
