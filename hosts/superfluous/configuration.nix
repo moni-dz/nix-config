@@ -167,7 +167,8 @@
     shells = with pkgs; [ zsh ];
 
     # Font packages should go in fonts.fonts a few lines below this.
-    systemPackages = with pkgs; [
+    systemPackages = lib.attrValues {
+      inherit (pkgs)
       alsaTools
       alsaUtils
       brightnessctl
@@ -176,9 +177,6 @@
       dash
       fd
       file
-      git
-      glxinfo
-      gnome3.nautilus
       home-manager
       libva-utils
       lm_sensors
@@ -186,19 +184,21 @@
       man-pages-posix
       ntfs3g
       pavucontrol
-      pciutils
-      psmisc
       pulseaudio
-      qt5.qtwayland
       ripgrep
-      subversion
       util-linux
       unrar
       unzip
       wget
       xarchiver
-      zip
-    ];
+      zip;
+
+      inherit (pkgs.qt5) qtwayland;
+      inherit (pkgs.gnome3) nautilus;
+
+      git = pkgs.git.overrideAttrs(_: { __contentAddressed = true; });
+      subversion = pkgs.subversion.overrideAttrs(_: { __contentAddressed = true; });
+    };
   };
 
   fonts = {
