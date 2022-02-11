@@ -162,8 +162,8 @@
       so override the default setting only if you know exactly what you're doing."
     */
     binsh = "${pkgs.zsh}/bin/zsh";
-
     pathsToLink = [ "/share/zsh" ];
+    sessionVariables.NIXOS_OZONE_WL = "1";
     shells = with pkgs; [ zsh ];
 
     # Font packages should go in fonts.fonts a few lines below this.
