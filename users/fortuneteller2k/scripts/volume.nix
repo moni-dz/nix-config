@@ -1,19 +1,9 @@
 ''
-  MAX_VOLUME=0
+  MAX_VOLUME=100
 
   current=$(pactl list sinks | rg 'Volume:' | head -n $((SINK + 1)) | tail -n 1 | sed -e 's,.* \([0-9][0-9]*\)%.*,\1,')
   current_sink=$(pactl list short sinks | awk '{print $1}')
   active_port=$(pactl list sinks | rg 'Active Port: ' | awk '{print $3}')
-
-  set_max_volume() {
-    if [ "$active_port" = "analog-output-headphones" ]; then
-      MAX_VOLUME=100
-    elif [ "$active_port" = "analog-output-speaker" ]; then
-      MAX_VOLUME=130
-    else
-      MAX_VOLUME=100
-    fi
-  }
 
   volume() {
     set_max_volume
