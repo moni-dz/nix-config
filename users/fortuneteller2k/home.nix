@@ -429,7 +429,7 @@
       modifier = "Mod1";
       terminal = "${config.programs.alacritty.package}/bin/alacritty";
       menu = ''
-        ${pkgs.bemenu}/bin/bemenu-run -H 18 -l 5 --fn 'Iosevka FT 10.5' --tb '#${base08}' --tf '#${base02}' --hb '#${base08}' --hf '#${base02}' --nb '#${base02}' --fb '#${base02}'
+        ${pkgs.bemenu}/bin/bemenu-run -H 18 -l 5 --fn 'Iosevka FT QP Light 10.5' --tb '#${base08}' --tf '#${base02}' --hb '#${base08}' --hf '#${base02}' --nb '#${base02}' --fb '#${base02}'
       '';
 
       colors =
@@ -545,7 +545,7 @@
           ini = pkgs.formats.ini { };
 
           menu = with config.colorscheme.colors; ''
-            ${pkgs.bemenu}/bin/bemenu -H 18 -l 5 --fn 'Iosevka FT 10.5' --tb '#${base08}' --tf '#${base02}' --hb '#${base08}' --hf '#${base02}' --nb '#${base02}' --fb '#${base02}'
+            ${pkgs.bemenu}/bin/bemenu -H 18 -l 5 --fn 'Iosevka FT QP Light 10.5' --tb '#${base08}' --tf '#${base02}' --hb '#${base08}' --hf '#${base02}' --nb '#${base02}' --fb '#${base02}'
           '';
         in
         ini.generate "config.ini" {
