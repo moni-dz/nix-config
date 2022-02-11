@@ -31,9 +31,9 @@
       };
     };
 
-    gtk2.extraConfig = "gtk-cursor-theme-size=32";
-    gtk3.extraConfig."gtk-cursor-theme-size" = 32;
-    gtk4.extraConfig."gtk-cursor-theme-size" = 32;
+    gtk2.extraConfig = "gtk-cursor-theme-size=16";
+    gtk3.extraConfig."gtk-cursor-theme-size" = 16;
+    gtk4.extraConfig."gtk-cursor-theme-size" = 16;
   };
 
   home = {
@@ -117,7 +117,7 @@
       MANPAGER = "${config.programs.nixvim.package}/bin/nvim +Man!";
       QT_QPA_PLATFORMTHEME = "qt5ct";
       RUSTUP_HOME = "${config.home.homeDirectory}/.local/share/rustup";
-      XCURSOR_SIZE = "32";
+      XCURSOR_SIZE = "16";
     };
   };
 
