@@ -63,6 +63,7 @@
         lazygit
         libimobiledevice
         libirecovery
+        networkmanager_dmenu
         nixpkgs-fmt
         nixpkgs-review
         notify-desktop
@@ -242,9 +243,9 @@
 
     nixvim = {
       enable = true;
-      
+
       package = inputs.neovim.packages.${pkgs.system}.neovim.overrideAttrs (_: {
-        __contentAddressed = true;  
+        __contentAddressed = true;
       });
 
       colorscheme = "material";
@@ -427,7 +428,9 @@
       defaultWorkspace = "workspace number 1";
       modifier = "Mod1";
       terminal = "${config.programs.alacritty.package}/bin/alacritty";
-      menu = "${pkgs.bemenu}/bin/bemenu-run -H 18 -l 5 --fn 'Iosevka FT QP 10.5' --tb '#${base08}' --tf '#${base02}' --hb '#${base08}' --hf '#${base02}' --nb '#${base02}' --fb '#${base02}'";
+      menu = ''
+        ${pkgs.bemenu}/bin/bemenu-run -H 18 -l 5 --fn 'Iosevka FT 10.5' --tb '#${base08}' --tf '#${base02}' --hb '#${base08}' --hf '#${base02}' --nb '#${base02}' --fb '#${base02}'
+      '';
 
       colors =
         let
@@ -489,6 +492,9 @@
           "${modifier}+Print" = grimshot "copy" "area";
           "${modifier}+0" = "workspace number 10";
           "${modifier}+Shift+0" = "move container to workspace number 10";
+          "${modifier}+b" = "exec pkill -USR1 waybar";
+          "${modifier}+c" = "split h";
+          "${modifier}+v" = "split v";
           "Print" = grimshot "copy" "active";
           "Control+Print" = grimshot "copy" "screen";
           "Mod4+Print" = grimshot "save" "screen";
@@ -533,6 +539,19 @@
           emacs --batch --load org --eval '(org-babel-tangle-file "~/.config/emacs/init.org")'
         '';
       };
+
+      "networkmanager-dmenu/config.ini".source =
+        let
+          ini = pkgs.formats.ini { };
+
+          menu = with config.colorscheme.colors; ''
+            ${pkgs.bemenu}/bin/bemenu -H 18 -l 5 --fn 'Iosevka FT 10.5' --tb '#${base08}' --tf '#${base02}' --hb '#${base08}' --hf '#${base02}' --nb '#${base02}' --fb '#${base02}'
+          '';
+        in
+        ini.generate "config.ini" {
+          dmenu.dmenu_command = menu;
+          editor.terminal = "${pkgs.alacritty}/bin/alacritty";
+        };
 
       "swaylock/config".text = ''
         daemonize
