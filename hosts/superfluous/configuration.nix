@@ -169,35 +169,35 @@
     # Font packages should go in fonts.fonts a few lines below this.
     systemPackages = lib.attrValues {
       inherit (pkgs)
-      alsaTools
-      alsaUtils
-      brightnessctl
-      coreutils
-      curl
-      dash
-      fd
-      file
-      home-manager
-      libva-utils
-      lm_sensors
-      man-pages
-      man-pages-posix
-      ntfs3g
-      pavucontrol
-      pulseaudio
-      ripgrep
-      util-linux
-      unrar
-      unzip
-      wget
-      xarchiver
-      zip;
+        alsaTools
+        alsaUtils
+        brightnessctl
+        coreutils
+        curl
+        dash
+        fd
+        file
+        home-manager
+        libva-utils
+        lm_sensors
+        man-pages
+        man-pages-posix
+        ntfs3g
+        pavucontrol
+        pulseaudio
+        ripgrep
+        util-linux
+        unrar
+        unzip
+        wget
+        xarchiver
+        zip;
 
       inherit (pkgs.qt5) qtwayland;
       inherit (pkgs.gnome3) nautilus;
 
-      git = pkgs.git.overrideAttrs(_: { __contentAddressed = true; });
-      subversion = pkgs.subversion.overrideAttrs(_: { __contentAddressed = true; });
+      git = pkgs.git.overrideAttrs (_: { __contentAddressed = true; });
+      subversion = pkgs.subversion.overrideAttrs (_: { __contentAddressed = true; });
     };
   };
 
