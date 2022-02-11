@@ -22,5 +22,5 @@ nixpkgs.lib.nixosSystem rec {
     ./configuration.nix
   ];
 
-  specialArgs = { inherit inputs; };
+  specialArgs = { inherit inputs system; };
 }

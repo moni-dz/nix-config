@@ -1,4 +1,4 @@
-{ config, inputs, lib, pkgs, ... }:
+{ config, inputs, lib, pkgs, system, ... }:
 
 /*
   home-manager configuration
@@ -24,7 +24,7 @@
     theme = {
       name = "phocus";
 
-      package = inputs.nixpkgs-f2k.packages.${pkgs.system}.phocus.override {
+      package = inputs.nixpkgs-f2k.packages.${system}.phocus.override {
         inherit (config.colorscheme) colors;
         primary = config.colorscheme.colors.base08;
         secondary = config.colorscheme.colors.base0B;
@@ -75,10 +75,10 @@
       inherit (pkgs.nodePackages) insect;
       inherit (pkgs.gitAndTools) gh;
       inherit (pkgs.sway-contrib) grimshot;
-      inherit (inputs.agenix.packages.${pkgs.system}) agenix;
-      inherit (inputs.nixpkgs-f2k.packages.${pkgs.system}) eww-wayland;
+      inherit (inputs.agenix.packages.${system}) agenix;
+      inherit (inputs.nixpkgs-f2k.packages.${system}) eww-wayland;
 
-      inherit (inputs.nixpkgs-wayland.packages.${pkgs.system})
+      inherit (inputs.nixpkgs-wayland.packages.${system})
         grim
         slurp
         swaybg
@@ -244,7 +244,7 @@
     nixvim = {
       enable = true;
 
-      package = inputs.neovim.packages.${pkgs.system}.neovim.overrideAttrs (_: {
+      package = inputs.neovim.packages.${system}.neovim.overrideAttrs (_: {
         __contentAddressed = true;
       });
 
@@ -329,7 +329,7 @@
 
     waybar = {
       enable = true;
-      package = inputs.nixpkgs-wayland.packages.${pkgs.system}.waybar;
+      package = inputs.nixpkgs-wayland.packages.${system}.waybar;
 
       settings = [
         {
@@ -399,7 +399,7 @@
       in
       {
         enable = true;
-        package = inputs.nixpkgs-wayland.packages.${pkgs.system}.swayidle;
+        package = inputs.nixpkgs-wayland.packages.${system}.swayidle;
 
         events = [
           { event = "before-sleep"; command = dpms "off"; }
@@ -420,7 +420,7 @@
 
   wayland.windowManager.sway = {
     enable = true;
-    package = inputs.nixpkgs-wayland.packages.${pkgs.system}.sway-unwrapped;
+    package = inputs.nixpkgs-wayland.packages.${system}.sway-unwrapped;
     wrapperFeatures.gtk = true;
 
     config = with config.colorscheme.colors; rec {

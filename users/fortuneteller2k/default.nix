@@ -22,7 +22,7 @@ home.lib.homeManagerConfiguration rec {
   ];
 
   # Extra arguments passed to home.nix
-  extraSpecialArgs = { inherit inputs; };
+  extraSpecialArgs = { inherit inputs system; };
 
   /*
     NOTE: DO NOT CHANGE THIS IF YOU DON'T KNOW WHAT YOU'RE DOING.

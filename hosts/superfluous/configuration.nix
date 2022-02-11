@@ -1,4 +1,4 @@
-{ config, lib, pkgs, options, inputs, ... }:
+{ config, lib, pkgs, options, inputs, system, ... }:
 
 /*
   NixOS configuration
@@ -217,7 +217,7 @@
         terminus_font
         twemoji-color-font;
 
-      inherit (inputs.nixpkgs-f2k.packages.${pkgs.system})
+      inherit (inputs.nixpkgs-f2k.packages.${system})
         iosevka-ft-bin
         iosevka-ft-qp-bin;
 
