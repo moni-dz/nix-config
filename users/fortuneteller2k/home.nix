@@ -150,7 +150,7 @@
     };
 
     emacs = {
-      enable = true;
+      enable = false;
 
       package = (pkgs.emacsWithPackagesFromUsePackage {
         package = pkgs.emacsPgtkGcc;
@@ -535,6 +535,7 @@
     configFile = {
       "emacs/init.org" = {
         source = ./config/emacs.org;
+
         onChange = ''
           emacs --batch --load org --eval '(org-babel-tangle-file "~/.config/emacs/init.org")'
         '';

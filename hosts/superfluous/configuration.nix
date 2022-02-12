@@ -118,6 +118,15 @@
     bluetooth = {
       enable = true;
       package = pkgs.bluezFull;
+
+      settings = {
+        General.FastConnectable = true;
+
+        Policy = {
+          ReconnectAttempts = 7;
+          ReconnectUUIDs = "00001124-0000-1000-8000-00805f9b34fb";
+        };
+      };
     };
 
     cpu = {
@@ -383,6 +392,7 @@
 
   xdg.portal = {
     enable = true;
+    gtkUsePortal = true;
     wlr.enable = true;
   };
 
