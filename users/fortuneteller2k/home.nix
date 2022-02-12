@@ -24,11 +24,11 @@
     theme = {
       name = "phocus";
 
-      package = inputs.nixpkgs-f2k.packages.${system}.phocus.override {
+      package = (inputs.nixpkgs-f2k.packages.${system}.phocus.override {
         inherit (config.colorscheme) colors;
         primary = config.colorscheme.colors.base08;
         secondary = config.colorscheme.colors.base0B;
-      };
+      }).overrideAttrs (_: { __contentAddressed = true; });
     };
 
     gtk2.extraConfig = "gtk-cursor-theme-size=16";
@@ -47,7 +47,7 @@
       inherit (pkgs)
         autotiling
         bemenu
-        brave
+        brave-nightly
         brightnessctl
         clang
         celluloid
