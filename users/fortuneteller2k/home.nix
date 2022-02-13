@@ -484,8 +484,8 @@
       };
 
       gaps = {
-        outer = -4;
-        inner = 18;
+        outer = -5;
+        inner = 19;
         smartGaps = false;
         smartBorders = "no_gaps";
       };
