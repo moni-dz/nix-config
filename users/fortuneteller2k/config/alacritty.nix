@@ -11,7 +11,7 @@ with colorscheme.colors; {
 
     bold = {
       family = "Iosevka FT";
-      style = "Semibold";
+      style = "Medium";
     };
 
     # Weird, but it works...
