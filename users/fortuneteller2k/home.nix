@@ -387,7 +387,7 @@
       package = inputs.nixpkgs-wayland.packages.${system}.dunst.overrideAttrs (old: {
         __contentAddressed = true;
 
-        patches = (old.patches or []) ++ [
+        patches = (old.patches or [ ]) ++ [
           ../../patches/0001-Double-borders-rebased-for-latest-dunst.patch
         ];
       });
@@ -529,7 +529,8 @@
     extraConfig =
       let
         border_image = ../../assets/border.png;
-      in ''
+      in
+      ''
         exec_always autotiling
 
         border_images.unfocused ${border_image}
