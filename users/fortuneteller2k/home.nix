@@ -153,7 +153,7 @@
       enable = true;
 
       package = (pkgs.emacsWithPackagesFromUsePackage {
-        package = pkgs.emacsGcc;
+        package = pkgs.emacsPgtkGcc;
         config = ./config/emacs.org;
 
         extraEmacsPackages = epkgs: with epkgs; [
@@ -184,6 +184,7 @@
           prescient
           selectrum
           selectrum-prescient
+          simple-modeline
           solaire-mode
           super-save
           which-key

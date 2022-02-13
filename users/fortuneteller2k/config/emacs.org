@@ -13,7 +13,7 @@
 
   (add-to-list 'default-frame-alist '(menu-bar-lines . 0))
   (add-to-list 'default-frame-alist '(tool-bar-lines . 0))
-  (add-to-list 'default-frame-alist '(font . "Iosevka FT-10.5"))
+  (add-to-list 'default-frame-alist '(font . "Iosevka FT Light-10.5"))
   (add-to-list 'default-frame-alist '(vertical-scroll-bars))
 
   (setq-default use-dialog-box nil
@@ -124,7 +124,7 @@
     "Default variable width font")
 
   (defconst fonts/serif
-    "Iosevka FT QP"
+    "Iosevka FT QP Light"
     "Serifed font")
 
   (defun fonts/set-fonts ()
@@ -244,6 +244,10 @@
 
 * interface
 #+begin_src emacs-lisp :tangle yes
+  (pkg! simple-modeline
+    :hook
+    (emacs-startup . simple-modeline-mode))
+
   (pkg! hide-mode-line
     :hook
     ((comint-mode helpful-mode help-mode) . hide-mode-line-mode))
@@ -307,11 +311,11 @@
     (interactive)
 
     (defface regular-face
-      '((nil :family "Iosevka FT" :height 105))
+      '((nil :family "Iosevka FT Light" :height 105))
       "Regular face")
 
     (defface zen-mode-face
-      '((nil :family "Iosevka FT" :height 120))
+      '((nil :family "Iosevka FT Light" :height 120))
       "Zen mode face")
 
     (cond ((bound-and-true-p olivetti-mode)
