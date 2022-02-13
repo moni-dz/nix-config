@@ -503,6 +503,7 @@
           "${modifier}+t" = "floating toggle";
           "${modifier}+q" = "kill";
           "${modifier}+Shift+q" = "exec swaymsg exit";
+          "${modifier}+Shift+r" = "reload";
           "${modifier}+Print" = grimshot "copy" "area";
           "${modifier}+0" = "workspace number 10";
           "${modifier}+Shift+0" = "move container to workspace number 10";
