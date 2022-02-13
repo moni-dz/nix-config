@@ -12,7 +12,7 @@ with colorscheme.colors; {
     font = "Sarasa Gothic J 10.4";
     frame_width = 4;
     outer_frame_width = 5;
-    separator_height = 4;
+    separator_height = 0;
     separator_color = "#${base03}";
     icon_position = "left";
     max_icon_size = 80;
