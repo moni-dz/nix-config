@@ -10,6 +10,7 @@
 {
   boot = {
     blacklistedKernelModules = [ "amdgpu" ];
+    extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
 
     /*
       NOTE: replace this with your desired kernel, see: https://nixos.wiki/wiki/Linux_kernel for reference.
@@ -172,7 +173,6 @@
     */
     binsh = "${pkgs.zsh}/bin/zsh";
     pathsToLink = [ "/share/zsh" ];
-    sessionVariables.NIXOS_OZONE_WL = "1";
     shells = with pkgs; [ zsh ];
 
     # Font packages should go in fonts.fonts a few lines below this.

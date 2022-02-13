@@ -3,6 +3,7 @@
 
   inputs = {
     # Non-flake inputs
+    sway_borders = { url = "github:fluix-dev/sway-borders"; flake = false; };
     zsh-f-sy-h = { url = "github:zdharma-continuum/fast-syntax-highlighting"; flake = false; };
 
     # Flake inputs
@@ -47,9 +48,7 @@
 
       overlays = with inputs; [
         (final: _:
-          let
-            system = final.system;
-          in
+          let system = final.system; in
           {
             /*
               Nixpkgs branches
@@ -66,7 +65,6 @@
 
         # Overlays provided by inputs
         emacs.overlay
-        nixpkgs-f2k.overlay
       ]
       # Overlays from ./overlays directory
       ++ (importNixFiles ./overlays);

@@ -996,6 +996,7 @@
         "nixpkgs-wayland": "nixpkgs-wayland_2",
         "nixvim": "nixvim",
         "stable": "stable",
+        "sway_borders": "sway_borders",
         "unstable": "unstable",
         "zsh-f-sy-h": "zsh-f-sy-h"
       }
@@ -1053,6 +1054,22 @@
       }
     },
     "sway-borders-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1643921366,
+        "narHash": "sha256-ZS8QXoQ1NDpQd6MyXWgJzPZruhJUvKB+xD4otuWoD6M=",
+        "owner": "fluix-dev",
+        "repo": "sway-borders",
+        "rev": "a137ee487f246568f6e67d5799b27abdaa5dca4e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "fluix-dev",
+        "repo": "sway-borders",
+        "type": "github"
+      }
+    },
+    "sway_borders": {
       "flake": false,
       "locked": {
         "lastModified": 1643921366,

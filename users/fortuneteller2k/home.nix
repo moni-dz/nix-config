@@ -54,6 +54,7 @@
         dragon-drop
         ffmpeg
         font-manager
+        gimp
         graphviz
         hydra-check
         hyperfine
@@ -144,7 +145,6 @@
 
     discocss = {
       enable = true;
-      discord = pkgs.discord-openasar;
       discordAlias = true;
       css = import ./config/discocss-css.nix { inherit (config) colorscheme; };
     };
@@ -420,14 +420,17 @@
 
   wayland.windowManager.sway = {
     enable = true;
-    package = inputs.nixpkgs-wayland.packages.${system}.sway-unwrapped;
-    wrapperFeatures.gtk = true;
+
+    package = inputs.nixpkgs-wayland.packages.${system}.sway-unwrapped.overrideAttrs (old: {
+      src = inputs.sway_borders;
+    });
 
     config = with config.colorscheme.colors; rec {
       bars = [ ];
       defaultWorkspace = "workspace number 1";
       modifier = "Mod1";
       terminal = "${config.programs.alacritty.package}/bin/alacritty";
+
       menu = ''
         ${pkgs.bemenu}/bin/bemenu-run -H 18 -l 5 --fn 'Iosevka FT QP Light 10.5' --tb '#${base08}' --tf '#${base02}' --hb '#${base08}' --hf '#${base02}' --nb '#${base02}' --fb '#${base02}'
       '';
@@ -471,7 +474,8 @@
       };
 
       gaps = {
-        inner = 8;
+        outer = -6;
+        inner = 20;
         smartGaps = false;
         smartBorders = "no_gaps";
       };
@@ -505,7 +509,7 @@
           "XF86MonBrightnessDown" = brightness "down";
         };
 
-      output."*".bg = "#${base00} solid_color";
+      output."*".bg = "#${base04} solid_color";
 
       window = {
         border = 4;
@@ -513,7 +517,17 @@
       };
     };
 
-    extraConfig = "exec_always autotiling";
+    extraConfig =
+      let
+        border_image = ../../assets/border.png;
+      in ''
+        exec_always autotiling
+
+        border_images.unfocused ${border_image}
+        border_images.focused ${border_image}
+        border_images.focused_inactive ${border_image}
+        border_images.urgent ${border_image}
+      '';
 
     extraSessionCommands = ''
       export XDG_SESSION_DESKTOP=sway
@@ -527,6 +541,8 @@
       export NO_AT_BRIDGE=1
       export _JAVA_AWT_WM_NONREPARENTING=1
     '';
+
+    wrapperFeatures.gtk = true;
   };
 
   xdg = {
