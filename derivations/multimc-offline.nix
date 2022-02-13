@@ -18,7 +18,7 @@ mkDerivation rec {
   nativeBuildInputs = [ cmake file makeWrapper ];
   buildInputs = [ qtbase jdk8 zlib ];
 
-  patches = [ ./patches/0001-pick-latest-java-first.patch ];
+  patches = [ ../patches/0001-pick-latest-java-first.patch ];
 
   postPatch = ''
     # hardcode jdk paths
