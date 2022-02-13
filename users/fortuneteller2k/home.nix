@@ -150,10 +150,10 @@
     };
 
     emacs = {
-      enable = false;
+      enable = true;
 
       package = (pkgs.emacsWithPackagesFromUsePackage {
-        package = pkgs.emacsPgtkGcc;
+        package = pkgs.emacsGcc;
         config = ./config/emacs.org;
 
         extraEmacsPackages = epkgs: with epkgs; [
