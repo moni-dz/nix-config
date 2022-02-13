@@ -15,9 +15,9 @@
     /*
       NOTE: replace this with your desired kernel, see: https://nixos.wiki/wiki/Linux_kernel for reference.
 
-      If you're not me or a XanMod kernel maintainer in Nixpkgs, use pkgs.linuxPackages_xanmod instead to avoid compilation.
+      If you're not me or a XanMod kernel maintainer in Nixpkgs, use pkgs.linuxKernel.packages.linux_xanmod instead to avoid compilation.
     */
-    kernelPackages = pkgs.master.linuxPackages_xanmod;
+    kernelPackages = pkgs.master.linuxKernel.packages.linux_xanmod;
 
     kernelParams = [
       "mitigations=off"
