@@ -115,7 +115,7 @@
       BROWSER = "${pkgs.brave}/bin/brave";
       EDITOR = "${config.programs.nixvim.package}/bin/nvim";
       GOPATH = "${config.home.homeDirectory}/Extras/go";
-      MANPAGER = "${config.programs.nixvim.package}/bin/nvim +Man!";
+      MANPAGER = "${config.programs.nixvim.package}/bin/nvim +Man! -c 'nnoremap i <nop>'";
       QT_QPA_PLATFORMTHEME = "qt5ct";
       RUSTUP_HOME = "${config.home.homeDirectory}/.local/share/rustup";
       XCURSOR_SIZE = "16";
@@ -384,6 +384,14 @@
     dunst = {
       enable = true;
 
+      package = inputs.nixpkgs-wayland.packages.${system}.dunst.overrideAttrs (old: {
+        __contentAddressed = true;
+
+        patches = (old.patches or []) ++ [
+          ../../patches/0001-Double-borders-rebased-for-latest-dunst.patch
+        ];
+      });
+
       iconTheme = {
         name = "Papirus";
         size = "32x32";
@@ -421,7 +429,8 @@
   wayland.windowManager.sway = {
     enable = true;
 
-    package = inputs.nixpkgs-wayland.packages.${system}.sway-unwrapped.overrideAttrs (old: {
+    package = inputs.nixpkgs-wayland.packages.${system}.sway-unwrapped.overrideAttrs (_: {
+      __contentAddressed = true;
       src = inputs.sway_borders;
     });
 
@@ -474,8 +483,8 @@
       };
 
       gaps = {
-        outer = -6;
-        inner = 20;
+        outer = -4;
+        inner = 18;
         smartGaps = false;
         smartBorders = "no_gaps";
       };
@@ -509,7 +518,7 @@
           "XF86MonBrightnessDown" = brightness "down";
         };
 
-      output."*".bg = "#${base04} solid_color";
+      output."*".bg = "#${base03} solid_color";
 
       window = {
         border = 4;
