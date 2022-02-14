@@ -230,7 +230,7 @@
         iosevka-ft-bin
         iosevka-ft-qp-bin;
 
-      nerdfonts = (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" "Iosevka" ]; });
+      nerdfonts = pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" "Iosevka" ]; };
     };
 
     fontconfig = {
