@@ -77,7 +77,6 @@
       inherit (pkgs.gitAndTools) gh;
       inherit (pkgs.sway-contrib) grimshot;
       inherit (inputs.agenix.packages.${system}) agenix;
-      inherit (inputs.nixpkgs-f2k.packages.${system}) eww-wayland;
 
       inherit (inputs.nixpkgs-wayland.packages.${system})
         grim
@@ -86,7 +85,8 @@
         swayidle
         swaylock
         wf-recorder
-        wl-clipboard;
+        wl-clipboard
+        wlogout;
 
       palette = pkgs.writers.writeDashBin "palette" (import ./scripts/palette.nix);
 
@@ -442,7 +442,7 @@
       terminal = "${config.programs.alacritty.package}/bin/alacritty";
 
       menu = ''
-        ${pkgs.bemenu}/bin/bemenu-run -H 18 -l 5 --fn 'Iosevka FT QP Light 10.5' --tb '#${base08}' --tf '#${base02}' --hb '#${base08}' --hf '#${base02}' --nb '#${base02}' --fb '#${base02}'
+        bemenu-run -H 18 -l 5 --fn 'Iosevka FT QP Light 10.5' --tb '#${base08}' --tf '#${base02}' --hb '#${base08}' --hf '#${base02}' --nb '#${base02}' --fb '#${base02}'
       '';
 
       colors =
@@ -502,7 +502,7 @@
           "${modifier}+e" = "fullscreen toggle";
           "${modifier}+t" = "floating toggle";
           "${modifier}+q" = "kill";
-          "${modifier}+Shift+q" = "exec swaymsg exit";
+          "${modifier}+Shift+q" = "exec wlogout -b 2 -c 10 -r 10";
           "${modifier}+Shift+r" = "reload";
           "${modifier}+Print" = grimshot "copy" "area";
           "${modifier}+0" = "workspace number 10";
@@ -574,7 +574,7 @@
           ini = pkgs.formats.ini { };
 
           menu = with config.colorscheme.colors; ''
-            ${pkgs.bemenu}/bin/bemenu -H 18 -l 5 --fn 'Iosevka FT QP Light 10.5' --tb '#${base08}' --tf '#${base02}' --hb '#${base08}' --hf '#${base02}' --nb '#${base02}' --fb '#${base02}'
+            bemenu -H 18 -l 5 --fn 'Iosevka FT QP Light 10.5' --tb '#${base08}' --tf '#${base02}' --hb '#${base08}' --hf '#${base02}' --nb '#${base02}' --fb '#${base02}'
           '';
         in
         ini.generate "config.ini" {
@@ -589,6 +589,15 @@
         color=${config.colorscheme.colors.base00}
         font=Sarasa UI J
       '';
+
+      "wlogout/layout".text = import ./config/wlogout/layout.nix;
+
+      "wlogout/style.css".text = import ./config/wlogout/style.nix {
+        inherit (config) colorscheme;
+        iconsDirectory =
+          let inherit (inputs.nixpkgs-wayland.packages.${system}) wlogout;
+          in "${wlogout}/share/wlogout/icons";
+      };
     };
 
     userDirs = {
