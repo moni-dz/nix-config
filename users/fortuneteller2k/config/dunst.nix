@@ -11,17 +11,17 @@ with colorscheme.colors; {
     format = "<b>%s</b>\\n\\n%b";
     font = "Sarasa Gothic J 10.4";
     frame_width = 4;
-    outer_frame_width = 5;
+    outer_frame_width = 6;
     separator_height = 0;
     separator_color = "#${base03}";
     icon_position = "left";
     max_icon_size = 80;
-    offset = "9x70";
+    offset = "22x70";
   };
 
   urgency_low = {
     foreground = "#${base05}";
-    background = "#${base01}";
+    background = "#${base00}";
     frame_color = "#${base0B}";
     outer_frame_color = "#${base00}";
     timeout = 2;
@@ -29,7 +29,7 @@ with colorscheme.colors; {
 
   urgency_normal = {
     foreground = "#${base05}";
-    background = "#${base01}";
+    background = "#${base00}";
     frame_color = "#${base0A}";
     outer_frame_color = "#${base00}";
     timeout = 4;
@@ -37,7 +37,7 @@ with colorscheme.colors; {
 
   urgency_critical = {
     foreground = "#${base05}";
-    background = "#${base01}";
+    background = "#${base00}";
     frame_color = "#${base08}";
     outer_frame_color = "#${base00}";
   };

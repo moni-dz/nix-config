@@ -484,7 +484,7 @@
       };
 
       gaps = {
-        outer = -5;
+        outer = -6;
         inner = 19;
         smartGaps = false;
         smartBorders = "no_gaps";
@@ -530,15 +530,15 @@
 
     extraConfig =
       let
-        border_image = ../../assets/border.png;
+        borderImage = ../../assets/border.png;
       in
       ''
         exec_always autotiling
 
-        border_images.unfocused ${border_image}
-        border_images.focused ${border_image}
-        border_images.focused_inactive ${border_image}
-        border_images.urgent ${border_image}
+        border_images.unfocused ${borderImage}
+        border_images.focused ${borderImage}
+        border_images.focused_inactive ${borderImage}
+        border_images.urgent ${borderImage}
       '';
 
     extraSessionCommands = ''
