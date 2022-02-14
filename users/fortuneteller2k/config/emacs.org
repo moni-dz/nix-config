@@ -16,6 +16,10 @@
   (add-to-list 'default-frame-alist '(font . "Iosevka FT Light-10.5"))
   (add-to-list 'default-frame-alist '(vertical-scroll-bars))
 
+  (when (window-system)
+    (add-to-list 'default-frame-alist '(internal-border-width . 10))
+    (add-to-list 'default-frame-alist '(internal-border-width . 0)))
+
   (setq-default use-dialog-box nil
                 custom-file (if (memq system-type '(gnu/linux darwin)) "/dev/null" "NUL")
                 frame-inhibit-implied-resize t
@@ -235,7 +239,9 @@
 
   (pkg! evil
     :hook
-    (emacs-startup . evil-mode))
+    (emacs-startup . evil-mode)
+    :custom
+    (evil-undo-system 'undo-redo))
 
   (pkg! ctrlf
     :hook
