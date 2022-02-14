@@ -10,7 +10,6 @@
 {
   boot = {
     blacklistedKernelModules = [ "amdgpu" ];
-    extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback ];
 
     /*
       NOTE: replace this with your desired kernel, see: https://nixos.wiki/wiki/Linux_kernel for reference.
@@ -178,8 +177,6 @@
     # Font packages should go in fonts.fonts a few lines below this.
     systemPackages = lib.attrValues {
       inherit (pkgs)
-        alsaTools
-        alsaUtils
         brightnessctl
         coreutils
         curl
@@ -187,8 +184,6 @@
         fd
         file
         home-manager
-        libva-utils
-        lm_sensors
         man-pages
         man-pages-posix
         ntfs3g
@@ -213,15 +208,12 @@
   fonts = {
     fonts = lib.attrValues {
       inherit (pkgs)
-        curie
-        edwin
         emacs-all-the-icons-fonts
         fantasque-sans-mono
         # NOTE: use only when current is outdated
         # iosevka-ft
         # iosevka-ft-qp
         sarasa-gothic
-        scientifica
         symbola
         terminus_font
         twemoji-color-font;
@@ -281,11 +273,7 @@
     };
 
     useDHCP = false;
-
-    wireless.iwd = {
-      enable = true;
-      settings.Settings.AutoConnect = true;
-    };
+    wireless.iwd.settings.Settings.AutoConnect = true;
   };
 
   powerManagement.cpuFreqGovernor = "performance";
@@ -297,11 +285,7 @@
     qt5ct.enable = true;
   };
 
-  security = {
-    protectKernelImage = true;
-    rtkit.enable = true;
-    sudo.wheelNeedsPassword = false;
-  };
+  security.sudo.wheelNeedsPassword = false;
 
   services = {
     chrony = {
@@ -351,7 +335,6 @@
     };
 
     usbmuxd.enable = true;
-    upower.enable = true;
   };
 
   system = {
