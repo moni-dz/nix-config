@@ -111,7 +111,8 @@
       "${config.home.homeDirectory}/.local/bin"
     ];
 
-    sessionVariables = {
+    sessionVariables = with config.colorscheme.colors; {
+      BEMENU_OPTS = "-H 18 -l 5 --fn 'Iosevka FT QP Light 10.5' --tb '#${base08}' --tf '#${base02}' --hb '#${base08}' --hf '#${base02}' --nb '#${base02}' --fb '#${base02}";
       BROWSER = "${pkgs.brave}/bin/brave";
       EDITOR = "${config.programs.nixvim.package}/bin/nvim";
       GOPATH = "${config.home.homeDirectory}/Extras/go";
@@ -440,10 +441,7 @@
       defaultWorkspace = "workspace number 1";
       modifier = "Mod1";
       terminal = "${config.programs.alacritty.package}/bin/alacritty";
-
-      menu = ''
-        bemenu-run -H 18 -l 5 --fn 'Iosevka FT QP Light 10.5' --tb '#${base08}' --tf '#${base02}' --hb '#${base08}' --hf '#${base02}' --nb '#${base02}' --fb '#${base02}'
-      '';
+      menu = "bemenu-run";
 
       colors =
         let
@@ -569,18 +567,10 @@
         '';
       };
 
-      "networkmanager-dmenu/config.ini".source =
-        let
-          ini = pkgs.formats.ini { };
-
-          menu = with config.colorscheme.colors; ''
-            bemenu -H 18 -l 5 --fn 'Iosevka FT QP Light 10.5' --tb '#${base08}' --tf '#${base02}' --hb '#${base08}' --hf '#${base02}' --nb '#${base02}' --fb '#${base02}'
-          '';
-        in
-        ini.generate "config.ini" {
-          dmenu.dmenu_command = menu;
-          editor.terminal = "${pkgs.alacritty}/bin/alacritty";
-        };
+      "networkmanager-dmenu/config.ini".source = (pkgs.formats.ini { }).generate "config.ini" {
+        dmenu.dmenu_command = "bemenu";
+        editor.terminal = "${pkgs.alacritty}/bin/alacritty";
+      };
 
       "swaylock/config".text = ''
         daemonize
