@@ -12,7 +12,7 @@ with colorscheme.colors;
   }
 
   window#waybar {
-    background: #${base01};
+    background: #${base00};
     color: #${base05};
   }
 
