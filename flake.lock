@@ -389,6 +389,22 @@
         "type": "github"
       }
     },
+    "impatient-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1645274825,
+        "narHash": "sha256-W41bXXVK5OLIJ5hqSagchNjzAtIuJYHbJgcsUo+PXAM=",
+        "owner": "lewis6991",
+        "repo": "impatient.nvim",
+        "rev": "17970ec6f5352f005b29f4cbc9e9ea35061d5c9f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lewis6991",
+        "repo": "impatient.nvim",
+        "type": "github"
+      }
+    },
     "kile-wl-src": {
       "flake": false,
       "locked": {
@@ -727,22 +743,6 @@
         "type": "github"
       }
     },
-    "nixpkgs_18": {
-      "locked": {
-        "lastModified": 1641710811,
-        "narHash": "sha256-yVJ+CtwWZY8BnkNIJ/ue5a28yrRM6CkDF1LvmGmqqwM=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "0ecf7d414811f831060cf55707c374d54fbb1dec",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "nixos-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "nixpkgs_2": {
       "locked": {
         "lastModified": 1618251784,
@@ -861,39 +861,20 @@
         "type": "github"
       }
     },
-    "nixvim": {
-      "inputs": {
-        "nixpkgs": "nixpkgs_18",
-        "nmdSrc": "nmdSrc"
-      },
-      "locked": {
-        "lastModified": 1642807323,
-        "narHash": "sha256-S0/jSHA5OWWmdZ4zHNwlb9qOQwJho2wKM3E2AafA/40=",
-        "owner": "pta2002",
-        "repo": "nixvim",
-        "rev": "f534819885f4cf8a878f4411a5e72e807f135acf",
-        "type": "github"
-      },
-      "original": {
-        "owner": "pta2002",
-        "repo": "nixvim",
-        "type": "github"
-      }
-    },
-    "nmdSrc": {
+    "packer-nvim": {
       "flake": false,
       "locked": {
-        "lastModified": 1637239786,
-        "narHash": "sha256-l2KsnY537mz0blZdqALZKrWXn9PD39CpvotgPnxyIP4=",
-        "owner": "rycee",
-        "repo": "nmd",
-        "rev": "527245ff605bde88c2dd2ddae21c6479bb7cf8aa",
-        "type": "gitlab"
+        "lastModified": 1644983194,
+        "narHash": "sha256-q1R3mKG1pIoj7LKAY0eehDkNmWq56o421Pdw2LpgCV8=",
+        "owner": "wbthomason",
+        "repo": "packer.nvim",
+        "rev": "963cb58c3dd15699c801baf3e64393c6795b62e9",
+        "type": "github"
       },
       "original": {
-        "owner": "rycee",
-        "repo": "nmd",
-        "type": "gitlab"
+        "owner": "wbthomason",
+        "repo": "packer.nvim",
+        "type": "github"
       }
     },
     "phocus-src": {
@@ -986,6 +967,7 @@
         "discocss": "discocss",
         "emacs": "emacs",
         "home": "home",
+        "impatient-nvim": "impatient-nvim",
         "master": "master",
         "neovim": "neovim",
         "nix": "nix",
@@ -995,9 +977,9 @@
         ],
         "nixpkgs-f2k": "nixpkgs-f2k",
         "nixpkgs-wayland": "nixpkgs-wayland_2",
-        "nixvim": "nixvim",
+        "packer-nvim": "packer-nvim",
         "stable": "stable",
-        "sway_borders": "sway_borders",
+        "sway-borders": "sway-borders",
         "unstable": "unstable",
         "zsh-f-sy-h": "zsh-f-sy-h"
       }
@@ -1054,7 +1036,7 @@
         "type": "github"
       }
     },
-    "sway-borders-src": {
+    "sway-borders": {
       "flake": false,
       "locked": {
         "lastModified": 1643921366,
@@ -1070,7 +1052,7 @@
         "type": "github"
       }
     },
-    "sway_borders": {
+    "sway-borders-src": {
       "flake": false,
       "locked": {
         "lastModified": 1643921366,

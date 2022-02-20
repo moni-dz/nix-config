@@ -1,4 +1,4 @@
-{ config, nixpkgs, home, discocss, nix-colors, nixvim, overlays, inputs }:
+{ config, nixpkgs, home, discocss, nix-colors, overlays, inputs }:
 
 # See https://github.com/nix-community/home-manager/blob/master/flake.nix#L44 for reference.
 home.lib.homeManagerConfiguration rec {
@@ -18,7 +18,6 @@ home.lib.homeManagerConfiguration rec {
   extraModules = [
     discocss.hmModule
     nix-colors.homeManagerModule
-    nixvim.homeManagerModules.nixvim
   ];
 
   # Extra arguments passed to home.nix

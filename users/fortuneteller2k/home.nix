@@ -88,6 +88,8 @@
         wl-clipboard
         wlogout;
 
+      inherit (config.programs.neovim) package;
+
       palette = pkgs.writers.writeDashBin "palette" (import ./scripts/palette.nix);
 
       pls =
@@ -112,11 +114,11 @@
     ];
 
     sessionVariables = with config.colorscheme.colors; {
-      BEMENU_OPTS = "-H 18 -l 5 --fn 'Iosevka FT QP Light 10.5' --tb '#${base08}' --tf '#${base02}' --hb '#${base08}' --hf '#${base02}' --nb '#${base02}' --fb '#${base02}";
+      BEMENU_OPTS = "-H 18 -l 5 --fn 'Iosevka FT QP Light 10.5' --tb '#${base08}' --tf '#${base02}' --hb '#${base08}' --hf '#${base02}' --nb '#${base02}' --fb '#${base02}'";
       BROWSER = "${pkgs.brave}/bin/brave";
-      EDITOR = "${config.programs.nixvim.package}/bin/nvim";
+      EDITOR = "${config.programs.neovim.package}/bin/nvim";
       GOPATH = "${config.home.homeDirectory}/Extras/go";
-      MANPAGER = "${config.programs.nixvim.package}/bin/nvim +Man! -c 'nnoremap i <nop>'";
+      MANPAGER = "${config.programs.neovim.package}/bin/nvim +Man! -c 'nnoremap i <nop>'";
       QT_QPA_PLATFORMTHEME = "qt5ct";
       RUSTUP_HOME = "${config.home.homeDirectory}/.local/share/rustup";
       XCURSOR_SIZE = "16";
@@ -243,86 +245,10 @@
       ]);
     };
 
-    nixvim = {
-      enable = true;
-
-      package = inputs.neovim.packages.${system}.neovim.overrideAttrs (_: {
-        __contentAddressed = true;
-      });
-
-      colorscheme = "material";
-
-      extraPlugins = with pkgs.vimPlugins; [
-        vim-elixir
-        vim-nixhash
-        material-nvim
-        nvim-colorizer-lua
-        zen-mode-nvim
-      ];
-
-      plugins = {
-        lsp = {
-          enable = true;
-
-          servers = {
-            pyright.enable = true;
-            rust-analyzer.enable = true;
-            rnix-lsp.enable = true;
-          };
-        };
-
-        lspsaga.enable = true;
-
-        treesitter = {
-          enable = true;
-          ensureInstalled = [ "nix" "rust" ];
-        };
-
-        nix.enable = true;
-      };
-
-      options = {
-        clipboard = "unnamedplus";
-        completeopt = "menu,menuone,noselect";
-        guifont = "monospace:h11";
-        guicursor = "a:ver25-iCursor";
-        laststatus = "0";
-        mouse = "a";
-        modelines = "0";
-        ruler = false;
-        showmode = true;
-        number = false;
-        termguicolors = true;
-      };
-
-      extraConfigVim = ''
-        let g:material_style = 'darker'
-      '';
-
-      extraConfigLua = ''
-        require('material').setup({
-          italics = {
-            comments = true,
-            keywords = false,
-            functions = false,
-            strings = false,
-            variables = false
-          },
-
-          high_visibility = {
-            lighter = false,
-            darker = true
-          },
-        })
-
-        require('colorizer').setup({ '*' }, {
-          names    = true;
-          RRGGBBAA = true;
-          css      = true;
-          mode     = 'background';
-        })
-      '';
-    };
+    # We don't want to enable it, just set the package so it's convenient for us to use.
+    neovim.package = inputs.neovim.packages.${system}.neovim.overrideAttrs (_: {
+      __contentAddressed = true;
+    });
 
     starship = {
       enable = true;
@@ -433,7 +359,7 @@
 
     package = inputs.nixpkgs-wayland.packages.${system}.sway-unwrapped.overrideAttrs (_: {
       __contentAddressed = true;
-      src = inputs.sway_borders;
+      src = inputs.sway-borders;
     });
 
     config = with config.colorscheme.colors; rec {
@@ -441,7 +367,7 @@
       defaultWorkspace = "workspace number 1";
       modifier = "Mod1";
       terminal = "${config.programs.alacritty.package}/bin/alacritty";
-      menu = "bemenu-run";
+      menu = "bemenu-run ${config.home.sessionVariables.BEMENU_OPTS}";
 
       colors =
         let
@@ -568,8 +494,13 @@
       };
 
       "networkmanager-dmenu/config.ini".source = (pkgs.formats.ini { }).generate "config.ini" {
-        dmenu.dmenu_command = "bemenu";
+        dmenu.dmenu_command = "bemenu ${config.home.sessionVariables.BEMENU_OPTS}";
         editor.terminal = "${pkgs.alacritty}/bin/alacritty";
+      };
+
+      "nvim" = {
+        recursive = true;
+        source = ./config/neovim;
       };
 
       "swaylock/config".text = ''
@@ -587,6 +518,18 @@
         iconsDirectory =
           let inherit (inputs.nixpkgs-wayland.packages.${system}) wlogout;
           in "${wlogout}/share/wlogout/icons";
+      };
+    };
+
+    dataFile = {
+      "nvim/site/pack/packer/start/impatient.nvim" = {
+        recursive = true;
+        source = inputs.impatient-nvim;
+      };
+
+      "nvim/site/pack/packer/start/packer.nvim" = {
+        recursive = true;
+        source = inputs.packer-nvim;
       };
     };
 

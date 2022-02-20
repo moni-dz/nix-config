@@ -3,7 +3,9 @@
 
   inputs = {
     # Non-flake inputs
-    sway_borders = { url = "github:fluix-dev/sway-borders"; flake = false; };
+    impatient-nvim = { url = "github:lewis6991/impatient.nvim"; flake = false; };
+    packer-nvim = { url = "github:wbthomason/packer.nvim"; flake = false; };
+    sway-borders = { url = "github:fluix-dev/sway-borders"; flake = false; };
     zsh-f-sy-h = { url = "github:zdharma-continuum/fast-syntax-highlighting"; flake = false; };
 
     # Flake inputs
@@ -13,7 +15,6 @@
     home.url = "github:nix-community/home-manager";
     neovim.url = "github:neovim/neovim?dir=contrib";
     nix.url = "github:nixos/nix";
-    nixvim.url = "github:pta2002/nixvim";
     nix-colors.url = "github:Misterio77/nix-colors";
     nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
     nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
@@ -25,9 +26,20 @@
 
     # Default Nixpkgs for packages and modules
     nixpkgs.follows = "master";
+
+    # Make every input use one nixpkgs input
+    agenix.inputs.nixpkgs.follows = "nixpkgs";
+    discocss.inputs.nixpkgs.follows = "nixpkgs";
+    emacs.inputs.nixpkgs.follows = "nixpkgs";
+    home.inputs.nixpkgs.follows = "nixpkgs";
+    neovim.inputs.nixpkgs.follows = "nixpkgs";
+    nix.inputs.nixpkgs.follows = "nixpkgs";
+    nix-colors.inputs.nixpkgs.follows = "nixpkgs";
+    nixpkgs-f2k.inputs.nixpkgs.follows = "nixpkgs";
+    nixpkgs-wayland.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, agenix, home, nixpkgs, discocss, nix-colors, nixvim, ... }@inputs:
+  outputs = { self, agenix, home, nixpkgs, discocss, nix-colors, ... }@inputs:
     let
       config = {
         allowBroken = true;
@@ -75,7 +87,7 @@
       };
 
       homeConfigurations.fortuneteller2k = import ./users/fortuneteller2k {
-        inherit config nixpkgs home discocss nix-colors nixvim overlays inputs;
+        inherit config nixpkgs home discocss nix-colors overlays inputs;
       };
     };
 }
