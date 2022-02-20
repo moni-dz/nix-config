@@ -22,7 +22,7 @@ require("packer").startup(function()
     requires = {{ "ms-jpq/coq_nvim" }, { "glepnir/lspsaga.nvim" }},
 
     config = function()
-      vim.g.coq_settings = { auto_start = true }
+      vim.g.coq_settings = { auto_start = "shut-up" }
 
       local lsp = require("lspconfig")
       local coq = require("coq")
@@ -43,7 +43,7 @@ require("packer").startup(function()
       require("material").setup({
         italics = {
           comments = true
-	}
+	},
 
         high_visibility = {
           lighter = false,
