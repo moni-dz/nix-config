@@ -27,7 +27,7 @@
     # Default Nixpkgs for packages and modules
     nixpkgs.follows = "master";
 
-    # Make every input use one nixpkgs input
+    # Make every input use one instance of nixpkgs
     agenix.inputs.nixpkgs.follows = "nixpkgs";
     discocss.inputs.nixpkgs.follows = "nixpkgs";
     emacs.inputs.nixpkgs.follows = "nixpkgs";
