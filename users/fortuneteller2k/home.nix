@@ -24,11 +24,11 @@
     theme = {
       name = "phocus";
 
-      package = (inputs.nixpkgs-f2k.packages.${system}.phocus.override {
+      package = inputs.nixpkgs-f2k.packages.${system}.phocus.override {
         inherit (config.colorscheme) colors;
-        primary = config.colorscheme.colors.base08;
-        secondary = config.colorscheme.colors.base0B;
-      }).overrideAttrs (_: { __contentAddressed = true; });
+        primary = config.colorscheme.colors.base0D;
+        secondary = config.colorscheme.colors.base0E;
+      };
     };
 
     gtk2.extraConfig = "gtk-cursor-theme-size=16";
@@ -114,7 +114,7 @@
     ];
 
     sessionVariables = with config.colorscheme.colors; {
-      BEMENU_OPTS = "-H 18 -l 5 --fn 'Iosevka FT QP Light 10.5' --tb '#${base08}' --tf '#${base02}' --hb '#${base08}' --hf '#${base02}' --nb '#${base02}' --fb '#${base02}'";
+      BEMENU_OPTS = "-H 18 -l 5 --fn 'Iosevka FT QP Light 10.5' --tb '#${base0D}' --tf '#${base02}' --hb '#${base0D}' --hf '#${base02}' --nb '#${base02}' --fb '#${base02}'";
       BROWSER = "${pkgs.brave}/bin/brave";
       EDITOR = "${config.programs.neovim.package}/bin/nvim";
       GOPATH = "${config.home.homeDirectory}/Extras/go";
@@ -383,10 +383,10 @@
           inherit (inactive) background;
 
           focused = {
-            background = "#${base08}";
-            border = "#${base08}";
-            childBorder = "#${base08}";
-            indicator = "#${base08}";
+            background = "#${base0D}";
+            border = "#${base0D}";
+            childBorder = "#${base0D}";
+            indicator = "#${base0D}";
             text = "#${base00}";
           };
 

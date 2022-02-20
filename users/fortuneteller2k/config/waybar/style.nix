@@ -13,18 +13,18 @@ with colorscheme.colors;
 
   window#waybar {
     background: #${base00};
-    color: #${base05};
+    color: #${base0D};
   }
 
   #workspaces button {
     padding: 0 6px;
-    background: #${base0B};
+    background: #${base0D};
     color: #${base01};
-    border-bottom: 2px solid #${base0B};
+    border-bottom: 2px solid #${base0D};
   }
 
   #workspaces button.focused {
-    background: #${base0B};
+    background: #${base0D};
     border-bottom: 2px solid #${base01};
   }
 
@@ -33,11 +33,11 @@ with colorscheme.colors;
   #pulseaudio {
     padding: 0 6px;
     margin: 0;
-    background-color: #${base0B};
+    background-color: #${base0D};
     color: #${base01};
   }
 
   #network {
-    background-color: #${base08};
+    background-color: #${base0E};
   }
 ''
