@@ -22,7 +22,7 @@ with colorscheme.colors;
     }
 
     button:focus, button:active, button:hover {
-      border: 4px solid #${base08};
+      border: 4px solid #${base0D};
       outline-style: none;
     }
 
