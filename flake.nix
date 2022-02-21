@@ -20,7 +20,7 @@
     nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
 
     # Nixpkgs branches
-    master.url = "github:nixos/nixpkgs/d6052a689807cf045cb13724f184a27e18583c89";
+    master.url = "github:nixos/nixpkgs/master";
     stable.url = "github:nixos/nixpkgs/nixos-21.11";
     unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
