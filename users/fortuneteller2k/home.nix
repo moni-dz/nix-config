@@ -434,6 +434,7 @@
           "${modifier}+b" = "exec pkill -USR1 waybar";
           "${modifier}+c" = "split h";
           "${modifier}+v" = "split v";
+          "${modifier}+p" = "mode passthrough";
           "Print" = grimshot "copy" "active";
           "Control+Print" = grimshot "copy" "screen";
           "Mod4+Print" = grimshot "save" "screen";
@@ -463,6 +464,8 @@
         border_images.focused ${borderImage}
         border_images.focused_inactive ${borderImage}
         border_images.urgent ${borderImage}
+
+        mode passthrough bindsym Mod1+p mode default
       '';
 
     extraSessionCommands = ''
