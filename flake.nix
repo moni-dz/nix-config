@@ -27,7 +27,7 @@
     # Default Nixpkgs for packages and modules
     nixpkgs.follows = "master";
 
-    # Make every input use one instance of nixpkgs
+    # Minimize duplicate instances of inputs
     agenix.inputs.nixpkgs.follows = "nixpkgs";
     discocss.inputs.nixpkgs.follows = "nixpkgs";
     emacs.inputs.nixpkgs.follows = "nixpkgs";
@@ -36,6 +36,7 @@
     nix.inputs.nixpkgs.follows = "nixpkgs";
     nix-colors.inputs.nixpkgs.follows = "nixpkgs";
     nixpkgs-f2k.inputs.nixpkgs.follows = "nixpkgs";
+    nixpkgs-f2k.inputs.nixpkgs-wayland.follows = "nixpkgs-wayland";
     nixpkgs-wayland.inputs.nixpkgs.follows = "nixpkgs";
   };
 
