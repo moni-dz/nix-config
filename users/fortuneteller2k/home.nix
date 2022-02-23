@@ -45,7 +45,6 @@
 
     packages = lib.attrValues {
       inherit (pkgs)
-        autotiling
         bemenu
         brave-nightly
         brightnessctl
@@ -70,6 +69,7 @@
         notify-desktop
         nvd
         rnix-lsp
+        # stacki3
         wayland-utils
         xdg_utils;
 
@@ -87,6 +87,8 @@
         wf-recorder
         wl-clipboard
         wlogout;
+
+      inherit (inputs.stacki3.legacyPackages.${system}) stacki3;
 
       inherit (config.programs.neovim) package;
 
@@ -458,7 +460,7 @@
         borderImage = ../../assets/border.png;
       in
       ''
-        exec_always autotiling
+        exec_always stacki3 47
 
         border_images.unfocused ${borderImage}
         border_images.focused ${borderImage}

@@ -841,6 +841,7 @@
         "nixpkgs-wayland": "nixpkgs-wayland",
         "packer-nvim": "packer-nvim",
         "stable": "stable",
+        "stacki3": "stacki3",
         "sway-borders": "sway-borders",
         "unstable": "unstable",
         "zsh-f-sy-h": "zsh-f-sy-h"
@@ -894,6 +895,22 @@
       "original": {
         "owner": "nixos",
         "ref": "nixos-21.11",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "stacki3": {
+      "locked": {
+        "lastModified": 1645625584,
+        "narHash": "sha256-tvP0O6lBQoM7pKCd04aFyWFhguDtr31uvVl7oz21sVc=",
+        "owner": "fortuneteller2k",
+        "repo": "nixpkgs",
+        "rev": "4062b427b3575e41959206f832e49514001fac97",
+        "type": "github"
+      },
+      "original": {
+        "owner": "fortuneteller2k",
+        "ref": "stacki3",
         "repo": "nixpkgs",
         "type": "github"
       }
