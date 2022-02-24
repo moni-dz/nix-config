@@ -93,11 +93,11 @@
     },
     "emacs": {
       "locked": {
-        "lastModified": 1645613245,
-        "narHash": "sha256-DWxR6lU8wvhmZrRh5qTg7A9YKqCSbf/TNIhPDmTdh8w=",
+        "lastModified": 1645674787,
+        "narHash": "sha256-AhmEvep9SKfuMAobV2wELXoff7DQY7EjyDa8y3gtCgk=",
         "owner": "nix-community",
         "repo": "emacs-overlay",
-        "rev": "58d483b9d44d6b6f83f6b10583a4bd8784ff0f5d",
+        "rev": "47052c17338916be9177893dd3c3b64f1a7a4bcb",
         "type": "github"
       },
       "original": {
@@ -392,6 +392,22 @@
       "original": {
         "owner": "nix-community",
         "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "i3a": {
+      "locked": {
+        "lastModified": 1645686159,
+        "narHash": "sha256-TzdkTL/BBoN8cr7t0Z7r6HnH9cOzv7LMULrb4B1nv9k=",
+        "owner": "fortuneteller2k",
+        "repo": "nixpkgs",
+        "rev": "e8d7f371a458b2f9d520c57be2a4e51386f53b7a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "fortuneteller2k",
+        "ref": "i3a",
+        "repo": "nixpkgs",
         "type": "github"
       }
     },
@@ -880,6 +896,7 @@
         "discocss": "discocss",
         "emacs": "emacs",
         "home": "home",
+        "i3a": "i3a",
         "impatient-nvim": "impatient-nvim",
         "master": "master",
         "neovim": "neovim",
@@ -892,7 +909,6 @@
         "nixpkgs-wayland": "nixpkgs-wayland",
         "packer-nvim": "packer-nvim",
         "stable": "stable",
-        "stacki3": "stacki3",
         "sway-borders": "sway-borders",
         "unstable": "unstable",
         "zsh-f-sy-h": "zsh-f-sy-h"
@@ -946,22 +962,6 @@
       "original": {
         "owner": "nixos",
         "ref": "nixos-21.11",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "stacki3": {
-      "locked": {
-        "lastModified": 1645631147,
-        "narHash": "sha256-7pXWcNGbyljuoRGwCvkNHz2fvgqsDEdDQFbzqghTG/k=",
-        "owner": "fortuneteller2k",
-        "repo": "nixpkgs",
-        "rev": "623980a5a7ba53f24cc5f98a5f110368d29771b4",
-        "type": "github"
-      },
-      "original": {
-        "owner": "fortuneteller2k",
-        "ref": "stacki3",
         "repo": "nixpkgs",
         "type": "github"
       }

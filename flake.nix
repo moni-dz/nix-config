@@ -23,7 +23,7 @@
     master.url = "github:nixos/nixpkgs/master";
     stable.url = "github:nixos/nixpkgs/nixos-21.11";
     unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    stacki3.url = "github:fortuneteller2k/nixpkgs/stacki3";
+    i3a.url = "github:fortuneteller2k/nixpkgs/i3a";
 
     # Default Nixpkgs for packages and modules
     nixpkgs.follows = "master";

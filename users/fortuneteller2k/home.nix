@@ -57,6 +57,7 @@
         graphviz
         hydra-check
         hyperfine
+        # i3a
         imagemagick
         imv
         jq
@@ -69,7 +70,6 @@
         notify-desktop
         nvd
         rnix-lsp
-        # stacki3
         wayland-utils
         xdg_utils;
 
@@ -88,8 +88,7 @@
         wl-clipboard
         wlogout;
 
-      inherit (inputs.stacki3.legacyPackages.${system}) stacki3;
-
+      inherit (inputs.i3a.legacyPackages.${system}) i3a;
       inherit (config.programs.neovim) package;
 
       palette = pkgs.writers.writeDashBin "palette" (import ./scripts/palette.nix);
@@ -155,7 +154,7 @@
     };
 
     emacs = {
-      enable = true;
+      enable = false;
 
       package = (pkgs.emacsWithPackagesFromUsePackage {
         package = pkgs.emacsPgtkGcc;
@@ -359,9 +358,21 @@
   wayland.windowManager.sway = {
     enable = true;
 
-    package = inputs.nixpkgs-wayland.packages.${system}.sway-unwrapped.overrideAttrs (_: {
+    package = inputs.nixpkgs-wayland.packages.${system}.sway-unwrapped.overrideAttrs (old: {
       __contentAddressed = true;
       src = inputs.sway-borders;
+
+      patches = (old.patches or [ ]) ++ [
+        (pkgs.fetchpatch {
+          url = "https://github.com/swaywm/sway/commit/f8990523b456ad4eba2bd9c22dff87772d7b0953.patch";
+          hash = "sha256-KaMcRj6MXMy4MbzrZZAJezqiLKcOLLSCPkNFQ3iPxrc=";
+        })
+
+        (pkgs.fetchpatch {
+          url = "https://github.com/swaywm/sway/commit/85d1c98476b653368e9a9f41650eb6e2f6aac596.patch";
+          hash = "sha256-gInPCDlHB6ecwOb0QkjeHnreo0zMYt9rwFboc5tVXB0=";
+        })
+      ];
     });
 
     config = with config.colorscheme.colors; rec {
@@ -378,7 +389,7 @@
             border = "#${base02}";
             childBorder = "#${base02}";
             indicator = "#${base02}";
-            text = "#${base00}";
+            text = "#${base05}";
           };
         in
         {
@@ -437,6 +448,7 @@
           "${modifier}+c" = "split h";
           "${modifier}+v" = "split v";
           "${modifier}+p" = "mode passthrough";
+          "${modifier}+s" = "exec i3a-swap";
           "Print" = grimshot "copy" "active";
           "Control+Print" = grimshot "copy" "screen";
           "Mod4+Print" = grimshot "save" "screen";
@@ -460,7 +472,7 @@
         borderImage = ../../assets/border.png;
       in
       ''
-        exec_always stacki3 47
+        exec_always i3a-master-stack --stack dwm --stack-size 47
 
         border_images.unfocused ${borderImage}
         border_images.focused ${borderImage}
