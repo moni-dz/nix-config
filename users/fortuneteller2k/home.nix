@@ -126,6 +126,11 @@
     };
   };
 
+  imports = [
+    # Append your custom home-manager modules in this list
+    ../../modules/home-manager/programs/river
+  ];
+
   programs = {
     alacritty = {
       enable = true;
@@ -355,6 +360,42 @@
 
   systemd.user.startServices = "sd-switch";
 
+  /*
+    wayland.windowManager.river = {
+    enable = true;
+
+    extraSessionVariables = {
+    XDG_SESSION_DESKTOP = "sway";
+    SDL_VIDEODRIVER = "wayland";
+    QT_QPA_PLATFORM = "wayland-egl";
+    QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+    MOZ_ENABLE_WAYLAND = "1";
+    CLUTTER_BACKEND = "wayland";
+    ECORE_EVAS_ENGINE = "wayland-egl";
+    ELM_ENGINE = "wayland_egl";
+    NO_AT_BRIDGE = "1";
+    _JAVA_AWT_WM_NONREPARENTING = "1";
+    };
+
+    config = with config.colorscheme.colors; {
+    backgroundColor = base03;
+
+    border.color = {
+    focused = base0D;
+    unfocused = base00;
+    };
+
+    layoutGenerator.arguments = "-view-padding 8 -outer-padding 8";
+
+    keybindings = {
+    normal = {
+          
+    };
+    };
+    };
+    };
+  */
+
   wayland.windowManager.sway = {
     enable = true;
 
@@ -519,6 +560,8 @@
         recursive = true;
         source = ./config/neovim;
       };
+
+      "river".source = ./config/river;
 
       "swaylock/config".text = ''
         daemonize

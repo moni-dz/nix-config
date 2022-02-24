@@ -153,7 +153,7 @@
   imports = [
     ./hardware-configuration.nix
     # Append your custom NixOS modules in this list
-    ../../modules/programs/river.nix
+    ../../modules/nixos/programs/river.nix
   ];
 
   i18n = {
