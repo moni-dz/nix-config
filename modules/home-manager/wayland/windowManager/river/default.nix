@@ -2,7 +2,8 @@
 
 /*
   TODO:
-  - Client side decorations config
+  - csd-filter config
+  - float-filter config
 */
 
 with lib;
@@ -10,17 +11,12 @@ with lib;
 let
   cfg = config.wayland.windowManager.river;
 
-  genKeybind = mode:
+  genBind = mode:
     let
       binds = with cfg.config; zipLists (attrNames keybindings.${mode}) (attrValues keybindings.${mode});
     in
-    toString (forEach binds (x: "riverctl map ${mode} ${x.fst} ${x.snd}\n"));
-
-  genMousebind =
-    let
-      binds = with cfg.config; zipLists (attrNames keybindings.pointer) (attrValues keybindings.pointer);
-    in
-    toString (forEach binds (x: "riverctl map-pointer normal ${x.fst} ${x.snd}\n"));
+    toString (forEach binds
+      (x: "riverctl map${optionalString (mode == "pointer") "-pointer"} ${if mode == "pointer" then "normal" else mode} ${x.fst} ${x.snd}\n"));
 
   configFile = pkgs.writeShellScript "init" ''
     ### This file was generated with Nix. Don't modify this file directly. 
@@ -30,31 +26,33 @@ let
     riverctl declare-mode passthrough
 
     # PASSTHROUGH KEYBINDINGS
-    ${genKeybind "passthrough"}
+    ${genBind "passthrough"}
     
     # NORMAL KEYBINDINGS
-    ${genKeybind "normal"}
+    ${genBind "normal"}
 
     # MOUSE BINDINGS
-    ${genMousebind}
+    ${genBind "pointer"}
 
     # LOCKED KEYBINDINGS
-    ${genKeybind "locked"}
+    ${genBind "locked"}
 
     riverctl declare-mode passthrough
     # PASSTHROUGH KEYBINDINGS
-    ${genKeybind "passthrough"}
+    ${genBind "passthrough"}
 
     riverctl background-color 0x${cfg.config.backgroundColor}
+    riverctl border-width ${toString cfg.config.border.width}
     riverctl border-color-focused 0x${cfg.config.border.color.focused}
     riverctl border-color-unfocused 0x${cfg.config.border.color.unfocused}
-
+    riverctl border-color-urgent 0x${cfg.config.border.color.urgent}
+    riverctl focus-follows-cursor ${if cfg.config.focusFollowsCursor then "normal" else "disabled"}
     riverctl set-repeat ${cfg.config.repeatRate}
+
+    ${cfg.extraConfig}
 
     riverctl default-layout ${cfg.config.layoutGenerator.name}
     exec ${cfg.config.layoutGenerator.name} ${cfg.config.layoutGenerator.arguments}
-
-    ${cfg.extraConfig}
   '';
 in
 {
@@ -106,11 +104,29 @@ in
                     default = "586e75";
                     description = "Unfocused border color.";
                   };
+
+                  urgent = mkOption {
+                    type = types.str;
+                    default = "ff0000";
+                    description = "Urgent border color.";
+                  };
                 };
               });
             };
+
+            width = mkOption {
+              type = types.int;
+              default = 2;
+              description = "Width of the border in pixels.";
+            };
           };
         };
+      };
+
+      focusFollowsCursor = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Whether to focus views with the mouse cursor.";
       };
 
       layoutGenerator = mkOption {
@@ -139,7 +155,7 @@ in
 
       keybindings = mkOption {
         type = types.attrs;
-        
+
         default = {
           normal = { };
           locked = { };
@@ -165,7 +181,7 @@ in
           };
 
           pointer = {
-            "Alt BTN_LEFT" = "move-view"; 
+            "Alt BTN_LEFT" = "move-view";
           };
         };
       };

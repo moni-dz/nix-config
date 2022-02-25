@@ -378,20 +378,28 @@
     config = with config.colorscheme.colors; {
       backgroundColor = base03;
 
-      border.color = {
-        focused = base0D;
-        unfocused = base00;
+      border = {
+        color = {
+          focused = base0D;
+          unfocused = base02;
+          urgent = base08;
+        };
+
+        width = 4;
       };
+
+      focusFollowsCursor = true;
 
       layoutGenerator.arguments = "-view-padding 8 -outer-padding 8";
 
       keybindings =
-        let 
+        let
           layoutCmd = cmd: "send-layout-cmd ${config.wayland.windowManager.river.config.layoutGenerator.name} '${cmd}'";
-        in lib.mkOptionDefault {
+        in
+        lib.mkOptionDefault {
           normal = {
             "Alt Return" = "spawn alacritty";
-            "Alt D" = "spawn bemenu-run ${config.home.sessionVariables.BEMENU_OPTS}";
+            "Alt D" = ''spawn "bemenu-run ${config.home.sessionVariables.BEMENU_OPTS}"'';
             "Alt Q" = "close";
             "Alt+Shift Q" = "exit";
             "Alt S" = "swap next";
