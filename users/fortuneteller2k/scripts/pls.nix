@@ -14,7 +14,7 @@
 
   def switch_nixos():
       try:
-          process = run("sudo -n nixos-rebuild switch --flake ~/.config/nix-config#superfluous", shell=True)
+          process = run("sudo -n nixos-rebuild switch --flake ~/.config/nix-config#starcruiser", shell=True)
 
           if process.returncode == 0:
               return run("fd . /nix/var/nix/profiles -d 1 | tail -2 | xargs nvd diff", shell=True).returncode

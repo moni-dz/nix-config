@@ -270,7 +270,7 @@
           position = "top";
           height = 17;
           modules-left = [ "sway/workspaces" "sway/mode" ];
-          modules-right = [ "pulseaudio" "network" "clock" ];
+          modules-right = [ "pulseaudio" "clock" ];
           modules = import ./config/waybar/modules.nix;
         }
       ];
@@ -360,7 +360,7 @@
   systemd.user.startServices = "sd-switch";
 
   wayland.windowManager.river = {
-    enable = true;
+    enable = false;
 
     extraSessionVariables = {
       XDG_SESSION_DESKTOP = "sway";

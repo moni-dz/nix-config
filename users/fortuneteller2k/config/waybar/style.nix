@@ -29,7 +29,6 @@ with colorscheme.colors;
   }
 
   #clock,
-  #network,
   #pulseaudio {
     padding: 0 6px;
     margin: 0;
@@ -37,7 +36,7 @@ with colorscheme.colors;
     color: #${base01};
   }
 
-  #network {
+  #pulseaudio {
     background-color: #${base0E};
   }
 ''

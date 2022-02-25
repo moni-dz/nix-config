@@ -88,6 +88,10 @@
         inherit config nixpkgs agenix overlays inputs;
       };
 
+      nixosConfigurations.starcruiser = import ./hosts/starcruiser {
+        inherit config nixpkgs agenix overlays inputs;
+      };
+
       homeConfigurations.fortuneteller2k = import ./users/fortuneteller2k {
         inherit config nixpkgs home discocss nix-colors overlays inputs;
       };

@@ -36,15 +36,6 @@
     format = "{:  %m/%d/%Y %I:%M %p}";
   };
 
-  "network" = {
-    interface = "wlan0";
-    format = "  {ifname}";
-    format-wifi = "  {essid}";
-    format-ethernet = "  {essid}";
-    format-disconnected = "  Disconnected";
-    max-length = 50;
-  };
-
   "pulseaudio" = {
     format = "{icon} {volume}%";
     format-muted = "婢  Muted";
