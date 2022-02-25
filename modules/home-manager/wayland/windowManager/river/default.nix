@@ -10,24 +10,40 @@ with lib;
 let
   cfg = config.wayland.windowManager.river;
 
-  genKeybinding = mode:
+  genKeybind = mode:
     let
-      binds = with cfg.config; zipLists (lib.attrNames keybindings.${mode}) (lib.attrValues keybindings.${mode});
+      binds = with cfg.config; zipLists (attrNames keybindings.${mode}) (attrValues keybindings.${mode});
     in
     toString (forEach binds (x: "riverctl map ${mode} ${x.fst} ${x.snd}\n"));
 
-  configFile = pkgs.writeShellScriptBin "init" ''
-    ${config.lib.shell.exportAll cfg.extraSessionVariables}
+  genMousebind =
+    let
+      binds = with cfg.config; zipLists (attrNames keybindings.pointer) (attrValues keybindings.pointer);
+    in
+    toString (forEach binds (x: "riverctl map-pointer normal ${x.fst} ${x.snd}\n"));
 
+  configFile = pkgs.writeShellScript "init" ''
+    ### This file was generated with Nix. Don't modify this file directly. 
+
+    ${config.lib.shell.exportAll cfg.extraSessionVariables}
+    
+    riverctl declare-mode passthrough
+
+    # PASSTHROUGH KEYBINDINGS
+    ${genKeybind "passthrough"}
+    
     # NORMAL KEYBINDINGS
-    ${genKeybinding "normal"}
+    ${genKeybind "normal"}
+
+    # MOUSE BINDINGS
+    ${genMousebind}
 
     # LOCKED KEYBINDINGS
-    ${genKeybinding "locked"}
+    ${genKeybind "locked"}
 
     riverctl declare-mode passthrough
     # PASSTHROUGH KEYBINDINGS
-    ${genKeybinding "passthrough"}
+    ${genKeybind "passthrough"}
 
     riverctl background-color 0x${cfg.config.backgroundColor}
     riverctl border-color-focused 0x${cfg.config.border.color.focused}
@@ -46,7 +62,7 @@ in
     enable = mkEnableOption "river wayland compositor";
 
     package = mkOption {
-      type = with types; nullOr package;
+      type = types.package;
       default = pkgs.river;
       defaultText = literalExpression "${pkgs.river}";
       description = "River package to use.";
@@ -67,7 +83,7 @@ in
 
     config = {
       backgroundColor = mkOption {
-        type = types.string;
+        type = types.str;
         default = "0x002b36";
         description = "Background color in rrggbb format.";
         example = "ffffff";
@@ -80,13 +96,13 @@ in
               type = (types.submodule {
                 options = {
                   focused = mkOption {
-                    type = types.string;
+                    type = types.str;
                     default = "93a1a1";
                     description = "Focused border color.";
                   };
 
                   unfocused = mkOption {
-                    type = types.string;
+                    type = types.str;
                     default = "586e75";
                     description = "Unfocused border color.";
                   };
@@ -98,16 +114,16 @@ in
       };
 
       layoutGenerator = mkOption {
-        types = (types.submodule {
+        type = (types.submodule {
           options = {
             name = mkOption {
-              type = types.string;
+              type = types.str;
               default = "rivertile";
               description = "Name of the layout generator executable.";
             };
 
             arguments = mkOption {
-              type = types.string;
+              type = types.str;
               default = "-view-padding 6 -outer-padding 8";
               description = "Arguments passed to the layout generator.";
             };
@@ -116,17 +132,24 @@ in
       };
 
       repeatRate = mkOption {
-        types = types.string;
+        type = types.str;
         default = "50 300";
         description = "The repeat rate of the compositor.";
       };
 
       keybindings = mkOption {
         type = types.attrs;
-        default = { };
+        
+        default = {
+          normal = { };
+          locked = { };
+          passthrough = { };
+          pointer = { };
+        };
+
         description = "An attribute set that assigns a key press to an action in a mode using a key symbol.";
 
-        example = {
+        example = lib.mkOptionDefault {
           normal = {
             "Alt Q" = "close";
             "Alt Return" = "spawn foot";
@@ -134,27 +157,30 @@ in
 
           locked = {
             "None XF86AudioRaiseVolume" = "spawn 'pamixer -i 5'";
-            "None XF86AudioRaiseVolume" = "spawn 'pamixer -d 5'";
+            "None XF86AudioLowerVolume" = "spawn 'pamixer -d 5'";
           };
 
           passthrough = {
             "Alt F11" = "enter-mode normal";
+          };
+
+          pointer = {
+            "Alt BTN_LEFT" = "move-view"; 
           };
         };
       };
     };
 
     extraConfig = mkOption {
-      type = types.string;
+      type = types.lines;
       default = "";
       description = "Extra lines appended to <filename>$XDG_CONFIG_HOME/river/init</filename>";
     };
   };
 
   config = mkIf cfg.enable {
-    home.packages = [ ]
-      ++ (optional (!cfg.xwayland) [ (pkgs.river.override { xwaylandSupport = false; }) ])
-      ++ (optional cfg.xwayland [ pkgs.river pkgs.xwayland ]);
+    home.packages = [ (cfg.package.override { xwaylandSupport = cfg.xwayland; }) ]
+      ++ (optional cfg.xwayland pkgs.xwayland);
 
     xdg.configFile."river/init".source = configFile;
   };
