@@ -20,7 +20,7 @@
       "home-manager=${inputs.home}"
     ];
 
-  package = inputs.nix.defaultPackage.${system};
+  package = inputs.master.legacyPackages.${system}.nix;
 
   registry = {
     system.flake = inputs.self;
@@ -29,7 +29,7 @@
   };
 
   settings = rec {
-    max-jobs = 2;
+    max-jobs = 12;
 
     substituters = [
       "https://cache.nixos.org?priority=10"

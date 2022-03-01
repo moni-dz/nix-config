@@ -158,7 +158,7 @@
     };
 
     emacs = {
-      enable = false;
+      enable = true;
 
       package = (pkgs.emacsWithPackagesFromUsePackage {
         package = pkgs.emacsPgtkGcc;

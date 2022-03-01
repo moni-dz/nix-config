@@ -16,9 +16,7 @@
     */
     kernelPackages = pkgs.master.linuxKernel.packages.linux_xanmod;
 
-    kernelParams = [
-      "mitigations=off"
-    ];
+    kernelParams = [ "mitigations=off" ];
 
     kernel.sysctl = {
       "fs.file-max" = 2097152;
@@ -240,7 +238,7 @@
     hostName = "starcruiser";
 
     # Replace with your interface names.
-    interfaces.enp5s0.useDHCP = true;
+    interfaces.enp1s0f0u8c4i2.useDHCP = true;
     nameservers = [ "1.1.1.1" "1.0.0.1" "8.8.8.8" "8.8.4.4" ];
   };
 
@@ -272,7 +270,7 @@
       enable = true;
 
       settings = {
-        default_session.command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd 'sway --unsupported-gpu'";
+        default_session.command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd 'sway'";
 
         initial_session = {
           command = "sway";

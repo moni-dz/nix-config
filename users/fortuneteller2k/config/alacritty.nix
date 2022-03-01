@@ -15,7 +15,7 @@ with colorscheme.colors; {
     };
 
     # Weird, but it works...
-    size = if isWayland then 11 else 10;
+    size = if isWayland then 14 else 13;
 
     offset = {
       x = 0;
