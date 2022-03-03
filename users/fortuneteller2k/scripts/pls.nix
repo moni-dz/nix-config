@@ -12,12 +12,16 @@
       sys.exit("Please specify either 'home' or 'nixos'.")
 
 
+  def get_diff(path):
+      return run("exa -1 " + path + " | tail -n 2 | awk '{print \"" + path + "/\" $1}' - | xargs nvd diff", shell=True).returncode
+
+
   def switch_nixos():
       try:
           process = run("sudo -n nixos-rebuild switch --flake ~/.config/nix-config#starcruiser", shell=True)
 
           if process.returncode == 0:
-              return run("fd . /nix/var/nix/profiles -d 1 | tail -2 | xargs nvd diff", shell=True).returncode
+              return get_diff("/nix/var/nix/profiles")
           else:
               return process.returncode
       except KeyboardInterrupt:
@@ -29,7 +33,7 @@
           process = run("home-manager switch --flake ~/.config/nix-config#fortuneteller2k", shell=True)
 
           if process.returncode == 0:
-              return run("fd home-manager /nix/var/nix/profiles/per-user/fortuneteller2k -d 1 | tail -2 | xargs nvd diff", shell=True).returncode
+              return get_diff("/nix/var/nix/profiles/per-user/fortuneteller2k")
           else:
               return process.returncode
       except KeyboardInterrupt:
