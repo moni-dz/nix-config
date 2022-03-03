@@ -14,7 +14,7 @@
 
       If you're not me or a XanMod kernel maintainer in Nixpkgs, use pkgs.linuxKernel.packages.linux_xanmod instead to avoid compilation.
     */
-    kernelPackages = pkgs.master.linuxKernel.packages.linux_xanmod;
+    kernelPackages = pkgs.xanmod-tt.linuxKernel.packages.linux_xanmod;
 
     kernelParams = [ "mitigations=off" ];
 
@@ -236,9 +236,6 @@
 
   networking = {
     hostName = "starcruiser";
-
-    # Replace with your interface names.
-    interfaces.enp1s0f0u8c4i2.useDHCP = true;
     nameservers = [ "1.1.1.1" "1.0.0.1" "8.8.8.8" "8.8.4.4" ];
   };
 

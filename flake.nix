@@ -24,6 +24,7 @@
     stable.url = "github:nixos/nixpkgs/nixos-21.11";
     unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     i3a.url = "github:fortuneteller2k/nixpkgs/i3a";
+    xanmod-tt.url = "github:fortuneteller2k/nixpkgs/xanmod-tt";
 
     # Default Nixpkgs for packages and modules
     nixpkgs.follows = "master";
@@ -75,6 +76,7 @@
             master = import master { inherit config system; };
             unstable = import unstable { inherit config system; };
             stable = import stable { inherit config system; };
+            xanmod-tt = import xanmod-tt { inherit config system; };
           })
 
         # Overlays provided by inputs

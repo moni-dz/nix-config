@@ -911,6 +911,7 @@
         "stable": "stable",
         "sway-borders": "sway-borders",
         "unstable": "unstable",
+        "xanmod-tt": "xanmod-tt",
         "zsh-f-sy-h": "zsh-f-sy-h"
       }
     },
@@ -1031,6 +1032,22 @@
         "submodules": true,
         "type": "git",
         "url": "https://github.com/wez/wezterm.git"
+      }
+    },
+    "xanmod-tt": {
+      "locked": {
+        "lastModified": 1645815608,
+        "narHash": "sha256-XXODrjcRL3Ddn3Dga+Ljuvnr044nZ3qObck4DMZ+Lnc=",
+        "owner": "fortuneteller2k",
+        "repo": "nixpkgs",
+        "rev": "cfd5809f175286126c71c04158875c5cd690dce7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "fortuneteller2k",
+        "ref": "xanmod-tt",
+        "repo": "nixpkgs",
+        "type": "github"
       }
     },
     "xmonad": {
