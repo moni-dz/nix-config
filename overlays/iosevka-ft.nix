@@ -18,9 +18,9 @@ final: prev: {
           g = "single-storey-serifless"
           k = "curly-serifless"
           q = "earless-corner"
+          t = "flat-hook-short-neck"
           y = "cursive"
           lower-alpha = "crossing"
-          lower-delta = "flat-top"
           lower-lambda = "straight-turn"
           cyrl-capital-ka = "curly-serifless"
           cyrl-ka = "curly-serifless"
@@ -35,7 +35,6 @@ final: prev: {
           caret = "high"
           paren = "normal"
           brace = "curly-flat-boundary"
-          at = "fourfold"
           ascii-single-quote = "raised-comma"
           ascii-grave = "raised-turn-comma"
           question = "smooth"
@@ -48,8 +47,8 @@ final: prev: {
           f = "serifless"
           cyrl-ef = "cursive"
 
-      [buildPlans.iosevka-ft.ligations]
-      inherits = "dlig"
+        [buildPlans.iosevka-ft.ligations]
+        inherits = "dlig"
     '';
 
     set = "ft";

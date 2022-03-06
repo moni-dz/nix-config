@@ -162,14 +162,13 @@
 
       package = (pkgs.emacsWithPackagesFromUsePackage {
         package = pkgs.emacsPgtkGcc;
-        config = ./config/emacs.org;
+        config = ./config/emacs/init.el;
 
         extraEmacsPackages = epkgs: with epkgs; [
           aggressive-indent
           company
           ctrlf
           doom-themes
-          eglot
           elfeed
           elisp-def
           evil
@@ -181,8 +180,10 @@
           helpful
           hide-mode-line
           highlight-defined
+          highlight-indent-guides
           highlight-quoted
           hl-todo
+          lsp-mode
           lisp-butt-mode
           marginalia
           mixed-pitch
@@ -193,6 +194,7 @@
           selectrum
           selectrum-prescient
           simple-modeline
+          smartparens
           solaire-mode
           super-save
           which-key
@@ -504,6 +506,11 @@
           repeat_delay = "350";
         };
 
+        "type:pointer" = {
+          accel_profile = "flat";
+          pointer_accel = "0.4";
+        };
+
         "type:touchpad" = {
           tap = "enabled";
           natural_scroll = "enabled";
@@ -592,12 +599,9 @@
     enable = true;
 
     configFile = {
-      "emacs/init.org" = {
-        source = ./config/emacs.org;
-
-        onChange = ''
-          emacs --batch --load org --eval '(org-babel-tangle-file "~/.config/emacs/init.org")'
-        '';
+      "emacs" = {
+        recursive = true;
+        source = ./config/emacs;
       };
 
       "networkmanager-dmenu/config.ini".source = (pkgs.formats.ini { }).generate "config.ini" {
