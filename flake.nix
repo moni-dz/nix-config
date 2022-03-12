@@ -97,5 +97,9 @@
       homeConfigurations.fortuneteller2k = import ./users/fortuneteller2k {
         inherit config nixpkgs home discocss nix-colors overlays inputs;
       };
+
+      # Easier `nix build`-ing of configurations
+      superfluous = self.nixosConfigurations.superfluous.config.system.build.toplevel;
+      starcruiser = self.nixosConfigurations.starcruiser.config.system.build.toplevel;
     };
 }

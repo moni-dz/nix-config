@@ -464,6 +464,11 @@
           url = "https://github.com/swaywm/sway/commit/85d1c98476b653368e9a9f41650eb6e2f6aac596.patch";
           hash = "sha256-gInPCDlHB6ecwOb0QkjeHnreo0zMYt9rwFboc5tVXB0=";
         })
+
+        (pkgs.fetchpatch {
+          url = "https://github.com/swaywm/sway/commit/04676936e71f6fccccb098f3232d16572b140902.patch";
+          hash = "sha256-sh3i4YZnPvhVH6+9O7rTabgMvjyer6Ir9gQ3rNzIG48=";
+        })
       ];
     });
 
@@ -508,7 +513,7 @@
 
         "type:pointer" = {
           accel_profile = "flat";
-          pointer_accel = "0.4";
+          pointer_accel = "0.3";
         };
 
         "type:touchpad" = {
