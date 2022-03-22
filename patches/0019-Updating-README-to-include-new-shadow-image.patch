@@ -1,0 +1,25 @@
+From fb554f30fe7f388fb6ad075b91aac6cffcf45f8d Mon Sep 17 00:00:00 2001
+From: Keating950 <keating.reid@protonmail.com>
+Date: Sat, 5 Dec 2020 10:45:12 -0500
+Subject: [PATCH 19/24] Updating README to include new shadow image
+
+---
+ contrib/borders/README.md | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/contrib/borders/README.md b/contrib/borders/README.md
+index 02098b21..9eb76dcf 100644
+--- a/contrib/borders/README.md
++++ b/contrib/borders/README.md
+@@ -12,5 +12,8 @@ Feel free to add your own and make a PR, as long as they aren't _too_ similar to
+ ## Shadows
+ ![](https://raw.githubusercontent.com/TheAvidDev/sway-borders/master/contrib/borders/shadows.png)
+ 
++## Shadows (thin)
++![](https://raw.githubusercontent.com/TheAvidDev/sway-borders/master/contrib/borders/shadows_thin.png)
++
+ ## Testing
+ ![](https://raw.githubusercontent.com/TheAvidDev/sway-borders/master/contrib/borders/testing.png)
+-- 
+2.35.1
+

@@ -1,0 +1,115 @@
+From 8fa1af004f550086c1c80cf9803ac9d5d2fa84a4 Mon Sep 17 00:00:00 2001
+From: Keating950 <keating.reid@protonmail.com>
+Date: Sat, 5 Dec 2020 22:44:11 -0500
+Subject: [PATCH 20/24] replacing contrib shadow border with thinner version
+
+---
+ contrib/borders/README.md        |   3 ---
+ contrib/borders/shadows.png      | Bin 753 -> 4953 bytes
+ contrib/borders/shadows_thin.png | Bin 4953 -> 0 bytes
+ 3 files changed, 3 deletions(-)
+ delete mode 100644 contrib/borders/shadows_thin.png
+
+diff --git a/contrib/borders/README.md b/contrib/borders/README.md
+index 9eb76dcf..02098b21 100644
+--- a/contrib/borders/README.md
++++ b/contrib/borders/README.md
+@@ -12,8 +12,5 @@ Feel free to add your own and make a PR, as long as they aren't _too_ similar to
+ ## Shadows
+ ![](https://raw.githubusercontent.com/TheAvidDev/sway-borders/master/contrib/borders/shadows.png)
+ 
+-## Shadows (thin)
+-![](https://raw.githubusercontent.com/TheAvidDev/sway-borders/master/contrib/borders/shadows_thin.png)
+-
+ ## Testing
+ ![](https://raw.githubusercontent.com/TheAvidDev/sway-borders/master/contrib/borders/testing.png)
+diff --git a/contrib/borders/shadows.png b/contrib/borders/shadows.png
+index 1f9e4a90ca27e6ab2ad7cfe82b365b53a2691a8d..f25eadb87b7a251811dca0fa85e87645d8f7b177 100644
+GIT binary patch
+literal 4953
+zcmeH|drXye7{^~y1Pn#gR2tgRhB|acF_T)RaX>gBh|ZK!=4GPUQt)`v)|Mb;nH8q~
+zQCn-u)YVLC&DmVpWu{BJOv`fJEIOK(RK%>TQ0ezM@;&{|%Yk8k`)tp7?$7u8KJTkM
+zQ(TnSt?P|l9mnbB%g>o)>_9ZWi}{^;bXU3K#H^U_^%ncQUQdO;eD3^*%N%Fun#b3S
+z&i`m^>Yf?X3Ubr?pY{ZM)OM|ootT_gmz|vc<O8+$#jPv&V1v)QHW(bbqfhF^lC5{{
+z$U60FeR_QLO`f8fqE#a%1)JAqKie;<rs-V6k4GB%*OyOz>7gahciJ*H<>Z{~y~n1k
+zI52Ei{GjTA&)xgkSI2X1jop9lk))euoDJUfY10quH%{I6a$;k`?rq~o4G(q;o-8al
+zzH>rqS(<O)-9rXso~Yivdisl{%Z^MBe6v4u<G8`2C#0tJS=E2|(u`p#>F0Vc8b5L5
+zCl}_GPRS}?G-cSxL+=c!oR#%v-SEY)9P_L#+1)cI{)LI&lp9J`9^A5K_MpP1grw%G
+zBYpR!t$RIjTutoc+HC*D`pU+4r)|r)<LALEdW~(|^Y)mhmLC{#VC(mPUU+N4s0mdc
+zW>#$8e(CEj8RvbEy;rxVrfTo)6^jlZIy$=EA9tei%QUZllT%n(>+D?r#i(DZ-k-K%
+z-sflPwy!=I=kb<qURd>ncjl)2Z%++4+t6_O%ukthmzO#I!~R#RKAxLp-b<I+1$jBn
+zZBB-BOI^Q}#U_(bk$?YU#~E=m8uRGpF-uG`F5oN7jXRncn>4g{^X~`Gm{dw2w<O>#
+zU$CHTVZibF%Vq`2=6IIQ4?O6}^A#3PUEaN~<0NPJa_*U2k`R-Y{9S{YxhA0t#9ZYa
+zuBN}aqq{r0)b4A`w?W(Tqw=yBMr|-j^<ZtEe#Q6#wyo{c6ID7#&0a|gK;X8eL$Ou>
+zXoD(Njy~JhoYNMGXaue^Q{-jaA_354qq4>g2{ALRh_pq5DS-&IlgZ&L79n~O0SlZM
+zQ7k`{w11+J5V$}DED~5$b?p<0OD2I*M?^-JT*NipBs7SXLPEgwql&3X01<(U#z!T9
+zYPb9_5jP2j1datvB<PJbYFm3=z)hw{fW{3!wLq!KrylWPY7mP8j)jPT`D+i6_?8^8
+z<R9Ze<S(Q4g#bj!aV>Td%SMne`A`9ih=}_V5J+fId@Td~f>8;8dPO3jnr1?=eNMZ9
+zCaK;(y>Uh%kZ81fOUyO6!rw;eMR-zuALR6*YA5xuL?b~_%{&1<mR=S@1QN+cA;LAd
+z!f!@-a=r-&(Xa1Ad)U=V+$01}qkI-f`5qv_(_e42mr=-^HOkYTH%gs8h-gl`Oe(xL
+zd<{1VnmQs}gjrrq52IXySg*sl9TztV*o7Ik`0kjK^9=ypXq1>&K}??5J=0zsVsB<z
+z2}8EBm~#u9?|{>b0H^=MC{|?X7a@C>Nk@wN5_VOCBEUz+y9NXT2*B*%{|5+?rw#%7
+z-9${PwL~K!a9I|i0P&;}VlE;9T$jL7*Q|EQY9?fD5;REgxd6(S%`z-syB6`}HYsBI
+zL_j382di0Gle%)skmLGM6N3l@BwES?aB_*R1-Px`Z35~KTl*3u0hi#51WOU+$dltT
+z5|JYhut+Jd2b0xYoBuj!5TKe_t{eamurH*VKy?Ad)T4^~5;VD+S)v?P;Ihmh)YK~r
+z5%O*|ssAJz391aag@ru1YWVI;s3sC_aMdGr+e;z}ErAUrUo(m|CqQEP0#&Tu2&;t=
+zNmrmA+sb#fhC&<ACK0VSlxuI9dq};q?z$a!2wVgI>#v@M+p!|iPRq4Y>kITM?YI85
+Ro}Hhj;>#_{c_Vvf^}mk={8|72
+
+literal 753
+zcmV<N0uKF&P)<h;3K|Lk000e1NJLTq0018V0018d1^@s6AFdWT0008GNkl<Zc$|Hg
+zZI;?F3`HLy3{YlP(fu!}yJ&$)fb>W8!nGoob99^p$5)c|;p`+GBn^^wG46}e*A&G&
+zOI*L=`We?8eN9=$V$nThO!t-@WPuR&h|%+&YJaa078`8fA+ED{-VO^@;5o)2#*GrR
+z+~6_5mH2;JZ>uwSjB&zTD%-e~;EyCnJoh_}6IyNX6q2`S1Lr;yd<v+?V?00LJ;EO$
+zlcaA+_XIa|6<TiB8hny;4)Hw|@WOUE!3VX$NsAl!P`LaU&>s*hV$Wpw42umP60}LT
+zyyvvs@J~sX5PPA5+v*#(McQV<n)4Oh`+ExbMbcMN-~#|JOsfsHm5)LO1{_n&@H3!a
+z;f1r_(LZ4EZ+OID#=?woFKM6QquTWHK3@X-8QwS*a7VYa4L}E}Gi9GGuL6(z?-;n~
+zz3<+0TeAyg9DGNtlS}o$e9bjI7aMPdm9gbZ%(ump+LSzGXz+G^iB+iAU|0t{+U*4Q
+zdV$wnS-i<gR0<90{%7ZTZ=Hr=x49=T9clV7p8YDG_e7a7<_B2pnZ)_&jwQH#hIn50
+z5JC7$+bTqm(}m4KdLI-V?RU&`SL-RW!h7HhWl42#4S;`3x`y1KjFp&^CtqXXT3UOL
+zg`6%5MIF_KyTV;1{rQgqHf*i!)j_~*k-gilp7k$}eFQUn3gA`J@1z73Fl)7(fiz)n
+z*%osRC;W-`ZUHv@9<p(NWqGbf!W>sGd!*OTuWI+7LAVB>Eq8(7VUI_jY&FmN{GUDD
+zUf|w)-&e~G=kc}zPijvwJWO~_4pxrY?M=Y-PMO@2rX^yo*YM&KB<KB_U52ZG<|FZ>
+zwnGh=Uwts}@K9C17vcPzso>6rrY&~n+6%0d{BHv%G}rlu+AQdOt35G4!^#7sA^c@{
+jw<mX$txl`C$t-^XS%Kxkk1C*c00000NkvXXu0mjfEYfOh
+
+diff --git a/contrib/borders/shadows_thin.png b/contrib/borders/shadows_thin.png
+deleted file mode 100644
+index f25eadb87b7a251811dca0fa85e87645d8f7b177..0000000000000000000000000000000000000000
+GIT binary patch
+literal 0
+HcmV?d00001
+
+literal 4953
+zcmeH|drXye7{^~y1Pn#gR2tgRhB|acF_T)RaX>gBh|ZK!=4GPUQt)`v)|Mb;nH8q~
+zQCn-u)YVLC&DmVpWu{BJOv`fJEIOK(RK%>TQ0ezM@;&{|%Yk8k`)tp7?$7u8KJTkM
+zQ(TnSt?P|l9mnbB%g>o)>_9ZWi}{^;bXU3K#H^U_^%ncQUQdO;eD3^*%N%Fun#b3S
+z&i`m^>Yf?X3Ubr?pY{ZM)OM|ootT_gmz|vc<O8+$#jPv&V1v)QHW(bbqfhF^lC5{{
+z$U60FeR_QLO`f8fqE#a%1)JAqKie;<rs-V6k4GB%*OyOz>7gahciJ*H<>Z{~y~n1k
+zI52Ei{GjTA&)xgkSI2X1jop9lk))euoDJUfY10quH%{I6a$;k`?rq~o4G(q;o-8al
+zzH>rqS(<O)-9rXso~Yivdisl{%Z^MBe6v4u<G8`2C#0tJS=E2|(u`p#>F0Vc8b5L5
+zCl}_GPRS}?G-cSxL+=c!oR#%v-SEY)9P_L#+1)cI{)LI&lp9J`9^A5K_MpP1grw%G
+zBYpR!t$RIjTutoc+HC*D`pU+4r)|r)<LALEdW~(|^Y)mhmLC{#VC(mPUU+N4s0mdc
+zW>#$8e(CEj8RvbEy;rxVrfTo)6^jlZIy$=EA9tei%QUZllT%n(>+D?r#i(DZ-k-K%
+z-sflPwy!=I=kb<qURd>ncjl)2Z%++4+t6_O%ukthmzO#I!~R#RKAxLp-b<I+1$jBn
+zZBB-BOI^Q}#U_(bk$?YU#~E=m8uRGpF-uG`F5oN7jXRncn>4g{^X~`Gm{dw2w<O>#
+zU$CHTVZibF%Vq`2=6IIQ4?O6}^A#3PUEaN~<0NPJa_*U2k`R-Y{9S{YxhA0t#9ZYa
+zuBN}aqq{r0)b4A`w?W(Tqw=yBMr|-j^<ZtEe#Q6#wyo{c6ID7#&0a|gK;X8eL$Ou>
+zXoD(Njy~JhoYNMGXaue^Q{-jaA_354qq4>g2{ALRh_pq5DS-&IlgZ&L79n~O0SlZM
+zQ7k`{w11+J5V$}DED~5$b?p<0OD2I*M?^-JT*NipBs7SXLPEgwql&3X01<(U#z!T9
+zYPb9_5jP2j1datvB<PJbYFm3=z)hw{fW{3!wLq!KrylWPY7mP8j)jPT`D+i6_?8^8
+z<R9Ze<S(Q4g#bj!aV>Td%SMne`A`9ih=}_V5J+fId@Td~f>8;8dPO3jnr1?=eNMZ9
+zCaK;(y>Uh%kZ81fOUyO6!rw;eMR-zuALR6*YA5xuL?b~_%{&1<mR=S@1QN+cA;LAd
+z!f!@-a=r-&(Xa1Ad)U=V+$01}qkI-f`5qv_(_e42mr=-^HOkYTH%gs8h-gl`Oe(xL
+zd<{1VnmQs}gjrrq52IXySg*sl9TztV*o7Ik`0kjK^9=ypXq1>&K}??5J=0zsVsB<z
+z2}8EBm~#u9?|{>b0H^=MC{|?X7a@C>Nk@wN5_VOCBEUz+y9NXT2*B*%{|5+?rw#%7
+z-9${PwL~K!a9I|i0P&;}VlE;9T$jL7*Q|EQY9?fD5;REgxd6(S%`z-syB6`}HYsBI
+zL_j382di0Gle%)skmLGM6N3l@BwES?aB_*R1-Px`Z35~KTl*3u0hi#51WOU+$dltT
+z5|JYhut+Jd2b0xYoBuj!5TKe_t{eamurH*VKy?Ad)T4^~5;VD+S)v?P;Ihmh)YK~r
+z5%O*|ssAJz391aag@ru1YWVI;s3sC_aMdGr+e;z}ErAUrUo(m|CqQEP0#&Tu2&;t=
+zNmrmA+sb#fhC&<ACK0VSlxuI9dq};q?z$a!2wVgI>#v@M+p!|iPRq4Y>kITM?YI85
+Ro}Hhj;>#_{c_Vvf^}mk={8|72
+
+-- 
+2.35.1
+

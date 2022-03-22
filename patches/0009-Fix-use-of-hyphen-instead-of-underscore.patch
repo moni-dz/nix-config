@@ -1,0 +1,25 @@
+From c8917bd63502a243e1f0d11973f062d4d00aa6a1 Mon Sep 17 00:00:00 2001
+From: TheAvidDev <AvidDev@protonmail.com>
+Date: Mon, 31 Aug 2020 12:27:52 -0400
+Subject: [PATCH 09/24] Fix use of hyphen instead of underscore
+
+---
+ sway/sway.5.scd | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/sway/sway.5.scd b/sway/sway.5.scd
+index e2234909..10a429f1 100644
+--- a/sway/sway.5.scd
++++ b/sway/sway.5.scd
+@@ -111,7 +111,7 @@ They are expected to be used with *bindsym* or at runtime through *swaymsg*(1).
+ *border* toggle
+ 	Cycles through the available border styles.
+ 
+-*border-images.<class>* <path>
++*border_images.<class>* <path>
+ 	Configures the images used for borders. The _path_ is expected to be an
+ 	absolute path to an image with an odd width and height which will be scaled to
+ 	container sizes. The edges are expected to be 1 pixel in width for top and
+-- 
+2.35.1
+

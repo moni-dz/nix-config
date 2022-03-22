@@ -455,20 +455,30 @@
       src = inputs.sway-borders;
 
       patches = (old.patches or [ ]) ++ [
-        (pkgs.fetchpatch {
-          url = "https://github.com/swaywm/sway/commit/f8990523b456ad4eba2bd9c22dff87772d7b0953.patch";
-          hash = "sha256-KaMcRj6MXMy4MbzrZZAJezqiLKcOLLSCPkNFQ3iPxrc=";
-        })
-
-        (pkgs.fetchpatch {
-          url = "https://github.com/swaywm/sway/commit/85d1c98476b653368e9a9f41650eb6e2f6aac596.patch";
-          hash = "sha256-gInPCDlHB6ecwOb0QkjeHnreo0zMYt9rwFboc5tVXB0=";
-        })
-
-        (pkgs.fetchpatch {
-          url = "https://github.com/swaywm/sway/commit/04676936e71f6fccccb098f3232d16572b140902.patch";
-          hash = "sha256-sh3i4YZnPvhVH6+9O7rTabgMvjyer6Ir9gQ3rNzIG48=";
-        })
+        ./0001-Add-basic-border-texture-support.patch
+        ./0002-Add-initial-README-and-docs.patch
+        ./0003-Add-border-image-samples.patch
+        ./0004-Improve-README.md-formatting.patch
+        ./0005-Create-border-image-samples-README.md.patch
+        ./0006-Add-more-planned-features.patch
+        ./0007-Fix-border-rendering-for-non-floating-containers.patch
+        ./0008-Update-README.md-and-contrib.patch
+        ./0009-Fix-use-of-hyphen-instead-of-underscore.patch
+        ./0010-render-Fix-passing-the-wrong-param-to.patch
+        ./0011-Update-GitHub-issue-templates-and-config.patch
+        ./0012-Fix-segfault-related-to-getting-texture-dimensions.patch
+        ./0013-Remove-split-border-image-contrib-script.patch
+        ./0014-Use-path-expansion-and-access-checks-for-border-imag.patch
+        ./0015-Add-border-texture-class-usage.patch
+        ./0016-Rework-border-texture-rendering-order-fixes-3.patch
+        ./0017-Update-packaging-status.patch
+        ./0018-adding-narrower-shadow-image.patch
+        ./0019-Updating-README-to-include-new-shadow-image.patch
+        ./0020-replacing-contrib-shadow-border-with-thinner-version.patch
+        ./0021-Replace-WL_SHM_FORMAT-with-DRM_FORMAT-sway-master.patch
+        ./0022-Fix-tabbed-layout-crash.patch
+        ./0023-Update-readme-border_images-example-to-use-direct-im.patch
+        ./0024-Remove-call-to-wlr_backend_get_renderer.patch
       ];
     });
 

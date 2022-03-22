@@ -14,7 +14,7 @@
 
       If you're not me or a XanMod kernel maintainer in Nixpkgs, use pkgs.linuxKernel.packages.linux_xanmod instead to avoid compilation.
     */
-    kernelPackages = pkgs.xanmod-tt.linuxKernel.packages.linux_xanmod;
+    kernelPackages = pkgs.xanmod.linuxKernel.packages.linux_xanmod_latest;
     kernelParams = [ "mitigations=off" ];
 
     kernel.sysctl = {

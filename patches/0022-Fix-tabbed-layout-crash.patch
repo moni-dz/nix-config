@@ -1,0 +1,26 @@
+From 908fb64d05169be83a45a70e5bdd23f61c1e8c05 Mon Sep 17 00:00:00 2001
+From: Robert Miller <legomaster57@gmail.com>
+Date: Sun, 4 Apr 2021 19:27:14 -0400
+Subject: [PATCH 22/24] Fix tabbed layout crash
+
+---
+ sway/desktop/render.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/sway/desktop/render.c b/sway/desktop/render.c
+index c4374805..b975eb80 100644
+--- a/sway/desktop/render.c
++++ b/sway/desktop/render.c
+@@ -906,6 +906,9 @@ static void render_border_textures_for_workspace(struct sway_output *output,
+ 		workspace_get_box(ws, &box);
+ 
+ 		struct sway_container *con = ws->tiling->items[0];
++		if (ws->tiling->length == 0) {
++			return;
++		}
+ 		struct border_textures *textures = get_border_textures_for_container(con);
+ 		render_border_textures(output, damage, &box, textures->texture, con->alpha);
+ 	}
+-- 
+2.35.1
+

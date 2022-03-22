@@ -1,0 +1,88 @@
+From 4614d1a4ee12305bf5141e34bde268285c005eb9 Mon Sep 17 00:00:00 2001
+From: TheAvidDev <AvidDev@protonmail.com>
+Date: Mon, 31 Aug 2020 13:16:44 -0400
+Subject: [PATCH 11/24] Update GitHub issue templates and config
+
+Fixes #1
+---
+ .github/ISSUE_TEMPLATE/bug_report.md  |  7 ++-----
+ .github/ISSUE_TEMPLATE/config.yml     |  4 ----
+ .github/ISSUE_TEMPLATE/enhancement.md |  2 +-
+ .github/ISSUE_TEMPLATE/i3_compat.md   | 20 --------------------
+ 4 files changed, 3 insertions(+), 30 deletions(-)
+ delete mode 100644 .github/ISSUE_TEMPLATE/i3_compat.md
+
+diff --git a/.github/ISSUE_TEMPLATE/bug_report.md b/.github/ISSUE_TEMPLATE/bug_report.md
+index eba606e6..4324191a 100644
+--- a/.github/ISSUE_TEMPLATE/bug_report.md
++++ b/.github/ISSUE_TEMPLATE/bug_report.md
+@@ -1,15 +1,12 @@
+ ---
+ name: Bugs
+-about: Crashes and other bugs
++about: Crashes and other bugs which doesn't occur in Sway upstream
+ labels: 'bug'
+ 
+ ---
+ 
+ ### Please read the following before submitting:
+-- Please do NOT submit bug reports for questions. Ask questions on IRC at #sway on Libera Chat.
+-- Proprietary graphics drivers, including nvidia, are not supported. Please use the open source equivalents, such as nouveau, if you would like to use Sway.
+-- Please do NOT submit issues for information from the github wiki. The github wiki is community maintained and therefore may contain outdated information, scripts that don't work or obsolete workarounds.
+-  If you fix a script or find outdated information, don't hesitate to adjust the wiki page.
++- Make sure the issue is with one of the additional features of sway-borders or one which does not occur in sway upstream.
+ 
+ ### Please fill out the following:
+ - **Sway Version:**
+diff --git a/.github/ISSUE_TEMPLATE/config.yml b/.github/ISSUE_TEMPLATE/config.yml
+index 0092609b..3ba13e0c 100644
+--- a/.github/ISSUE_TEMPLATE/config.yml
++++ b/.github/ISSUE_TEMPLATE/config.yml
+@@ -1,5 +1 @@
+ blank_issues_enabled: false
+-contact_links:
+-  - name: Questions
+-    url: "https://libera.chat"
+-    about: "Please ask questions on IRC in #sway on Libera Chat"
+diff --git a/.github/ISSUE_TEMPLATE/enhancement.md b/.github/ISSUE_TEMPLATE/enhancement.md
+index 9be069a7..c9f7721b 100644
+--- a/.github/ISSUE_TEMPLATE/enhancement.md
++++ b/.github/ISSUE_TEMPLATE/enhancement.md
+@@ -6,7 +6,7 @@ labels: 'enhancement'
+ ---
+ 
+ ### Please read the following before submitting:
+-- We are not accepting any new window management features unless they get implemented by i3.
++- Please try and get your feature implemented into Sway upstream first. This can be omittited if it definitely won't make it, such as more asthetic features like blur.
+ 
+ ### Please fill out the following:
+ - **Description:**
+diff --git a/.github/ISSUE_TEMPLATE/i3_compat.md b/.github/ISSUE_TEMPLATE/i3_compat.md
+deleted file mode 100644
+index 4dfa21c3..00000000
+--- a/.github/ISSUE_TEMPLATE/i3_compat.md
++++ /dev/null
+@@ -1,20 +0,0 @@
+----
+-name: i3 Compatibility
+-about: Sway behaves differently from or lacks i3 functionality
+-labels: 'i3-compat'
+-
+----
+-
+-### Please read the following before submitting:
+-- The following either do not make sense for Wayland or we have decided against supporting:
+-  - `restart`
+-  - `resource`
+-  - saving and loading layouts
+-  - the i3 sync protocol
+-
+-### Please fill out the following:
+-- **i3 PR:**
+-  - If this is new i3 functionality, please add a link to the i3 pull request.
+-
+-- **Description:**
+-  - Please describe in plain English how Sway and i3's behaviors differ or what functionality Sway is lacking.
+-- 
+2.35.1
+

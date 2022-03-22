@@ -1,0 +1,31 @@
+From 3367ec2ee74a53b1f978d892913047f31aec4f3c Mon Sep 17 00:00:00 2001
+From: Steven Guikal <void@fluix.one>
+Date: Wed, 14 Jul 2021 02:05:11 -0400
+Subject: [PATCH 23/24] Update readme border_images example to use direct image
+
+---
+ README.md | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/README.md b/README.md
+index d1807b4b..a8431b38 100644
+--- a/README.md
++++ b/README.md
+@@ -60,10 +60,10 @@ Unlike pixel borders, the border images will overflow into gaps, so you may have
+ 
+ To use this in your config, you would probably use the following:
+ ```
+-border_images.focused /some/folder/
+-border_images.focused_inactive /some/folder/
+-border_images.unfocused /some/folder/
+-border_images.urgent /some/folder/
++border_images.focused /some/folder/image.png
++border_images.focused_inactive /some/folder/image.png
++border_images.unfocused /some/folder/image.png
++border_images.urgent /some/folder/image.png
+ ```
+ 
+ The [`/contrib/borders/` folder](https://github.com/TheAvidDev/sway-borders/tree/master/contrib/borders/) contains some example and community contributed border images, alongside screenshots. Feel free to add your own and make a PR!
+-- 
+2.35.1
+

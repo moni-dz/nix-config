@@ -1,0 +1,35 @@
+From 517d85c0dd441850d271dbcf748abf53b7c1dad0 Mon Sep 17 00:00:00 2001
+From: Steven Guikal <AvidDev@protonmail.com>
+Date: Sat, 22 Aug 2020 00:34:14 -0400
+Subject: [PATCH 05/24] Create border image samples README.md
+
+---
+ contrib/borders/README.md | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+ create mode 100644 contrib/borders/README.md
+
+diff --git a/contrib/borders/README.md b/contrib/borders/README.md
+new file mode 100644
+index 00000000..de5daf2d
+--- /dev/null
++++ b/contrib/borders/README.md
+@@ -0,0 +1,16 @@
++# Border Image Samples
++This folder contains sample border images for anyone's use. A `testing` folder also provides border images which can be used for easier debugging of incorrect border image rendering.
++
++Feel free to add your own and make a PR, as long as they aren't _too_ similar to existing samples. Please include a sample image and keep the list in alphabetical order.
++
++## Rounded
++![](https://raw.githubusercontent.com/TheAvidDev/sway-borders/master/contrib/borders/rounded/sample.png)
++
++## Rounded and Shadows
++![](https://raw.githubusercontent.com/TheAvidDev/sway-borders/master/contrib/borders/rounded_and_shadows/sample.png)
++
++## Shadows
++![](https://raw.githubusercontent.com/TheAvidDev/sway-borders/master/contrib/borders/shadows/sample.png)
++
++## Testing
++![](https://raw.githubusercontent.com/TheAvidDev/sway-borders/master/contrib/borders/testing/sample.png)
+-- 
+2.35.1
+

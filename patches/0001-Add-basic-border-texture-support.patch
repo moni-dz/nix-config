@@ -1,0 +1,413 @@
+From 060ca8323463110a3a74368045df1d1c67d232f9 Mon Sep 17 00:00:00 2001
+From: TheAvidDev <AvidDev@protonmail.com>
+Date: Tue, 11 Aug 2020 01:30:53 -0400
+Subject: [PATCH 01/24] Add basic border texture support
+
+---
+ contrib/split-border-image.py |  22 ++++++
+ include/sway/commands.h       |   4 +
+ include/sway/config.h         |  21 ++++-
+ sway/commands.c               |   4 +
+ sway/commands/border_images.c |  74 ++++++++++++++++++
+ sway/desktop/render.c         | 142 +++++++++++++++++++++++++++++++++-
+ sway/meson.build              |   1 +
+ sway/tree/container.c         |   4 +-
+ 8 files changed, 266 insertions(+), 6 deletions(-)
+ create mode 100644 contrib/split-border-image.py
+ create mode 100644 sway/commands/border_images.c
+
+diff --git a/contrib/split-border-image.py b/contrib/split-border-image.py
+new file mode 100644
+index 00000000..a200cbcd
+--- /dev/null
++++ b/contrib/split-border-image.py
+@@ -0,0 +1,22 @@
++#!/usr/bin/env python
++
++from PIL import Image
++import os
++import sys
++
++fi = Image.open(sys.argv[1])
++image_dir = os.path.dirname(os.path.abspath(sys.argv[1]))
++size = int(sys.argv[2])
++
++# Split into images ordered as follows:
++# 012
++# 7 3
++# 654
++fi.crop((0, 0, size, size)).save(os.path.join(image_dir, "0.png"))
++fi.crop((size, 0, fi.width-size, size)).save(os.path.join(image_dir, "1.png"))
++fi.crop((fi.width-size, 0, fi.width, size)).save(os.path.join(image_dir, "2.png"))
++fi.crop((fi.width-size, size, fi.width, fi.height-size)).save(os.path.join(image_dir, "3.png"))
++fi.crop((fi.width-size, fi.height-size, fi.width, fi.height)).save(os.path.join(image_dir, "4.png"))
++fi.crop((size, fi.height-size, fi.width-size, fi.height)).save(os.path.join(image_dir, "5.png"))
++fi.crop((0, fi.height-size, size, fi.height)).save(os.path.join(image_dir, "6.png"))
++fi.crop((0, size, size, fi.height-size)).save(os.path.join(image_dir, "7.png"))
+diff --git a/include/sway/commands.h b/include/sway/commands.h
+index 2746ef28..a92c048a 100644
+--- a/include/sway/commands.h
++++ b/include/sway/commands.h
+@@ -109,6 +109,10 @@ sway_cmd cmd_bindcode;
+ sway_cmd cmd_bindswitch;
+ sway_cmd cmd_bindsym;
+ sway_cmd cmd_border;
++sway_cmd cmd_border_images_focused;
++sway_cmd cmd_border_images_focused_inactive;
++sway_cmd cmd_border_images_unfocused;
++sway_cmd cmd_border_images_urgent;
+ sway_cmd cmd_client_noop;
+ sway_cmd cmd_client_focused;
+ sway_cmd cmd_client_focused_inactive;
+diff --git a/include/sway/config.h b/include/sway/config.h
+index 538930f2..8fefc075 100644
+--- a/include/sway/config.h
++++ b/include/sway/config.h
+@@ -4,6 +4,7 @@
+ #include <stdint.h>
+ #include <string.h>
+ #include <time.h>
++#include <wlr/render/wlr_texture.h>
+ #include <wlr/interfaces/wlr_switch.h>
+ #include <wlr/types/wlr_tablet_tool.h>
+ #include <wlr/util/box.h>
+@@ -418,6 +419,17 @@ struct border_colors {
+ 	float child_border[4];
+ };
+ 
++struct border_textures {
++	struct wlr_texture *top_edge;
++	struct wlr_texture *right_edge;
++	struct wlr_texture *bottom_edge;
++	struct wlr_texture *left_edge;
++	struct wlr_texture *top_left_corner;
++	struct wlr_texture *top_right_corner;
++	struct wlr_texture *bottom_right_corner;
++	struct wlr_texture *bottom_left_corner;
++};
++
+ enum edge_border_types {
+ 	E_NONE, /**< Don't hide edge borders */
+ 	E_VERTICAL, /**< hide vertical edge borders */
+@@ -561,7 +573,14 @@ struct sway_config {
+ 		float background[4];
+ 	} border_colors;
+ 
+-	bool has_focused_tab_title;
++	// border textures
++	struct {
++		struct border_textures focused;
++		struct border_textures focused_inactive;
++		struct border_textures unfocused;
++		struct border_textures urgent;
++		struct border_textures placeholder;
++	} border_textures;
+ 
+ 	// floating view
+ 	int32_t floating_maximum_width;
+diff --git a/sway/commands.c b/sway/commands.c
+index 5a1fd32e..9283165d 100644
+--- a/sway/commands.c
++++ b/sway/commands.c
+@@ -111,6 +111,10 @@ static const struct cmd_handler config_handlers[] = {
+ /* Runtime-only commands. Keep alphabetized */
+ static const struct cmd_handler command_handlers[] = {
+ 	{ "border", cmd_border },
++	{ "border_images.focused", cmd_border_images_focused },
++	{ "border_images.focused_inactive", cmd_border_images_focused_inactive },
++	{ "border_images.unfocused", cmd_border_images_unfocused },
++	{ "border_images.urgent", cmd_border_images_urgent },
+ 	{ "create_output", cmd_create_output },
+ 	{ "exit", cmd_exit },
+ 	{ "floating", cmd_floating },
+diff --git a/sway/commands/border_images.c b/sway/commands/border_images.c
+new file mode 100644
+index 00000000..209d5ac8
+--- /dev/null
++++ b/sway/commands/border_images.c
+@@ -0,0 +1,74 @@
++#include <string.h>
++#include <wlr/render/wlr_renderer.h>
++#include "cairo.h"
++#include "log.h"
++#include "sway/commands.h"
++#include "sway/config.h"
++#include "sway/output.h"
++#include "sway/tree/container.h"
++
++char* strcat_copy(const char *a, const char *b) {
++    char *out;
++    int a_len = strlen(a);
++    int b_len = strlen(b);
++
++    out = malloc(a_len + b_len + 1);
++
++    memcpy(out, a, a_len);
++    memcpy(out + a_len, b, b_len + 1);
++    return out;
++}
++
++struct wlr_texture* wlr_texture_from_png(struct sway_output *output, char* folder_path,
++		char* filename) {
++	struct wlr_renderer *renderer = wlr_backend_get_renderer(
++			output->wlr_output->backend);
++	cairo_surface_t *image = cairo_image_surface_create_from_png(strcat_copy(
++			folder_path, filename));
++	return wlr_texture_from_pixels(renderer, WL_SHM_FORMAT_ARGB8888,
++			cairo_image_surface_get_width(image) * 4,
++			cairo_image_surface_get_width(image),
++			cairo_image_surface_get_height(image),
++			cairo_image_surface_get_data(image));
++}
++
++static struct cmd_results *handle_command(int argc, char **argv, char *cmd_name,
++		struct border_textures *class) {
++	struct cmd_results *error = NULL;
++	if ((error = checkarg(argc, cmd_name, EXPECTED_EQUAL_TO, 1))) {
++		return error;
++	}
++
++	struct sway_output *output = root->outputs->items[0];
++	class->top_left_corner = wlr_texture_from_png(output, argv[0], "0.png");
++	class->top_edge = wlr_texture_from_png(output, argv[0], "1.png");
++	class->top_right_corner = wlr_texture_from_png(output, argv[0], "2.png");
++	class->right_edge = wlr_texture_from_png(output, argv[0], "3.png");
++	class->bottom_right_corner = wlr_texture_from_png(output, argv[0], "4.png");
++	class->bottom_edge = wlr_texture_from_png(output, argv[0], "5.png");
++	class->bottom_left_corner = wlr_texture_from_png(output, argv[0], "6.png");
++	class->left_edge = wlr_texture_from_png(output, argv[0], "7.png");
++	sway_log(SWAY_DEBUG, "Assigned all textures.");
++
++	return cmd_results_new(CMD_SUCCESS, NULL);
++}
++
++struct cmd_results *cmd_border_images_focused(int argc, char **argv) {
++	return handle_command(argc, argv, "border_images.focused",
++			&config->border_textures.focused);
++}
++
++struct cmd_results *cmd_border_images_focused_inactive(int argc, char **argv) {
++	return handle_command(argc, argv, "border_images.focused_inactive",
++			&config->border_textures.focused_inactive);
++}
++
++struct cmd_results *cmd_border_images_unfocused(int argc, char **argv) {
++	return handle_command(argc, argv, "border_images.unfocused",
++			&config->border_textures.unfocused);
++}
++
++struct cmd_results *cmd_border_images_urgent(int argc, char **argv) {
++	return handle_command(argc, argv, "border_images.urgent",
++			&config->border_textures.urgent);
++}
+diff --git a/sway/desktop/render.c b/sway/desktop/render.c
+index 02397c05..00f140df 100644
+--- a/sway/desktop/render.c
++++ b/sway/desktop/render.c
+@@ -347,6 +347,7 @@ static void render_saved_view(struct sway_view *view,
+ 	// https://github.com/swaywm/sway/pull/4465#discussion_r321082059
+ }
+ 
++
+ /**
+  * Render a view's surface and left/bottom/right borders.
+  */
+@@ -426,8 +427,8 @@ static void render_view(struct sway_output *output, pixman_region32_t *damage,
+ static void render_titlebar(struct sway_output *output,
+ 		pixman_region32_t *output_damage, struct sway_container *con,
+ 		int x, int y, int width,
+-		struct border_colors *colors, struct wlr_texture *title_texture,
+-		struct wlr_texture *marks_texture) {
++		struct border_colors *colors,
++		struct wlr_texture *title_texture, struct wlr_texture *marks_texture) {
+ 	struct wlr_box box;
+ 	float color[4];
+ 	float output_scale = output->wlr_output->scale;
+@@ -708,6 +709,139 @@ struct parent_data {
+ 	struct sway_container *active_child;
+ };
+ 
++/**
++ * Render a single border texture.
++ */
++static void render_border_texture(struct sway_output *output,
++		pixman_region32_t *damage, struct wlr_box box,
++		struct wlr_texture *texture, float alpha) {
++	struct wlr_output *wlr_output = output->wlr_output;
++
++	scale_box(&box, wlr_output->scale);
++	box.x -= output->lx * wlr_output->scale;
++	box.y -= output->ly * wlr_output->scale;
++
++	float matrix[9];
++	memcpy(matrix, wlr_output->transform_matrix, sizeof(matrix));
++	wlr_matrix_translate(matrix, box.x, box.y);
++	wlr_matrix_scale(matrix, box.width, box.height);
++
++	pixman_region32_t texture_damage;
++	pixman_region32_init_rect(&texture_damage, box.x, box.y, box.width, box.height);
++	wlr_output_damage_add(output->damage, &texture_damage);
++	render_texture(wlr_output, damage, texture, NULL, &box, matrix, alpha);
++}
++
++/**
++ * Render a view's border textures.
++ */
++static void render_border_textures_for_container(struct sway_container *con,
++		void *data) {
++	// TODO: Fix certain layouts causing double border draws like 'T[app app]'
++	sway_log(SWAY_INFO, "name: %s", con->title);
++	if (con->parent) {
++		struct sway_container *temp = con;
++		while (temp) {
++			enum sway_container_layout layout = container_parent_layout(temp);
++			if (layout == L_TABBED || layout == L_STACKED) {
++				return;
++			}
++			temp = temp->parent;
++		}
++	}
++	if (con->layout == L_VERT || con->layout == L_HORIZ) {
++		if (container_parent_layout(con) && con->layout) {
++			return;
++		}
++	}
++
++	// TODO: Use the appropriate border_texture based on children
++	struct border_textures *textures = &config->border_textures.focused;
++	struct sway_container_state *state = &con->current;
++	struct sway_output *output = con->workspace->output;
++	pixman_region32_t* damage = (pixman_region32_t *) data;
++	struct wlr_box box;
++	struct wlr_texture *texture;
++
++	texture = textures->left_edge;
++	if (texture) {
++		box.x = state->x - texture->width;
++		box.y = state->y;
++		box.width = texture->width;
++		box.height = state->height;
++		render_border_texture(output, damage, box, texture, con->alpha);
++	}
++
++	texture = textures->right_edge;
++	if (texture) {
++		box.x = state->x + state->width;
++		box.y = state->y;
++		box.width = texture->width;
++		box.height = state->height;
++		render_border_texture(output, damage, box, texture, con->alpha);
++	}
++
++	texture = textures->top_edge;
++	if (texture) {
++		box.x = state->x;
++		box.y = state->y - texture->height;
++		box.width = state->width;
++		box.height = texture->height;
++		render_border_texture(output, damage, box, texture, con->alpha);
++	}
++
++	texture = textures->top_left_corner;
++	if (texture) {
++		box.x = state->x - texture->width;
++		box.y = state->y - texture->height;
++		box.width = texture->width;
++		box.height = texture->height;
++		render_border_texture(output, damage, box, texture, con->alpha);
++	}
++
++	texture = textures->top_right_corner;
++	if (texture) {
++		box.x = state->x + state->width;
++		box.y = state->y - texture->height;
++		box.width = texture->width;
++		box.height = texture->height;
++		render_border_texture(output, damage, box, texture, con->alpha);
++	}
++
++	texture = textures->bottom_edge;
++	if (texture) {
++		box.x = state->x;
++		box.y = state->y + state->height;
++		box.width = state->width;
++		box.height = texture->height;
++		render_border_texture(output, damage, box, texture, con->alpha);
++	}
++
++	texture = textures->bottom_left_corner;
++	if (texture) {
++		box.x = state->x - texture->width;
++		box.y = state->y + state->height;
++		box.width = texture->width;
++		box.height = texture->height;
++		render_border_texture(output, damage, box, texture, con->alpha);
++	}
++
++	texture = textures->bottom_right_corner;
++	if (texture) {
++		box.x = state->x + state->width;
++		box.y = state->y + state->height;
++		box.width = texture->width;
++		box.height = texture->height;
++		render_border_texture(output, damage, box, texture, con->alpha);
++	}
++}
++
++static void render_border_textures_for_workspace(struct sway_output *output,
++		pixman_region32_t *damage, struct sway_workspace *ws) {
++	workspace_for_each_container(ws, render_border_textures_for_container,
++			damage);
++}
++
+ static void render_container(struct sway_output *output,
+ 	pixman_region32_t *damage, struct sway_container *con, bool parent_focused);
+ 
+@@ -886,7 +1020,8 @@ static void render_containers_stacked(struct sway_output *output,
+ 
+ 		int y = parent->box.y + titlebar_height * i;
+ 		render_titlebar(output, damage, child, parent->box.x, y,
+-				parent->box.width, colors, title_texture, marks_texture);
++				parent->box.width, colors, title_texture,
++				marks_texture);
+ 
+ 		if (child == current) {
+ 			current_colors = colors;
+@@ -959,6 +1094,7 @@ static void render_workspace(struct sway_output *output,
+ 		.active_child = ws->current.focused_inactive_child,
+ 	};
+ 	render_containers(output, damage, &data);
++	render_border_textures_for_workspace(output, damage, ws);
+ }
+ 
+ static void render_floating_container(struct sway_output *soutput,
+diff --git a/sway/meson.build b/sway/meson.build
+index 5f34ce6b..19923b49 100644
+--- a/sway/meson.build
++++ b/sway/meson.build
+@@ -44,6 +44,7 @@ sway_sources = files(
+ 	'commands/bar.c',
+ 	'commands/bind.c',
+ 	'commands/border.c',
++	'commands/border_images.c',
+ 	'commands/client.c',
+ 	'commands/create_output.c',
+ 	'commands/default_border.c',
+diff --git a/sway/tree/container.c b/sway/tree/container.c
+index 09766ce5..697845a9 100644
+--- a/sway/tree/container.c
++++ b/sway/tree/container.c
+@@ -560,8 +560,8 @@ static void render_titlebar_text_texture(struct sway_output *output,
+ 	unsigned char *data = cairo_image_surface_get_data(surface);
+ 	int stride = cairo_image_surface_get_stride(surface);
+ 	struct wlr_renderer *renderer = output->wlr_output->renderer;
+-	*texture = wlr_texture_from_pixels(
+-			renderer, DRM_FORMAT_ARGB8888, stride, width, height, data);
++	*texture = wlr_texture_from_pixels(renderer, WL_SHM_FORMAT_ARGB8888, stride, width, height, data);
++
+ 	cairo_surface_destroy(surface);
+ 	g_object_unref(pango);
+ 	cairo_destroy(cairo);
+-- 
+2.35.1
+
