@@ -452,34 +452,6 @@
 
     package = inputs.nixpkgs-wayland.packages.${system}.sway-unwrapped.overrideAttrs (old: {
       __contentAddressed = true;
-      src = inputs.sway-borders;
-
-      patches = (old.patches or [ ]) ++ [
-        ./0001-Add-basic-border-texture-support.patch
-        ./0002-Add-initial-README-and-docs.patch
-        ./0003-Add-border-image-samples.patch
-        ./0004-Improve-README.md-formatting.patch
-        ./0005-Create-border-image-samples-README.md.patch
-        ./0006-Add-more-planned-features.patch
-        ./0007-Fix-border-rendering-for-non-floating-containers.patch
-        ./0008-Update-README.md-and-contrib.patch
-        ./0009-Fix-use-of-hyphen-instead-of-underscore.patch
-        ./0010-render-Fix-passing-the-wrong-param-to.patch
-        ./0011-Update-GitHub-issue-templates-and-config.patch
-        ./0012-Fix-segfault-related-to-getting-texture-dimensions.patch
-        ./0013-Remove-split-border-image-contrib-script.patch
-        ./0014-Use-path-expansion-and-access-checks-for-border-imag.patch
-        ./0015-Add-border-texture-class-usage.patch
-        ./0016-Rework-border-texture-rendering-order-fixes-3.patch
-        ./0017-Update-packaging-status.patch
-        ./0018-adding-narrower-shadow-image.patch
-        ./0019-Updating-README-to-include-new-shadow-image.patch
-        ./0020-replacing-contrib-shadow-border-with-thinner-version.patch
-        ./0021-Replace-WL_SHM_FORMAT-with-DRM_FORMAT-sway-master.patch
-        ./0022-Fix-tabbed-layout-crash.patch
-        ./0023-Update-readme-border_images-example-to-use-direct-im.patch
-        ./0024-Remove-call-to-wlr_backend_get_renderer.patch
-      ];
     });
 
     config = with config.colorscheme.colors; rec {
@@ -586,10 +558,10 @@
       ''
         exec_always i3a-master-stack --stack dwm --stack-size 47
 
-        border_images.unfocused ${borderImage}
-        border_images.focused ${borderImage}
-        border_images.focused_inactive ${borderImage}
-        border_images.urgent ${borderImage}
+        # border_images.unfocused ${borderImage}
+        # border_images.focused ${borderImage}
+        # border_images.focused_inactive ${borderImage}
+        # border_images.urgent ${borderImage}
 
         mode passthrough bindsym Mod1+p mode default
       '';

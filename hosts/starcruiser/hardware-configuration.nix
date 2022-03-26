@@ -16,7 +16,7 @@
 
   fileSystems."/" =
     {
-      device = "/dev/disk/by-uuid/15983e6b-888f-49eb-80ce-6516a57a795e";
+      device = "/dev/disk/by-uuid/c37a2aaf-8f42-407b-b346-1da1f6b2af18";
       fsType = "ext4";
     };
 
@@ -27,7 +27,7 @@
     };
 
   swapDevices =
-    [{ device = "/dev/disk/by-uuid/94810a3f-ac8f-483b-8098-c7b259b9726e"; }];
+    [{ device = "/dev/disk/by-uuid/76a215a0-f812-4f73-84cd-3b545c4fc250"; }];
 
   # The global useDHCP flag is deprecated, therefore explicitly set to false here.
   # Per-interface useDHCP will be mandatory in the future, so this generated config
