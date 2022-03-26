@@ -15,7 +15,7 @@
 
 Get the latest NixOS 22.05 image [[https://releases.nixos.org/?prefix=nixos/unstable/][here]], do your partitions (root must be mounted at =/mnt=), then run the following commands
 #+begin_src sh
-  # move the output file of this to hosts/superfluous/hardware-configuration.nix
+  # move the output file of this to hosts/*/hardware-configuration.nix
   nixos-generate-config
 
   nix-shell -p git nixUnstable
@@ -27,6 +27,7 @@ Get the latest NixOS 22.05 image [[https://releases.nixos.org/?prefix=nixos/unst
 
  * You probably should replace [[https://github.com/fortuneteller2k/nix-config/blob/master/hosts/superfluous/hardware-configuration.nix][hosts/superfluous/hardware-configuration.nix]] with your own with =nixos-generate-config=.
  * You might want to change all instances of my username to yours.
+ * Comment out every =__contentAddressed = true;= in =hosts=.
  * You might want to disable =agenix=, for my secret cannot be decrypted without my private key. See [[https://github.com/fortuneteller2k/nix-config/blob/master/hosts/superfluous/default.nix][hosts/superfluous/default.nix]] and [[https://github.com/fortuneteller2k/nix-config/blob/master/users/fortuneteller2k/config/zsh/default.nix][users/fortuneteller2k/config/zsh/default.nix]].
 
 ** Description
