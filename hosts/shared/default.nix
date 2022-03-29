@@ -182,7 +182,10 @@
     };
   };
 
-  time.timeZone = "Asia/Manila";
+  time = {
+    hardwareClockInLocalTime = true;
+    timeZone = "Asia/Manila";
+  };
 
   users.users.fortuneteller2k = {
     isNormalUser = true;
