@@ -311,7 +311,7 @@
       '';
 
       plugins = [{ name = "fast-syntax-highlighting"; src = inputs.zsh-f-sy-h; }];
-      shellAliases = import ./config/sh-aliases.nix;
+      shellAliases = import ../shared/sh-aliases.nix;
     };
   };
 

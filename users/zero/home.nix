@@ -59,6 +59,11 @@
       ]);
     };
 
+    exa = {
+      enable = true;
+      enableAliases = true;
+    };
+
     # We don't want to enable it, just set the package so it's convenient for us to use.
     neovim.package = inputs.neovim.packages.${system}.neovim.overrideAttrs (_: {
       __contentAddressed = true;
@@ -86,7 +91,7 @@
       '';
 
       plugins = [{ name = "fast-syntax-highlighting"; src = inputs.zsh-f-sy-h; }];
-      shellAliases = import ./config/sh-aliases.nix;
+      shellAliases = import ../shared/sh-aliases.nix;
     };
   };
 
