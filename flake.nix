@@ -16,6 +16,7 @@
     neovim.url = "github:neovim/neovim?dir=contrib";
     nix.url = "github:nixos/nix";
     nix-colors.url = "github:Misterio77/nix-colors";
+    nixos-wsl.url = "github:nix-community/nixos-wsl";
     nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
     nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
 
@@ -42,7 +43,7 @@
     nixpkgs-wayland.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, agenix, home, nixpkgs, discocss, nix-colors, ... }@inputs:
+  outputs = { self, agenix, home, nixpkgs, discocss, nix-colors, nixos-wsl, ... }@inputs:
     let
       config = {
         allowBroken = true;
@@ -86,20 +87,33 @@
       ++ (importNixFiles ./overlays);
     in
     {
-      nixosConfigurations.superfluous = import ./hosts/superfluous {
-        inherit config nixpkgs agenix overlays inputs;
+      nixosConfigurations = {
+        superfluous = import ./hosts/superfluous {
+          inherit config nixpkgs agenix overlays inputs;
+        };
+
+        starcruiser = import ./hosts/starcruiser {
+          inherit config nixpkgs agenix overlays inputs;
+        };
+
+        turncoat = import ./hosts/turncoat {
+          inherit config nixpkgs nixos-wsl agenix overlays inputs;
+        };
       };
 
-      nixosConfigurations.starcruiser = import ./hosts/starcruiser {
-        inherit config nixpkgs agenix overlays inputs;
-      };
+      homeConfigurations = {
+        fortuneteller2k = import ./users/fortuneteller2k {
+          inherit config nixpkgs home discocss nix-colors overlays inputs;
+        };
 
-      homeConfigurations.fortuneteller2k = import ./users/fortuneteller2k {
-        inherit config nixpkgs home discocss nix-colors overlays inputs;
+        zero = import ./users/zero {
+          inherit config nixpkgs home overlays inputs;
+        };
       };
 
       # Easier `nix build`-ing of configurations
       superfluous = self.nixosConfigurations.superfluous.config.system.build.toplevel;
       starcruiser = self.nixosConfigurations.starcruiser.config.system.build.toplevel;
+      turncoat = self.nixosConfigurations.turncoat.config.system.build.toplevel;
     };
 }
