@@ -18,7 +18,23 @@ require("packer").startup(function()
   use "LnL7/vim-nix"
 
   use {
-    "joshdick/onedark.vim",
-    config = function() vim.cmd "colorscheme onedark" end
+    "marko-cerovac/material.nvim",
+
+    config = function()
+      vim.g.material_style = "darker"
+
+      require("material").setup({
+        italics = {
+          comments = true
+	},
+
+        high_visibility = {
+          lighter = false,
+	  darker = true
+	},
+      })
+
+      vim.cmd "colorscheme material"
+    end
   }
 end)
