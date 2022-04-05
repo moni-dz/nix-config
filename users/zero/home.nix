@@ -12,6 +12,7 @@
       inherit (pkgs) neofetch;
       inherit (inputs.agenix.packages.${system}) agenix;
       inherit (config.programs.neovim) package;
+      inherit (inputs.statix.packages.${system}) statix;
     };
 
     sessionVariables = {

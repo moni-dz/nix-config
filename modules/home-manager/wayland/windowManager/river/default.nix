@@ -91,7 +91,7 @@ in
         type = types.submodule {
           options = {
             color = mkOption {
-              type = (types.submodule {
+              type = types.submodule {
                 options = {
                   focused = mkOption {
                     type = types.str;
@@ -111,7 +111,7 @@ in
                     description = "Urgent border color.";
                   };
                 };
-              });
+              };
             };
 
             width = mkOption {
@@ -130,7 +130,7 @@ in
       };
 
       layoutGenerator = mkOption {
-        type = (types.submodule {
+        type = types.submodule {
           options = {
             name = mkOption {
               type = types.str;
@@ -144,7 +144,7 @@ in
               description = "Arguments passed to the layout generator.";
             };
           };
-        });
+        };
       };
 
       repeatRate = mkOption {

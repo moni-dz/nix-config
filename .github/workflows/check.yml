@@ -14,4 +14,4 @@ jobs:
         install_url: https://github.com/numtide/nix-unstable-installer/releases/download/nix-2.4pre20210604_8e6ee1b/install
         extra_nix_config: |
           experimental-features = ca-derivations nix-command flakes
-    - run: nix flake check
+    - run: nix profile install nixpkgs#statix && nix flake check && statix check ./

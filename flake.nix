@@ -19,6 +19,7 @@
     nixos-wsl.url = "github:nix-community/nixos-wsl";
     nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
     nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
+    statix.url = "github:nerdypepper/statix";
 
     # Nixpkgs branches
     master.url = "github:nixos/nixpkgs/master";
@@ -38,9 +39,11 @@
     neovim.inputs.nixpkgs.follows = "nixpkgs";
     nix.inputs.nixpkgs.follows = "nixpkgs";
     nix-colors.inputs.nixpkgs.follows = "nixpkgs";
+    nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
     nixpkgs-f2k.inputs.nixpkgs.follows = "nixpkgs";
     nixpkgs-f2k.inputs.nixpkgs-wayland.follows = "nixpkgs-wayland";
     nixpkgs-wayland.inputs.nixpkgs.follows = "nixpkgs";
+    statix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { self, agenix, home, nixpkgs, discocss, nix-colors, nixos-wsl, ... }@inputs:
@@ -64,7 +67,7 @@
 
       overlays = with inputs; [
         (final: _:
-          let system = final.system; in
+          let inherit (final) system; in
           {
             /*
               Nixpkgs branches

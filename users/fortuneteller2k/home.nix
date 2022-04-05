@@ -160,7 +160,7 @@
     emacs = {
       enable = true;
 
-      package = (pkgs.emacsWithPackagesFromUsePackage {
+      package = pkgs.emacsWithPackagesFromUsePackage {
         package = pkgs.emacsPgtkGcc;
         config = ./config/emacs/init.el;
 
@@ -199,7 +199,7 @@
           super-save
           which-key
         ];
-      });
+      };
     };
 
     exa = {
