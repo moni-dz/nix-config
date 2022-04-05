@@ -22,6 +22,8 @@ Get the latest NixOS 22.05 image [[https://releases.nixos.org/?prefix=nixos/unst
   git clone https://github.com/fortuneteller2k/nix-config ~
   cd ~
   sudo nixos-install --flake '.#superfluous'
+
+  # After rebooting
   home-manager switch --flake '.#fortuneteller2k'
 #+end_src
 
