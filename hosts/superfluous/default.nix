@@ -17,6 +17,12 @@ nixpkgs.lib.nixosSystem rec {
 
       nix = import ../../nix-settings.nix { inherit inputs system nixpkgs; };
       nixpkgs = { inherit config overlays; };
+
+      /*
+        NOTE: DO NOT CHANGE THIS IF YOU DON'T KNOW WHAT YOU'RE DOING.
+        Only change this if you are ABSOLUTELY 100% SURE that you don't have stateful data.
+      */
+      system.stateVersion = "21.05";
     }
 
     ./configuration.nix

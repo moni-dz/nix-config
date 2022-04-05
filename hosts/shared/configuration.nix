@@ -118,6 +118,71 @@
     binsh = "${pkgs.zsh}/bin/zsh";
     pathsToLink = [ "/share/zsh" ];
     shells = with pkgs; [ zsh ];
+
+    # Font packages should go in `fonts.fonts` a few lines below this.
+    systemPackages = lib.attrValues {
+      inherit (pkgs)
+        coreutils
+        curl
+        fd
+        home-manager
+        man-pages
+        man-pages-posix
+        ripgrep
+        wget;
+
+      git = pkgs.git.overrideAttrs (_: { __contentAddressed = true; });
+      svn = pkgs.subversion.overrideAttrs (_: { __contentAddressed = true; });
+    };
+  };
+
+  fonts = {
+    fonts = lib.attrValues {
+      inherit (pkgs)
+        emacs-all-the-icons-fonts
+        fantasque-sans-mono
+        # NOTE: use only when current is outdated
+        # iosevka-ft
+        # iosevka-ft-qp
+        sarasa-gothic
+        symbola
+        terminus_font
+        twemoji-color-font;
+
+      inherit (inputs.nixpkgs-f2k.packages.${system})
+        iosevka-ft-bin
+        iosevka-ft-qp-bin;
+
+      nerdfonts = pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" "Iosevka" ]; };
+    };
+
+    fontconfig = {
+      enable = true;
+
+      defaultFonts = {
+        serif = [
+          "Sarasa Gothic C"
+          "Sarasa Gothic J"
+          "Sarasa Gothic K"
+        ];
+
+        sansSerif = [
+          "Sarasa Gothic C"
+          "Sarasa Gothic J"
+          "Sarasa Gothic K"
+        ];
+
+        monospace = [
+          "Iosevka FT"
+          "Iosevka Nerd Font"
+          "Sarasa Mono C"
+          "Sarasa Mono J"
+          "Sarasa Mono K"
+        ];
+
+        emoji = [ "Twitter Color Emoji" ];
+      };
+    };
   };
 
   i18n = {
@@ -125,6 +190,7 @@
     supportedLocales = [ "en_US.UTF-8/UTF-8" ];
   };
 
+  networking.nameservers = [ "1.1.1.1" "1.0.0.1" "8.8.8.8" "8.8.4.4" ];
   powerManagement.cpuFreqGovernor = "performance";
 
   programs = {

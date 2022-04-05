@@ -9,7 +9,10 @@
 {
   home = {
     packages = lib.attrValues {
-      inherit (pkgs) neofetch;
+      inherit (pkgs)
+        neofetch
+        nixpkgs-fmt;
+
       inherit (inputs.agenix.packages.${system}) agenix;
       inherit (config.programs.neovim) package;
       inherit (inputs.statix.packages.${system}) statix;

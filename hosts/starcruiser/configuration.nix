@@ -12,7 +12,7 @@
     ./hardware-configuration.nix
 
     # Shared configuration across all machines
-    ../shared
+    ../shared/configuration.nix
 
     # Append your custom NixOS modules in this list
     ../../modules/nixos/programs/river.nix
@@ -39,18 +39,10 @@
     };
   };
 
-  # Font packages should go in fonts.fonts a few lines below this.
+  # Font packages should go in fonts.fonts in ../shared/configuration.nix.
   environment.systemPackages = lib.attrValues {
     inherit (pkgs)
-      brightnessctl
-      coreutils
-      curl
-      dash
-      fd
       file
-      home-manager
-      man-pages
-      man-pages-posix
       ntfs3g
       pavucontrol
       pulseaudio
@@ -58,70 +50,14 @@
       util-linux
       unrar
       unzip
-      wget
       xarchiver
       zip;
 
     inherit (pkgs.qt5) qtwayland;
     inherit (pkgs.gnome3) nautilus;
-
-    git = pkgs.git.overrideAttrs (_: { __contentAddressed = true; });
-    subversion = pkgs.subversion.overrideAttrs (_: { __contentAddressed = true; });
   };
 
-  fonts = {
-    fonts = lib.attrValues {
-      inherit (pkgs)
-        emacs-all-the-icons-fonts
-        fantasque-sans-mono
-        # NOTE: use only when current is outdated
-        # iosevka-ft
-        # iosevka-ft-qp
-        sarasa-gothic
-        symbola
-        terminus_font
-        twemoji-color-font;
-
-      inherit (inputs.nixpkgs-f2k.packages.${system})
-        iosevka-ft-bin
-        iosevka-ft-qp-bin;
-
-      nerdfonts = pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" "Iosevka" ]; };
-    };
-
-    fontconfig = {
-      enable = true;
-
-      defaultFonts = {
-        serif = [
-          "Sarasa Gothic C"
-          "Sarasa Gothic J"
-          "Sarasa Gothic K"
-        ];
-
-        sansSerif = [
-          "Sarasa Gothic C"
-          "Sarasa Gothic J"
-          "Sarasa Gothic K"
-        ];
-
-        monospace = [
-          "Iosevka FT"
-          "Iosevka Nerd Font"
-          "Sarasa Mono C"
-          "Sarasa Mono J"
-          "Sarasa Mono K"
-        ];
-
-        emoji = [ "Twitter Color Emoji" ];
-      };
-    };
-  };
-
-  networking = {
-    hostName = "starcruiser";
-    nameservers = [ "1.1.1.1" "1.0.0.1" "8.8.8.8" "8.8.4.4" ];
-  };
+  networking.hostName = "starcruiser";
 
   services.greetd = {
     enable = true;
@@ -135,13 +71,6 @@
       };
     };
   };
-
-  /*
-    NOTE: DO NOT CHANGE THIS IF YOU DON'T KNOW WHAT YOU'RE DOING.
-
-    Only change this if you are ABSOLUTELY 100% SURE that you don't have stateful data.
-  */
-  system.stateVersion = "22.05";
 
   xdg.portal = {
     enable = true;
