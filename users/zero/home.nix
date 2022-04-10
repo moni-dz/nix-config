@@ -13,6 +13,7 @@
         neofetch
         nixpkgs-fmt;
 
+      inherit (pkgs.gitAndTools) gh;
       inherit (inputs.agenix.packages.${system}) agenix;
       inherit (config.programs.neovim) package;
       inherit (inputs.statix.packages.${system}) statix;
