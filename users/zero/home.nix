@@ -11,7 +11,8 @@
     packages = lib.attrValues {
       inherit (pkgs)
         neofetch
-        nixpkgs-fmt;
+        nixpkgs-fmt
+        nixpkgs-review;
 
       inherit (pkgs.gitAndTools) gh;
       inherit (inputs.agenix.packages.${system}) agenix;
