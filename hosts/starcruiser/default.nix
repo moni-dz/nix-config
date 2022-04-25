@@ -15,7 +15,11 @@ nixpkgs.lib.nixosSystem rec {
         mode = "0444";
       };
 
-      nix = import ../../nix-settings.nix { inherit inputs system nixpkgs; };
+      nix = import ../../nix-settings.nix {
+        inherit inputs system nixpkgs;
+        max-jobs = 12;
+      };
+
       nixpkgs = { inherit config overlays; };
 
       /*
