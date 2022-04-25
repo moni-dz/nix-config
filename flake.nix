@@ -18,6 +18,7 @@
     nix-colors.url = "github:Misterio77/nix-colors";
     nixos-wsl.url = "github:nix-community/nixos-wsl";
     nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
+    nixpkgs-fmt.url = "github:nix-community/nixpkgs-fmt";
     nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
     statix.url = "github:nerdypepper/statix";
 
@@ -118,16 +119,13 @@
       superfluous = self.nixosConfigurations.superfluous.config.system.build.toplevel;
       starcruiser = self.nixosConfigurations.starcruiser.config.system.build.toplevel;
       turncoat = self.nixosConfigurations.turncoat.config.system.build.toplevel;
+
+      # Default formatter for the entire repo
+      formatter.x86_64-linux = inputs.nixpkgs-fmt.defaultPackage.x86_64-linux;
     };
 
-  nixConfig = rec {
-    accept-flake-config = true;
-
-    extraOptions = ''
-      experimental-features = ca-derivations nix-command flakes
-      keep-outputs = true
-      keep-derivations = true
-    '';
+  nixConfig = {
+    commit-lockfile-summary = "flake: bump inputs";
 
     substituters = [
       "https://cache.nixos.org?priority=10"
@@ -136,16 +134,5 @@
       "https://nixpkgs-wayland.cachix.org"
       "https://fortuneteller2k.cachix.org"
     ];
-
-    trusted-public-keys = [
-      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-      "cache.ngi0.nixos.org-1:KqH5CBLNSyX184S9BKZJo1LxrxJ9ltnY2uAs5c/f1MA="
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
-      "fortuneteller2k.cachix.org-1:kXXNkMV5yheEQwT0I4XYh1MaCSz+qg72k8XAi2PthJI="
-    ];
-
-    trusted-substituters = substituters;
-    trusted-users = [ "root" "fortuneteller2k" "zero" ];
   };
 }

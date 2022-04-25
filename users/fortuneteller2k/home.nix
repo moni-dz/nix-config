@@ -8,6 +8,14 @@
   - Appendix A. Configuration Options: https://rycee.gitlab.io/home-manager/options.html
 */
 {
+  imports = [
+    # Append your custom home-manager modules in this list
+    ../../modules/home-manager/wayland/windowManager/river
+
+    # Shared configuration across all users
+    ../shared/home.nix
+  ];
+
   colorscheme = inputs.nix-colors.colorSchemes.material-darker;
 
   fonts.fontconfig.enable = true;
@@ -64,8 +72,6 @@
         libimobiledevice
         libirecovery
         networkmanager_dmenu
-        nixpkgs-fmt
-        nixpkgs-review
         notify-desktop
         nvd
         rnix-lsp
@@ -73,7 +79,6 @@
         xdg_utils;
 
       inherit (pkgs.nodePackages) insect;
-      inherit (pkgs.gitAndTools) gh;
       inherit (pkgs.sway-contrib) grimshot;
       inherit (inputs.agenix.packages.${system}) agenix;
 
@@ -88,7 +93,6 @@
         wlogout;
 
       inherit (inputs.i3a.legacyPackages.${system}) i3a;
-      inherit (config.programs.neovim) package;
 
       palette = pkgs.writers.writeDashBin "palette" (import ./scripts/palette.nix);
 
@@ -116,19 +120,12 @@
     sessionVariables = with config.colorscheme.colors; {
       BEMENU_OPTS = "-H 18 -l 5 --fn 'Iosevka FT QP Light 10.5' --tb '#${base0D}' --tf '#${base02}' --hb '#${base0D}' --hf '#${base02}' --nb '#${base02}' --fb '#${base02}'";
       BROWSER = "${pkgs.brave}/bin/brave";
-      EDITOR = "${config.programs.neovim.package}/bin/nvim";
       GOPATH = "${config.home.homeDirectory}/Extras/go";
-      MANPAGER = "${config.programs.neovim.package}/bin/nvim +Man! -c 'nnoremap i <nop>'";
       QT_QPA_PLATFORMTHEME = "qt5ct";
       RUSTUP_HOME = "${config.home.homeDirectory}/.local/share/rustup";
       XCURSOR_SIZE = "16";
     };
   };
-
-  imports = [
-    # Append your custom home-manager modules in this list
-    ../../modules/home-manager/wayland/windowManager/river
-  ];
 
   programs = {
     alacritty = {
@@ -140,16 +137,7 @@
       };
     };
 
-    dircolors = {
-      enable = true;
-      settings = pkgs.lib.mkForce { };
-      extraConfig = import ./config/dircolors.nix;
-    };
 
-    direnv = {
-      enable = true;
-      nix-direnv.enable = true;
-    };
 
     discocss = {
       enable = true;
@@ -202,65 +190,13 @@
       };
     };
 
-    exa = {
-      enable = true;
-      enableAliases = true;
-    };
-
     foot = {
       enable = false;
       server.enable = true;
       settings = import ./config/foot.nix { inherit (config) colorscheme; };
     };
 
-    home-manager.enable = true;
 
-    htop = {
-      enable = true;
-
-      settings = {
-        detailed_cpu_time = true;
-        hide_kernel_threads = false;
-        show_cpu_frequency = true;
-        show_cpu_usage = true;
-        show_program_path = false;
-        show_thread_names = true;
-
-        fields = with config.lib.htop.fields; [
-          PID
-          USER
-          PRIORITY
-          NICE
-          M_SIZE
-          M_RESIDENT
-          M_SHARE
-          STATE
-          PERCENT_CPU
-          PERCENT_MEM
-          TIME
-          COMM
-        ];
-      } // (with config.lib.htop; leftMeters [
-        (bar "AllCPUs")
-        (bar "Memory")
-        (bar "Swap")
-      ]) // (with config.lib.htop; rightMeters [
-        (bar "Zram")
-        (text "Tasks")
-        (text "LoadAverage")
-        (text "Uptime")
-      ]);
-    };
-
-    # We don't want to enable it, just set the package so it's convenient for us to use.
-    neovim.package = inputs.neovim.packages.${system}.neovim.overrideAttrs (_: {
-      __contentAddressed = true;
-    });
-
-    starship = {
-      enable = true;
-      settings = import ./config/starship.nix;
-    };
 
     waybar = {
       enable = true;
@@ -291,28 +227,7 @@
       options = import ./config/zathura.nix { inherit (config) colorscheme; };
     };
 
-    zsh = {
-      enable = true;
-      autocd = true;
-      enableAutosuggestions = true;
-      completionInit = "autoload -U compinit && compinit -d ${config.programs.zsh.dotDir}/zcompdump";
-      dotDir = ".config/zsh";
 
-      history = {
-        expireDuplicatesFirst = true;
-        extended = true;
-        path = "${config.programs.zsh.dotDir}/zsh_history";
-        save = 50000;
-      };
-
-      initExtra = ''
-        # You should comment this out, this is useless without my private key
-        . /run/agenix/github-token
-      '';
-
-      plugins = [{ name = "fast-syntax-highlighting"; src = inputs.zsh-f-sy-h; }];
-      shellAliases = import ../shared/sh-aliases.nix;
-    };
   };
 
   services = {
@@ -359,7 +274,6 @@
       };
   };
 
-  systemd.user.startServices = "sd-switch";
 
   wayland.windowManager.river = {
     enable = false;
@@ -583,8 +497,6 @@
   };
 
   xdg = {
-    enable = true;
-
     configFile = {
       "emacs" = {
         recursive = true;
@@ -616,18 +528,6 @@
         iconsDirectory =
           let inherit (inputs.nixpkgs-wayland.packages.${system}) wlogout;
           in "${wlogout}/share/wlogout/icons";
-      };
-    };
-
-    dataFile = {
-      "nvim/site/pack/packer/start/impatient.nvim" = {
-        recursive = true;
-        source = inputs.impatient-nvim;
-      };
-
-      "nvim/site/pack/packer/start/packer.nvim" = {
-        recursive = true;
-        source = inputs.packer-nvim;
       };
     };
 
