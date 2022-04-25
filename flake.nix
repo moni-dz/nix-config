@@ -121,7 +121,7 @@
       turncoat = self.nixosConfigurations.turncoat.config.system.build.toplevel;
 
       # Default formatter for the entire repo
-      formatter.x86_64-linux = inputs.nixpkgs-fmt.defaultPackage.x86_64-linux;
+      formatter = nixpkgs.lib.genAttrs [ "x86_64-linux" ] (system: inputs.nixpkgs-fmt.defaultPackage.${system});
     };
 
   nixConfig = {

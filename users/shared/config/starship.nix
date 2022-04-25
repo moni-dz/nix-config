@@ -15,11 +15,9 @@
     disabled = true;
   };
 
+  git_branch.symbol = "";
   battery.disabled = true;
-
   line_break.disabled = true;
   directory.format = "[$path]($style) [$read_only]($read_only_style)";
-  nix_shell.symbol = "🌨  ";
-  nodejs.symbol = " ";
-  package.symbol = "📦  ";
+  nix_shell.symbol = "(nix shell)";
 }

@@ -31,7 +31,7 @@
 
   settings = {
     accept-flake-config = true;
-    max-jobs = max-jobs;
+    inherit max-jobs;
 
     # home-manager will attempt to rebuild the world otherwise...
     trusted-substituters = [
