@@ -33,6 +33,8 @@ nixpkgs.lib.nixosSystem rec {
       };
 
       nixpkgs = { inherit config overlays; };
+
+      system.stateVersion = "22.05";
     }
 
     ./configuration.nix
