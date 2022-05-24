@@ -20,12 +20,6 @@ nixpkgs.lib.nixosSystem rec {
         };
       };
 
-      wsl = {
-        enable = true;
-        automountPath = "/mnt";
-        defaultUser = "zero";
-        startMenuLaunchers = true;
-      };
 
       nix = import ../../nix-settings.nix {
         inherit inputs system nixpkgs;
@@ -33,8 +27,15 @@ nixpkgs.lib.nixosSystem rec {
       };
 
       nixpkgs = { inherit config overlays; };
-
       system.stateVersion = "22.05";
+
+      wsl = {
+        enable = true;
+        automountPath = "/mnt";
+        defaultUser = "zero";
+        startMenuLaunchers = true;
+        wslConf.network.hostname = "turncoat";
+      };
     }
 
     ./configuration.nix

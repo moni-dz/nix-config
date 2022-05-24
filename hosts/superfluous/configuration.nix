@@ -83,7 +83,6 @@
 
   networking = {
     dhcpcd.enable = false;
-    hostName = "superfluous";
 
     # Replace with your interface names.
     interfaces = {

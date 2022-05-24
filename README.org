@@ -20,7 +20,7 @@ Get the latest NixOS 22.05 image [[https://releases.nixos.org/?prefix=nixos/unst
 
   nix-shell -p git nixUnstable
   git clone https://github.com/fortuneteller2k/nix-config ~
-  cd ~
+  cd ~/nix-config
   sudo nixos-install --flake '.#superfluous'
 
   # After rebooting
@@ -31,7 +31,7 @@ For WSL, follow the [[https://github.com/nix-community/NixOS-WSL#quick-start][qu
 #+begin_src sh
   nix shell nixpkgs#git
   git clone https://github.com/fortuneteller2k/nix-config ~
-  cd ~
+  cd ~/nix-config
   sudo nixos-rebuild switch --flake '.#turncoat'
   home-manager switch --flake '.#zero'
 #+end_src

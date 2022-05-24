@@ -21,6 +21,7 @@ nixpkgs.lib.nixosSystem rec {
       };
 
       nixpkgs = { inherit config overlays; };
+      networking.hostName = "starcruiser";
 
       /*
         NOTE: DO NOT CHANGE THIS IF YOU DON'T KNOW WHAT YOU'RE DOING.

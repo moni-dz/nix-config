@@ -64,8 +64,6 @@
     inherit (pkgs.gnome3) nautilus;
   };
 
-  networking.hostName = "starcruiser";
-
   services.greetd = {
     enable = true;
 
