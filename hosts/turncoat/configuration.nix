@@ -3,6 +3,8 @@
 {
   imports = [ "${modulesPath}/profiles/minimal.nix" ];
 
+  hardware.opengl.enable = true;
+
   environment.systemPackages = with pkgs; [
     git
     home-manager

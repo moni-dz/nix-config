@@ -27,6 +27,7 @@ nixpkgs.lib.nixosSystem rec {
       };
 
       nixpkgs = { inherit config overlays; };
+      networking.hostName = "turncoat";
       system.stateVersion = "22.05";
 
       wsl = {
