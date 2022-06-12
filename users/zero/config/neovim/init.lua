@@ -18,23 +18,12 @@ require("packer").startup(function()
   use "LnL7/vim-nix"
 
   use {
-    "marko-cerovac/material.nvim",
+    "sainnhe/everforest",
 
     config = function()
-      vim.g.material_style = "darker"
-
-      require("material").setup({
-        italics = {
-          comments = true
-	},
-
-        high_visibility = {
-          lighter = false,
-	  darker = true
-	},
-      })
-
-      vim.cmd "colorscheme material"
+      vim.g["everforest_background"] = "soft"
+      vim.g["everforest_better_performance"] = 1
+      vim.cmd "colorscheme everforest"
     end
   }
 end)
