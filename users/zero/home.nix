@@ -14,7 +14,7 @@
 
   home = {
     packages = lib.attrValues {
-      inherit (pkgs) pfetch;
+      inherit (pkgs) ripgrep pfetch;
     };
   };
 

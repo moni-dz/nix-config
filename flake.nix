@@ -53,12 +53,13 @@
         allowBroken = true;
         allowUnfree = true;
         tarball-ttl = 0;
+
         /*
           NOTE: experimental option, disable if you don't know what this does
 
           See https://github.com/NixOS/rfcs/pull/62 for more information.
         */
-        contentAddressedByDefault = false;
+        contentAddressedByDefault = true;
       };
 
       filterNixFiles = k: v: v == "regular" && nixpkgs.lib.hasSuffix ".nix" k;

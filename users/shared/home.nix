@@ -76,9 +76,7 @@
     };
 
     # We don't want to enable it, just set the package so it's convenient for us to use.
-    neovim.package = inputs.neovim.packages.${system}.neovim.overrideAttrs (_: {
-      __contentAddressed = true;
-    });
+    neovim.package = inputs.neovim.packages.${system}.neovim;
 
     starship = {
       enable = true;
