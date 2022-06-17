@@ -10,6 +10,7 @@
     experimental-features = ca-derivations nix-command flakes
     keep-outputs = true
     keep-derivations = true
+    http-connections = 0
   '';
 
   nixPath =
