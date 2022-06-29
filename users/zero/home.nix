@@ -12,10 +12,19 @@
     ../shared/home.nix
   ];
 
-  home = {
+  home = rec {
     packages = lib.attrValues {
       inherit (pkgs) ripgrep pfetch;
     };
+
+    username = "zero";
+    homeDirectory = "/home/${username}";
+
+    /*
+      NOTE: DO NOT CHANGE THIS IF YOU DON'T KNOW WHAT YOU'RE DOING.
+      Only change this if you are ABSOLUTELY 100% SURE that you don't have stateful data.
+    */
+    stateVersion = "21.11";
   };
 
   xdg.configFile."nvim" = {
