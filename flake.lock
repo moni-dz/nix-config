@@ -645,11 +645,11 @@
         "wezterm-git-src": "wezterm-git-src"
       },
       "locked": {
-        "lastModified": 1657025267,
-        "narHash": "sha256-/Qv42d0jzWF0v0scEvMA3e+HdEWKboLKLN7MJblbhLY=",
+        "lastModified": 1657025537,
+        "narHash": "sha256-UEznDPxL6qisouhDCrSGaNulo8WwNLuiuVEa5z1Dy9I=",
         "owner": "fortuneteller2k",
         "repo": "nixpkgs-f2k",
-        "rev": "dd5b4f93339e8c61e5f508197b366ea3d052144a",
+        "rev": "92a7d685efefd6e9abe75805553d0399327d372f",
         "type": "github"
       },
       "original": {
