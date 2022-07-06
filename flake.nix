@@ -54,6 +54,9 @@
         allowUnfree = true;
         tarball-ttl = 0;
 
+        # XXX: don't do this kids...
+        # replaceStdenv = { pkgs }: pkgs.optimizedV3Stdenv;
+
         /*
           NOTE: experimental option, disable if you don't know what this does
 
@@ -87,6 +90,7 @@
 
         # Overlays provided by inputs
         emacs.overlay
+        inputs.nixpkgs-f2k.overlays.stdenvs
       ]
       # Overlays from ./overlays directory
       ++ (importNixFiles ./overlays);
@@ -107,7 +111,7 @@
       };
 
       homeConfigurations = {
-        fortuneteller2k = import ./users/fortuneteller2k {
+        moni = import ./users/moni {
           inherit config nixpkgs home discocss nix-colors overlays inputs;
         };
 

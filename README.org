@@ -4,7 +4,7 @@
 
 [[assets/nixos-official-logo.png]]
 
-[[https://github.com/nixos/nixpkgs][file:https://img.shields.io/badge/NixOS-22.05-informational?style=flat.svg]]
+[[https://github.com/nixos/nixpkgs][file:https://img.shields.io/badge/NixOS-22.11-informational?style=flat.svg]]
 
 [[https://github.com/fortuneteller2k/nix-config/actions/workflows/check.yml][https://github.com/fortuneteller2k/nix-config/actions/workflows/check.yml/badge.svg]] [[https://github.com/fortuneteller2k/nix-config/actions/workflows/statix.yml][https://github.com/fortuneteller2k/nix-config/actions/workflows/statix.yml/badge.svg]] [[https://github.com/fortuneteller2k/nix-config/actions/workflows/format.yml][https://github.com/fortuneteller2k/nix-config/actions/workflows/format.yml/badge.svg]] 
 
@@ -24,7 +24,7 @@ Get the latest NixOS 22.05 image [[https://releases.nixos.org/?prefix=nixos/unst
   sudo nixos-install --flake '.#superfluous'
 
   # After rebooting
-  home-manager switch --flake '.#fortuneteller2k'
+  home-manager switch --flake '.#moni'
 #+end_src
 
 For WSL, follow the [[https://github.com/nix-community/NixOS-WSL#quick-start][quickstart guide]], then run the following commands:
@@ -41,7 +41,7 @@ For WSL, follow the [[https://github.com/nix-community/NixOS-WSL#quick-start][qu
  * You probably should replace [[https://github.com/fortuneteller2k/nix-config/blob/master/hosts/superfluous/hardware-configuration.nix][hosts/superfluous/hardware-configuration.nix]] with your own with =nixos-generate-config=.
  * You might want to change all instances of my username to yours.
  * Comment out every =__contentAddressed = true;= in =hosts=.
- * You might want to disable =agenix=, for my secret cannot be decrypted without my private key. See [[https://github.com/fortuneteller2k/nix-config/blob/master/hosts/superfluous/default.nix][hosts/superfluous/default.nix]] and [[https://github.com/fortuneteller2k/nix-config/blob/master/users/fortuneteller2k/config/zsh/default.nix][users/fortuneteller2k/config/zsh/default.nix]].
+ * You might want to disable =agenix=, for my secret cannot be decrypted without my private key. See [[https://github.com/fortuneteller2k/nix-config/blob/master/hosts/superfluous/default.nix][hosts/superfluous/default.nix]] and [[https://github.com/fortuneteller2k/nix-config/blob/master/users/moni/config/zsh/default.nix][users/moni/config/zsh/default.nix]].
 
 ** Description
 

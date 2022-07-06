@@ -90,6 +90,22 @@
         "type": "github"
       }
     },
+    "discord-fix": {
+      "locked": {
+        "lastModified": 1657046861,
+        "narHash": "sha256-4ZWtlGhS/HjBags2r9rhkvdaErUJbogKqNLsfEL4n7k=",
+        "owner": "fortuneteller2k",
+        "repo": "nixpkgs",
+        "rev": "af7323d1a8ca96d2cd623e628407223c2fad92a2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "fortuneteller2k",
+        "ref": "discord-fix-override",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "emacs": {
       "inputs": {
         "flake-utils": "flake-utils_2",
@@ -879,6 +895,7 @@
       "inputs": {
         "agenix": "agenix",
         "discocss": "discocss",
+        "discord-fix": "discord-fix",
         "emacs": "emacs",
         "home": "home",
         "i3a": "i3a",

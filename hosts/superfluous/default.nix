@@ -11,7 +11,7 @@ nixpkgs.lib.nixosSystem rec {
       # NOTE: you should either change this or disable it completely by commenting it out
       age.secrets.github-token = {
         file = ../../secrets/github-token.age;
-        owner = "fortuneteller2k";
+        owner = "moni";
         mode = "0444";
       };
 

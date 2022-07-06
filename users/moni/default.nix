@@ -1,4 +1,4 @@
-{ config, nixpkgs, home, overlays, inputs }:
+{ config, nixpkgs, home, discocss, nix-colors, overlays, inputs }:
 
 # See https://github.com/nix-community/home-manager/blob/master/flake.nix#L44 for reference.
 let
@@ -10,7 +10,7 @@ home.lib.homeManagerConfiguration {
       nixpkgs = { inherit config overlays; };
 
       home = rec {
-        username = "zero";
+        username = "moni";
         homeDirectory = "/home/${username}";
 
         /*
@@ -22,6 +22,9 @@ home.lib.homeManagerConfiguration {
       };
     }
 
+    # Extra home-manager modules that aren't upstream
+    discocss.hmModule
+    nix-colors.homeManagerModule
     ./home.nix
   ];
 

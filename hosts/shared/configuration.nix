@@ -253,9 +253,9 @@
     timeZone = "Asia/Manila";
   };
 
-  users.users.fortuneteller2k = {
+  users.users.moni = {
     isNormalUser = true;
-    home = "/home/fortuneteller2k";
+    home = "/home/moni";
     shell = pkgs.zsh;
 
     extraGroups = [

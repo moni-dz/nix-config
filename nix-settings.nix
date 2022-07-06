@@ -51,6 +51,6 @@
       "fortuneteller2k.cachix.org-1:kXXNkMV5yheEQwT0I4XYh1MaCSz+qg72k8XAi2PthJI="
     ];
 
-    trusted-users = [ "root" "fortuneteller2k" "zero" ];
+    trusted-users = [ "root" "moni" "zero" ];
   };
 }

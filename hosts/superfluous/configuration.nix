@@ -108,7 +108,7 @@
 
       initial_session = {
         command = "sway";
-        user = "fortuneteller2k";
+        user = "moni";
       };
     };
   };
