@@ -197,8 +197,9 @@
     bash.interactiveShellInit = ''export HISTFILE=$HOME/.config/.bash_history'';
     command-not-found.enable = false;
     dconf.enable = true;
-    qt5ct.enable = true;
   };
+
+  qt5.platformTheme = "qt5ct";
 
   security.sudo.wheelNeedsPassword = false;
 
