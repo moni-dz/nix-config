@@ -62,7 +62,7 @@
 
           See https://github.com/NixOS/rfcs/pull/62 for more information.
         */
-        contentAddressedByDefault = true;
+        contentAddressedByDefault = false;
       };
 
       filterNixFiles = k: v: v == "regular" && nixpkgs.lib.hasSuffix ".nix" k;
