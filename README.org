@@ -54,7 +54,6 @@ See also:
  * [[https://github.com/nix-community/NixOS-WSL][NixOS-WSL]], for =hosts/turncoat=
 
 Resources and configurations I used to base on:
- * [[https://github.com/hlissner/dotfiles][hlissner/dotfiles]]
  * [[https://github.com/colemickens/nixos-flake-example][colemickens/nixos-flake-example]]
  * [[https://git.sr.ht/~dunklecat/nixos-config/tree/master/flake.nix][dunklecat/nixos-config]]
  * [[https://www.youtube.com/watch?v=UeBX7Ide5a0][Nix Flakes talk by Eelco Dolstra on NixCon]]
