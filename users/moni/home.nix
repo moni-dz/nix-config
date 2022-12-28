@@ -56,6 +56,7 @@
         bemenu
         brave-nightly
         brightnessctl
+        discord-canary
         clang
         celluloid
         ffmpeg
@@ -70,9 +71,9 @@
         libimobiledevice
         libirecovery
         networkmanager_dmenu
+        nil
         notify-desktop
         nvd
-        rnix-lsp
         wayland-utils
         xdragon
         xdg_utils;
@@ -133,8 +134,9 @@
     };
 
     discocss = {
-      enable = true;
+      enable = false;
       discordAlias = true;
+      discordPackage = pkgs.discord-canary;
       css = import ./config/discocss-css.nix { inherit (config) colorscheme; };
     };
 
@@ -188,6 +190,8 @@
       server.enable = true;
       settings = import ./config/foot.nix { inherit (config) colorscheme; };
     };
+
+    ncspot.enable = true;
 
     waybar = {
       enable = true;
@@ -414,11 +418,6 @@
       "networkmanager-dmenu/config.ini".source = (pkgs.formats.ini { }).generate "config.ini" {
         dmenu.dmenu_command = "bemenu ${config.home.sessionVariables.BEMENU_OPTS}";
         editor.terminal = "${pkgs.alacritty}/bin/alacritty";
-      };
-
-      "nvim" = {
-        recursive = true;
-        source = ./config/neovim;
       };
 
       "swaylock/config".text = ''

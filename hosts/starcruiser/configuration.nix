@@ -24,7 +24,15 @@
 
     This machine has a Ryzen 5 3600, and enabling amd_pstate caps my performance to 50%.
   */
-  boot.kernelParams = [ "amd_pstate.shared_mem=1" ];
+  boot = {
+    kernelModules = [ "amd-pstate" ];
+
+    kernelParams = [
+      "amd_pstate=passive"
+      "amd_pstate.shared_mem=1"
+      "initcall_blacklist=acpi_cpufreq_init"
+    ];
+  };
 
   hardware = {
     cpu.amd.updateMicrocode = true;
@@ -40,14 +48,13 @@
 
     nvidia = {
       modesetting.enable = true;
-      package = config.boot.kernelPackages.nvidiaPackages.latest;
+      open = true;
+      package = config.boot.kernelPackages.nvidiaPackages.beta;
     };
 
     opengl = {
       enable = true;
       driSupport = true;
-      extraPackages = with pkgs; [ nvidia-vaapi-driver ];
-      extraPackages32 = with pkgs; [ nvidia-vaapi-driver ];
     };
   };
 

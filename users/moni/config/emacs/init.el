@@ -394,6 +394,11 @@
   (emacs-lisp-mode . aggressive-indent-mode))
 
 ;;;; Nix
+(p! lsp-nix
+  :after (lsp-mode)
+  :custom
+  (lsp-nix-nil-formatter ["nixpkgs-fmt"]))
+
 (p! nix-mode
   :mode "\\.nix\\'"
   :hook
