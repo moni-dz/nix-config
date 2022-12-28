@@ -2,11 +2,11 @@ final: prev: {
   brave-nightly = prev.brave.overrideAttrs (_: rec {
     __contentAddressed = true;
 
-    version = "1.37.40";
+    version = "1.48.91";
 
     src = prev.fetchurl {
       url = "https://github.com/brave/brave-browser/releases/download/v${version}/brave-browser-nightly_${version}_amd64.deb";
-      sha256 = "sha256-XVLYkDYTgk0IgUaR4r/UEKnXXTlgkisIMFlBZ2h3iyk=";
+      sha256 = "sha256-Lh8dhLJP125/Yh/2F0mDvwFN9ab6TqoKtJrPbk+diaQ=";
     };
 
     installPhase =

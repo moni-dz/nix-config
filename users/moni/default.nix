@@ -1,4 +1,4 @@
-{ config, nixpkgs, home, discocss, nix-colors, overlays, inputs }:
+{ config, nixpkgs, home, overlays, inputs }:
 
 # See https://github.com/nix-community/home-manager/blob/master/flake.nix#L44 for reference.
 let
@@ -23,8 +23,9 @@ home.lib.homeManagerConfiguration {
     }
 
     # Extra home-manager modules that aren't upstream
-    nix-colors.homeManagerModule
+    inputs.nix-colors.homeManagerModule
     inputs.hyprland.homeManagerModules.default
+    inputs.nixvim.homeManagerModules.nixvim
 
     ./home.nix
   ];

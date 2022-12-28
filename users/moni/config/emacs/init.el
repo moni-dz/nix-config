@@ -359,7 +359,7 @@
   :hook
   (prog-mode . company-mode)
   :custom
-  (company-idle-delay 0.2)
+  (company-idle-delay 2)
   (company-tooltip-limit 14)
   (company-tooltip-align-annotations t)
   (company-minimum-prefix-length 1)

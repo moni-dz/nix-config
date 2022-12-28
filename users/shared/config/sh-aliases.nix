@@ -13,5 +13,6 @@
   cp = "cp -i";
   rm = "rm -i";
   vi = "nvim";
+  ma = "emacs -nw";
   cfg = "cd ~/.config/nix-config";
 }

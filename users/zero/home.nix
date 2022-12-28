@@ -15,9 +15,4 @@
   home.packages = lib.attrValues {
     inherit (pkgs) ripgrep pfetch;
   };
-
-  xdg.configFile."nvim" = {
-    recursive = true;
-    source = ./config/neovim;
-  };
 }

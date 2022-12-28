@@ -64,6 +64,7 @@
         graphviz
         hydra-check
         hyperfine
+        i3a
         imagemagick
         imv
         jq
@@ -92,16 +93,7 @@
         wl-clipboard
         wlogout;
 
-      inherit (inputs.i3a.legacyPackages.${system}) i3a;
-
       palette = pkgs.writers.writeDashBin "palette" (import ./scripts/palette.nix);
-
-      python3 =
-        let
-          extraPythonPackages = pypkgs: with pypkgs; [ i3ipc ];
-        in
-        pkgs.python310.withPackages extraPythonPackages;
-
       volume = pkgs.writers.writeDashBin "volume" (import ./scripts/volume.nix);
     };
 
@@ -147,41 +139,42 @@
         package = pkgs.emacsPgtk;
         config = ./config/emacs/init.el;
 
-        extraEmacsPackages = epkgs: with epkgs; [
-          aggressive-indent
-          company
-          ctrlf
-          doom-themes
-          elfeed
-          elisp-def
-          evil
-          exec-path-from-shell
-          flycheck
-          flycheck-popup-tip
-          flycheck-posframe
-          gcmh
-          helpful
-          hide-mode-line
-          highlight-defined
-          highlight-indent-guides
-          highlight-quoted
-          hl-todo
-          lsp-mode
-          lisp-butt-mode
-          marginalia
-          mixed-pitch
-          nix-mode
-          no-littering
-          olivetti
-          prescient
-          selectrum
-          selectrum-prescient
-          simple-modeline
-          smartparens
-          solaire-mode
-          super-save
-          which-key
-        ];
+        extraEmacsPackages = epkgs: lib.attrValues {
+          inherit (epkgs)
+            aggressive-indent
+            company
+            ctrlf
+            doom-themes
+            elfeed
+            elisp-def
+            evil
+            exec-path-from-shell
+            flycheck
+            flycheck-popup-tip
+            flycheck-posframe
+            gcmh
+            helpful
+            hide-mode-line
+            highlight-defined
+            highlight-indent-guides
+            highlight-quoted
+            hl-todo
+            lsp-mode
+            lisp-butt-mode
+            marginalia
+            mixed-pitch
+            nix-mode
+            no-littering
+            olivetti
+            prescient
+            selectrum
+            selectrum-prescient
+            simple-modeline
+            smartparens
+            solaire-mode
+            super-save
+            which-key;
+        };
       };
     };
 
@@ -195,7 +188,7 @@
 
     waybar = {
       enable = true;
-      #package = inputs.nixpkgs-wayland.packages.${system}.waybar;
+      package = inputs.nixpkgs-wayland.packages.${system}.waybar;
 
       settings = [
         {
@@ -231,10 +224,6 @@
 
       package = inputs.nixpkgs-wayland.packages.${system}.dunst.overrideAttrs (old: {
         __contentAddressed = true;
-
-        #        patches = (old.patches or [ ]) ++ [
-        #          ../../patches/0001-Double-borders-rebased-for-latest-dunst.patch
-        #        ];
       });
 
       iconTheme = {
@@ -274,10 +263,6 @@
 
     package = (inputs.nixpkgs-wayland.packages.${system}.sway-unwrapped.override {
       wlroots = inputs.hyprland.packages.${system}.wlroots-hyprland.override { nvidiaPatches = true; };
-
-      #postPatch = (old.postPatch or "") + ''
-      #  substituteInPlace 
-      #'';
     }).overrideAttrs (_: { __contentAddressed = true; });
 
     config = with config.colorscheme.colors; rec {

@@ -21,8 +21,8 @@
     };
 
     sessionVariables = {
-      EDITOR = "${config.programs.neovim.package}/bin/nvim";
-      MANPAGER = "${config.programs.neovim.package}/bin/nvim +Man! -c 'nnoremap i <nop>'";
+      EDITOR = "emacs -nw";
+      MANPAGER = "nvim +Man! -c 'nnoremap i <nop>'";
     };
   };
 
@@ -75,8 +75,40 @@
       ]);
     };
 
-    # We don't want to enable it, just set the package so it's convenient for us to use.
-    neovim.package = inputs.neovim.packages.${system}.neovim;
+    nixvim = {
+      enable = true;
+      globals.material_style = "darker";
+
+      options = {
+        clipboard = "unnamedplus";
+        completeopt = "menu,menuone,noselect";
+        guifont = "monospace:h11";
+        laststatus = "0";
+        mouse = "a";
+        modelines = "0";
+        ruler = false;
+        number = false;
+        termguicolors = true;
+      };
+
+      plugins.nix.enable = true;
+
+      extraPlugins = lib.attrValues {
+        inherit (pkgs.vimPlugins) material-nvim;
+      };
+
+      extraConfigLua = ''
+        require("material").setup({
+          high_visibility = {
+            lighter = false,
+	    darker = true
+	  },
+        })
+
+        vim.cmd "colorscheme material"
+        vim.cmd "set guicursor=a:ver30"
+      '';
+    };
 
     starship = {
       enable = true;
@@ -105,20 +137,5 @@
   };
 
   systemd.user.startServices = "sd-switch";
-
-  xdg = {
-    enable = true;
-
-    dataFile = {
-      "nvim/site/pack/packer/start/impatient.nvim" = {
-        recursive = true;
-        source = inputs.impatient-nvim;
-      };
-
-      "nvim/site/pack/packer/start/packer.nvim" = {
-        recursive = true;
-        source = inputs.packer-nvim;
-      };
-    };
-  };
+  xdg.enable = true;
 }

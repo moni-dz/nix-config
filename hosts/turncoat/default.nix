@@ -1,12 +1,12 @@
-{ config, nixpkgs, agenix, nixos-wsl, overlays, inputs }:
+{ config, nixpkgs, overlays, inputs }:
 
 # See https://github.com/NixOS/nixpkgs/blob/master/flake.nix#L24 for reference.
 nixpkgs.lib.nixosSystem rec {
   system = "x86_64-linux";
 
   modules = [
-    agenix.nixosModules.age
-    nixos-wsl.nixosModules.wsl
+    inputs.agenix.nixosModules.age
+    inputs.nixos-wsl.nixosModules.wsl
 
     {
       # NOTE: you should either change this or disable it completely by commenting it out

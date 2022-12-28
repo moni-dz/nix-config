@@ -22,6 +22,8 @@ home.lib.homeManagerConfiguration {
       };
     }
 
+    inputs.nixvim.homeManagerModules.nixvim
+
     ./home.nix
   ];
 

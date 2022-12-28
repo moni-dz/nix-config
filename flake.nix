@@ -3,14 +3,10 @@
 
   inputs = {
     # Non-flake inputs
-    impatient-nvim = { url = "github:lewis6991/impatient.nvim"; flake = false; };
-    packer-nvim = { url = "github:wbthomason/packer.nvim"; flake = false; };
-    sway-borders = { url = "github:fluix-dev/sway-borders"; flake = false; };
     zsh-f-sy-h = { url = "github:zdharma-continuum/fast-syntax-highlighting"; flake = false; };
 
     # Flake inputs
     agenix.url = "github:ryantm/agenix";
-    discocss.url = "github:mlvzk/discocss/flake";
     emacs.url = "github:nix-community/emacs-overlay";
     home.url = "github:nix-community/home-manager";
     hyprland.url = "github:hyprwm/hyprland";
@@ -21,32 +17,29 @@
     nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
     nixpkgs-fmt.url = "github:nix-community/nixpkgs-fmt";
     nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
+    nixvim.url = "github:pta2002/nixvim";
     statix.url = "github:nerdypepper/statix";
 
     # Nixpkgs branches
     master.url = "github:nixos/nixpkgs/master";
     stable.url = "github:nixos/nixpkgs/nixos-21.11";
     unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    i3a.url = "github:fortuneteller2k/nixpkgs/i3a";
-    xanmod.url = "github:fortuneteller2k/nixpkgs/xanmod-variants";
 
     # Default Nixpkgs for packages and modules
     nixpkgs.follows = "master";
 
     # Minimize duplicate instances of inputs
     agenix.inputs.nixpkgs.follows = "nixpkgs";
-    discocss.inputs.nixpkgs.follows = "nixpkgs";
     emacs.inputs.nixpkgs.follows = "nixpkgs";
     home.inputs.nixpkgs.follows = "nixpkgs";
     neovim.inputs.nixpkgs.follows = "nixpkgs";
     nix.inputs.nixpkgs.follows = "nixpkgs";
     nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
     nixpkgs-f2k.inputs.nixpkgs.follows = "nixpkgs";
-    # nixpkgs-wayland.inputs.nixpkgs.follows = "nixpkgs";
     statix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, agenix, home, nixpkgs, discocss, nix-colors, nixos-wsl, ... }@inputs:
+  outputs = { self, home, nixpkgs, ... }@inputs:
     let
       config = {
         allowBroken = true;
@@ -85,7 +78,6 @@
             master = import master { inherit config system; };
             unstable = import unstable { inherit config system; };
             stable = import stable { inherit config system; };
-            xanmod = import xanmod { inherit config system; };
           })
 
         # Overlays provided by inputs
@@ -98,7 +90,7 @@
     {
       nixosConfigurations = {
         superfluous = import ./hosts/superfluous {
-          inherit config nixpkgs agenix overlays inputs;
+          inherit config nixpkgs overlays inputs;
         };
 
         starcruiser = import ./hosts/starcruiser {
@@ -106,13 +98,13 @@
         };
 
         turncoat = import ./hosts/turncoat {
-          inherit config nixpkgs nixos-wsl agenix overlays inputs;
+          inherit config nixpkgs overlays inputs;
         };
       };
 
       homeConfigurations = {
         moni = import ./users/moni {
-          inherit config nixpkgs home discocss nix-colors overlays inputs;
+          inherit config nixpkgs home overlays inputs;
         };
 
         zero = import ./users/zero {
