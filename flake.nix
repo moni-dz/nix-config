@@ -13,6 +13,7 @@
     discocss.url = "github:mlvzk/discocss/flake";
     emacs.url = "github:nix-community/emacs-overlay";
     home.url = "github:nix-community/home-manager";
+    hyprland.url = "github:hyprwm/hyprland";
     neovim.url = "github:neovim/neovim?dir=contrib";
     nix.url = "github:nixos/nix";
     nix-colors.url = "github:Misterio77/nix-colors";
@@ -41,7 +42,7 @@
     nix.inputs.nixpkgs.follows = "nixpkgs";
     nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
     nixpkgs-f2k.inputs.nixpkgs.follows = "nixpkgs";
-    nixpkgs-wayland.inputs.nixpkgs.follows = "nixpkgs";
+    # nixpkgs-wayland.inputs.nixpkgs.follows = "nixpkgs";
     statix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
@@ -50,6 +51,7 @@
       config = {
         allowBroken = true;
         allowUnfree = true;
+        allowUnfreePredicate = _: true;
         tarball-ttl = 0;
 
         # XXX: don't do this kids...
@@ -100,7 +102,7 @@
         };
 
         starcruiser = import ./hosts/starcruiser {
-          inherit config nixpkgs agenix overlays inputs;
+          inherit config nixpkgs overlays inputs;
         };
 
         turncoat = import ./hosts/turncoat {

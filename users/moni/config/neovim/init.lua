@@ -6,7 +6,7 @@ require("impatient")
 vim.o.clipboard = "unnamedplus"
 vim.o.completeopt = "menu,menuone,noselect"
 vim.o.guifont = "monospace:h11"
-vim.o.guicursor = "a:ver25-iCursor"
+vim.o.guicursor = "n-c-v:ver30-iCursor"
 vim.o.laststatus = "0"
 vim.o.mouse = "a"
 vim.o.modelines = "0"
@@ -41,10 +41,6 @@ require("packer").startup(function()
       vim.g.material_style = "darker"
 
       require("material").setup({
-        italics = {
-          comments = true
-	},
-
         high_visibility = {
           lighter = false,
 	  darker = true

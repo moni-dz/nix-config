@@ -16,7 +16,7 @@
 
   fileSystems."/" =
     {
-      device = "/dev/disk/by-uuid/c37a2aaf-8f42-407b-b346-1da1f6b2af18";
+      device = "/dev/disk/by-uuid/39666f22-45fb-4177-b25b-8a18555808d5";
       fsType = "ext4";
     };
 
@@ -27,13 +27,15 @@
     };
 
   swapDevices =
-    [{ device = "/dev/disk/by-uuid/76a215a0-f812-4f73-84cd-3b545c4fc250"; }];
+    [{ device = "/dev/disk/by-uuid/40c4a4df-2950-4726-9513-f5ba4dd50def"; }];
 
-  # The global useDHCP flag is deprecated, therefore explicitly set to false here.
-  # Per-interface useDHCP will be mandatory in the future, so this generated config
-  # replicates the default behaviour.
-  networking.useDHCP = lib.mkDefault false;
-  networking.interfaces.enp5s0.useDHCP = lib.mkDefault true;
+  # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
+  # (the default) this is the recommended approach. When using systemd-networkd it's
+  # still possible to use this option, but it's recommended to use it in conjunction
+  # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
+  networking.useDHCP = lib.mkDefault true;
+  # networking.interfaces.enp5s0.useDHCP = lib.mkDefault true;
 
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }

@@ -14,7 +14,7 @@
 
       If you're not me or a XanMod kernel maintainer in Nixpkgs, use pkgs.linuxKernel.packages.linux_xanmod instead to avoid compilation.
     */
-    kernelPackages = pkgs.xanmod.linuxKernel.packages.linux_xanmod_latest;
+    kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest;
     kernelParams = [ "mitigations=off" ];
 
     kernel.sysctl = {
@@ -103,7 +103,7 @@
         pathsToLink = [ "/share/man" ];
         extraOutputsToInstall = activeManOutputs;
         ignoreCollisions = true;
-      }).overrideAttrs (_: { __contentAddressed = true; });
+      }).overrideAttrs (_: { /* __contentAddressed = true; */ });
     };
 
   environment = {
@@ -131,8 +131,8 @@
         ripgrep
         wget;
 
-      git = pkgs.git.overrideAttrs (_: { __contentAddressed = true; });
-      svn = pkgs.subversion.overrideAttrs (_: { __contentAddressed = true; });
+      git = pkgs.git.overrideAttrs (_: { /* __contentAddressed = true; */ });
+      svn = pkgs.subversion.overrideAttrs (_: { /* __contentAddressed = true; */ });
     };
   };
 
@@ -201,7 +201,10 @@
 
   qt5.platformTheme = "qt5ct";
 
-  security.sudo.wheelNeedsPassword = false;
+  security = {
+    sudo.wheelNeedsPassword = false;
+    polkit.enable = true;
+  };
 
   services = {
     chrony = {

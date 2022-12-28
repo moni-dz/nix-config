@@ -23,8 +23,9 @@ home.lib.homeManagerConfiguration {
     }
 
     # Extra home-manager modules that aren't upstream
-    discocss.hmModule
     nix-colors.homeManagerModule
+    inputs.hyprland.homeManagerModules.default
+
     ./home.nix
   ];
 

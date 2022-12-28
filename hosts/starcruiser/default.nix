@@ -1,11 +1,12 @@
-{ config, nixpkgs, agenix, overlays, inputs }:
+{ config, nixpkgs, overlays, inputs }:
 
 # See https://github.com/NixOS/nixpkgs/blob/master/flake.nix#L24 for reference.
 nixpkgs.lib.nixosSystem rec {
   system = "x86_64-linux";
 
   modules = [
-    agenix.nixosModules.age
+    inputs.agenix.nixosModules.age
+    inputs.hyprland.nixosModules.default
 
     {
       # NOTE: you should either change this or disable it completely by commenting it out
