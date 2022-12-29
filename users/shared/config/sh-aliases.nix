@@ -14,5 +14,6 @@
   rm = "rm -i";
   vi = "nvim";
   ma = "emacs -nw";
+  wr = "wf-recorder --audio=alsa_output.pci-0000_09_00.4.analog-stereo.monitor -c h264_nvenc -x yuv444p";
   cfg = "cd ~/.config/nix-config";
 }

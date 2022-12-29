@@ -148,6 +148,7 @@
             elfeed
             elisp-def
             evil
+            ess
             exec-path-from-shell
             flycheck
             flycheck-popup-tip

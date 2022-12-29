@@ -403,3 +403,8 @@
   :mode "\\.nix\\'"
   :hook
   (nix-mode . lsp-deferred))
+
+;;;; R
+(p! ess
+  :hook
+  (ess-mode . lsp-deferred))

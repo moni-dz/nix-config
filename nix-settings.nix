@@ -17,7 +17,6 @@
     let path = toString ./.;
     in
     [
-      "repl=${path}/repl.nix"
       "nixpkgs=${nixpkgs}"
       "home-manager=${inputs.home}"
     ];
