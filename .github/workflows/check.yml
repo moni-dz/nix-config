@@ -9,9 +9,9 @@ jobs:
     - uses: actions/checkout@v2
       with:
           fetch-depth: 0
-    - uses: cachix/install-nix-action@v12
+    - uses: cachix/install-nix-action@v17
       with:
-        install_url: https://github.com/numtide/nix-unstable-installer/releases/download/nix-2.4pre20210604_8e6ee1b/install
+        install_url: https://github.com/numtide/nix-unstable-installer/releases/download/nix-2.10.0pre20220629_b7eb4ac/install
         extra_nix_config: |
           experimental-features = ca-derivations nix-command flakes
     - run: nix flake check

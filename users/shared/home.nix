@@ -101,8 +101,8 @@
         require("material").setup({
           high_visibility = {
             lighter = false,
-	    darker = true
-	  },
+            darker = true
+          },
         })
 
         vim.cmd "colorscheme material"
