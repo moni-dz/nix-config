@@ -62,6 +62,7 @@
         ffmpeg
         font-manager
         graphviz
+        hilbish
         hydra-check
         hyperfine
         i3a
@@ -238,23 +239,23 @@
 
     swayidle =
       let
-        dpms = status: "swaymsg 'output * dpms ${status}'";
+        display = status: "swaymsg 'output * power ${status}'";
       in
       {
         enable = true;
         package = inputs.nixpkgs-wayland.packages.${system}.swayidle;
 
         events = [
-          { event = "before-sleep"; command = dpms "off"; }
-          # { event = "before-sleep"; command = "swaylock"; }
-          { event = "after-resume"; command = dpms "on"; }
-          { event = "lock"; command = dpms "off"; }
-          { event = "unlock"; command = dpms "on"; }
+          { event = "before-sleep"; command = display "off"; }
+          { event = "before-sleep"; command = "swaylock"; }
+          { event = "after-resume"; command = display "on"; }
+          { event = "lock"; command = display "off"; }
+          { event = "unlock"; command = display "on"; }
         ];
 
         timeouts = [
-          { timeout = 300; command = dpms "off"; resumeCommand = dpms "on"; }
-          # { timeout = 310; command = "swaylock"; }
+          { timeout = 300; command = display "off"; resumeCommand = display "on"; }
+          { timeout = 310; command = "swaylock"; }
         ];
       };
   };
@@ -262,9 +263,9 @@
   wayland.windowManager.sway = {
     enable = true;
 
-    package = (inputs.nixpkgs-wayland.packages.${system}.sway-unwrapped.override {
-      wlroots = inputs.hyprland.packages.${system}.wlroots-hyprland.override { nvidiaPatches = true; };
-    }).overrideAttrs (_: { __contentAddressed = true; });
+    #package = (inputs.nixpkgs-wayland.packages.${system}.sway-unwrapped.override {
+    #  wlroots = inputs.hyprland.packages.${system}.wlroots-hyprland.override { nvidiaPatches = true; };
+    #}).overrideAttrs (_: { __contentAddressed = true; });
 
     config = with config.colorscheme.colors; rec {
       bars = [ ];

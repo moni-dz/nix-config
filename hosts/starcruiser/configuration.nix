@@ -18,12 +18,6 @@
     ../../modules/nixos/programs/river.nix
   ];
 
-  /*
-    NOTE: amd_pstate has a performance hit on Zen 2 and 3 processors
-    see: https://github.com/torvalds/linux/blob/23c296f/drivers/cpufreq/amd-pstate.c#L52-L60
-
-    This machine has a Ryzen 5 3600, and enabling amd_pstate caps my performance to 50%.
-  */
   boot = {
     kernelModules = [ "amd-pstate" ];
 
@@ -82,6 +76,11 @@
       inherit (pkgs.gnome3) nautilus;
     };
   };
+
+  fonts.enableDefaultFonts = false;
+
+  # https://github.com/nix-community/home-manager/issues/1288#issuecomment-636352427
+  programs.sway.enable = true;
 
   services = {
     greetd = {

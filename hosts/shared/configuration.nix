@@ -15,7 +15,11 @@
       If you're not me or a XanMod kernel maintainer in Nixpkgs, use pkgs.linuxKernel.packages.linux_xanmod instead to avoid compilation.
     */
     kernelPackages = pkgs.xanmod.linuxKernel.packages.linux_xanmod_latest;
-    kernelParams = [ "mitigations=off" ];
+    
+    kernelParams = [
+      "preempt=full"
+      "mitigations=off"
+    ];
 
     kernel.sysctl = {
       "fs.file-max" = 2097152;
@@ -103,7 +107,7 @@
         pathsToLink = [ "/share/man" ];
         extraOutputsToInstall = activeManOutputs;
         ignoreCollisions = true;
-      }).overrideAttrs (_: { /* __contentAddressed = true; */ });
+      }).overrideAttrs (_: { __contentAddressed = true; });
     };
 
   environment = {
@@ -131,8 +135,8 @@
         ripgrep
         wget;
 
-      git = pkgs.git.overrideAttrs (_: { /* __contentAddressed = true; */ });
-      svn = pkgs.subversion.overrideAttrs (_: { /* __contentAddressed = true; */ });
+      git = pkgs.git.overrideAttrs (_: { __contentAddressed = true; });
+      svn = pkgs.subversion.overrideAttrs (_: { __contentAddressed = true; });
     };
   };
 
@@ -244,7 +248,10 @@
   };
 
   systemd = {
-    services.rtkit-daemon = import ./services/rtkit-daemon.nix { inherit pkgs; };
+    services.rtkit-daemon.serviceConfig.ExecStart = [
+      ""
+      "${pkgs.rtkit}/libexec/rtkit-daemon --our-realtime-priority=95 --max-realtime-priority=90"
+    ];
 
     user.services = {
       pipewire.wantedBy = [ "default.target" ];

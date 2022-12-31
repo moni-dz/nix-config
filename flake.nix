@@ -3,6 +3,7 @@
 
   inputs = {
     # Non-flake inputs
+    swaywm = { url = "github:swaywm/sway"; flake = false; };
     zsh-f-sy-h = { url = "github:zdharma-continuum/fast-syntax-highlighting"; flake = false; };
 
     # Flake inputs
@@ -24,6 +25,7 @@
     master.url = "github:nixos/nixpkgs/master";
     stable.url = "github:nixos/nixpkgs/nixos-21.11";
     unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    xanmod.url = "github:fortuneteller2k/nixpkgs/xanmod";
 
     # Default Nixpkgs for packages and modules
     nixpkgs.follows = "master";
@@ -64,9 +66,17 @@
         (filterAttrs filterNixFiles (builtins.readDir path)))) import;
 
       overlays = with inputs; [
-        (final: _:
+        (final: prev:
           let inherit (final) system; in
           {
+            sway-unwrapped = (prev.sway-unwrapped.override {
+              stdenv = final.optimizedV3Stdenv;
+              wlroots_0_16 = inputs.hyprland.packages.${system}.wlroots-hyprland.override { nvidiaPatches = true; };
+            }).overrideAttrs (_: {
+              __contentAddressed = true;
+              src = inputs.swaywm;
+            });
+
             /*
               Nixpkgs branches, replace when https://github.com/NixOS/nixpkgs/pull/160061 is live.
 
@@ -78,6 +88,7 @@
             master = import master { inherit config system; };
             unstable = import unstable { inherit config system; };
             stable = import stable { inherit config system; };
+            xanmod = import xanmod { inherit config system; };
           })
 
         # Overlays provided by inputs
