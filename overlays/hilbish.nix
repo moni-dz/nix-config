@@ -12,7 +12,7 @@ final: prev: {
       };
 
       vendorSha256 = "sha256-Kiy1JR3X++naY2XNLpnGujrNQt7qlL0zxv8E96cHmHo=";
-      
+
       postInstall = ''
         mkdir -p "$out/share/hilbish"
 

@@ -9,6 +9,7 @@
     # Flake inputs
     agenix.url = "github:ryantm/agenix";
     emacs.url = "github:nix-community/emacs-overlay";
+    ff-addons.url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
     home.url = "github:nix-community/home-manager";
     hyprland.url = "github:hyprwm/hyprland";
     neovim.url = "github:neovim/neovim?dir=contrib";
@@ -26,6 +27,7 @@
     stable.url = "github:nixos/nixpkgs/nixos-21.11";
     unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     xanmod.url = "github:fortuneteller2k/nixpkgs/xanmod";
+    nvd.url = "github:dacioromero/nixpkgs/master";
 
     # Default Nixpkgs for packages and modules
     nixpkgs.follows = "master";
@@ -71,11 +73,13 @@
           {
             sway-unwrapped = (prev.sway-unwrapped.override {
               stdenv = final.optimizedV3Stdenv;
-              wlroots_0_16 = inputs.hyprland.packages.${system}.wlroots-hyprland.override { nvidiaPatches = true; };
+              wlroots_0_16 = hyprland.packages.${system}.wlroots-hyprland.override { nvidiaPatches = true; };
             }).overrideAttrs (_: {
               __contentAddressed = true;
-              src = inputs.swaywm;
+              src = swaywm;
             });
+
+            inherit (nvd.legacyPackages.${system}) nvidia-vaapi-driver;
 
             /*
               Nixpkgs branches, replace when https://github.com/NixOS/nixpkgs/pull/160061 is live.

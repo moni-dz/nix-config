@@ -113,6 +113,10 @@
       XCURSOR_SIZE = "16";
       WLR_NO_HARDWARE_CURSORS = "1";
       NIXOS_OZONE_WL = "1";
+      NVD_BACKEND = "direct";
+      LIBVA_DRIVER_NAME = "nvidia";
+      MOZ_DISABLE_RDD_SANDBOX = "1";
+      MOZ_GLX_TEST_EARLY_WL_ROUNDTRIP = "1";
     };
   };
 
@@ -180,10 +184,15 @@
       };
     };
 
-    foot = {
-      enable = false;
-      server.enable = true;
-      settings = import ./config/foot.nix { inherit (config) colorscheme; };
+    firefox = {
+      enable = true;
+
+      extensions = lib.attrValues {
+        inherit (inputs.ff-addons.packages.${system})
+          ublock-origin;
+      };
+
+      profiles."moni".isDefault = true;
     };
 
     ncspot.enable = true;
@@ -262,10 +271,6 @@
 
   wayland.windowManager.sway = {
     enable = true;
-
-    #package = (inputs.nixpkgs-wayland.packages.${system}.sway-unwrapped.override {
-    #  wlroots = inputs.hyprland.packages.${system}.wlroots-hyprland.override { nvidiaPatches = true; };
-    #}).overrideAttrs (_: { __contentAddressed = true; });
 
     config = with config.colorscheme.colors; rec {
       bars = [ ];
