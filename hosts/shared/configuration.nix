@@ -9,6 +9,13 @@
 */
 {
   boot = {
+    consoleLogLevel = 0;
+
+    initrd = {
+      systemd.enable = true;
+      verbose = false;
+    };
+
     /*
       NOTE: replace this with your desired kernel, see: https://nixos.wiki/wiki/Linux_kernel for reference.
 
@@ -19,6 +26,8 @@
     kernelParams = [
       "preempt=full"
       "mitigations=off"
+      "quiet"
+      "udev.log_level=3"
     ];
 
     kernel.sysctl = {

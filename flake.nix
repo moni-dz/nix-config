@@ -9,10 +9,10 @@
     # Flake inputs
     agenix.url = "github:ryantm/agenix";
     emacs.url = "github:nix-community/emacs-overlay";
+    doom.url = "github:nix-community/nix-doom-emacs";
     ff-addons.url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
     home.url = "github:nix-community/home-manager";
     hyprland.url = "github:hyprwm/hyprland";
-    neovim.url = "github:neovim/neovim?dir=contrib";
     nix.url = "github:nixos/nix";
     nix-colors.url = "github:Misterio77/nix-colors";
     nixos-wsl.url = "github:nix-community/nixos-wsl";
@@ -34,12 +34,15 @@
 
     # Minimize duplicate instances of inputs
     agenix.inputs.nixpkgs.follows = "nixpkgs";
+    doom.inputs.nixpkgs.follows = "nixpkgs";
     emacs.inputs.nixpkgs.follows = "nixpkgs";
+    ff-addons.inputs.nixpkgs.follows = "nixpkgs";
     home.inputs.nixpkgs.follows = "nixpkgs";
-    neovim.inputs.nixpkgs.follows = "nixpkgs";
+    hyprland.inputs.nixpkgs.follows = "nixpkgs";
     nix.inputs.nixpkgs.follows = "nixpkgs";
     nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
     nixpkgs-f2k.inputs.nixpkgs.follows = "nixpkgs";
+    nixvim.inputs.nixpkgs.follows = "nixpkgs";
     statix.inputs.nixpkgs.follows = "nixpkgs";
   };
 

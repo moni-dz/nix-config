@@ -12,7 +12,11 @@
     ../shared/home.nix
   ];
 
-  home.packages = lib.attrValues {
-    inherit (pkgs) ripgrep pfetch;
+  home = {
+    packages = lib.attrValues {
+      inherit (pkgs) ripgrep pfetch;
+    };
+
+    sessionVariables.EDITOR = "nvim";
   };
 }

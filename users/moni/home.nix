@@ -105,8 +105,9 @@
     ];
 
     sessionVariables = with config.colorscheme.colors; {
+      EDITOR = "emacs -nw";
       BEMENU_OPTS = "-H 18 -l 5 --fn 'Iosevka FT QP Light 10.5' --tb '#${base0D}' --tf '#${base02}' --hb '#${base0D}' --hf '#${base02}' --nb '#${base02}' --fb '#${base02}'";
-      BROWSER = "${pkgs.brave}/bin/brave";
+      BROWSER = "firefox";
       GOPATH = "${config.home.homeDirectory}/Extras/go";
       QT_QPA_PLATFORMTHEME = "qt5ct";
       RUSTUP_HOME = "${config.home.homeDirectory}/.local/share/rustup";
@@ -137,51 +138,10 @@
       css = import ./config/discocss-css.nix { inherit (config) colorscheme; };
     };
 
-    emacs = {
+    doom-emacs = {
       enable = true;
-
-      package = pkgs.emacsWithPackagesFromUsePackage {
-        package = pkgs.emacsPgtk;
-        config = ./config/emacs/init.el;
-
-        extraEmacsPackages = epkgs: lib.attrValues {
-          inherit (epkgs)
-            aggressive-indent
-            company
-            ctrlf
-            doom-themes
-            elfeed
-            elisp-def
-            evil
-            ess
-            exec-path-from-shell
-            flycheck
-            flycheck-popup-tip
-            flycheck-posframe
-            gcmh
-            helpful
-            hide-mode-line
-            highlight-defined
-            highlight-indent-guides
-            highlight-quoted
-            hl-todo
-            lsp-mode
-            lisp-butt-mode
-            marginalia
-            mixed-pitch
-            nix-mode
-            no-littering
-            olivetti
-            prescient
-            selectrum
-            selectrum-prescient
-            simple-modeline
-            smartparens
-            solaire-mode
-            super-save
-            which-key;
-        };
-      };
+      doomPrivateDir = ./config/emacs;
+      emacsPackage = pkgs.emacsPgtk;
     };
 
     firefox = {
@@ -225,8 +185,6 @@
       extraConfig = "map <C-i> recolor";
       options = import ./config/zathura.nix { inherit (config) colorscheme; };
     };
-
-
   };
 
   services = {

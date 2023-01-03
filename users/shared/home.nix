@@ -20,10 +20,7 @@
       inherit (inputs.statix.packages.${system}) statix;
     };
 
-    sessionVariables = {
-      EDITOR = "emacs -nw";
-      MANPAGER = "nvim +Man! -c 'nnoremap i <nop>'";
-    };
+    sessionVariables.MANPAGER = "nvim +Man! -c 'nnoremap i <nop>'";
   };
 
   programs = {

@@ -23,6 +23,7 @@ home.lib.homeManagerConfiguration {
     }
 
     # Extra home-manager modules that aren't upstream
+    inputs.doom.hmModule
     inputs.nix-colors.homeManagerModule
     inputs.hyprland.homeManagerModules.default
     inputs.nixvim.homeManagerModules.nixvim

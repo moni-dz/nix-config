@@ -1,410 +1,195 @@
-;; -*- lexical-binding: t -*-
-
-;; Disable tooltips
-(tooltip-mode -1)
-
-;; Early frame modifications
-(add-to-list 'default-frame-alist '(menu-bar-lines . 0))
-(add-to-list 'default-frame-alist '(tool-bar-lines . 0))
-(add-to-list 'default-frame-alist '(font . "Iosevka FT Light-12"))
-(add-to-list 'default-frame-alist '(vertical-scroll-bars))
-
-(setq-default use-dialog-box nil
-              custom-file (if (memq system-type '(gnu/linux darwin)) "/dev/null" "NUL")
-              frame-inhibit-implied-resize t
-              ring-bell-function 'ignore
-              visible-bell nil
-              uniquify-buffer-name-style 'post-forward-angle-brackets
-              inhibit-startup-screen t
-              inhibit-startup-message t
-              inhibit-startup-echo-area-message t
-              initial-scratch-message nil
-              package-enable-at-startup nil
-              vc-handled-backends nil
-              fringes-outside-margins t
-	      use-package-always-ensure nil
-	      use-package-always-defer t)
-
-(defconst p!-font-lock-keywords
-  '(("(\\(p!\\)\\_>[ \t']*\\(\\(?:\\sw\\|\\s_\\)+\\)?"
-     (1 font-lock-keyword-face)
-     (2 font-lock-constant-face nil t))))
-
-(font-lock-add-keywords 'emacs-lisp-mode p!-font-lock-keywords)
-
-(defmacro p! (name &rest args)
-  "`use-package' that is shorter and less cumbersome."
-  (declare (indent defun))
-  `(use-package ,name
-     ,@args))
-
-(p! no-littering
-  :demand t
-  :config
-  (require 'no-littering))
-
-(p! exec-path-from-shell
-  :if (memq window-system '(mac ns x))
-  :demand t
-  :config
-  (exec-path-from-shell-initialize))
-
-(setq-default flycheck-emacs-lisp-load-path load-path)
-
-;; native compilation
-(setq comp-speed 3
-      comp-async-report-warnings-errors nil)
-
-;; Temporarily save the file-name-handler-alist
-(defvar temp-file-name-handler-alist file-name-handler-alist)
-
-;; Ignore .Xresources
-(advice-add #'x-apply-session-resources :override #'ignore)
-
-;; Avoid any GC pauses at init.
-(setq gc-cons-threshold most-positive-fixnum
-      gc-cons-percentage 0.6
-      preferred-gc-threshold 16777216)
-
-(setq-default file-name-handler-alist nil
-              create-lockfiles nil
-              bidi-display-reordering nil
-              cursor-in-non-selected-windows nil
-              highlight-nonselected-windows nil
-              frame-inhibit-implied-resize t
-              inhibit-compacting-font-caches nil)
-
-;; and then reset it to 16MiB after with the file-name-handler-alist
-(defun optimization/normalize ()
-	(setq-default gc-cons-threshold preferred-gc-threshold
-		            gc-cons-percentage 0.1)
-  (garbage-collect))
-
-(add-hook 'emacs-startup-hook #'optimization/normalize)
-
-(unless (or (daemonp) noninteractive)
-  (let ((temp-file-name-handler-alist file-name-handler-alist))
-    (setq-default file-name-handler-alist nil)
-    (defun reset-file-handler-alist-h ()
-      (setq file-name-handler-alist
-            (delete-dups (append file-name-handler-alist
-                                 temp-file-name-handler-alist))))
-    (add-hook 'emacs-startup-hook #'reset-file-handler-alist-h)))
-
-;; ESC cancels anything
-(global-set-key (kbd "<escape>") #'keyboard-escape-quit)
-
-;; Fundamental Mode is the simplest mode
-(setq initial-major-mode 'fundamental-mode)
-(defalias 'yes-or-no-p 'y-or-n-p)
-
-;; Use the Garbage Collector Magic Hack
-(p! gcmh
-  :hook
-  ((emacs-startup . gcmh-mode)
-   (focus-out . gcmh-idle-garbage-collect))
-  :custom
-  (gcmh-verbose nil)
-  (gcmh-idle-delay 6)
-  (gcmh-high-cons-threshold 16777216))
-
-;; Show only errors, not warnings
-(setq-default warning-minimum-level :warning)
-
-;; UTF-8 encoding
-(setq-default buffer-file-coding-system 'utf-8
-	      save-buffer-coding-system 'utf-8)
-
-(prefer-coding-system 'utf-8)
-(set-buffer-file-coding-system 'utf-8)
-(set-clipboard-coding-system 'utf-8)
-(set-default-coding-systems 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-(set-selection-coding-system 'utf-8)
-(set-terminal-coding-system 'utf-8)
-
-;; Scrolling
-(setq-default scroll-step 1
-	      scroll-conservatively 10000
-	      auto-window-vscroll nil)
-
-;; Editor defaults
-(setq-default auto-save-default nil
-	      require-final-newline t
-	      indent-tabs-mode nil
-	      tab-width 2)
-
-(add-hook 'emacs-startup-hook #'global-visual-line-mode)
-
-(p! paren
-  :hook
-  (prog-mode . show-paren-mode))
-
-(p! hl-line
-  :hook
-  ((prog-mode org-mode text-mode conf-mode) . hl-line-mode))
-
-(p! autorevert
-  :hook
-  (emacs-startup . global-auto-revert-mode))
-
-(p! super-save
-  :hook
-  (emacs-startup . super-save-mode)
-  :custom
-  (super-save-auto-save-when-idle t))
-
-(p! smartparens
-  :config
-  (require 'smartparens-config)
-  :hook
-  (prog-mode . smartparens-mode))
-
-(p! hl-todo
-  :hook (prog-mode . hl-todo-mode)
-  :custom
-  (hl-todo-highlight-punctuation ":")
-  (hl-todo-keyword-faces
-   `(("TODO" warning bold)
-     ("FIXME" error bold)
-     ("HACK" font-lock-constant-face bold)
-     ("REVIEW" font-lock-keyword-face bold)
-     ("NOTE" success bold)
-     ("DEPRECATED" font-lock-doc-face bold)
-     ("BUG" error bold)
-     ("XXX" font-lock-constant-face bold))))
-
-(p! highlight-indent-guides
-  :hook
-  (prog-mode . highlight-indent-guides-mode)
-  :custom
-  (highlight-indent-guides-method 'character))
-
-(defun kill-other-buffers ()
-  "Kill all other buffers"
-  (interactive)
-  (mapc 'kill-buffer
-        (delq (current-buffer)
-              (remove-if-not 'buffer-file-name (buffer-list)))))
-
-(global-set-key (kbd "C-c C-k") #'kill-other-buffers)
-(global-set-key (kbd "C-c k") #'kill-buffer-and-window)
-
-(p! evil
-  :hook
-  (emacs-startup . evil-mode))
-
-;; Fonts
-(defconst fonts/variable-pitch
-  "Sarasa Gothic J"
-  "Default variable width font")
-
-(defun fonts/set-fonts ()
-  (set-face-attribute 'fixed-pitch-serif nil :family fonts/variable-pitch)
-  (set-face-attribute 'variable-pitch nil :family fonts/variable-pitch)
-  (set-face-attribute 'font-lock-type-face nil :weight 'semi-bold)
-  (set-face-attribute 'button nil :weight 'semi-bold)
-  (set-face-attribute 'link nil :weight 'semi-bold))
-
-(defun fonts/enable-ligatures ()
-  "Define general ligatures and load them with HarfBuzz."
-  (let ((alist  '((?!  . "\\(?:!\\(?:==\\|[!=]\\)\\)")                                      ; (regexp-opt '("!!" "!=" "!=="))
-                  (?#  . "\\(?:#\\(?:###?\\|_(\\|[#(:=?[_{]\\)\\)")                         ; (regexp-opt '("##" "###" "####" "#(" "#:" "#=" "#?" "#[" "#_" "#_(" "#{"))
-                  (?$  . "\\(?:\\$>>?\\)")                                                  ; (regexp-opt '("$>" "$>>"))
-                  (?%  . "\\(?:%%%?\\)")                                                    ; (regexp-opt '("%%" "%%%"))
-                  (?&  . "\\(?:&&&?\\)")                                                    ; (regexp-opt '("&&" "&&&"))
-                  (?*  . "\\(?:\\*\\(?:\\*[*/]\\|[)*/>]\\)?\\)")                            ; (regexp-opt '("*" "**" "***" "**/" "*/" "*>" "*)"))
-                  (?+  . "\\(?:\\+\\(?:\\+\\+\\|[+:>]\\)?\\)")                              ; (regexp-opt '("+" "++" "+++" "+>" "+:"))
-                  (?-  . "\\(?:-\\(?:-\\(?:->\\|[>-]\\)\\|<[<-]\\|>[>-]\\|[:<>|}~-]\\)\\)") ; (regexp-opt '("--" "---" "-->" "--->" "->-" "-<" "-<-" "-<<" "->" "->>" "-}" "-~" "-:" "-|"))
-                  (?.  . "\\(?:\\.\\(?:\\.[.<]\\|[.=>-]\\)\\)")                             ; (regexp-opt '(".-" ".." "..." "..<" ".=" ".>"))
-                  (?/  . "\\(?:/\\(?:\\*\\*\\|//\\|==\\|[*/=>]\\)\\)")                      ; (regexp-opt '("/*" "/**" "//" "///" "/=" "/==" "/>"))
-                  (?:  . "\\(?::\\(?:::\\|[+:<=>]\\)?\\)")                                  ; (regexp-opt '(":" "::" ":::" ":=" ":<" ":=" ":>" ":+"))
-                  (?\; . ";;")                                                              ; (regexp-opt '(";;"))
-                  (?0  . "0\\(?:\\(x[a-fA-F0-9]\\).?\\)") ; Tries to match the x in 0xDEADBEEF
-                  ;; (?x . "x") ; Also tries to match the x in 0xDEADBEEF
-                  ;; (regexp-opt '("<!--" "<$" "<$>" "<*" "<*>" "<**>" "<+" "<+>" "<-" "<--" "<---" "<->" "<-->" "<--->" "</" "</>" "<<" "<<-" "<<<" "<<=" "<=" "<=<" "<==" "<=>" "<===>" "<>" "<|" "<|>" "<~" "<~~" "<." "<.>" "<..>"))
-                  (?<  . "\\(?:<\\(?:!--\\|\\$>\\|\\*\\(?:\\*?>\\)\\|\\+>\\|-\\(?:-\\(?:->\\|[>-]\\)\\|[>-]\\)\\|\\.\\(?:\\.?>\\)\\|/>\\|<[<=-]\\|=\\(?:==>\\|[<=>]\\)\\||>\\|~~\\|[$*+./<=>|~-]\\)\\)")
-                  (?=  . "\\(?:=\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\|[=>]\\)\\)")               ; (regexp-opt '("=/=" "=:=" "=<<" "==" "===" "==>" "=>" "=>>"))
-                  (?>  . "\\(?:>\\(?:->\\|=>\\|>[=>-]\\|[:=>-]\\)\\)")                      ; (regexp-opt '(">-" ">->" ">:" ">=" ">=>" ">>" ">>-" ">>=" ">>>"))
-                  (??  . "\\(?:\\?[.:=?]\\)")                                               ; (regexp-opt '("??" "?." "?:" "?="))
-                  (?\[ . "\\(?:\\[\\(?:|]\\|[]|]\\)\\)")                                    ; (regexp-opt '("[]" "[|]" "[|"))
-                  (?\\ . "\\(?:\\\\\\\\[\\n]?\\)")                                          ; (regexp-opt '("\\\\" "\\\\\\" "\\\\n"))
-                  (?^  . "\\(?:\\^==?\\)")                                                  ; (regexp-opt '("^=" "^=="))
-                  (?w  . "\\(?:wwww?\\)")                                                   ; (regexp-opt '("www" "wwww"))
-                  (?{  . "\\(?:{\\(?:|\\(?:|}\\|[|}]\\)\\|[|-]\\)\\)")                      ; (regexp-opt '("{-" "{|" "{||" "{|}" "{||}"))
-                  (?|  . "\\(?:|\\(?:->\\|=>\\||=\\|[]=>|}-]\\)\\)")                        ; (regexp-opt '("|=" "|>" "||" "||=" "|->" "|=>" "|]" "|}" "|-"))
-                  (?_  . "\\(?:_\\(?:|?_\\)\\)")                                            ; (regexp-opt '("_|_" "__"))
-                  (?\( . "\\(?:(\\*\\)")                                                    ; (regexp-opt '("(*"))
-                  (?~  . "\\(?:~\\(?:~>\\|[=>@~-]\\)\\)"))))                                  ; (regexp-opt '("~-" "~=" "~>" "~@" "~~" "~~>"))
-    (dolist (char-regexp alist)
-      (set-char-table-range composition-function-table (car char-regexp)
-                            `([,(cdr char-regexp) 0 font-shape-gstring])))))
-
-(add-hook 'emacs-startup-hook #'fonts/set-fonts)
-(add-hook 'after-change-major-mode-hook #'fonts/enable-ligatures)
-
-;; Pretty stuff
-(p! hide-mode-line
-  :hook
-  ((comint-mode helpful-mode help-mode) . hide-mode-line-mode))
-
-(p! selectrum
-  :hook
-  (after-init . selectrum-mode))
-
-(p! prescient
-  :hook
-  (after-init . prescient-persist-mode))
-
-(p! selectrum-prescient
-  :hook
-  (after-init . selectrum-prescient-mode))
-
-(p! helpful
-  :bind
-  (("C-h f" . helpful-callable)
-   ("C-h v" . helpful-variable)
-   ("C-h k" . helpful-key))
-  :config
-  (custom-theme-set-faces
-   'user
-   '(helpful-heading ((t (:inherit variable-pitch))))))
-
-(p! solaire-mode
-  :hook
-  ((change-major-mode . turn-on-solaire-mode)
-   (after-revert . turn-on-solaire-mode)
-   (ediff-prepare-buffer . solaire-mode))
-  :custom
-  (solaire-mode-auto-swap-bg nil)
-  :config
-  (solaire-global-mode +1))
-
-(p! doom-themes
-  :after solaire-mode
-  :hook
-  (emacs-startup . (lambda () (load-theme 'doom-material-dark t)))
-  :config
-  (doom-themes-visual-bell-config)
-  (doom-themes-org-config)
-  :custom
-  (doom-themes-enable-bold t)
-  (doom-themes-enable-italic t))
-
-(p! simple-modeline
-  :hook
-  (emacs-startup . simple-modeline-mode))
-
-(p! olivetti
-  :custom
-  (olivetti-body-width 140))
-
-(p! display-line-numbers
-  :hook
-  ((prog-mode org-mode) . display-line-numbers-mode)
-  :custom
-  (display-line-numbers-width 3)
-  (display-line-numbers-widen t))
-
-(defun interface/toggle-zen-mode ()
-  "Toggle a distraction-free environment for writing."
-  (interactive)
-
-  (defface regular-face
-  	'((nil :family "Iosevka FT Light" :height 120))
-    "Regular face")
-
-  (defface zen-mode-face
-  	'((nil :family "Iosevka FT Light" :height 150))
-    "Zen mode face")
-
-  (cond ((bound-and-true-p olivetti-mode)
-         (olivetti-mode -1)
-         (display-line-numbers-mode +1)
-         (hide-mode-line-mode -1)
-         (buffer-face-set 'regular-face))
-        (t
-         (olivetti-mode +1)
-         (display-line-numbers-mode -1)
-         (hide-mode-line-mode +1)
-         (buffer-face-set 'zen-mode-face))))
-
-(global-set-key (kbd "C-x z") 'interface/toggle-zen-mode)
-
-(p! which-key
-  :hook
-  (emacs-startup . which-key-mode))
-
-;; Syntax checking, completions and LSP
-(p! flycheck
-  :hook
-  (prog-mode . flycheck-mode)
-  ;; Shut up the most annoying flycheck lint.
-  :custom
-  (flycheck-disabled-checkers '(emacs-lisp-checkdoc)))
-
-(p! flycheck-popup-tip
-  :after flycheck
-  :hook
-  (flycheck-mode . flycheck-popup-tip-mode))
-
-(p! flycheck-posframe
-  :after flycheck
-  :hook
-  (flycheck-mode . flycheck-posframe-mode)
-  :config
-  (flycheck-posframe-configure-pretty-defaults))
-
-(p! company
-  :hook
-  (prog-mode . company-mode)
-  :custom
-  (company-idle-delay 2)
-  (company-tooltip-limit 14)
-  (company-tooltip-align-annotations t)
-  (company-minimum-prefix-length 1)
-  (company-selection-wrap-around t)
-  (company-backends '(company-capf))
-  (company-format-margin-function nil))
-
-;; Language support
-
-;;;; Emacs Lisp
-;; ELisp/l looks odd
-(add-hook 'emacs-lisp-mode-hook (lambda () (setq mode-name "Emacs Lisp")))
-
-(p! highlight-quoted
-  :hook
-  (emacs-lisp-mode . highlight-quoted-mode))
-
-(p! highlight-defined
-  :hook
-  (emacs-lisp-mode . highlight-defined-mode))
-
-(p! elisp-def
-  :hook
-  ((emacs-lisp-mode ielm-mode) . elisp-def-mode))
-
-(p! lisp-butt-mode
-  :hook
-  (emacs-lisp-mode . lisp-butt-mode))
-
-(p! aggressive-indent
-  :hook
-  (emacs-lisp-mode . aggressive-indent-mode))
-
-;;;; Nix
-(p! lsp-nix
-  :after (lsp-mode)
-  :custom
-  (lsp-nix-nil-formatter ["nixpkgs-fmt"]))
-
-(p! nix-mode
-  :mode "\\.nix\\'"
-  :hook
-  (nix-mode . lsp-deferred))
-
-;;;; R
-(p! ess
-  :hook
-  (ess-mode . lsp-deferred))
+;;; init.el -*- lexical-binding: t; -*-
+
+;; This file controls what Doom modules are enabled and what order they load
+;; in. Remember to run 'doom sync' after modifying it!
+
+;; NOTE Press 'SPC h d h' (or 'C-h d h' for non-vim users) to access Doom's
+;;      documentation. There you'll find a link to Doom's Module Index where all
+;;      of our modules are listed, including what flags they support.
+
+;; NOTE Move your cursor over a module's name (or its flags) and press 'K' (or
+;;      'C-c c k' for non-vim users) to view its documentation. This works on
+;;      flags as well (those symbols that start with a plus).
+;;
+;;      Alternatively, press 'gd' (or 'C-c c d') on a module to browse its
+;;      directory (for easy access to its source code).
+
+(doom! :input
+       ;;bidi              ; (tfel ot) thgir etirw uoy gnipleh
+       ;;chinese
+       ;;japanese
+       ;;layout            ; auie,ctsrnm is the superior home row
+
+       :completion
+       company           ; the ultimate code completion backend
+       ;;helm              ; the *other* search engine for love and life
+       ;;ido               ; the other *other* search engine...
+       ;;ivy               ; a search engine for love and life
+       vertico           ; the search engine of the future
+
+       :ui
+       ;;deft              ; notational velocity for Emacs
+       doom              ; what makes DOOM look the way it does
+       doom-dashboard    ; a nifty splash screen for Emacs
+       doom-quit         ; DOOM quit-message prompts when you quit Emacs
+       ;;(emoji +unicode)  ; 🙂
+       hl-todo           ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
+       ;;hydra
+       ;;indent-guides     ; highlighted indent columns
+       ;;ligatures         ; ligatures and symbols to make your code pretty again
+       ;;minimap           ; show a map of the code on the side
+       modeline          ; snazzy, Atom-inspired modeline, plus API
+       ;;nav-flash         ; blink cursor line after big motions
+       ;;neotree           ; a project drawer, like NERDTree for vim
+       ophints           ; highlight the region an operation acts on
+       (popup +defaults)   ; tame sudden yet inevitable temporary windows
+       ;;tabs              ; a tab bar for Emacs
+       ;;treemacs          ; a project drawer, like neotree but cooler
+       ;;unicode           ; extended unicode support for various languages
+       (vc-gutter +pretty) ; vcs diff in the fringe
+       vi-tilde-fringe   ; fringe tildes to mark beyond EOB
+       ;;window-select     ; visually switch windows
+       workspaces        ; tab emulation, persistence & separate workspaces
+       zen               ; distraction-free coding or writing
+
+       :editor
+       (evil +everywhere); come to the dark side, we have cookies
+       file-templates    ; auto-snippets for empty files
+       fold              ; (nigh) universal code folding
+       ;;(format +onsave)  ; automated prettiness
+       ;;god               ; run Emacs commands without modifier keys
+       ;;lispy             ; vim for lisp, for people who don't like vim
+       ;;multiple-cursors  ; editing in many places at once
+       ;;objed             ; text object editing for the innocent
+       ;;parinfer          ; turn lisp into python, sort of
+       ;;rotate-text       ; cycle region at point between text candidates
+       snippets          ; my elves. They type so I don't have to
+       ;;word-wrap         ; soft wrapping with language-aware indent
+
+       :emacs
+       dired             ; making dired pretty [functional]
+       electric          ; smarter, keyword-based electric-indent
+       ;;ibuffer         ; interactive buffer management
+       undo              ; persistent, smarter undo for your inevitable mistakes
+       vc                ; version-control and Emacs, sitting in a tree
+
+       :term
+       ;;eshell            ; the elisp shell that works everywhere
+       ;;shell             ; simple shell REPL for Emacs
+       ;;term              ; basic terminal emulator for Emacs
+       ;;vterm             ; the best terminal emulation in Emacs
+
+       :checkers
+       syntax              ; tasing you for every semicolon you forget
+       ;;(spell +flyspell) ; tasing you for misspelling mispelling
+       ;;grammar           ; tasing grammar mistake every you make
+
+       :tools
+       ;;ansible
+       ;;biblio            ; Writes a PhD for you (citation needed)
+       ;;debugger          ; FIXME stepping through code, to help you add bugs
+       direnv
+       ;;docker
+       ;;editorconfig      ; let someone else argue about tabs vs spaces
+       ;;ein               ; tame Jupyter notebooks with emacs
+       (eval +overlay)     ; run code, run (also, repls)
+       ;;gist              ; interacting with github gists
+       lookup              ; navigate your code and its documentation
+       lsp               ; M-x vscode
+       magit             ; a git porcelain for Emacs
+       ;;make              ; run make tasks from Emacs
+       ;;pass              ; password manager for nerds
+       ;;pdf               ; pdf enhancements
+       ;;prodigy           ; FIXME managing external services & code builders
+       rgb               ; creating color strings
+       ;;taskrunner        ; taskrunner for all your projects
+       ;;terraform         ; infrastructure as code
+       ;;tmux              ; an API for interacting with tmux
+       ;;tree-sitter       ; syntax and parsing, sitting in a tree...
+       ;;upload            ; map local to remote projects via ssh/ftp
+
+       :os
+       (:if IS-MAC macos)  ; improve compatibility with macOS
+       (tty +osc)          ; improve the terminal Emacs experience
+
+       :lang
+       ;;agda              ; types of types of types of types...
+       ;;beancount         ; mind the GAAP
+       ;;(cc +lsp)         ; C > C++ == 1
+       ;;clojure           ; java with a lisp
+       ;;common-lisp       ; if you've seen one lisp, you've seen them all
+       ;;coq               ; proofs-as-programs
+       ;;crystal           ; ruby at the speed of c
+       ;;csharp            ; unity, .NET, and mono shenanigans
+       ;;data              ; config/data formats
+       ;;(dart +flutter)   ; paint ui and not much else
+       ;;dhall
+       ;;elixir            ; erlang done right
+       ;;elm               ; care for a cup of TEA?
+       emacs-lisp        ; drown in parentheses
+       ;;erlang            ; an elegant language for a more civilized age
+       (ess +stan
+            +lsp)         ; emacs speaks statistics
+       ;;factor
+       ;;faust             ; dsp, but you get to keep your soul
+       ;;fortran           ; in FORTRAN, GOD is REAL (unless declared INTEGER)
+       ;;fsharp            ; ML stands for Microsoft's Language
+       ;;fstar             ; (dependent) types and (monadic) effects and Z3
+       ;;gdscript          ; the language you waited for
+       ;;(go +lsp)         ; the hipster dialect
+       ;;(graphql +lsp)    ; Give queries a REST
+       ;;(haskell +lsp)    ; a language that's lazier than I am
+       ;;hy                ; readability of scheme w/ speed of python
+       ;;idris             ; a language you can depend on
+       json              ; At least it ain't XML
+       ;;(java +lsp)       ; the poster child for carpal tunnel syndrome
+       ;;javascript        ; all(hope(abandon(ye(who(enter(here))))))
+       ;;julia             ; a better, faster MATLAB
+       ;;kotlin            ; a better, slicker Java(Script)
+       ;;latex             ; writing papers in Emacs has never been so fun
+       ;;lean              ; for folks with too much to prove
+       ;;ledger            ; be audit you can be
+       ;;lua               ; one-based indices? one-based indices
+       markdown          ; writing docs for people to ignore
+       ;;nim               ; python + lisp at the speed of c
+       (nix +lsp)   ; I hereby declare "nix geht mehr!"
+       ;;ocaml             ; an objective camel
+       org               ; organize your plain life in plain text
+       ;;php               ; perl's insecure younger brother
+       ;;plantuml          ; diagrams for confusing people more
+       ;;purescript        ; javascript, but functional
+       ;;python            ; beautiful is better than ugly
+       ;;qt                ; the 'cutest' gui framework ever
+       ;;racket            ; a DSL for DSLs
+       ;;raku              ; the artist formerly known as perl6
+       ;;rest              ; Emacs as a REST client
+       ;;rst               ; ReST in peace
+       ;;(ruby +rails)     ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
+       ;;(rust +lsp)       ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+       ;;scala             ; java, but good
+       ;;(scheme +guile)   ; a fully conniving family of lisps
+       sh                ; she sells {ba,z,fi}sh shells on the C xor
+       ;;sml
+       ;;solidity          ; do you need a blockchain? No.
+       ;;swift             ; who asked for emoji variables?
+       ;;terra             ; Earth and Moon in alignment for performance.
+       ;;web               ; the tubes
+       ;;yaml              ; JSON, but readable
+       ;;zig               ; C, but simpler
+
+       :email
+       ;;(mu4e +org +gmail)
+       ;;notmuch
+       ;;(wanderlust +gmail)
+
+       :app
+       ;;calendar
+       ;;emms
+       ;;everywhere        ; *leave* Emacs!? You must be joking
+       ;;irc               ; how neckbeards socialize
+       ;;(rss +org)        ; emacs as an RSS reader
+       ;;twitter           ; twitter client https://twitter.com/vnought
+
+       :config
+       ;;literate
+       (default +bindings +smartparens))
