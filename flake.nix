@@ -71,10 +71,10 @@
         (filterAttrs filterNixFiles (builtins.readDir path)))) import;
 
       overlays = with inputs; [
-        (final: prev:
+        (final: _:
           let inherit (final) system; in
           {
-            sway-unwrapped = (prev.sway-unwrapped.override {
+            sway-unwrapped = (nixpkgs-wayland.packages.${system}.sway-unwrapped.override {
               stdenv = final.optimizedV3Stdenv;
               wlroots_0_16 = hyprland.packages.${system}.wlroots-hyprland.override { nvidiaPatches = true; };
             }).overrideAttrs (_: {
