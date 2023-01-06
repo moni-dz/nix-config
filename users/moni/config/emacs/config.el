@@ -78,7 +78,8 @@
 
 (setq flycheck-disabled-checkers '(emacs-lisp-checkdoc)
       company-format-margin-function nil
-      +zen-text-scale 0.8)
+      +zen-text-scale 0.8
+      evil-normal-state-cursor 'bar)
 
 (after! lsp
   (use-package! lsp-nil
