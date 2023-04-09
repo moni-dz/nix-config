@@ -37,10 +37,14 @@
     casks = [
       "amethyst"
       "raycast"
+      "warp"
     ];
   };
 
-
+  fonts = {
+    fontDir.enable = true;
+    fonts = lib.attrValues { inherit (pkgs) iosevka-ft; };
+  };
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog

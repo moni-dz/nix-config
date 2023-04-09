@@ -43,12 +43,12 @@ final: prev: {
           a = "double-storey-serifless"
           f = "serifless"
 
-          [buildPlans.iosevka-ft.variants.oblique]
-          f = "serifless"
-          cyrl-ef = "cursive"
+         [buildPlans.iosevka-ft.variants.oblique]
+         f = "serifless"
+         cyrl-ef = "cursive"
 
-        [buildPlans.iosevka-ft.ligations]
-        inherits = "dlig"
+      [buildPlans.iosevka-ft.ligations]
+      inherits = "dlig"
     '';
 
     set = "ft";

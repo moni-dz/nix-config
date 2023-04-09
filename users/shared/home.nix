@@ -10,6 +10,8 @@
   home = {
     packages = lib.attrValues {
       inherit (pkgs)
+        bat
+        difftastic
         gitoxide
         nixpkgs-fmt
         nixpkgs-review;
@@ -20,7 +22,11 @@
       inherit (inputs.statix.packages.${system}) statix;
     };
 
-    sessionVariables.MANPAGER = "nvim +Man! -c 'nnoremap i <nop>'";
+    sessionVariables = {
+      MANPAGER = "sh -c 'col -bx | bat -l man -p'";
+      MANROFFOPT = "-c";
+      GIT_EXTERNAL_DIFF = "difft";
+    };
   };
 
   programs = {
@@ -72,41 +78,6 @@
       ]);
     };
 
-    nixvim = {
-      enable = true;
-      globals.material_style = "darker";
-
-      options = {
-        clipboard = "unnamedplus";
-        completeopt = "menu,menuone,noselect";
-        guifont = "monospace:h11";
-        laststatus = "0";
-        mouse = "a";
-        modelines = "0";
-        ruler = false;
-        number = false;
-        termguicolors = true;
-      };
-
-      plugins.nix.enable = true;
-
-      extraPlugins = lib.attrValues {
-        inherit (pkgs.vimPlugins) material-nvim;
-      };
-
-      extraConfigLua = ''
-        require("material").setup({
-          high_visibility = {
-            lighter = false,
-            darker = true
-          },
-        })
-
-        vim.cmd "colorscheme material"
-        vim.cmd "set guicursor=a:ver30"
-      '';
-    };
-
     starship = {
       enable = true;
       settings = import ./config/starship.nix;
@@ -133,6 +104,4 @@
     };
   };
 
-  systemd.user.startServices = "sd-switch";
-  xdg.enable = true;
 }
