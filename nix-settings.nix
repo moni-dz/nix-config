@@ -7,7 +7,11 @@
     keep-outputs = true
     keep-derivations = true
     http-connections = 0
-  '';
+  ''
+  +
+  (nixpkgs.lib.optionalString (system == "aarch64-darwin") ''
+    extra-platforms = aarch64-darwin x86_64-darwin
+  '');
 
   nixPath =
     let path = toString ./.;

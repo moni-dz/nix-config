@@ -36,6 +36,7 @@
 
     # Minimize duplicate instances of inputs
     agenix.inputs.nixpkgs.follows = "nixpkgs";
+    agenix.inputs.darwin.follows = "darwin";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     doom.inputs.nixpkgs.follows = "nixpkgs";
     emacs.inputs.nixpkgs.follows = "nixpkgs";
@@ -99,10 +100,11 @@
             */
             master = import master { inherit config system; };
             unstable = import unstable { inherit config system; };
-            
-            stable = if final.lib.hasSuffix system "darwin"
-                     then import stable { inherit config system; }
-                     else import darwin-stable { inherit config system; };
+
+            stable =
+              if final.lib.hasSuffix system "darwin"
+              then import stable { inherit config system; }
+              else import darwin-stable { inherit config system; };
 
             xanmod = import xanmod { inherit config system; };
           })
