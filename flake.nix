@@ -9,6 +9,7 @@
     # Flake inputs
     agenix.url = "github:ryantm/agenix";
     emacs.url = "github:nix-community/emacs-overlay";
+    darwin.url = "github:lnl7/nix-darwin/master";
     doom.url = "github:nix-community/nix-doom-emacs";
     ff-addons.url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
     home.url = "github:nix-community/home-manager";
@@ -25,7 +26,8 @@
     # Nixpkgs branches
     master.url = "github:nixos/nixpkgs/master";
     stable.url = "github:nixos/nixpkgs/nixos-21.11";
-    unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    darwin-stable.url = "github:nixos/nixpkgs/nixpkgs-21.11-darwin";
+    unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     xanmod.url = "github:fortuneteller2k/nixpkgs/xanmod";
     nvd.url = "github:dacioromero/nixpkgs/master";
 
@@ -34,6 +36,7 @@
 
     # Minimize duplicate instances of inputs
     agenix.inputs.nixpkgs.follows = "nixpkgs";
+    darwin.inputs.nixpkgs.follows = "nixpkgs";
     doom.inputs.nixpkgs.follows = "nixpkgs";
     emacs.inputs.nixpkgs.follows = "nixpkgs";
     ff-addons.inputs.nixpkgs.follows = "nixpkgs";
@@ -46,7 +49,7 @@
     statix.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, home, nixpkgs, ... }@inputs:
+  outputs = { self, home, darwin, nixpkgs, ... }@inputs:
     let
       config = {
         allowBroken = true;
@@ -71,9 +74,11 @@
         (filterAttrs filterNixFiles (builtins.readDir path)))) import;
 
       overlays = with inputs; [
-        (final: _:
+        (final: prev:
           let inherit (final) system; in
           {
+            # openldap = prev.openldap.overrideAttrs (_: { doCheck = false; });
+
             sway-unwrapped = (nixpkgs-wayland.packages.${system}.sway-unwrapped.override {
               stdenv = final.optimizedV3Stdenv;
               wlroots_0_16 = hyprland.packages.${system}.wlroots-hyprland.override { nvidiaPatches = true; };
@@ -94,7 +99,11 @@
             */
             master = import master { inherit config system; };
             unstable = import unstable { inherit config system; };
-            stable = import stable { inherit config system; };
+            
+            stable = if final.lib.hasSuffix system "darwin"
+                     then import stable { inherit config system; }
+                     else import darwin-stable { inherit config system; };
+
             xanmod = import xanmod { inherit config system; };
           })
 
@@ -106,6 +115,10 @@
       ++ (importNixFiles ./overlays);
     in
     {
+      darwinConfigurations.ARMageddon = import ./hosts/armageddon {
+        inherit config darwin overlays inputs;
+      };
+
       nixosConfigurations = {
         superfluous = import ./hosts/superfluous {
           inherit config nixpkgs overlays inputs;
@@ -136,7 +149,7 @@
       turncoat = self.nixosConfigurations.turncoat.config.system.build.toplevel;
 
       # Default formatter for the entire repo
-      formatter = nixpkgs.lib.genAttrs [ "x86_64-linux" ] (system: inputs.nixpkgs-fmt.defaultPackage.${system});
+      formatter = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-darwin" ] (system: inputs.nixpkgs-fmt.defaultPackage.${system});
     };
 
   nixConfig = {

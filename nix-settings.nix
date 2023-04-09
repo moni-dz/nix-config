@@ -2,10 +2,6 @@
 
 # Nix daemon settings that can't be put in `nixConfig`.
 {
-  daemonCPUSchedPolicy = "idle";
-  daemonIOSchedClass = "idle";
-  daemonIOSchedPriority = 5;
-
   extraOptions = ''
     experimental-features = ca-derivations nix-command flakes
     keep-outputs = true
