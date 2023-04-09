@@ -6,7 +6,6 @@ nixpkgs.lib.nixosSystem rec {
 
   modules = [
     inputs.agenix.nixosModules.age
-    inputs.hyprland.nixosModules.default
 
     {
       # NOTE: you should either change this or disable it completely by commenting it out

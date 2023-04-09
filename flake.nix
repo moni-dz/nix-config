@@ -122,10 +122,6 @@
       };
 
       nixosConfigurations = {
-        superfluous = import ./hosts/superfluous {
-          inherit config nixpkgs overlays inputs;
-        };
-
         starcruiser = import ./hosts/starcruiser {
           inherit config nixpkgs overlays inputs;
         };
@@ -146,7 +142,6 @@
       };
 
       # Easier `nix build`-ing of configurations
-      superfluous = self.nixosConfigurations.superfluous.config.system.build.toplevel;
       starcruiser = self.nixosConfigurations.starcruiser.config.system.build.toplevel;
       turncoat = self.nixosConfigurations.turncoat.config.system.build.toplevel;
 

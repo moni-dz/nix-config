@@ -86,6 +86,7 @@
 
   # https://github.com/nix-community/home-manager/issues/1288#issuecomment-636352427
   programs.sway.enable = true;
+  programs.zsh.enable = true;
 
   services = {
     greetd = {

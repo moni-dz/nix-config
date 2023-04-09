@@ -14,11 +14,10 @@
 
   home = {
     packages = lib.attrValues {
-      inherit (pkgs) ripgrep pfetch;
+      inherit (pkgs) ripgrep pfetch wezterm;
     };
 
     sessionVariables.EDITOR = "vi";
-
     stateVersion = "22.11";
   };
 }

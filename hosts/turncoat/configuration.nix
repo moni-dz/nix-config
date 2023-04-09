@@ -16,4 +16,6 @@
     shell = pkgs.zsh;
     extraGroups = [ "wheel" ];
   };
+
+  programs.zsh.enable = true;
 }
