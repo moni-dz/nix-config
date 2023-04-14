@@ -30,7 +30,7 @@
 
       #inherit (inputs.nixpkgs-f2k.packages.${system}) emacs-plus-git;
       inherit (pkgs.texlive.combined) scheme-medium;
-      
+
       #discord-openasar = pkgs.discord.override { withOpenASAR = true; };
       pythonEnv = pkgs.python310.withPackages (ps: [ ps.jupyter ]);
     };
