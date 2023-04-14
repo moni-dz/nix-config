@@ -132,7 +132,7 @@
       };
 
       homeConfigurations = {
-        moni = import ./users/moni {
+        moni = import ./users/moni-linux {
           inherit config nixpkgs home overlays inputs;
         };
 

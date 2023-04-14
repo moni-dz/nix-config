@@ -23,7 +23,7 @@
     };
 
     sessionVariables = {
-      MANPAGER = "sh -c 'col -bx | bat -l man -p'";
+      MANPAGER = "sh -c 'col -bx | bat --theme ansi -l man -p'";
       MANROFFOPT = "-c";
       GIT_EXTERNAL_DIFF = "difft";
     };
