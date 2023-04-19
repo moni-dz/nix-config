@@ -6,8 +6,6 @@
       inherit (pkgs) git vim;
       inherit (inputs.agenix.packages.${system}) agenix;
     };
-
-    systemPath = [ "/opt/homebrew/bin" ];
   };
 
   services = {
@@ -17,6 +15,8 @@
       enable = true;
 
       skhdConfig = ''
+        cmd - return : open -na wezterm
+      '' + lib.optionalString config.services.yabai.enable ''
         cmd - down : yabai -m window --focus south
         cmd - up : yabai -m window --focus north
         cmd - left : yabai -m window --focus west
@@ -29,18 +29,6 @@
         shift + cmd - e : yabai -m space --balance
         shift + cmd - left : yabai -m window --space prev
         shift + cmd - right : yabai -m window --space next
-      '' + lib.optionalString config.services.yabai.enableScriptingAddition ''
-        cmd - 1 : yabai -m space --focus 1
-        cmd - 2 : yabai -m space --focus 2
-        cmd - 3 : yabai -m space --focus 3
-        cmd - 4 : yabai -m space --focus 4
-        cmd - 5 : yabai -m space --focus 5
-        cmd - 6 : yabai -m space --focus 6
-        cmd - 7 : yabai -m space --focus 7
-        cmd - 8 : yabai -m space --focus 8
-        cmd - 9 : yabai -m space --focus 9
-        cmd - 0 : yabai -m space --focus 10
-      '' + ''
         shift + cmd - 1 : yabai -m window --space 1
         shift + cmd - 2 : yabai -m window --space 2
         shift + cmd - 3 : yabai -m window --space 3
@@ -60,11 +48,22 @@
         resize < down : yabai -m window --resize bottom:0:50; yabai -m window --resize top:0:50
         resize < up : yabai -m window --resize top:0:-50; yabai -m window --resize bottom:0:-50
         resize < right : yabai -m window --resize right:50:0; yabai -m window --resize left:50:0
+      '' + lib.optionalString (config.services.yabai.enable && config.services.yabai.enableScriptingAddition) ''
+        cmd - 1 : yabai -m space --focus 1
+        cmd - 2 : yabai -m space --focus 2
+        cmd - 3 : yabai -m space --focus 3
+        cmd - 4 : yabai -m space --focus 4
+        cmd - 5 : yabai -m space --focus 5
+        cmd - 6 : yabai -m space --focus 6
+        cmd - 7 : yabai -m space --focus 7
+        cmd - 8 : yabai -m space --focus 8
+        cmd - 9 : yabai -m space --focus 9
+        cmd - 0 : yabai -m space --focus 10
       '';
     };
 
     yabai = {
-      enable = true;
+      enable = false;
       enableScriptingAddition = false;
 
       package = pkgs.yabai.overrideAttrs (_: {
@@ -105,31 +104,6 @@
   };
 
   security.pam.enableSudoTouchIdAuth = true;
-
-  homebrew = {
-    enable = true;
-
-    onActivation = {
-      autoUpdate = true;
-      upgrade = true;
-    };
-
-    caskArgs.no_quarantine = true;
-
-    casks = [
-      "appcleaner"
-      "raycast"
-      "playcover-community"
-      "notion"
-      "emacs-mac"
-      "hammerspoon"
-    ];
-
-    taps = [
-      "homebrew/cask"
-      "railwaycat/emacsmacport"
-    ];
-  };
 
   fonts = {
     fontDir.enable = true;

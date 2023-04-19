@@ -26,24 +26,26 @@
         pfetch
         pandoc
         vscode
+        helix
         wezterm;
 
-      #inherit (inputs.nixpkgs-f2k.packages.${system}) emacs-plus-git;
-      inherit (pkgs.texlive.combined) scheme-medium;
-
-      #discord-openasar = pkgs.discord.override { withOpenASAR = true; };
-      pythonEnv = pkgs.python310.withPackages (ps: [ ps.jupyter ]);
+      # discord-openasar = pkgs.discord-ptb.override { withOpenASAR = true; };
+      # inherit (inputs.nixpkgs-f2k.packages.${system}) emacs-plus-git;
     };
 
-    sessionVariables.EDITOR = "emacs -nw";
+    sessionVariables.EDITOR = "hx";
     stateVersion = "22.11";
   };
 
   programs = {
-    zathura = { enable = false; };
-
+    discocss = {
+      enable = true;
+      discordAlias = false;
+      css = builtins.readFile ./config/rose-pine.theme.css;
+    };
+  
     zsh.initExtra = ''
-      export PATH=$PATH:/opt/homebrew/bin:~/.config/emacs/bin
+      export PATH=$PATH:/Users/moni/Library/Python/3.11/bin
     '';
   };
 }

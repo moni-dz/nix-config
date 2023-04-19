@@ -30,19 +30,20 @@
 
   settings =
     let
-      isLinux = nixpkgs.lib.hasSuffix "linux" system;
+      isDarwin = nixpkgs.lib.hasSuffix "darwin" system;
     in
     {
       accept-flake-config = true;
       experimental-features = [ "ca-derivations" "flakes" "nix-command" ];
       inherit max-jobs;
 
-      sandbox = isLinux;
-      sandbox-fallback = nixpkgs.lib.mkForce (!isLinux);
+      sandbox = !isDarwin;
+      sandbox-fallback = nixpkgs.lib.mkForce (isDarwin);
 
       # home-manager will attempt to rebuild the world otherwise...
       trusted-substituters = [
-        "https://cache.nixos.org?priority=10"
+        "https://cache.nixos.org?priority=7"
+        "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store/?priority=10"
         "https://cache.ngi0.nixos.org/"
         "https://nix-community.cachix.org?priority=5"
         "https://nixpkgs-wayland.cachix.org"
