@@ -66,7 +66,7 @@ code {
     font-family: var(--font-code);
 }
 
-.messageContent-2t3eCI {
+div, .messageContent-2t3eCI, .username-3_PJ5r, .username-h_Y3Us, .text-sm-normal-AEQz4v, .text-xs-normal-3O7EaX {
     font-family: var(--font-display);
 }
 
@@ -85,19 +85,14 @@ code {
 }
 
 .username-h_Y3Us {
-    font-family: var(--font-display);
     font-size: 16px;
 }
 
-.username-3_PJ5r {
-    font-family: var(--font-display);   
-}
-
-.peopleColumn-1wMU14, .panels-j1Uci_, .peopleColumn-29fq28, .peopleList-2VBrVI, .content-2hZxGK, .header-1zd7se, .root-g14mjS .small-23Atuv .fullscreenOnMobile-ixj0e3{
+.peopleColumn-1wMU14, .panels-j1Uci_, .peopleColumn-29fq28, .peopleList-2VBrVI, .content-2hZxGK, .header-1zd7se, .root-g14mjS, .small-23Atuv, .fullscreenOnMobile-ixj0e3, .list-3FIpnh {
     background-color: var(--background-secondary);
 }
 
-.textArea-12jD-V, .lookBlank-3eh9lL,  .threadSidebar-1o3BTy, .scrollableContainer-2NUZem, .perksModalContentWrapper-3RHugb, .theme-dark .footer-31IekZ, .theme-light .footer-31IekZ{
+.textArea-12jD-V, .lookBlank-3eh9lL,  .threadSidebar-1o3BTy, section.title-31SJ6t.forumOrHome-2VTX6r.container-ZMc96U.themed-Hp1KC_, .scrollableContainer-2NUZem, .perksModalContentWrapper-3RHugb, .theme-dark .footer-31IekZ, .theme-light .footer-31IekZ{
     background-color: var(--background-tertiary);
 }
 

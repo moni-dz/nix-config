@@ -22,6 +22,7 @@
     nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
     nixvim.url = "github:pta2002/nixvim";
     statix.url = "github:nerdypepper/statix";
+    shyim.url = "github:shyim/nix-darwin-modules";
 
     # Nixpkgs branches
     master.url = "github:nixos/nixpkgs/master";
@@ -48,6 +49,7 @@
     nixpkgs-f2k.inputs.nixpkgs.follows = "nixpkgs";
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
     statix.inputs.nixpkgs.follows = "nixpkgs";
+    shyim.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { self, home, darwin, nixpkgs, ... }@inputs:

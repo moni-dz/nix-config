@@ -1,4 +1,4 @@
-{ config, inputs, lib, pkgs, system, ... }:
+{ config, inputs, lib, pkgs, system, age, ... }:
 
 /*
   home-manager configuration
@@ -27,10 +27,22 @@
         pandoc
         vscode
         helix
-        wezterm;
+        wezterm
+        libheif
+        exiv2;
 
-      # discord-openasar = pkgs.discord-ptb.override { withOpenASAR = true; };
-      # inherit (inputs.nixpkgs-f2k.packages.${system}) emacs-plus-git;
+      radian = pkgs.radianWrapper.override {
+        packages = lib.attrValues {
+          inherit (pkgs.rPackages)
+            easystats
+            dplyr
+            dtplyr
+            plyr
+            readxl;
+        };
+      };
+
+      inherit (inputs.nixpkgs-f2k.packages.${system}) emacs-plus-git;
     };
 
     sessionVariables.EDITOR = "hx";
@@ -43,9 +55,16 @@
       discordAlias = false;
       css = builtins.readFile ./config/rose-pine.theme.css;
     };
-  
-    zsh.initExtra = ''
-      export PATH=$PATH:/Users/moni/Library/Python/3.11/bin
-    '';
+
+    fish = {
+      enable = true;
+
+      shellAbbrs = import ../shared/config/sh-aliases.nix;
+
+      interactiveShellInit = ''
+        fish_add_path /Users/moni/Library/Python/3.11/bin
+        fish_add_path /opt/local/bin
+      '';
+    };
   };
 }

@@ -1,11 +1,20 @@
 {
   command_timeout = 3000;
-  format = "$all";
+  format = "$username$nix_shell$character";
+  right_format = "$directory$git_branch$git_commit$git_state$git_status";
+
+  character = {
+    success_symbol = "[Σ](bold green)";
+    error_symbol = "[Σ](bold red)";
+    vimcmd_symbol = "[ζ](bold green)";
+    vimcmd_replace_symbol = "[ζ](bold purple)";
+    vimcmd_replace_one_symbol = "[ζ](bold purple)";
+    vimcmd_visual_symbol = "[ζ](bold yellow)";
+  };
 
   username = {
-    style_user = "bold red";
     format = "[$user]($style) ";
-    disabled = true;
+    disabled = false;
     show_always = true;
   };
 
@@ -15,9 +24,27 @@
     disabled = true;
   };
 
-  git_branch.symbol = "";
+  git_status = {
+    ahead = "↑";
+    behind = "↓";
+    conflicted = "±";
+    deleted = "×";
+    diverged = "↕";
+    modified = "‼";
+    renamed = "≡";
+    stashed = "⌂";
+  };
+
+  git_branch = {
+    format = "→ [$symbol$branch(:$remote_branch)]($style) ";
+    symbol = "";
+  };
+  
   battery.disabled = true;
   line_break.disabled = true;
-  directory.format = "[$path]($style) [$read_only]($read_only_style)";
-  nix_shell.symbol = "(nix shell)";
+  directory = {
+    read_only = "(ro)";
+    format = "[$path]($style) [$read_only]($read_only_style)";
+  };
+  nix_shell.symbol = "(nix)";
 }

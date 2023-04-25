@@ -2,13 +2,21 @@
 
 {
   environment = {
+    shells = lib.attrValues { inherit (pkgs) fish; };
+  
     systemPackages = lib.attrValues {
-      inherit (pkgs) git vim;
+      inherit (pkgs) git fish;
       inherit (inputs.agenix.packages.${system}) agenix;
     };
   };
 
   services = {
+    mysql = {
+      enable = true;
+      package = pkgs.mariadb_1011;
+      dataDir = "/Users/moni/.mariadb";
+    };
+    
     nix-daemon.enable = true;
 
     skhd = {
@@ -94,10 +102,20 @@
   };
 
   programs = {
-    zsh = {
+    fish = {
       enable = true;
 
       interactiveShellInit = ''
+        function export
+          if [ $argv ] 
+            set var (echo $argv | cut -f1 -d=)
+            set val (echo $argv | cut -f2 -d=)
+            set -g -x $var $val
+          else
+            echo 'export var=value'
+          end
+        end
+        
         . ${config.age.secrets.github-token.path}
       '';
     };

@@ -84,7 +84,7 @@
     };
 
     zsh = {
-      enable = true;
+      enable = !pkgs.stdenv.isDarwin;
       autocd = true;
       enableAutosuggestions = true;
 

@@ -9,6 +9,7 @@ darwin.lib.darwinSystem {
   modules = [
     inputs.agenix.darwinModules.default
     inputs.home.darwinModules.default
+    inputs.shyim.darwinModules.default
 
     {
       # NOTE: you should either change this or disable it completely by commenting it out
