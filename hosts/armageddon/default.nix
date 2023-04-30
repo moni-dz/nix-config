@@ -1,4 +1,4 @@
-{ config, darwin, overlays, inputs }:
+{ config, darwin, overlays, nixpkgs, inputs }:
 
 let
   system = "aarch64-darwin";
@@ -25,9 +25,7 @@ darwin.lib.darwinSystem {
       };
 
       nix = import ../../nix-settings.nix {
-        inherit inputs system;
-        inherit (inputs) nixpkgs;
-        max-jobs = 4;
+        inherit inputs system nixpkgs;
       };
 
       nixpkgs = { inherit config overlays; };

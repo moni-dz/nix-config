@@ -120,7 +120,7 @@
     in
     {
       darwinConfigurations.ARMageddon = import ./hosts/armageddon {
-        inherit config darwin overlays inputs;
+        inherit config nixpkgs darwin overlays inputs;
       };
 
       nixosConfigurations = {

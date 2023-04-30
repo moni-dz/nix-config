@@ -1,10 +1,11 @@
-{ inputs, system, nixpkgs, max-jobs }:
+{ inputs, system, nixpkgs }:
 
 # Nix daemon settings that can't be put in `nixConfig`.
 {
   extraOptions = ''
     keep-outputs = true
     keep-derivations = true
+    auto-allocate-uids = false
     http-connections = 0
   ''
   +
@@ -12,14 +13,7 @@
     extra-platforms = aarch64-darwin x86_64-darwin
   '');
 
-  nixPath =
-    let path = toString ./.;
-    in
-    [
-      "nixpkgs=${nixpkgs}"
-      "home-manager=${inputs.home}"
-    ];
-
+  nixPath = [ "nixpkgs=${nixpkgs}" ];
   package = inputs.nix.packages.${system}.default;
 
   registry = {
@@ -34,9 +28,15 @@
     in
     {
       accept-flake-config = true;
-      experimental-features = [ "ca-derivations" "flakes" "nix-command" ];
-      inherit max-jobs;
 
+      experimental-features = [
+        "auto-allocate-uids"
+        "ca-derivations"
+        "flakes"
+        "nix-command"
+      ];
+
+      max-jobs = "auto";
       sandbox = !isDarwin;
       sandbox-fallback = nixpkgs.lib.mkForce (isDarwin);
 

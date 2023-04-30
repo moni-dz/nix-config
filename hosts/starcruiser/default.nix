@@ -17,7 +17,6 @@ nixpkgs.lib.nixosSystem rec {
 
       nix = import ../../nix-settings.nix {
         inherit inputs system nixpkgs;
-        max-jobs = 12;
       };
 
       nixpkgs = { inherit config overlays; };

@@ -19,6 +19,7 @@
       inherit (pkgs)
         coreutils-prefixed
         fd
+        ffmpeg
         gnugrep
         shellcheck
         ripgrep
@@ -27,22 +28,13 @@
         pandoc
         vscode
         helix
-        wezterm
+        typst
+        typst-lsp
+        typst-fmt
         libheif
         exiv2;
 
-      radian = pkgs.radianWrapper.override {
-        packages = lib.attrValues {
-          inherit (pkgs.rPackages)
-            easystats
-            dplyr
-            dtplyr
-            plyr
-            readxl;
-        };
-      };
-
-      inherit (inputs.nixpkgs-f2k.packages.${system}) emacs-plus-git;
+      inherit (inputs.nixpkgs-f2k.packages.${system}) emacs-plus-git wezterm-git;
     };
 
     sessionVariables.EDITOR = "hx";
@@ -58,12 +50,15 @@
 
     fish = {
       enable = true;
-
       shellAbbrs = import ../shared/config/sh-aliases.nix;
 
-      interactiveShellInit = ''
+      shellInit = ''
         fish_add_path /Users/moni/Library/Python/3.11/bin
         fish_add_path /opt/local/bin
+      '';
+
+      interactiveShellInit = ''
+        set -U fish_greeting
       '';
     };
   };

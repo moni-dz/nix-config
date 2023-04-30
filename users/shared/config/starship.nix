@@ -39,7 +39,7 @@
     format = "→ [$symbol$branch(:$remote_branch)]($style) ";
     symbol = "";
   };
-  
+
   battery.disabled = true;
   line_break.disabled = true;
   directory = {

@@ -3,7 +3,7 @@
 {
   environment = {
     shells = lib.attrValues { inherit (pkgs) fish; };
-  
+
     systemPackages = lib.attrValues {
       inherit (pkgs) git fish;
       inherit (inputs.agenix.packages.${system}) agenix;
@@ -16,7 +16,7 @@
       package = pkgs.mariadb_1011;
       dataDir = "/Users/moni/.mariadb";
     };
-    
+
     nix-daemon.enable = true;
 
     skhd = {
