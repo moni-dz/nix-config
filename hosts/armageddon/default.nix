@@ -9,7 +9,7 @@ darwin.lib.darwinSystem {
   modules = [
     inputs.agenix.darwinModules.default
     inputs.home.darwinModules.default
-    inputs.shyim.darwinModules.default
+    inputs.shyim.darwinModules.default # MariaDB
 
     {
       # NOTE: you should either change this or disable it completely by commenting it out
@@ -29,13 +29,6 @@ darwin.lib.darwinSystem {
       };
 
       nixpkgs = { inherit config overlays; };
-
-      home-manager = {
-        useGlobalPkgs = true;
-        useUserPackages = true;
-        users.moni = import ../../users/moni/home.nix;
-        extraSpecialArgs = { inherit inputs system; };
-      };
     }
 
     ./configuration.nix

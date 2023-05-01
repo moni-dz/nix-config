@@ -71,17 +71,12 @@
         contentAddressedByDefault = false;
       };
 
-      filterNixFiles = k: v: v == "regular" && nixpkgs.lib.hasSuffix ".nix" k;
-
-      importNixFiles = path: with nixpkgs.lib; (lists.forEach (mapAttrsToList (name: _: path + ("/" + name))
-        (filterAttrs filterNixFiles (builtins.readDir path)))) import;
+      importNixFiles = path: with nixpkgs.lib; map import (__filter (hasSuffix "nix") (filesystem.listFilesRecursive path));
 
       overlays = with inputs; [
         (final: prev:
           let inherit (final) system; in
           {
-            # openldap = prev.openldap.overrideAttrs (_: { doCheck = false; });
-
             sway-unwrapped = (nixpkgs-wayland.packages.${system}.sway-unwrapped.override {
               stdenv = final.optimizedV3Stdenv;
               wlroots_0_16 = hyprland.packages.${system}.wlroots-hyprland.override { nvidiaPatches = true; };
@@ -102,12 +97,7 @@
             */
             master = import master { inherit config system; };
             unstable = import unstable { inherit config system; };
-
-            stable =
-              if final.lib.hasSuffix system "darwin"
-              then import stable { inherit config system; }
-              else import darwin-stable { inherit config system; };
-
+            stable = import stable { inherit config system; };
             xanmod = import xanmod { inherit config system; };
           })
 
@@ -134,7 +124,7 @@
       };
 
       homeConfigurations = {
-        moni = import ./users/moni-linux {
+        moni = import ./users/moni {
           inherit config nixpkgs home overlays inputs;
         };
 

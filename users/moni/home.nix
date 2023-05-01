@@ -1,4 +1,4 @@
-{ config, inputs, lib, pkgs, system, age, ... }:
+{ config, inputs, lib, pkgs, system, ... }:
 
 /*
   home-manager configuration
@@ -7,13 +7,6 @@
   - Appendix A. Configuration Options: https://rycee.gitlab.io/home-manager/options.html
 */
 {
-  imports = [
-    # Shared configuration across all users
-    ../shared/home.nix
-
-    inputs.doom.hmModule
-  ];
-
   home = {
     packages = lib.attrValues {
       inherit (pkgs)
@@ -38,7 +31,6 @@
     };
 
     sessionVariables.EDITOR = "hx";
-    stateVersion = "22.11";
   };
 
   programs = {

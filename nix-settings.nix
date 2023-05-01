@@ -38,7 +38,7 @@
 
       max-jobs = "auto";
       sandbox = !isDarwin;
-      sandbox-fallback = nixpkgs.lib.mkForce (isDarwin);
+      sandbox-fallback = nixpkgs.lib.mkForce isDarwin;
 
       # home-manager will attempt to rebuild the world otherwise...
       trusted-substituters = [

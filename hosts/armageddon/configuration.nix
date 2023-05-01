@@ -5,7 +5,7 @@
     shells = lib.attrValues { inherit (pkgs) fish; };
 
     systemPackages = lib.attrValues {
-      inherit (pkgs) git fish;
+      inherit (pkgs) git fish home-manager;
       inherit (inputs.agenix.packages.${system}) agenix;
     };
   };
