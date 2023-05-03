@@ -77,16 +77,6 @@
         (final: prev:
           let inherit (final) system; in
           {
-            sway-unwrapped = (nixpkgs-wayland.packages.${system}.sway-unwrapped.override {
-              stdenv = final.optimizedV3Stdenv;
-              wlroots_0_16 = hyprland.packages.${system}.wlroots-hyprland.override { nvidiaPatches = true; };
-            }).overrideAttrs (_: {
-              __contentAddressed = true;
-              src = swaywm;
-            });
-
-            inherit (nvd.legacyPackages.${system}) nvidia-vaapi-driver;
-
             /*
               Nixpkgs branches, replace when https://github.com/NixOS/nixpkgs/pull/160061 is live.
 

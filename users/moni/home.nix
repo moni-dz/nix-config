@@ -10,6 +10,7 @@
   home = {
     packages = lib.attrValues {
       inherit (pkgs)
+        asitop
         coreutils-prefixed
         fd
         ffmpeg
