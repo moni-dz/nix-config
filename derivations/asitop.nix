@@ -12,7 +12,7 @@ python3.pkgs.buildPythonApplication rec {
   };
 
   doCheck = false;
-  
+
   propagatedBuildInputs = with python3.pkgs; [ psutil pydashing ];
 
   meta = with lib; {
