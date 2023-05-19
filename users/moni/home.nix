@@ -17,11 +17,13 @@
         gnugrep
         shellcheck
         ripgrep
-        discord
+        jq
+        #discord
         pfetch
         pandoc
         vscode
         helix
+        sqlite
         typst
         typst-lsp
         typst-fmt
@@ -36,7 +38,7 @@
 
   programs = {
     discocss = {
-      enable = true;
+      enable = false;
       discordAlias = false;
       css = builtins.readFile ./config/rose-pine.theme.css;
     };
@@ -48,6 +50,7 @@
       shellInit = ''
         fish_add_path /Users/moni/Library/Python/3.11/bin
         fish_add_path /opt/local/bin
+        fish_add_path /run/current-system/sw/bin
       '';
 
       interactiveShellInit = ''

@@ -5,7 +5,7 @@
     shells = lib.attrValues { inherit (pkgs) fish; };
 
     systemPackages = lib.attrValues {
-      inherit (pkgs) git fish home-manager;
+      inherit (pkgs) nano git fish home-manager;
       inherit (inputs.agenix.packages.${system}) agenix;
     };
   };
@@ -14,7 +14,7 @@
     mysql = {
       enable = true;
       package = pkgs.mariadb_1011;
-      dataDir = "/Users/moni/.mariadb";
+      dataDir = "/Users/moni/.dbdata/mariadb";
     };
 
     nix-daemon.enable = true;
@@ -30,6 +30,7 @@
         cmd - left : yabai -m window --focus west
         cmd - right : yabai -m window --focus east
         alt - r : yabai -m space --rotate 270
+        alt - t : yabai -m space --layout $(yabai -m query --spaces --space | ${lib.getExe pkgs.jq} -r 'if .type == "bsp" then "float" else "bsp" end')
         shift + cmd - y : yabai -m space --mirror y-axis
         shift + cmd - x : yabai -m space --mirror x-axis
         cmd - t : yabai -m window --toggle float --grid 4:4:1:1:2:2
@@ -47,7 +48,6 @@
         shift + cmd - 8 : yabai -m window --space 8
         shift + cmd - 9 : yabai -m window --space 9
         shift + cmd - 0 : yabai -m window --space 10
-        cmd - return : open -na wezterm
         shift + cmd - w : yabai -m window --swap recent
         :: resize @
         resize < shift + cmd - r; default
@@ -83,9 +83,11 @@
 
       config = {
         layout = "bsp";
-        focus_follows_mouse = "autoraise";
+        focus_follows_mouse = "autofocus";
         mouse_follows_focus = "off";
         window_placement = "second_child";
+        mouse_action1 = "move";
+        mouse_action2 = "resize";
         top_padding = 10;
         bottom_padding = 10;
         left_padding = 10;
@@ -94,9 +96,7 @@
       };
 
       extraConfig = ''
-        yabai -m rule --add app="^System Settings$" manage=off
-        yabai -m rule --add app="^Calculator$" manage=off
-        yabai -m rule --add app="^Karabiner-Elements$" manage=off
+        yabai -m rule --add app="^(Calculator|System Preferences|System Settings|Archive Utility|Finder)$" manage=off
       '';
     };
   };

@@ -25,7 +25,6 @@
     sessionVariables = {
       MANPAGER = "sh -c 'col -bx | bat --theme ansi -l man -p'";
       MANROFFOPT = "-c";
-      GIT_EXTERNAL_DIFF = "difft";
     };
   };
 
@@ -38,6 +37,18 @@
     exa = {
       enable = true;
       enableAliases = true;
+    };
+
+    git = {
+      enable = true;
+      aliases."dft" = "difftool";
+
+      extraConfig = {
+        diff.tool = "difftastic";
+        difftool.prompt = false;
+        difftool."difftastic".cmd = ''${lib.getExe pkgs.difftastic} "$LOCAL" "$REMOTE"'';
+        pager.difftool = true;
+      };
     };
 
     home-manager.enable = true;
