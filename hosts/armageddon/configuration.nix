@@ -127,7 +127,7 @@
     fontDir.enable = true;
 
     fonts = lib.attrValues {
-      inherit (pkgs) iosevka-ft emacs-all-the-icons-fonts;
+      inherit (pkgs) fira-code iosevka-ft emacs-all-the-icons-fonts;
     };
   };
 
