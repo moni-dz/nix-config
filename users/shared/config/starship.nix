@@ -33,18 +33,21 @@
     modified = "‼";
     renamed = "≡";
     stashed = "⌂";
+    format = ''( [\[$all_status$ahead_behind\]]($style))'';
   };
 
   git_branch = {
-    format = "→ [$symbol$branch(:$remote_branch)]($style) ";
+    format = " → [$symbol$branch(:$remote_branch)]($style)";
     symbol = "";
   };
 
   battery.disabled = true;
   line_break.disabled = true;
+  
   directory = {
     read_only = "(ro)";
-    format = "[$path]($style) [$read_only]($read_only_style)";
+    format = "[$read_only]($read_only_style) [$path]($style)";
   };
+  
   nix_shell.symbol = "(nix)";
 }
