@@ -1,5 +1,5 @@
 {
-  description = "A somewhat huge NixOS configuration using Nix Flakes.";
+  description = "A somewhat huge NixOS/nix-darwin/home-manager configuration using Nix Flakes.";
 
   inputs = {
     # Non-flake inputs
@@ -8,6 +8,7 @@
 
     # Flake inputs
     agenix.url = "github:ryantm/agenix";
+    flake-parts.url = "github:hercules-ci/flake-parts";
     emacs.url = "github:nix-community/emacs-overlay";
     darwin.url = "github:lnl7/nix-darwin/master";
     doom.url = "github:nix-community/nix-doom-emacs";
@@ -22,7 +23,6 @@
     nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
     nixvim.url = "github:pta2002/nixvim";
     statix.url = "github:nerdypepper/statix";
-    shyim.url = "github:shyim/nix-darwin-modules";
 
     # Nixpkgs branches
     master.url = "github:nixos/nixpkgs/master";
@@ -49,10 +49,9 @@
     nixpkgs-f2k.inputs.nixpkgs.follows = "nixpkgs";
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
     statix.inputs.nixpkgs.follows = "nixpkgs";
-    shyim.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, home, darwin, nixpkgs, ... }@inputs:
+  outputs = { self, home, darwin, nixpkgs, flake-parts, ... }@inputs:
     let
       config = {
         allowBroken = true;
@@ -60,14 +59,14 @@
         allowUnfreePredicate = _: true;
         tarball-ttl = 0;
 
-        # XXX: don't do this kids...
+        # WTF: don't do this kids...
         # replaceStdenv = { pkgs }: pkgs.optimizedV3Stdenv;
 
         /*
           NOTE: experimental option, disable if you don't know what this does
 
           See https://github.com/NixOS/rfcs/pull/62 for more information.
-        */
+          */
         contentAddressedByDefault = false;
       };
 
@@ -78,12 +77,12 @@
           let inherit (final) system; in
           {
             /*
-              Nixpkgs branches, replace when https://github.com/NixOS/nixpkgs/pull/160061 is live.
+                Nixpkgs branches, replace when https://github.com/NixOS/nixpkgs/pull/160061 is live.
 
-              One can access these branches like so:
+                One can access these branches like so:
 
-              `pkgs.stable.mpd'
-              `pkgs.master.linuxPackages_xanmod'
+                `pkgs.stable.mpd'
+                `pkgs.master.linuxPackages_xanmod'
             */
             master = import master { inherit config system; };
             unstable = import unstable { inherit config system; };
@@ -98,37 +97,42 @@
       # Overlays from ./overlays directory
       ++ (importNixFiles ./overlays);
     in
-    {
-      darwinConfigurations.ARMageddon = import ./hosts/armageddon {
-        inherit config nixpkgs darwin overlays inputs;
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      flake = {
+        darwinConfigurations.shaker = import ./hosts/armageddon {
+          inherit config nixpkgs darwin overlays inputs;
+        };
+
+        nixosConfigurations = {
+          starcruiser = import ./hosts/starcruiser {
+            inherit config nixpkgs overlays inputs;
+          };
+
+          turncoat = import ./hosts/turncoat {
+            inherit config nixpkgs overlays inputs;
+          };
+        };
+
+        homeConfigurations = {
+          moni = import ./users/moni {
+            inherit config nixpkgs home overlays inputs;
+          };
+
+          zero = import ./users/zero {
+            inherit config nixpkgs home overlays inputs;
+          };
+        };
+
+        # Easier `nix build`-ing of configurations
+        starcruiser = self.nixosConfigurations.starcruiser.config.system.build.toplevel;
+        turncoat = self.nixosConfigurations.turncoat.config.system.build.toplevel;
       };
 
-      nixosConfigurations = {
-        starcruiser = import ./hosts/starcruiser {
-          inherit config nixpkgs overlays inputs;
-        };
+      systems = [ "x86_64-linux" "aarch64-darwin" ];
 
-        turncoat = import ./hosts/turncoat {
-          inherit config nixpkgs overlays inputs;
-        };
+      perSystem = { system, ... }: {
+        formatter = inputs.nixpkgs-fmt.defaultPackage.${system};
       };
-
-      homeConfigurations = {
-        moni = import ./users/moni {
-          inherit config nixpkgs home overlays inputs;
-        };
-
-        zero = import ./users/zero {
-          inherit config nixpkgs home overlays inputs;
-        };
-      };
-
-      # Easier `nix build`-ing of configurations
-      starcruiser = self.nixosConfigurations.starcruiser.config.system.build.toplevel;
-      turncoat = self.nixosConfigurations.turncoat.config.system.build.toplevel;
-
-      # Default formatter for the entire repo
-      formatter = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-darwin" ] (system: inputs.nixpkgs-fmt.defaultPackage.${system});
     };
 
   nixConfig = {

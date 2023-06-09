@@ -33,7 +33,9 @@
           avrdude
           screen
           colima
+          xdelta
           docker
+          rizin
           kitty
           exiv2;
 
@@ -43,9 +45,9 @@
           inherit stdenv;
         };
 
-        emacs-plus = inputs.nixpkgs-f2k.packages.${system}.emacs-plus-git.override {
-          inherit stdenv;
-        };
+        #emacs-plus = inputs.nixpkgs-f2k.packages.${system}.emacs-plus-git.override {
+        #  inherit stdenv;
+        #};
       };
 
     sessionVariables.EDITOR = "hx";
@@ -59,50 +61,16 @@
       shellInit = ''
         fish_add_path /Users/moni/.cargo/bin
         fish_add_path /Users/moni/Library/Python/3.11/bin
+        fish_add_path /usr/local/bin
+        fish_add_path -m /opt/homebrew/bin
         fish_add_path /opt/local/bin
-        fish_add_path /run/current-system/sw/bin
-        fish_add_path /Users/moni/.nix-profile/bin
+        fish_add_path -m /run/current-system/sw/bin
+        fish_add_path -m /Users/moni/.nix-profile/bin
       '';
 
       interactiveShellInit = ''
         set -U fish_greeting
-        set ZJ_SESSIONS (zellij list-sessions)
-        set NO_SESSIONS (echo "$ZJ_SESSIONS" | wc -l)
-
-        if not set -q ZELLIJ
-          if [ "$NO_SESSIONS" -ge 2 ]
-            zellij -l compact a "$(echo "$ZJ_SESSIONS" | ${lib.getExe pkgs.skim})"
-          else
-            zellij -l compact a -c main
-          end
-        end
       '';
-    };
-
-    zellij = {
-      enable = true;
-
-      settings = {
-        simplified_ui = true;
-        pane_frames = false;
-        auto_layout = false;
-        theme = "rose-pine-dawn";
-
-        themes.rose-pine-dawn = {
-          fg = "#faf4ed";
-          bg = "#575279";
-
-          red = "#eb6f92";
-          green = "#31748f";
-          blue = "#9ccfd8";
-          yellow = "#f6c177";
-          magenta = "#c4a7e7";
-          orange = "#fe640b";
-          cyan = "#ebbcba";
-          black = "#222137";
-          white = "#e0def4";
-        };
-      };
     };
   };
 }

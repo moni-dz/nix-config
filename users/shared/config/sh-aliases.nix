@@ -13,4 +13,5 @@
   rm = "rm -i";
   ma = "emacs -nw";
   cfg = "cd ~/.config/nix-config";
+  xbrew = "arch -x86_64 /usr/local/homebrew/bin/brew";
 }

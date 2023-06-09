@@ -11,12 +11,6 @@
   };
 
   services = {
-    mysql = {
-      enable = true;
-      package = pkgs.mariadb_1011;
-      dataDir = "/Users/moni/.dbdata/mariadb";
-    };
-
     nix-daemon.enable = true;
 
     skhd = {
@@ -54,7 +48,7 @@
     fontDir.enable = true;
 
     fonts = lib.attrValues {
-      inherit (pkgs) fira-code iosevka-ft emacs-all-the-icons-fonts;
+      inherit (pkgs) fira-code comic-neue emacs-all-the-icons-fonts;
     };
   };
 
