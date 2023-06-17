@@ -36,7 +36,7 @@
           xdelta
           docker
           rizin
-          kitty
+          protobuf
           exiv2;
 
         inherit (inputs.nixpkgs-f2k.packages.${system}) wezterm-git;
@@ -61,9 +61,7 @@
       shellInit = ''
         fish_add_path /Users/moni/.cargo/bin
         fish_add_path /Users/moni/Library/Python/3.11/bin
-        fish_add_path /usr/local/bin
         fish_add_path -m /opt/homebrew/bin
-        fish_add_path /opt/local/bin
         fish_add_path -m /run/current-system/sw/bin
         fish_add_path -m /Users/moni/.nix-profile/bin
       '';
@@ -71,6 +69,11 @@
       interactiveShellInit = ''
         set -U fish_greeting
       '';
+    };
+
+    zoxide = {
+      enable = true;
+      enableFishIntegration = config.programs.fish.enable;
     };
   };
 }

@@ -45,11 +45,11 @@
 
   battery.disabled = true;
   line_break.disabled = true;
-  
+
   directory = {
     read_only = "(ro)";
     format = "[$read_only]($read_only_style) [$path]($style)";
   };
-  
+
   nix_shell.symbol = "(nix)";
 }
