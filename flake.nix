@@ -118,6 +118,10 @@
             inherit config nixpkgs home overlays inputs;
           };
 
+          omni = import ./users/omni {
+            inherit config nixpkgs home overlays inputs;
+          };
+
           zero = import ./users/zero {
             inherit config nixpkgs home overlays inputs;
           };

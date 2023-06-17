@@ -15,7 +15,7 @@
     ../shared/configuration.nix
 
     # Append your custom NixOS modules in this list
-    ../../modules/nixos/programs/river.nix
+    # ../../modules/nixos/programs/river.nix
   ];
 
   boot = {
@@ -67,7 +67,6 @@
       inherit (pkgs)
         file
         ntfs3g
-        nvtop-nvidia
         pavucontrol
         pulseaudio
         ripgrep
@@ -86,7 +85,23 @@
 
   # https://github.com/nix-community/home-manager/issues/1288#issuecomment-636352427
   programs.sway.enable = true;
-  programs.zsh.enable = true;
+
+  programs.fish = {
+    enable = true;
+    interactiveShellInit = ''
+      function export
+        if [ $argv ]
+          set var (echo $argv | cut -f1 -d=)
+          set val (echo $argv | cut -f2 -d=)
+          set -g -x $var $val
+        else
+          echo 'export var=value'
+        end
+      end
+
+      . ${config.age.secrets.github-token.path}
+    '';
+  };
 
   services = {
     greetd = {

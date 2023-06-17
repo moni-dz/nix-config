@@ -113,6 +113,14 @@
       plugins = [{ name = "fast-syntax-highlighting"; src = inputs.zsh-f-sy-h; }];
       shellAliases = import ./config/sh-aliases.nix;
     };
-  };
 
+    fish = {
+      enable = true;
+      shellAbbrs = import ../shared/config/sh-aliases.nix;
+
+      interactiveShellInit = ''
+        set -U fish_greeting
+      '';
+    };
+  };
 }

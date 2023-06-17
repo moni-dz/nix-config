@@ -62,7 +62,6 @@
         ffmpeg
         font-manager
         graphviz
-        hilbish
         hydra-check
         hyperfine
         i3a
@@ -107,7 +106,7 @@
     sessionVariables = with config.colorscheme.colors; {
       EDITOR = "emacs -nw";
       BEMENU_OPTS = "-H 18 -l 5 --fn 'Iosevka FT QP Light 10.5' --tb '#${base0D}' --tf '#${base02}' --hb '#${base0D}' --hf '#${base02}' --nb '#${base02}' --fb '#${base02}'";
-      BROWSER = "firefox";
+      BROWSER = "brave";
       GOPATH = "${config.home.homeDirectory}/Extras/go";
       QT_QPA_PLATFORMTHEME = "qt5ct";
       RUSTUP_HOME = "${config.home.homeDirectory}/.local/share/rustup";
@@ -139,20 +138,9 @@
     };
 
     doom-emacs = {
-      enable = true;
+      enable = false;
       doomPrivateDir = ./config/emacs;
       emacsPackage = pkgs.emacsPgtk;
-    };
-
-    firefox = {
-      enable = true;
-
-      extensions = lib.attrValues {
-        inherit (inputs.ff-addons.packages.${system})
-          ublock-origin;
-      };
-
-      profiles."moni".isDefault = true;
     };
 
     ncspot.enable = true;

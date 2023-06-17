@@ -1,6 +1,6 @@
 {
   command_timeout = 3000;
-  format = "$username$nix_shell$character";
+  format = "$username$hostname$nix_shell$character";
   right_format = "$directory$git_branch$git_commit$git_state$git_status";
 
   character = {
@@ -19,9 +19,10 @@
   };
 
   hostname = {
-    ssh_only = false;
-    format = "at [$hostname](bold blue) in ";
-    disabled = true;
+    ssh_only = true;
+    ssh_symbol = "";
+    format = "at [$hostname](bold blue) ";
+    disabled = false;
   };
 
   git_commit.format = ''( [\($hash$tag\)]($style))'';

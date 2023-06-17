@@ -276,7 +276,7 @@
   users.users.moni = {
     isNormalUser = true;
     home = "/home/moni";
-    shell = pkgs.zsh;
+    shell = pkgs.fish;
 
     extraGroups = [
       "wheel"

@@ -54,22 +54,15 @@
   };
 
   programs = {
-    fish = {
-      enable = true;
-      shellAbbrs = import ../shared/config/sh-aliases.nix;
-
-      shellInit = ''
-        fish_add_path /Users/moni/.cargo/bin
-        fish_add_path /Users/moni/Library/Python/3.11/bin
-        fish_add_path -m /opt/homebrew/bin
-        fish_add_path -m /run/current-system/sw/bin
-        fish_add_path -m /Users/moni/.nix-profile/bin
-      '';
-
-      interactiveShellInit = ''
-        set -U fish_greeting
-      '';
-    };
+    fish.shellInit = ''
+      fish_add_path /Users/moni/.cargo/bin
+      fish_add_path /Users/moni/Library/Python/3.11/bin
+      fish_add_path /usr/local/bin
+      fish_add_path -m /opt/homebrew/bin
+      fish_add_path /opt/local/bin
+      fish_add_path -m /run/current-system/sw/bin
+      fish_add_path -m /Users/moni/.nix-profile/bin
+    '';
 
     zoxide = {
       enable = true;
