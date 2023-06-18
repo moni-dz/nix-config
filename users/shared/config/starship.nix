@@ -26,6 +26,7 @@
   };
 
   git_commit.format = ''( [\($hash$tag\)]($style))'';
+  git_state.format = " \\([$state( $progress_current/$progress_total)]($style)\\)";
 
   git_status = {
     ahead = "↑";
