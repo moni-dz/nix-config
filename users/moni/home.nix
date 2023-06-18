@@ -63,10 +63,5 @@
       fish_add_path -m /run/current-system/sw/bin
       fish_add_path -m /Users/moni/.nix-profile/bin
     '';
-
-    zoxide = {
-      enable = true;
-      enableFishIntegration = config.programs.fish.enable;
-    };
   };
 }

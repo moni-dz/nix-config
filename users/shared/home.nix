@@ -94,24 +94,9 @@
       settings = import ./config/starship.nix;
     };
 
-    zsh = {
-      enable = !pkgs.stdenv.isDarwin;
-      autocd = true;
-      enableAutosuggestions = true;
-
-      history = {
-        expireDuplicatesFirst = true;
-        extended = true;
-        save = 50000;
-      };
-
-      initExtra = ''
-        # You should comment this out, this is useless without my private key
-        . /run/agenix/github-token
-      '';
-
-      plugins = [{ name = "fast-syntax-highlighting"; src = inputs.zsh-f-sy-h; }];
-      shellAliases = import ./config/sh-aliases.nix;
+    zoxide = {
+      enable = true;
+      enableFishIntegration = config.programs.fish.enable;
     };
 
     fish = {

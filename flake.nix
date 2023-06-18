@@ -4,7 +4,6 @@
   inputs = {
     # Non-flake inputs
     swaywm = { url = "github:swaywm/sway"; flake = false; };
-    zsh-f-sy-h = { url = "github:zdharma-continuum/fast-syntax-highlighting"; flake = false; };
 
     # Flake inputs
     agenix.url = "github:ryantm/agenix";
@@ -12,7 +11,6 @@
     emacs.url = "github:nix-community/emacs-overlay";
     darwin.url = "github:lnl7/nix-darwin/master";
     doom.url = "github:nix-community/nix-doom-emacs";
-    ff-addons.url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
     home.url = "github:nix-community/home-manager";
     hyprland.url = "github:hyprwm/hyprland";
     nix.url = "github:nixos/nix";
@@ -41,7 +39,6 @@
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     doom.inputs.nixpkgs.follows = "nixpkgs";
     emacs.inputs.nixpkgs.follows = "nixpkgs";
-    ff-addons.inputs.nixpkgs.follows = "nixpkgs";
     home.inputs.nixpkgs.follows = "nixpkgs";
     hyprland.inputs.nixpkgs.follows = "nixpkgs";
     nix.inputs.nixpkgs.follows = "nixpkgs";
