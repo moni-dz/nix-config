@@ -2,6 +2,19 @@
 
 # Nix daemon settings that can't be put in `nixConfig`.
 {
+  buildMachines = [
+    {
+      hostName = "192.168.1.9";
+      system = "x86_64-linux";
+      maxJobs = 12;
+	    speedFactor = 2;
+	    supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
+	    mandatoryFeatures = [ ];
+    }
+  ];
+
+  distributedBuilds = true;
+
   extraOptions = ''
     keep-outputs = true
     keep-derivations = true

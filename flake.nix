@@ -99,7 +99,7 @@
     in
     flake-parts.lib.mkFlake { inherit inputs; } {
       flake = {
-        darwinConfigurations.shaker = import ./hosts/armageddon {
+        darwinConfigurations.shaker = import ./hosts/shaker {
           inherit config nixpkgs darwin overlays inputs;
         };
 
