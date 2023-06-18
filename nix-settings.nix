@@ -2,16 +2,18 @@
 
 # Nix daemon settings that can't be put in `nixConfig`.
 {
-  buildMachines = [
+  buildMachines = nixpkgs.lib.optional (system == "aarch64-darwin" || system == "x86_64-darwin")
     {
       hostName = "192.168.1.9";
       system = "x86_64-linux";
-      maxJobs = 12;
-	    speedFactor = 2;
-	    supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
-	    mandatoryFeatures = [ ];
-    }
-  ];
+      sshUser = "moni";
+      sshKey = "/Users/moni/.ssh/id_ed25519";
+      publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUtyUGRxSWlUckdxbk42ZUFoUnVHbDlaVjJzVXovSVI4NVQzL1R6VVQ0T2wgcm9vdEBzdGFyY3J1aXNlcgo=";
+      maxJobs = 6;
+      speedFactor = 2;
+      supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
+      mandatoryFeatures = [ ];
+    };
 
   distributedBuilds = true;
 
@@ -19,6 +21,7 @@
     keep-outputs = true
     keep-derivations = true
     auto-allocate-uids = false
+    builders-use-substitutes = true
     http-connections = 0
   ''
   +
