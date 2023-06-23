@@ -17,7 +17,6 @@
         nixpkgs-review;
 
       inherit (pkgs.gitAndTools) gh;
-      inherit (config.programs.neovim) package;
       inherit (inputs.agenix.packages.${system}) agenix;
       inherit (inputs.statix.packages.${system}) statix;
     };

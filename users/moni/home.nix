@@ -37,17 +37,10 @@
           docker
           rizin
           protobuf
-          exiv2;
+          exiv2
+          ffmpeg_6;
 
         inherit (inputs.nixpkgs-f2k.packages.${system}) wezterm-git;
-
-        ffmpeg = pkgs.ffmpeg_6-headless.override {
-          inherit stdenv;
-        };
-
-        #emacs-plus = inputs.nixpkgs-f2k.packages.${system}.emacs-plus-git.override {
-        #  inherit stdenv;
-        #};
       };
 
     sessionVariables.EDITOR = "hx";

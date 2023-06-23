@@ -11,8 +11,8 @@
   imports = [
     ./hardware-configuration.nix
 
-    # Shared configuration across all machines
-    ../shared/configuration.nix
+    # Shared configuration across all NixOS machines
+    ../shared/nixos.nix
 
     # Append your custom NixOS modules in this list
     # ../../modules/nixos/programs/river.nix
@@ -91,8 +91,6 @@
     protocol = "ssh-ng";
     keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBlr5SHXali3ttWt8ygyWgCW2usWVsBhXebeyi2XKO2Z lythe1107@gmail.com" ];
   };
-
-  programs.ssh.pubkeyAcceptedKeyTypes = [ "ssh-ed25519" ];
 
   # https://github.com/nix-community/home-manager/issues/1288#issuecomment-636352427
   programs.sway.enable = true;

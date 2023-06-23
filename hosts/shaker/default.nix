@@ -1,4 +1,4 @@
-{ config, darwin, overlays, nixpkgs, inputs }:
+{ config, darwin, overlays, nixpkgs, inputs, ... }:
 
 let
   system = "aarch64-darwin";

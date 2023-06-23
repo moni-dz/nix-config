@@ -1,4 +1,4 @@
-{ config, nixpkgs, home, overlays, inputs }:
+{ config, nixpkgs, home, overlays, inputs, ... }:
 
 # See https://github.com/nix-community/home-manager/blob/master/flake.nix#L44 for reference.
 let

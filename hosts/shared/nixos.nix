@@ -210,9 +210,10 @@
     bash.interactiveShellInit = ''export HISTFILE=$HOME/.config/.bash_history'';
     command-not-found.enable = false;
     dconf.enable = true;
+    ssh.pubkeyAcceptedKeyTypes = [ "ssh-ed25519" ];
   };
 
-  qt5.platformTheme = "qt5ct";
+  qt.platformTheme = "qt5ct";
 
   security = {
     sudo.wheelNeedsPassword = false;
@@ -236,8 +237,10 @@
 
     openssh = {
       enable = true;
-      gatewayPorts = "yes";
-      permitRootLogin = "yes";
+      settings = {
+        GatewayPorts = "yes";
+        PermitRootLogin = "yes";
+      };
     };
 
     pipewire = {

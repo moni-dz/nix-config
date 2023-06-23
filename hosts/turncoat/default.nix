@@ -1,4 +1,4 @@
-{ config, nixpkgs, overlays, inputs }:
+{ config, nixpkgs, overlays, inputs, ... }:
 
 # See https://github.com/NixOS/nixpkgs/blob/master/flake.nix#L24 for reference.
 nixpkgs.lib.nixosSystem rec {
@@ -31,10 +31,13 @@ nixpkgs.lib.nixosSystem rec {
 
       wsl = {
         enable = true;
-        automountPath = "/mnt";
         defaultUser = "zero";
         startMenuLaunchers = true;
-        wslConf.network.hostname = "turncoat";
+
+        wslConf = {
+          network.hostname = "turncoat";
+          automount.root = "/mnt";
+        };
       };
     }
 

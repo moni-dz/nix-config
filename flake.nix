@@ -1,13 +1,97 @@
 {
   description = "A somewhat huge NixOS/nix-darwin/home-manager configuration using Nix Flakes.";
 
+  outputs = { self, home, darwin, nixpkgs, ... }@inputs:
+    let
+      config = {
+        allowBroken = true;
+        allowUnfree = true;
+        allowUnfreePredicate = _: true;
+        tarball-ttl = 0;
+
+        # WTF: don't do this kids...
+        # replaceStdenv = { pkgs }: pkgs.optimizedV3Stdenv;
+
+        /*
+          NOTE: experimental option, disable if you don't know what this does
+
+          See https://github.com/NixOS/rfcs/pull/62 for more information.
+        */
+        contentAddressedByDefault = false;
+      };
+
+      importNixFiles = path: with nixpkgs.lib; map import (__filter (hasSuffix "nix") (filesystem.listFilesRecursive path));
+
+      overlays = with inputs; [
+        (final: prev:
+          let
+            pkgsFrom = branch: import branch {
+              inherit config;
+              inherit (final) system;
+            };
+          in
+          {
+            /*
+                Nixpkgs branches, replace when https://github.com/NixOS/nixpkgs/pull/160061 is live.
+
+                One can access these branches like so:
+
+                `pkgs.stable.mpd'
+                `pkgs.master.linuxPackages_xanmod'
+              */
+            master = pkgsFrom master;
+            unstable = pkgsFrom unstable;
+            stable = pkgsFrom stable;
+            xanmod = pkgsFrom xanmod;
+          })
+
+        # Overlays provided by inputs
+        emacs.overlay
+        inputs.nixpkgs-f2k.overlays.stdenvs
+      ]
+      # Overlays from ./overlays directory
+      ++ (importNixFiles ./overlays);
+
+      configFrom = path: import path {
+        inherit config nixpkgs home darwin overlays inputs;
+      };
+    in
+    {
+      darwinConfigurations.shaker = configFrom ./hosts/shaker;
+
+      nixosConfigurations = {
+        starcruiser = configFrom ./hosts/starcruiser;
+        turncoat = configFrom ./hosts/turncoat;
+      };
+
+      homeConfigurations = {
+        moni = configFrom ./users/moni;
+        omni = configFrom ./users/omni;
+        zero = configFrom ./users/zero;
+      };
+
+      # Default formatter for the entire repo
+      formatter = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-darwin" ] (system: inputs.nixpkgs-fmt.defaultPackage.${system});
+    };
+
+  nixConfig = {
+    commit-lockfile-summary = "flake: bump inputs";
+
+    substituters = [
+      "https://cache.nixos.org?priority=10"
+      "https://cache.ngi0.nixos.org/"
+      "https://nix-community.cachix.org?priority=5"
+      "https://nixpkgs-wayland.cachix.org"
+      "https://fortuneteller2k.cachix.org"
+    ];
+  };
+
   inputs = {
     # Non-flake inputs
     swaywm = { url = "github:swaywm/sway"; flake = false; };
 
     # Flake inputs
     agenix.url = "github:ryantm/agenix";
-    flake-parts.url = "github:hercules-ci/flake-parts";
     emacs.url = "github:nix-community/emacs-overlay";
     darwin.url = "github:lnl7/nix-darwin/master";
     doom.url = "github:nix-community/nix-doom-emacs";
@@ -46,105 +130,5 @@
     nixpkgs-f2k.inputs.nixpkgs.follows = "nixpkgs";
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
     statix.inputs.nixpkgs.follows = "nixpkgs";
-  };
-
-  outputs = { self, home, darwin, nixpkgs, flake-parts, ... }@inputs:
-    let
-      config = {
-        allowBroken = true;
-        allowUnfree = true;
-        allowUnfreePredicate = _: true;
-        tarball-ttl = 0;
-
-        # WTF: don't do this kids...
-        # replaceStdenv = { pkgs }: pkgs.optimizedV3Stdenv;
-
-        /*
-          NOTE: experimental option, disable if you don't know what this does
-
-          See https://github.com/NixOS/rfcs/pull/62 for more information.
-          */
-        contentAddressedByDefault = false;
-      };
-
-      importNixFiles = path: with nixpkgs.lib; map import (__filter (hasSuffix "nix") (filesystem.listFilesRecursive path));
-
-      overlays = with inputs; [
-        (final: prev:
-          let inherit (final) system; in
-          {
-            /*
-                Nixpkgs branches, replace when https://github.com/NixOS/nixpkgs/pull/160061 is live.
-
-                One can access these branches like so:
-
-                `pkgs.stable.mpd'
-                `pkgs.master.linuxPackages_xanmod'
-            */
-            master = import master { inherit config system; };
-            unstable = import unstable { inherit config system; };
-            stable = import stable { inherit config system; };
-            xanmod = import xanmod { inherit config system; };
-          })
-
-        # Overlays provided by inputs
-        emacs.overlay
-        inputs.nixpkgs-f2k.overlays.stdenvs
-      ]
-      # Overlays from ./overlays directory
-      ++ (importNixFiles ./overlays);
-    in
-    flake-parts.lib.mkFlake { inherit inputs; } {
-      flake = {
-        darwinConfigurations.shaker = import ./hosts/shaker {
-          inherit config nixpkgs darwin overlays inputs;
-        };
-
-        nixosConfigurations = {
-          starcruiser = import ./hosts/starcruiser {
-            inherit config nixpkgs overlays inputs;
-          };
-
-          turncoat = import ./hosts/turncoat {
-            inherit config nixpkgs overlays inputs;
-          };
-        };
-
-        homeConfigurations = {
-          moni = import ./users/moni {
-            inherit config nixpkgs home overlays inputs;
-          };
-
-          omni = import ./users/omni {
-            inherit config nixpkgs home overlays inputs;
-          };
-
-          zero = import ./users/zero {
-            inherit config nixpkgs home overlays inputs;
-          };
-        };
-
-        # Easier `nix build`-ing of configurations
-        starcruiser = self.nixosConfigurations.starcruiser.config.system.build.toplevel;
-        turncoat = self.nixosConfigurations.turncoat.config.system.build.toplevel;
-      };
-
-      systems = [ "x86_64-linux" "aarch64-darwin" ];
-
-      perSystem = { system, ... }: {
-        formatter = inputs.nixpkgs-fmt.defaultPackage.${system};
-      };
-    };
-
-  nixConfig = {
-    commit-lockfile-summary = "flake: bump inputs";
-
-    substituters = [
-      "https://cache.nixos.org?priority=10"
-      "https://cache.ngi0.nixos.org/"
-      "https://nix-community.cachix.org?priority=5"
-      "https://nixpkgs-wayland.cachix.org"
-      "https://fortuneteller2k.cachix.org"
-    ];
   };
 }

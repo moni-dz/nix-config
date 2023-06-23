@@ -1,4 +1,4 @@
-{ config, nixpkgs, overlays, inputs }:
+{ config, nixpkgs, overlays, inputs, ... }:
 
 # See https://github.com/NixOS/nixpkgs/blob/master/flake.nix#L24 for reference.
 nixpkgs.lib.nixosSystem rec {
