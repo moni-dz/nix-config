@@ -1,8 +1,5 @@
-{ config, darwin, overlays, nixpkgs, inputs, ... }:
+{ config, system, darwin, overlays, nixpkgs, inputs, master, unstable, stable, ... }:
 
-let
-  system = "aarch64-darwin";
-in
 darwin.lib.darwinSystem {
   inherit inputs system;
 
@@ -33,5 +30,5 @@ darwin.lib.darwinSystem {
     ./configuration.nix
   ];
 
-  specialArgs = { inherit system; };
+  specialArgs = { inherit system master unstable stable; };
 }

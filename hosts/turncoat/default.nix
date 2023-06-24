@@ -1,9 +1,9 @@
-{ config, nixpkgs, overlays, inputs, ... }:
+{ config, nixpkgs, system, overlays, inputs, master, unstable, stable, ... }:
 
 # See https://github.com/NixOS/nixpkgs/blob/master/flake.nix#L24 for reference.
-nixpkgs.lib.nixosSystem rec {
-  system = "x86_64-linux";
-
+nixpkgs.lib.nixosSystem {
+  inherit system;
+  
   modules = [
     inputs.agenix.nixosModules.age
     inputs.nixos-wsl.nixosModules.wsl
@@ -44,5 +44,5 @@ nixpkgs.lib.nixosSystem rec {
     ./configuration.nix
   ];
 
-  specialArgs = { inherit inputs system; };
+  specialArgs = { inherit inputs system master unstable stable; };
 }

@@ -1,9 +1,6 @@
-{ config, nixpkgs, home, overlays, inputs, ... }:
+{ config, nixpkgs, system, home, overlays, inputs, master, unstable, stable, ... }:
 
 # See https://github.com/nix-community/home-manager/blob/master/flake.nix#L44 for reference.
-let
-  system = "x86_64-linux";
-in
 home.lib.homeManagerConfiguration {
   modules = [
     {
@@ -23,10 +20,7 @@ home.lib.homeManagerConfiguration {
     }
 
     # Extra home-manager modules that aren't upstream
-    inputs.doom.hmModule
     inputs.nix-colors.homeManagerModule
-    inputs.hyprland.homeManagerModules.default
-    inputs.nixvim.homeManagerModules.nixvim
 
     ./home.nix
   ];
@@ -35,5 +29,5 @@ home.lib.homeManagerConfiguration {
   pkgs = nixpkgs.outputs.legacyPackages.${system};
 
   # Extra arguments passed to home.nix
-  extraSpecialArgs = { inherit inputs system; };
+  extraSpecialArgs = { inherit inputs system master unstable stable; };
 }

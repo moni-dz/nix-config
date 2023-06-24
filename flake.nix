@@ -23,51 +23,44 @@
       importNixFiles = path: with nixpkgs.lib; map import (__filter (hasSuffix "nix") (filesystem.listFilesRecursive path));
 
       overlays = with inputs; [
-        (final: prev:
-          let
-            pkgsFrom = branch: import branch {
-              inherit config;
-              inherit (final) system;
-            };
-          in
-          {
-            /*
-                Nixpkgs branches, replace when https://github.com/NixOS/nixpkgs/pull/160061 is live.
-
-                One can access these branches like so:
-
-                `pkgs.stable.mpd'
-                `pkgs.master.linuxPackages_xanmod'
-              */
-            master = pkgsFrom master;
-            unstable = pkgsFrom unstable;
-            stable = pkgsFrom stable;
-            xanmod = pkgsFrom xanmod;
-          })
-
-        # Overlays provided by inputs
         emacs.overlay
         inputs.nixpkgs-f2k.overlays.stdenvs
       ]
       # Overlays from ./overlays directory
       ++ (importNixFiles ./overlays);
 
-      configFrom = path: import path {
-        inherit config nixpkgs home darwin overlays inputs;
-      };
+      configFrom =
+        let
+          pkgsFrom = branch: system: import branch { inherit config system; };
+        in
+        path: system: import path {
+          inherit config system nixpkgs home darwin overlays inputs;
+
+          /*
+            Nixpkgs branches, replace when https://github.com/NixOS/nixpkgs/pull/160061 is live.
+
+            One can access these branches like so:
+
+            `stable.mpd'
+            `master.linuxPackages_xanmod'
+          */
+          master = pkgsFrom inputs.master system;
+          unstable = pkgsFrom inputs.unstable system;
+          stable = pkgsFrom inputs.stable system;
+        };
     in
     {
-      darwinConfigurations.shaker = configFrom ./hosts/shaker;
+      darwinConfigurations.shaker = configFrom ./hosts/shaker "aarch64-darwin";
 
       nixosConfigurations = {
-        starcruiser = configFrom ./hosts/starcruiser;
-        turncoat = configFrom ./hosts/turncoat;
+        starcruiser = configFrom ./hosts/starcruiser "x86_64-linux";
+        turncoat = configFrom ./hosts/turncoat "x86_64-linux";
       };
 
       homeConfigurations = {
-        moni = configFrom ./users/moni;
-        omni = configFrom ./users/omni;
-        zero = configFrom ./users/zero;
+        moni = configFrom ./users/moni "aarch64-darwin";
+        omni = configFrom ./users/omni "x86_64-linux";
+        zero = configFrom ./users/zero "x86_64-linux";
       };
 
       # Default formatter for the entire repo
@@ -87,32 +80,23 @@
   };
 
   inputs = {
-    # Non-flake inputs
-    swaywm = { url = "github:swaywm/sway"; flake = false; };
-
     # Flake inputs
     agenix.url = "github:ryantm/agenix";
     emacs.url = "github:nix-community/emacs-overlay";
     darwin.url = "github:lnl7/nix-darwin/master";
-    doom.url = "github:nix-community/nix-doom-emacs";
     home.url = "github:nix-community/home-manager";
-    hyprland.url = "github:hyprwm/hyprland";
     nix.url = "github:nixos/nix";
     nix-colors.url = "github:Misterio77/nix-colors";
     nixos-wsl.url = "github:nix-community/nixos-wsl";
     nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
     nixpkgs-fmt.url = "github:nix-community/nixpkgs-fmt";
     nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
-    nixvim.url = "github:pta2002/nixvim";
     statix.url = "github:nerdypepper/statix";
 
     # Nixpkgs branches
     master.url = "github:nixos/nixpkgs/master";
     stable.url = "github:nixos/nixpkgs/nixos-21.11";
-    darwin-stable.url = "github:nixos/nixpkgs/nixpkgs-21.11-darwin";
     unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    xanmod.url = "github:fortuneteller2k/nixpkgs/xanmod";
-    nvd.url = "github:dacioromero/nixpkgs/master";
 
     # Default Nixpkgs for packages and modules
     nixpkgs.follows = "master";
@@ -121,14 +105,11 @@
     agenix.inputs.nixpkgs.follows = "nixpkgs";
     agenix.inputs.darwin.follows = "darwin";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
-    doom.inputs.nixpkgs.follows = "nixpkgs";
     emacs.inputs.nixpkgs.follows = "nixpkgs";
     home.inputs.nixpkgs.follows = "nixpkgs";
-    hyprland.inputs.nixpkgs.follows = "nixpkgs";
     nix.inputs.nixpkgs.follows = "nixpkgs";
     nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
     nixpkgs-f2k.inputs.nixpkgs.follows = "nixpkgs";
-    nixvim.inputs.nixpkgs.follows = "nixpkgs";
     statix.inputs.nixpkgs.follows = "nixpkgs";
   };
 }
