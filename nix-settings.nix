@@ -1,4 +1,4 @@
-{ inputs, system, nixpkgs }:
+{ inputs, inputs', system, nixpkgs }:
 
 # Nix daemon settings that can't be put in `nixConfig`.
 {
@@ -30,7 +30,7 @@
   '');
 
   nixPath = [ "nixpkgs=${nixpkgs}" ];
-  package = inputs.nix.packages.${system}.default;
+  package = inputs'.nix.packages.default;
 
   registry = {
     system.flake = inputs.self;

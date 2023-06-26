@@ -1,26 +1,33 @@
-{ config, nixpkgs, system, home, overlays, inputs, master, unstable, stable, ... }:
+{ inputs, withSystem, ... }:
 
+withSystem "x86-64-linux" ({ system, nixpkgs-config, overlays, ... }@args:
 # See https://github.com/nix-community/home-manager/blob/master/flake.nix#L44 for reference.
+let
+  inherit (inputs) home nix-colors nixpkgs;
+in
 home.lib.homeManagerConfiguration {
   modules = [
     {
-      nixpkgs = { inherit config overlays; };
+      nixpkgs = {
+        inherit overlays;
+        config = nixpkgs-config;
+      };
 
       home = rec {
         username = "moni";
         homeDirectory = "/home/${username}";
 
         /*
-          NOTE: DO NOT CHANGE THIS IF YOU DON'T KNOW WHAT YOU'RE DOING.
+              NOTE: DO NOT CHANGE THIS IF YOU DON'T KNOW WHAT YOU'RE DOING.
 
-          Only change this if you are ABSOLUTELY 100% SURE that you don't have stateful data.
-        */
+              Only change this if you are ABSOLUTELY 100% SURE that you don't have stateful data.
+            */
         stateVersion = "21.11";
       };
     }
 
     # Extra home-manager modules that aren't upstream
-    inputs.nix-colors.homeManagerModule
+    nix-colors.homeManagerModule
 
     ./home.nix
   ];
@@ -29,5 +36,8 @@ home.lib.homeManagerConfiguration {
   pkgs = nixpkgs.outputs.legacyPackages.${system};
 
   # Extra arguments passed to home.nix
-  extraSpecialArgs = { inherit inputs system master unstable stable; };
-}
+  extraSpecialArgs = {
+    inherit inputs system;
+    inherit (args) master unstable stable;
+  };
+})

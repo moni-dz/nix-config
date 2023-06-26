@@ -1,48 +1,61 @@
-{ config, nixpkgs, system, overlays, inputs, master, unstable, stable, ... }:
+{ inputs, withSystem, ... }:
 
-# See https://github.com/NixOS/nixpkgs/blob/master/flake.nix#L24 for reference.
-nixpkgs.lib.nixosSystem {
-  inherit system;
+{
+  flake.nixosConfigurations.turncoat = withSystem "x86_64-linux" ({ inputs', system, nixpkgs-config, overlays, ... }@args:
+    # See https://github.com/NixOS/nixpkgs/blob/master/flake.nix#L24 for reference.
+    let
+      inherit (inputs) agenix nixpkgs nixos-wsl;
+    in
+    nixpkgs.lib.nixosSystem {
+      inherit system;
 
-  modules = [
-    inputs.agenix.nixosModules.age
-    inputs.nixos-wsl.nixosModules.wsl
+      modules = [
+        agenix.nixosModules.age
+        nixos-wsl.nixosModules.wsl
 
-    {
-      # NOTE: you should either change this or disable it completely by commenting it out
-      age = {
-        identityPaths = [ "/home/zero/.ssh/id_ed25519" ];
+        {
+          # NOTE: you should either change this or disable it completely by commenting it out
+          age = {
+            identityPaths = [ "/home/zero/.ssh/id_ed25519" ];
 
-        secrets.github-token = {
-          file = ../../secrets/github-token.age;
-          owner = "zero";
-          mode = "0444";
-        };
-      };
+            secrets.github-token = {
+              file = ../../secrets/github-token.age;
+              owner = "zero";
+              mode = "0444";
+            };
+          };
 
+          nix = import ../../nix-settings.nix {
+            inherit inputs inputs' system nixpkgs;
+          };
 
-      nix = import ../../nix-settings.nix {
-        inherit inputs system nixpkgs;
-      };
+          nixpkgs = {
+            inherit overlays;
+            config = nixpkgs-config;
+          };
 
-      nixpkgs = { inherit config overlays; };
-      networking.hostName = "turncoat";
-      system.stateVersion = "22.05";
+          networking.hostName = "turncoat";
+          system.stateVersion = "22.05";
 
-      wsl = {
-        enable = true;
-        defaultUser = "zero";
-        startMenuLaunchers = true;
+          wsl = {
+            enable = true;
+            defaultUser = "zero";
+            startMenuLaunchers = true;
 
-        wslConf = {
-          network.hostname = "turncoat";
-          automount.root = "/mnt";
-        };
+            wslConf = {
+              network.hostname = "turncoat";
+              automount.root = "/mnt";
+            };
+          };
+        }
+
+        ./configuration.nix
+      ];
+
+      specialArgs = {
+        inherit system;
+        inherit (args) master unstable stable;
       };
     }
-
-    ./configuration.nix
-  ];
-
-  specialArgs = { inherit inputs system master unstable stable; };
+  );
 }

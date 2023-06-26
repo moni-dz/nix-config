@@ -1,70 +1,63 @@
 {
   description = "A somewhat huge NixOS/nix-darwin/home-manager configuration using Nix Flakes.";
 
-  outputs = { self, home, darwin, nixpkgs, ... }@inputs:
-    let
-      config = {
-        allowBroken = true;
-        allowUnfree = true;
-        allowUnfreePredicate = _: true;
-        tarball-ttl = 0;
+  outputs = { self, parts, home, darwin, nixpkgs, ... }@inputs:
+    parts.lib.mkFlake { inherit inputs; } {
+      systems = [ "x86_64-linux" "aarch64-darwin" ];
 
-        # WTF: don't do this kids...
-        # replaceStdenv = { pkgs }: pkgs.optimizedV3Stdenv;
+      imports = [
+        ./hosts
+        ./users
+      ];
 
-        /*
-          NOTE: experimental option, disable if you don't know what this does
+      perSystem = { system, ... }: {
+        _module.args =
+          let
+            nixpkgs-config = {
+              allowBroken = true;
+              allowUnfree = true;
+              allowUnfreePredicate = _: true;
+              tarball-ttl = 0;
 
-          See https://github.com/NixOS/rfcs/pull/62 for more information.
-        */
-        contentAddressedByDefault = false;
+              # WTF: don't do this kids...
+              # replaceStdenv = { pkgs }: pkgs.optimizedV3Stdenv;
+
+              /*
+                NOTE: experimental option, disable if you don't know what this does
+
+                See https://github.com/NixOS/rfcs/pull/62 for more information.
+              */
+              contentAddressedByDefault = false;
+            };
+
+            pkgsFrom = branch: system: import branch {
+              inherit system;
+              config = nixpkgs-config;
+            };
+
+            importNixFiles = path: with inputs.nixpkgs.lib; map import (__filter (hasSuffix "nix") (filesystem.listFilesRecursive path));
+          in
+          {
+            inherit nixpkgs-config;
+
+            overlays = with inputs; [ emacs.overlay nixpkgs-f2k.overlays.stdenvs ]
+              ++ (importNixFiles ./overlays); # Overlays from ./overlays directory
+
+            /*
+              Nixpkgs branches, replace when https://github.com/NixOS/nixpkgs/pull/160061 is live.
+
+              One can access these branches like so:
+
+              `stable.mpd'
+              `master.linuxPackages_xanmod'
+            */
+            master = pkgsFrom inputs.master system;
+            unstable = pkgsFrom inputs.unstable system;
+            stable = pkgsFrom inputs.stable system;
+          };
+
+        formatter = inputs.nixpkgs-fmt.defaultPackage.${system};
       };
-
-      importNixFiles = path: with nixpkgs.lib; map import (__filter (hasSuffix "nix") (filesystem.listFilesRecursive path));
-
-      overlays = with inputs; [
-        emacs.overlay
-        inputs.nixpkgs-f2k.overlays.stdenvs
-      ]
-      # Overlays from ./overlays directory
-      ++ (importNixFiles ./overlays);
-
-      configFrom =
-        let
-          pkgsFrom = branch: system: import branch { inherit config system; };
-        in
-        path: system: import path {
-          inherit config system nixpkgs home darwin overlays inputs;
-
-          /*
-            Nixpkgs branches, replace when https://github.com/NixOS/nixpkgs/pull/160061 is live.
-
-            One can access these branches like so:
-
-            `stable.mpd'
-            `master.linuxPackages_xanmod'
-          */
-          master = pkgsFrom inputs.master system;
-          unstable = pkgsFrom inputs.unstable system;
-          stable = pkgsFrom inputs.stable system;
-        };
-    in
-    {
-      darwinConfigurations.shaker = configFrom ./hosts/shaker "aarch64-darwin";
-
-      nixosConfigurations = {
-        starcruiser = configFrom ./hosts/starcruiser "x86_64-linux";
-        turncoat = configFrom ./hosts/turncoat "x86_64-linux";
-      };
-
-      homeConfigurations = {
-        moni = configFrom ./users/moni "aarch64-darwin";
-        omni = configFrom ./users/omni "x86_64-linux";
-        zero = configFrom ./users/zero "x86_64-linux";
-      };
-
-      # Default formatter for the entire repo
-      formatter = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-darwin" ] (system: inputs.nixpkgs-fmt.defaultPackage.${system});
     };
 
   nixConfig = {
@@ -91,6 +84,7 @@
     nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
     nixpkgs-fmt.url = "github:nix-community/nixpkgs-fmt";
     nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
+    parts.url = "github:hercules-ci/flake-parts";
     statix.url = "github:nerdypepper/statix";
 
     # Nixpkgs branches
