@@ -34,7 +34,7 @@ home.lib.homeManagerConfiguration {
 
   # Extra arguments passed to home.nix
   extraSpecialArgs = {
-    inherit inputs system;
+    inherit inputs inputs' system;
     inherit (args) master unstable stable;
   };
 })

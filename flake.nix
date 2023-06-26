@@ -79,6 +79,7 @@
     darwin.url = "github:lnl7/nix-darwin/master";
     home.url = "github:nix-community/home-manager";
     nix.url = "github:nixos/nix";
+    nixd.url = "github:nix-community/nixd";
     nix-colors.url = "github:Misterio77/nix-colors";
     nixos-wsl.url = "github:nix-community/nixos-wsl";
     nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
@@ -102,6 +103,7 @@
     emacs.inputs.nixpkgs.follows = "nixpkgs";
     home.inputs.nixpkgs.follows = "nixpkgs";
     nix.inputs.nixpkgs.follows = "nixpkgs";
+    nixd.inputs.nixpkgs.follows = "nixpkgs";
     nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
     nixpkgs-f2k.inputs.nixpkgs.follows = "nixpkgs";
     statix.inputs.nixpkgs.follows = "nixpkgs";

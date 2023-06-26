@@ -1,6 +1,6 @@
 { inputs, withSystem, ... }:
 
-withSystem "aarch64-darwin" ({ system, nixpkgs-config, overlays, ... }@args:
+withSystem "aarch64-darwin" ({ inputs', system, nixpkgs-config, overlays, ... }@args:
 # See https://github.com/nix-community/home-manager/blob/master/flake.nix#L44 for reference.
 let
   inherit (inputs) home nixpkgs;
@@ -38,7 +38,7 @@ home.lib.homeManagerConfiguration {
 
   # Extra arguments passed to home.nix
   extraSpecialArgs = {
-    inherit inputs system;
+    inherit inputs inputs' system;
     inherit (args) master unstable stable;
   };
 })

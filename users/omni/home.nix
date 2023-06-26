@@ -1,4 +1,4 @@
-{ config, inputs, lib, pkgs, system, ... }:
+{ config, inputs, inputs', lib, pkgs, system, ... }:
 
 /*
   home-manager configuration
@@ -32,7 +32,7 @@
     theme = {
       name = "phocus";
 
-      package = inputs.nixpkgs-f2k.packages.${system}.phocus.override {
+      package = inputs'.nixpkgs-f2k.packages.phocus.override {
         inherit (config.colorscheme) colors;
         primary = config.colorscheme.colors.base0D;
         secondary = config.colorscheme.colors.base0E;
@@ -81,9 +81,9 @@
 
       inherit (pkgs.nodePackages) insect;
       inherit (pkgs.sway-contrib) grimshot;
-      inherit (inputs.agenix.packages.${system}) agenix;
+      inherit (inputs'.agenix.packages) agenix;
 
-      inherit (inputs.nixpkgs-wayland.packages.${system})
+      inherit (inputs'.nixpkgs-wayland.packages)
         grim
         slurp
         swaybg
@@ -147,7 +147,7 @@
 
     waybar = {
       enable = true;
-      package = inputs.nixpkgs-wayland.packages.${system}.waybar;
+      package = inputs'.nixpkgs-wayland.packages.waybar;
 
       settings = [
         {
@@ -179,7 +179,7 @@
     dunst = {
       enable = true;
 
-      package = inputs.nixpkgs-wayland.packages.${system}.dunst.overrideAttrs (old: {
+      package = inputs'.nixpkgs-wayland.packages.dunst.overrideAttrs (old: {
         __contentAddressed = true;
       });
 
@@ -198,7 +198,7 @@
       in
       {
         enable = true;
-        package = inputs.nixpkgs-wayland.packages.${system}.swayidle;
+        package = inputs'.nixpkgs-wayland.packages.swayidle;
 
         events = [
           { event = "before-sleep"; command = display "off"; }
@@ -371,7 +371,7 @@
       "wlogout/style.css".text = import ./config/wlogout/style.nix {
         inherit (config) colorscheme;
         iconsDirectory =
-          let inherit (inputs.nixpkgs-wayland.packages.${system}) wlogout;
+          let inherit (inputs'.nixpkgs-wayland.packages) wlogout;
           in "${wlogout}/share/wlogout/icons";
       };
     };

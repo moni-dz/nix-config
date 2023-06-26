@@ -40,7 +40,7 @@
       ];
 
       specialArgs = {
-        inherit system;
+        inherit inputs inputs' system;
         inherit (args) master unstable stable;
       };
     }

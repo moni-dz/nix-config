@@ -1,4 +1,4 @@
-{ config, inputs, lib, pkgs, system, ... }:
+{ config, inputs', lib, pkgs, system, ... }:
 
 /*
   home-manager configuration
@@ -40,7 +40,8 @@
           exiv2
           ffmpeg_6;
 
-        inherit (inputs.nixpkgs-f2k.packages.${system}) wezterm-git;
+        inherit (inputs'.nixpkgs-f2k.packages) wezterm-git;
+        inherit (inputs'.nixd.packages) nixd;
       };
 
     sessionVariables.EDITOR = "hx";

@@ -1,6 +1,6 @@
 { inputs, withSystem, ... }:
 
-withSystem "x86-64-linux" ({ system, nixpkgs-config, overlays, ... }@args:
+withSystem "x86-64-linux" ({ inputs', system, nixpkgs-config, overlays, ... }@args:
 # See https://github.com/nix-community/home-manager/blob/master/flake.nix#L44 for reference.
 let
   inherit (inputs) home nix-colors nixpkgs;
@@ -37,7 +37,7 @@ home.lib.homeManagerConfiguration {
 
   # Extra arguments passed to home.nix
   extraSpecialArgs = {
-    inherit inputs system;
+    inherit inputs inputs' system;
     inherit (args) master unstable stable;
   };
 })

@@ -1,4 +1,4 @@
-{ config, lib, pkgs, system, inputs, ... }:
+{ config, lib, pkgs, system, inputs, inputs', ... }:
 
 {
   environment = {
@@ -6,7 +6,7 @@
 
     systemPackages = lib.attrValues {
       inherit (pkgs) nano git fish home-manager;
-      inherit (inputs.agenix.packages.${system}) agenix;
+      inherit (inputs'.agenix.packages) agenix;
     };
   };
 
