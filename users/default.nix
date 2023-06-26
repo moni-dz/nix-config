@@ -1,4 +1,4 @@
-ctx:
+{ inputs, withSystem, ... }@ctx:
 
 {
   flake.homeConfigurations = {
