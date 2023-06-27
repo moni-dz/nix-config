@@ -19,14 +19,7 @@
               allowUnfreePredicate = _: true;
               tarball-ttl = 0;
 
-              # WTF: don't do this kids...
-              # replaceStdenv = { pkgs }: pkgs.optimizedV3Stdenv;
-
-              /*
-                NOTE: experimental option, disable if you don't know what this does
-
-                See https://github.com/NixOS/rfcs/pull/62 for more information.
-              */
+              # Experimental options, disable if you don't know what you are doing!
               contentAddressedByDefault = false;
             };
 

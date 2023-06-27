@@ -7,11 +7,6 @@
   - Appendix A. Configuration Options: https://rycee.gitlab.io/home-manager/options.html
 */
 {
-  imports = [
-    # Shared configuration across all users
-    ../shared/home.nix
-  ];
-
   home = {
     packages = lib.attrValues {
       inherit (pkgs) ripgrep pfetch;

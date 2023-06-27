@@ -35,6 +35,9 @@ home.lib.homeManagerConfiguration {
     # Extra home-manager modules that aren't upstream
     nix-colors.homeManagerModule
 
+    # Shared configuration across all users
+    ../shared
+
     ./home.nix
   ];
 

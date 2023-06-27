@@ -32,6 +32,9 @@ home.lib.homeManagerConfiguration {
       };
     })
 
+    # Shared configuration across all users
+    ../shared
+
     ./home.nix
   ];
 

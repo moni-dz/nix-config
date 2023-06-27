@@ -33,7 +33,7 @@ home.lib.homeManagerConfiguration {
     })
 
     # Shared configuration across all users
-    ../shared/home.nix
+    ../shared
 
     # Particular configuration for the user
     ./home.nix
