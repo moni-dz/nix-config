@@ -13,7 +13,7 @@
         agenix.nixosModules.age
         nixos-wsl.nixosModules.wsl
 
-        ({ lib, ... }: {
+        ({ lib, pkgs, ... }: {
           # Extra arguments passed to the module system
           _module.args = {
             inherit inputs inputs' system;
@@ -32,7 +32,8 @@
           };
 
           nix = import ../../nix-settings.nix {
-            inherit inputs inputs' system nixpkgs;
+            inherit lib inputs inputs';
+            inherit (pkgs) stdenv;
           };
 
           nixpkgs = {

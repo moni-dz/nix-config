@@ -1,8 +1,8 @@
-{ inputs, inputs', system, nixpkgs }:
+{ lib, stdenv, inputs, inputs' }:
 
 # Nix daemon settings that can't be put in `nixConfig`.
 {
-  buildMachines = nixpkgs.lib.optional (system == "aarch64-darwin" || system == "x86_64-darwin")
+  buildMachines = lib.optional stdenv.isDarwin
     {
       hostName = "192.168.1.9";
       system = "x86_64-linux";
@@ -24,17 +24,16 @@
     builders-use-substitutes = true
     http-connections = 0
   ''
-  +
-  (nixpkgs.lib.optionalString (system == "aarch64-darwin") ''
+  + lib.optionalString (stdenv.isDarwin && stdenv.isAarch64) ''
     extra-platforms = aarch64-darwin x86_64-darwin
-  '');
+  '';
 
-  nixPath = [ "nixpkgs=${nixpkgs}" ];
+  nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
   package = inputs'.nix.packages.default.overrideAttrs (_: { doCheck = false; });
 
   registry = {
     system.flake = inputs.self;
-    default.flake = nixpkgs;
+    default.flake = inputs.nixpkgs;
     home-manager.flake = inputs.home;
   };
 
