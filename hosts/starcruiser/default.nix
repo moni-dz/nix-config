@@ -10,7 +10,13 @@
       modules = [
         agenix.nixosModules.age
 
-        {
+        ({ lib, ... }: {
+          # Extra arguments passed to the module system
+          _module.args = {
+            inherit inputs inputs' system;
+            inherit (args) master unstable stable;
+          };
+
           # NOTE: you should either change this or disable it completely by commenting it out
           age.secrets.github-token = {
             file = ../../secrets/github-token.age;
@@ -30,19 +36,15 @@
           networking.hostName = "starcruiser";
 
           /*
-          NOTE: DO NOT CHANGE THIS IF YOU DON'T KNOW WHAT YOU'RE DOING.
-          Only change this if you are ABSOLUTELY 100% SURE that you don't have stateful data.
+            NOTE: DO NOT CHANGE THIS IF YOU DON'T KNOW WHAT YOU'RE DOING.
+          
+            Only change this if you are ABSOLUTELY 100% SURE that you don't have stateful data.
           */
           system.stateVersion = "22.11";
-        }
+        })
 
         ./configuration.nix
       ];
-
-      specialArgs = {
-        inherit inputs inputs' system;
-        inherit (args) master unstable stable;
-      };
     }
   );
 }

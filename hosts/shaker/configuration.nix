@@ -51,8 +51,4 @@
       inherit (pkgs) fira-code comic-neue emacs-all-the-icons-fonts;
     };
   };
-
-  # Used for backwards compatibility, please read the changelog before changing.
-  # $ darwin-rebuild changelog
-  system.stateVersion = 4;
 }

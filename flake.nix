@@ -10,7 +10,7 @@
         ./users
       ];
 
-      perSystem = { system, ... }: {
+      perSystem = { lib, system, ... }: {
         _module.args =
           let
             nixpkgs-config = {
@@ -35,7 +35,11 @@
               config = nixpkgs-config;
             };
 
-            importNixFiles = path: with inputs.nixpkgs.lib; map import (__filter (hasSuffix "nix") (filesystem.listFilesRecursive path));
+            importNixFiles = lib.flip lib.pipe [
+              lib.filesystem.listFilesRecursive
+              (__filter (lib.hasSuffix "nix"))
+              (map import)
+            ];
           in
           {
             inherit nixpkgs-config;

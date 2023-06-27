@@ -13,7 +13,13 @@
         agenix.nixosModules.age
         nixos-wsl.nixosModules.wsl
 
-        {
+        ({ lib, ... }: {
+          # Extra arguments passed to the module system
+          _module.args = {
+            inherit inputs inputs' system;
+            inherit (args) master unstable stable;
+          };
+
           # NOTE: you should either change this or disable it completely by commenting it out
           age = {
             identityPaths = [ "/home/zero/.ssh/id_ed25519" ];
@@ -47,15 +53,10 @@
               automount.root = "/mnt";
             };
           };
-        }
+        })
 
         ./configuration.nix
       ];
-
-      specialArgs = {
-        inherit inputs inputs' system;
-        inherit (args) master unstable stable;
-      };
     }
   );
 }

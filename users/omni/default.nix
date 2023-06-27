@@ -7,7 +7,13 @@ let
 in
 home.lib.homeManagerConfiguration {
   modules = [
-    {
+    ({ lib, ... }: {
+      # Extra arguments passed to the module system
+      _module.args = {
+        inherit inputs inputs' system;
+        inherit (args) master unstable stable;
+      };
+
       nixpkgs = {
         inherit overlays;
         config = nixpkgs-config;
@@ -24,7 +30,7 @@ home.lib.homeManagerConfiguration {
             */
         stateVersion = "21.11";
       };
-    }
+    })
 
     # Extra home-manager modules that aren't upstream
     nix-colors.homeManagerModule
@@ -34,10 +40,4 @@ home.lib.homeManagerConfiguration {
 
   # Default nixpkgs for home.nix
   pkgs = nixpkgs.outputs.legacyPackages.${system};
-
-  # Extra arguments passed to home.nix
-  extraSpecialArgs = {
-    inherit inputs inputs' system;
-    inherit (args) master unstable stable;
-  };
 })
