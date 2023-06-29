@@ -2,18 +2,17 @@
 
 # Nix daemon settings that can't be put in `nixConfig`.
 {
-  buildMachines = lib.optional stdenv.isDarwin
-    {
-      hostName = "192.168.1.9";
-      system = "x86_64-linux";
-      sshUser = "moni";
-      sshKey = "/Users/moni/.ssh/id_ed25519";
-      publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUtyUGRxSWlUckdxbk42ZUFoUnVHbDlaVjJzVXovSVI4NVQzL1R6VVQ0T2wgcm9vdEBzdGFyY3J1aXNlcgo=";
-      maxJobs = 6;
-      speedFactor = 2;
-      supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
-      mandatoryFeatures = [ ];
-    };
+  buildMachines = lib.optional stdenv.isDarwin {
+    hostName = "192.168.1.9";
+    system = "x86_64-linux";
+    sshUser = "moni";
+    sshKey = "/Users/moni/.ssh/id_ed25519";
+    publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUtyUGRxSWlUckdxbk42ZUFoUnVHbDlaVjJzVXovSVI4NVQzL1R6VVQ0T2wgcm9vdEBzdGFyY3J1aXNlcgo=";
+    maxJobs = 6;
+    speedFactor = 2;
+    supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
+    mandatoryFeatures = [ ];
+  };
 
   distributedBuilds = true;
 
@@ -23,8 +22,7 @@
     auto-allocate-uids = true
     builders-use-substitutes = true
     http-connections = 0
-  ''
-  + lib.optionalString (stdenv.isDarwin && stdenv.isAarch64) ''
+  '' + lib.optionalString (stdenv.isDarwin && stdenv.isAarch64) ''
     extra-platforms = aarch64-darwin x86_64-darwin
   '';
 
@@ -39,6 +37,7 @@
 
   settings = {
     accept-flake-config = true;
+    flake-registry = __toFile "begone-evil.json" (__toJSON { flakes = [ ]; version = 2; });
 
     experimental-features = [
       "auto-allocate-uids"
@@ -51,9 +50,8 @@
 
     # home-manager will attempt to rebuild the world otherwise...
     trusted-substituters = [
-      "https://cache.nixos.org?priority=7"
       "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store/?priority=10"
-      "https://cache.ngi0.nixos.org/"
+      "https://cache.nixos.org?priority=7"
       "https://nix-community.cachix.org?priority=5"
       "https://nixpkgs-wayland.cachix.org"
       "https://fortuneteller2k.cachix.org"

@@ -10,7 +10,7 @@
   home = {
     packages =
       let
-        stdenv = pkgs.stdenvAdapters.withCFlags [ "-O3" "-pipe" "-mcpu=apple-m1" ] pkgs.llvmPackages_latest.stdenv;
+        stdenv = pkgs.stdenvAdapters.withCFlags [ "-Ofast" "-pipe" "-mcpu=apple-m1" ] pkgs.llvmPackages_latest.stdenv;
       in
       lib.attrValues {
         inherit (pkgs)
@@ -39,6 +39,15 @@
           protobuf
           exiv2
           ffmpeg_6;
+
+        sdrpp = pkgs.sdrpp.override {
+          inherit stdenv;
+
+          fftwFloat = pkgs.fftwFloat.overrideAttrs (_: {
+            inherit stdenv;
+            postPatch = null;
+          });
+        };
 
         inherit (inputs'.nixpkgs-f2k.packages) wezterm-git;
         inherit (inputs'.nixd.packages) nixd;
