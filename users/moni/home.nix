@@ -50,7 +50,6 @@
         };
 
         inherit (inputs'.nixpkgs-f2k.packages) wezterm-git;
-        inherit (inputs'.nixd.packages) nixd;
       };
 
     sessionVariables.EDITOR = "hx";

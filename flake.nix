@@ -1,82 +1,63 @@
 {
   description = "A somewhat huge NixOS/nix-darwin/home-manager configuration using Nix Flakes.";
+  nixConfig.commit-lockfile-summary = "flake: bump inputs";
 
-  outputs = { self, parts, home, darwin, nixpkgs, ... }@inputs:
-    parts.lib.mkFlake { inherit inputs; } {
-      systems = [ "x86_64-linux" "aarch64-darwin" ];
+  outputs = inputs: inputs.parts.lib.mkFlake { inherit inputs; } {
+    imports = [ ./hosts ./users ];
+    systems = [ "x86_64-linux" "aarch64-darwin" ];
 
-      imports = [
-        ./hosts
-        ./users
-      ];
+    perSystem = { lib, pkgs, system, ... }: {
+      _module.args =
+        let
+          nixpkgs-config = {
+            allowBroken = true;
+            allowUnfree = true;
+            allowUnfreePredicate = _: true;
+            tarball-ttl = 0;
 
-      perSystem = { lib, system, ... }: {
-        _module.args =
-          let
-            nixpkgs-config = {
-              allowBroken = true;
-              allowUnfree = true;
-              allowUnfreePredicate = _: true;
-              tarball-ttl = 0;
-
-              # Experimental options, disable if you don't know what you are doing!
-              contentAddressedByDefault = false;
-            };
-
-            pkgsFrom = branch: system: import branch {
-              inherit system;
-              config = nixpkgs-config;
-            };
-
-            importNixFiles = lib.flip lib.pipe [
-              lib.filesystem.listFilesRecursive
-              (__filter (lib.hasSuffix "nix"))
-              (map import)
-            ];
-          in
-          {
-            inherit nixpkgs-config;
-
-            overlays = with inputs; [ emacs.overlay nixpkgs-f2k.overlays.stdenvs ]
-              ++ (importNixFiles ./overlays); # Overlays from ./overlays directory
-
-            /*
-              Nixpkgs branches, replace when https://github.com/NixOS/nixpkgs/pull/160061 is live.
-
-              One can access these branches like so:
-
-              `stable.mpd'
-              `master.linuxPackages_xanmod'
-            */
-            master = pkgsFrom inputs.master system;
-            unstable = pkgsFrom inputs.unstable system;
-            stable = pkgsFrom inputs.stable system;
+            # Experimental options, disable if you don't know what you are doing!
+            contentAddressedByDefault = false;
           };
 
-        formatter = inputs.nixpkgs-fmt.defaultPackage.${system};
-      };
+          pkgsFrom = branch: system: import branch {
+            inherit system;
+            config = nixpkgs-config;
+          };
+
+          importNixFiles = lib.flip lib.pipe [
+            lib.filesystem.listFilesRecursive
+            (__filter (lib.hasSuffix "nix"))
+            (map import)
+          ];
+        in
+        {
+          inherit nixpkgs-config;
+
+          overlays = with inputs; [ emacs.overlay nixpkgs-f2k.overlays.stdenvs ]
+            ++ (importNixFiles ./overlays); # Overlays from ./overlays directory
+
+          /*
+            One can access these nixpkgs branches like so:
+
+            `stable.mpd'
+            `master.linuxPackages_xanmod'
+          */
+          master = pkgsFrom inputs.master system;
+          unstable = pkgsFrom inputs.unstable system;
+          stable = pkgsFrom inputs.stable system;
+        };
+
+      formatter = inputs.nixpkgs-fmt.defaultPackage.${system};
     };
-
-  nixConfig = {
-    commit-lockfile-summary = "flake: bump inputs";
-
-    substituters = [
-      "https://cache.nixos.org?priority=10"
-      "https://cache.ngi0.nixos.org/"
-      "https://nix-community.cachix.org?priority=5"
-      "https://nixpkgs-wayland.cachix.org"
-      "https://fortuneteller2k.cachix.org"
-    ];
   };
 
   inputs = {
     # Flake inputs
     agenix.url = "github:ryantm/agenix";
     emacs.url = "github:nix-community/emacs-overlay";
-    darwin.url = "github:lnl7/nix-darwin/master";
+    darwin.url = "github:lnl7/nix-darwin";
     home.url = "github:nix-community/home-manager";
     nix.url = "github:nixos/nix";
-    nixd.url = "github:nix-community/nixd";
     nix-colors.url = "github:Misterio77/nix-colors";
     nixos-wsl.url = "github:nix-community/nixos-wsl";
     nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
@@ -100,7 +81,6 @@
     emacs.inputs.nixpkgs.follows = "nixpkgs";
     home.inputs.nixpkgs.follows = "nixpkgs";
     nix.inputs.nixpkgs.follows = "nixpkgs";
-    nixd.inputs.nixpkgs.follows = "nixpkgs";
     nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
     nixpkgs-f2k.inputs.nixpkgs.follows = "nixpkgs";
     statix.inputs.nixpkgs.follows = "nixpkgs";
