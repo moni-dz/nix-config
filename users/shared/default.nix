@@ -33,10 +33,7 @@
       nix-direnv.enable = true;
     };
 
-    exa = {
-      enable = true;
-      enableAliases = true;
-    };
+    exa.enable = true;
 
     git = {
       enable = true;
@@ -44,9 +41,12 @@
 
       extraConfig = {
         diff.tool = "difftastic";
-        difftool.prompt = false;
-        difftool."difftastic".cmd = ''${lib.getExe pkgs.difftastic} "$LOCAL" "$REMOTE"'';
         pager.difftool = true;
+
+        difftool = {
+          prompt = false;
+          difftastic.cmd = ''${lib.getExe pkgs.difftastic} "$LOCAL" "$REMOTE"'';
+        };
       };
     };
 

@@ -1,4 +1,9 @@
 {
+  ls = "exa";
+  ll = "exa -l";
+  la = "exa -a";
+  lt = "exa --tree";
+  lla = "exa -la";
   ga = "git add";
   gp = "git push";
   gr = "git rebase";
