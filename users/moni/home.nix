@@ -17,6 +17,7 @@
           asitop
           curlFull
           coreutils-prefixed
+          parallel
           fd
           gnugrep
           shellcheck
@@ -26,18 +27,13 @@
           pandoc
           helix
           sqlite
-          typst
-          typst-lsp
-          typst-fmt
           libheif
           avrdude
           screen
-          colima
-          xdelta
-          docker
-          rizin
-          protobuf
           exiv2
+          dua2
+          pigz
+          hyperfine
           ffmpeg_6;
 
         sdrpp = pkgs.sdrpp.override {

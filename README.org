@@ -45,7 +45,7 @@ For WSL, follow the [[https://github.com/nix-community/NixOS-WSL#quick-start][qu
 
 ** Description
 
-NixOS configuration that I use daily, it contains the system-wide and home configuration, symlinked to =/etc/nixos=.
+NixOS/nix-darwin/home-manager configuration that I use daily.
 
 See also:
  * [[https://github.com/nix-community/home-manager][home-manager]]
