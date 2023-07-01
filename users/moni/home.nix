@@ -31,7 +31,7 @@
           avrdude
           screen
           exiv2
-          dua2
+          dua
           pigz
           hyperfine
           ffmpeg_6;
