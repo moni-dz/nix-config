@@ -3,7 +3,7 @@
   nixConfig.commit-lockfile-summary = "flake: bump inputs";
 
   outputs = inputs: inputs.parts.lib.mkFlake { inherit inputs; } {
-    imports = [ ./hosts ./users ];
+    imports = [ ./modules/parts ./hosts ./users ];
     systems = [ "x86_64-linux" "aarch64-darwin" ];
 
     perSystem = { lib, pkgs, system, ... }: {

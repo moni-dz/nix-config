@@ -1,10 +1,9 @@
-{ inputs, withSystem, ... }@ctx:
+_:
 
 {
-  # doesn't get merged for some reason...
-  flake.homeConfigurations = {
-    moni = import ./moni ctx;
-    omni = import ./omni ctx;
-    zero = import ./zero ctx;
-  };
+  imports = [
+    ./moni
+    ./omni
+    ./zero
+  ];
 }

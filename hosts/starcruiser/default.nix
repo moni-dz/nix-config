@@ -1,51 +1,23 @@
-{ inputs, withSystem, ... }:
+{ inputs, ... }:
 
 {
-  flake.nixosConfigurations.starcruiser = withSystem "x86_64-linux" ({ inputs', system, nixpkgs-config, overlays, ... }@args:
-    # See https://github.com/NixOS/nixpkgs/blob/master/flake.nix#L24 for reference.
-    let
-      inherit (inputs) agenix nixpkgs;
-    in
-    nixpkgs.lib.nixosSystem {
-      modules = [
-        agenix.nixosModules.age
+  parts.nixosConfigurations.starcruiser = {
+    system = "x86_64-linux";
+    stateVersion = "22.11"; # only change this if you know what you are doing.
 
-        ({ lib, pkgs, ... }: {
-          # Extra arguments passed to the module system
-          _module.args = {
-            inherit inputs inputs' system;
-            inherit (args) master unstable stable;
-          };
+    modules = [
+      inputs.agenix.nixosModules.default
 
-          # NOTE: you should either change this or disable it completely by commenting it out
-          age.secrets.github-token = {
-            file = ../../secrets/github-token.age;
-            owner = "moni";
-            mode = "0444";
-          };
+      {
+        # NOTE: you should either change this or disable it completely by commenting it out
+        age.secrets.github-token = {
+          file = ../../secrets/github-token.age;
+          owner = "moni";
+          mode = "0444";
+        };
+      }
 
-          nix = import ../../nix-settings.nix {
-            inherit lib inputs inputs';
-            inherit (pkgs) stdenv;
-          };
-
-          nixpkgs = {
-            inherit overlays;
-            config = nixpkgs-config;
-          };
-
-          networking.hostName = "starcruiser";
-
-          /*
-            NOTE: DO NOT CHANGE THIS IF YOU DON'T KNOW WHAT YOU'RE DOING.
-          
-            Only change this if you are ABSOLUTELY 100% SURE that you don't have stateful data.
-          */
-          system.stateVersion = "22.11";
-        })
-
-        ./configuration.nix
-      ];
-    }
-  );
+      ./configuration.nix
+    ];
+  };
 }
