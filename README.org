@@ -13,7 +13,7 @@
 
 (I highly recommend making your own configuration and copy snippets from mine, but anyway...)
 
-Get the latest NixOS 2.05 image [[https://releases.nixos.org/?prefix=nixos/unstable/][here]], do your partitions (root must be mounted at =/mnt=), then run the following commands:
+Get the latest NixOS 23.05 image [[https://releases.nixos.org/?prefix=nixos/unstable/][here]], do your partitions (root must be mounted at =/mnt=), then run the following commands:
 #+begin_src sh
   # move the output file of this to hosts/*/hardware-configuration.nix
   nixos-generate-config
@@ -21,10 +21,10 @@ Get the latest NixOS 2.05 image [[https://releases.nixos.org/?prefix=nixos/unsta
   nix-shell -p git nixUnstable
   git clone https://github.com/fortuneteller2k/nix-config ~
   cd ~/nix-config
-  sudo nixos-install --flake '.#starcruiser'
+  sudo nixos-install --flake .#starcruiser
 
   # After rebooting
-  home-manager switch --flake '.#moni'
+  home-manager switch --flake .#moni
 #+end_src
 
 For WSL, follow the [[https://github.com/nix-community/NixOS-WSL#quick-start][quickstart guide]], then run the following commands:
@@ -32,16 +32,16 @@ For WSL, follow the [[https://github.com/nix-community/NixOS-WSL#quick-start][qu
   nix shell nixpkgs#git
   git clone https://github.com/fortuneteller2k/nix-config ~
   cd ~/nix-config
-  sudo nixos-rebuild switch --flake '.#turncoat'
-  home-manager switch --flake '.#zero'
+  sudo nixos-rebuild switch --flake .#turncoat
+  home-manager switch --flake .#zero
 #+end_src
 
 *** Caveats
 
  * You probably should replace [[https://github.com/fortuneteller2k/nix-config/blob/master/hosts/starcruiser/hardware-configuration.nix][hosts/starcruiser/hardware-configuration.nix]] with your own with =nixos-generate-config=.
  * You might want to change all instances of my username to yours.
- * Comment out every =__contentAddressed = true;= in =hosts=.
- * You might want to disable =agenix=, for my secret cannot be decrypted without my private key. See [[https://github.com/fortuneteller2k/nix-config/blob/master/hosts/starcruiser/default.nix][hosts/starcruiser/default.nix]].
+ * Comment out every =__contentAddressed = true;= you find.
+ * You might want to disable =agenix=, for my secret cannot be decrypted without my private key. See [[https://github.com/fortuneteller2k/nix-config/blob/master/hosts/default.nix][hosts/default.nix]].
 
 ** Description
 
@@ -50,7 +50,7 @@ NixOS/nix-darwin/home-manager configuration that I use daily.
 See also:
  * [[https://github.com/nix-community/home-manager][home-manager]]
  * [[https://nixos.wiki/wiki/Flakes][flakes]]
- * [[https://flake.parts][flake-parts]]
+ * [[https://flake.parts][flake-parts]], for the flake modules at [[https://github.com/fortuneteller2k/nix-config/blob/master/modules/parts][modules/parts]]
  * [[https://github.com/fortuneteller2k/nixpkgs-f2k][nixpkgs-f2k]], my package collection
  * [[https://github.com/LnL7/nix-darwin][nix-darwin]], for =hosts/shaker=
  * [[https://github.com/nix-community/NixOS-WSL][NixOS-WSL]], for =hosts/turncoat=
@@ -63,6 +63,12 @@ Resources and configurations I used to base on:
 *** Why flakes?
 
 [[https://github.com/jonringer][jonringer]] gave a [[https://discourse.nixos.org/t/what-are-nix-flakes-and-why-should-i-care/12910/3][brief explanation]] as to why one might want to use Nix flakes.
+
+*** Why =flake-parts=?
+
+=flake-parts= allow reusable configuration powered by the module system everyone knows and loves.
+
+See [[https://github.com/fortuneteller2k/nix-config/blob/master/modules/parts][modules/parts]], and it's implementation in [[https://github.com/fortuneteller2k/nix-config/blob/master/hosts/default.nix][my system configurations]] and [[https://github.com/fortuneteller2k/nix-config/blob/master/users/default.nix][my home configurations]].
 
 ** Appearance
 
