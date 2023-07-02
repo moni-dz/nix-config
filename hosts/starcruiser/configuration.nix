@@ -11,7 +11,7 @@
   imports = [
     ./hardware-configuration.nix
 
-    # Shared configuration across all NixOS machines
+    # Shared configuration across all normal NixOS machines
     ../shared/nixos.nix
 
     # Append your custom NixOS modules in this list

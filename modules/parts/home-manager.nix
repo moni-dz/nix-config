@@ -27,7 +27,7 @@ let
       };
 
       _home = lib.mkOption {
-        type = lib.types.unspecified;
+        type = types.unspecified;
         readOnly = true;
       };
     };
@@ -62,7 +62,6 @@ let
                 then "/Users/${name}"
                 else "/home/${name}";
             };
-
           })
         ];
       }

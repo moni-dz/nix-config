@@ -5,50 +5,6 @@
   outputs = inputs: inputs.parts.lib.mkFlake { inherit inputs; } {
     imports = [ ./modules/parts ./hosts ./users ];
     systems = [ "x86_64-linux" "aarch64-darwin" ];
-
-    perSystem = { lib, pkgs, system, ... }: {
-      _module.args =
-        let
-          nixpkgs-config = {
-            allowBroken = true;
-            allowUnfree = true;
-            allowUnfreePredicate = _: true;
-            tarball-ttl = 0;
-
-            # Experimental options, disable if you don't know what you are doing!
-            contentAddressedByDefault = false;
-          };
-
-          pkgsFrom = branch: system: import branch {
-            inherit system;
-            config = nixpkgs-config;
-          };
-
-          importNixFiles = lib.flip lib.pipe [
-            lib.filesystem.listFilesRecursive
-            (__filter (lib.hasSuffix "nix"))
-            (map import)
-          ];
-        in
-        {
-          inherit nixpkgs-config;
-
-          overlays = with inputs; [ emacs.overlay nixpkgs-f2k.overlays.stdenvs ]
-            ++ (importNixFiles ./overlays); # Overlays from ./overlays directory
-
-          /*
-            One can access these nixpkgs branches like so:
-
-            `stable.mpd'
-            `master.linuxPackages_xanmod'
-          */
-          master = pkgsFrom inputs.master system;
-          unstable = pkgsFrom inputs.unstable system;
-          stable = pkgsFrom inputs.stable system;
-        };
-
-      formatter = inputs.nixpkgs-fmt.defaultPackage.${system};
-    };
   };
 
   inputs = {

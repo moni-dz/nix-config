@@ -22,7 +22,7 @@ let
       };
 
       _darwin = lib.mkOption {
-        type = lib.types.unspecified;
+        type = types.unspecified;
         readOnly = true;
       };
     };
