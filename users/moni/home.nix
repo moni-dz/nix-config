@@ -52,14 +52,30 @@
   };
 
   programs = {
-    fish.shellInit = ''
-      fish_add_path /Users/moni/.cargo/bin
-      fish_add_path /Users/moni/Library/Python/3.11/bin
-      fish_add_path /usr/local/bin
-      fish_add_path -m /opt/homebrew/bin
-      fish_add_path /opt/local/bin
-      fish_add_path -m /run/current-system/sw/bin
-      fish_add_path -m /Users/moni/.nix-profile/bin
-    '';
+    fish = {
+      interactiveShellInit = ''
+        function export
+          if [ $argv ] 
+            set var (echo $argv | cut -f1 -d=)
+            set val (echo $argv | cut -f2 -d=)
+            set -g -x $var $val
+          else
+            echo 'export var=value'
+          end
+        end
+        
+        . ${config.age.secrets.github-token.path}
+      '';
+
+      shellInit = ''
+        fish_add_path /Users/moni/.cargo/bin
+        fish_add_path /Users/moni/Library/Python/3.11/bin
+        fish_add_path /usr/local/bin
+        fish_add_path -m /opt/homebrew/bin
+        fish_add_path /opt/local/bin
+        fish_add_path -m /run/current-system/sw/bin
+        fish_add_path -m /Users/moni/.nix-profile/bin
+      '';
+    };
   };
 }

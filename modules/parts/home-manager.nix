@@ -7,7 +7,7 @@ let
   cfg = config.parts.homeConfigurations;
   configurations = __mapAttrs (_: value: value._home) cfg;
 
-  homeOpts = { config, lib, name, ... }: {
+  homeOpts = opts@{ config, lib, name, ... }: {
     options = {
       system = lib.mkOption {
         type = types.enum [
@@ -17,6 +17,8 @@ let
           "x86_64-linux"
         ];
       };
+
+      agenix = lib.mkEnableOption "agenix";
 
       stateVersion = lib.mkOption {
         type = types.str;
@@ -41,7 +43,7 @@ let
           # Shared configuration across all users
           ../shared/home-manager
 
-          (args@{ lib, ... }: {
+          (args@{ config, lib, ... }: {
             nixpkgs = builtins.removeAttrs ctx.nixpkgs [ "hostPlatform" ];
 
             # Extra arguments passed to the module system
@@ -50,7 +52,7 @@ let
             };
 
             home = {
-              inherit (config) stateVersion;
+              inherit (opts.config) stateVersion;
               username = name;
 
               homeDirectory =
@@ -58,8 +60,13 @@ let
                 then "/Users/${name}"
                 else "/home/${name}";
             };
-          })
-        ];
+          } // (args.lib.optionalAttrs opts.config.agenix {
+            age.identityPaths = [
+              "${config.home.homeDirectory}/.ssh/id_ed25519"
+              "/etc/ssh/ssh_host_ed25519_key"
+            ];
+          }))
+        ] ++ lib.optional opts.config.agenix inputs.agenix.homeManagerModules.age;
       }
     );
   };

@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ config, lib, inputs, ... }:
 
 {
   # home-manager configurations
@@ -6,7 +6,10 @@
     moni = {
       system = "aarch64-darwin";
       stateVersion = "23.05";
-      modules = [ ./moni/home.nix ];
+      agenix = true;
+
+      modules = [ ./moni/home.nix ]
+        ++ lib.optional config.parts.homeConfigurations.moni.agenix ./moni/age.nix;
     };
 
     omni = {

@@ -17,10 +17,7 @@ let
         type = types.str;
       };
 
-      wsl = lib.mkOption {
-        type = types.bool;
-        default = false;
-      };
+      wsl = lib.mkEnableOption "nixos-wsl";
 
       modules = lib.mkOption {
         type = types.listOf types.unspecified;
@@ -54,8 +51,8 @@ let
             networking.hostName = name;
             system.stateVersion = config.stateVersion;
           }
-          // (args.lib.optionalAttrs config.wsl { wsl.wslConf.network.hostname = name; }))
-        ] ++ lib.optional config.wsl inputs.nixos-wsl.nixosModules.wsl;
+          // (args.lib.optionalAttrs opts.config.wsl { wsl.wslConf.network.hostname = name; }))
+        ] ++ lib.optional opts.config.wsl inputs.nixos-wsl.nixosModules.wsl;
       }
     );
   };

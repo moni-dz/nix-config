@@ -22,26 +22,7 @@
     };
   };
 
-  programs = {
-    fish = {
-      enable = true;
-
-      interactiveShellInit = ''
-        function export
-          if [ $argv ] 
-            set var (echo $argv | cut -f1 -d=)
-            set val (echo $argv | cut -f2 -d=)
-            set -g -x $var $val
-          else
-            echo 'export var=value'
-          end
-        end
-        
-        . ${config.age.secrets.github-token.path}
-      '';
-    };
-  };
-
+  programs.fish.enable = true;
   security.pam.enableSudoTouchIdAuth = true;
 
   fonts = {
