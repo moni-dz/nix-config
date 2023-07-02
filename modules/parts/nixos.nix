@@ -17,6 +17,11 @@ let
         type = types.str;
       };
 
+      wsl = lib.mkOption {
+        type = types.bool;
+        default = false;
+      };
+
       modules = lib.mkOption {
         type = types.listOf types.unspecified;
       };
@@ -33,7 +38,7 @@ let
           # Shared configuration across all NixOS machines
           ../shared/nixos
 
-          (args@{ config, lib, pkgs, ... }: {
+          (args@{ lib, pkgs, ... }: {
             inherit (ctx) nixpkgs;
 
             # Extra arguments passed to the module system
@@ -47,9 +52,10 @@ let
             };
 
             networking.hostName = name;
-            system.stateVersion = opts.config.stateVersion;
-          })
-        ];
+            system.stateVersion = config.stateVersion;
+          }
+          // (args.lib.optionalAttrs config.wsl { wsl.wslConf.network.hostname = name; }))
+        ] ++ lib.optional config.wsl inputs.nixos-wsl.nixosModules.wsl;
       }
     );
   };

@@ -7,10 +7,7 @@
     enable = true;
     defaultUser = "zero";
     startMenuLaunchers = true;
-    wslConf = {
-      automount.root = "/mnt";
-      network.hostname = "turncoat";
-    };
+    wslConf.automount.root = "/mnt";
   };
 
   hardware.opengl.enable = true;

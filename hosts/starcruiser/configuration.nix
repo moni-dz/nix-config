@@ -80,8 +80,14 @@
 
   fonts.enableDefaultFonts = false;
 
-  networking.firewall.allowedTCPPorts = [ 445 139 ];
-  networking.firewall.allowedUDPPorts = [ 137 138 ];
+  networking = {
+    firewall = {
+      allowedTCPPorts = [ 445 139 ];
+      allowedUDPPorts = [ 137 138 ];
+    };
+
+    nameservers = [ "1.1.1.1" "1.0.0.1" "8.8.8.8" "8.8.4.4" ];
+  };
 
   nix.sshServe = {
     enable = true;
@@ -113,6 +119,7 @@
     avahi = {
       enable = true;
       nssmdns = true;
+
       publish = {
         enable = true;
         addresses = true;
@@ -121,6 +128,7 @@
         userServices = true;
         workstation = true;
       };
+
       extraServiceFiles = {
         smb = ''
           <?xml version="1.0" standalone='no'?><!--*-nxml-*-->

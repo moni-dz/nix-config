@@ -52,10 +52,10 @@
     turncoat = {
       system = "x86_64-linux";
       stateVersion = "22.05"; # only change this if you know what you are doing.
+      wsl = true;
 
       modules = [
         inputs.agenix.nixosModules.default
-        inputs.nixos-wsl.nixosModules.wsl
 
         {
           # NOTE: you should either change this or disable it completely by commenting it out
