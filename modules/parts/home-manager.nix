@@ -32,17 +32,17 @@ let
       };
     };
 
-    config._home = withSystem config.system ({ branches, inputs', system, ... }@args:
+    config._home = withSystem config.system (ctx@{ branches, inputs', system, ... }:
       inputs.home.lib.homeManagerConfiguration {
         # Default nixpkgs for home.nix
         pkgs = inputs.nixpkgs.legacyPackages.${system};
 
         modules = config.modules ++ [
           # Shared configuration across all users
-          ../../users/shared
+          ../shared/home-manager
 
-          ({ lib, ... }: {
-            nixpkgs = builtins.removeAttrs args.nixpkgs [ "hostPlatform" ];
+          (args@{ lib, ... }: {
+            nixpkgs = builtins.removeAttrs ctx.nixpkgs [ "hostPlatform" ];
 
             # Extra arguments passed to the module system
             _module.args = {
@@ -54,7 +54,7 @@ let
               username = name;
 
               homeDirectory =
-                if lib.hasSuffix "darwin" system
+                if args.lib.hasSuffix "darwin" system
                 then "/Users/${name}"
                 else "/home/${name}";
             };

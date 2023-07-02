@@ -3,6 +3,16 @@
 {
   imports = [ "${modulesPath}/profiles/minimal.nix" ];
 
+  wsl = {
+    enable = true;
+    defaultUser = "zero";
+    startMenuLaunchers = true;
+    wslConf = {
+      automount.root = "/mnt";
+      network.hostname = "turncoat";
+    };
+  };
+
   hardware.opengl.enable = true;
 
   environment.systemPackages = with pkgs; [

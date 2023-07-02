@@ -27,18 +27,18 @@ let
       };
     };
 
-    config._darwin = withSystem config.system ({ branches, inputs', system, ... }@args:
+    config._darwin = withSystem config.system (ctx@{ branches, inputs', system, ... }:
       inputs.darwin.lib.darwinSystem {
         inherit inputs system;
 
         modules = config.modules ++ [
-          ({ lib, pkgs, ... }: {
-            nixpkgs = builtins.removeAttrs args.nixpkgs [ "hostPlatform" ];
+          (args@{ lib, pkgs, ... }: {
+            nixpkgs = builtins.removeAttrs ctx.nixpkgs [ "hostPlatform" ];
 
             # Extra arguments passed to the module system
             _module.args = {
               inherit branches inputs' system;
-              inputs = lib.mkForce inputs;
+              inputs = args.lib.mkForce inputs;
             };
 
             nix = import ../../nix-settings.nix {

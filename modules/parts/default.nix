@@ -38,7 +38,6 @@
       in
       {
         inherit nixpkgs;
-        lib = lib.extend (_: _: { inherit pipe' importFilesRecursive; });
 
         /*
           One can access these nixpkgs branches like so:

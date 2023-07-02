@@ -7,7 +7,7 @@ let
   cfg = config.parts.nixosConfigurations;
   configurations = __mapAttrs (_: value: value._nixos) cfg;
 
-  nixosOpts = { config, name, ... }: {
+  nixosOpts = opts@{ config, name, ... }: {
     options = {
       system = lib.mkOption {
         type = types.enum [ "aarch64-linux" "x86_64-linux" ];
@@ -27,11 +27,14 @@ let
       };
     };
 
-    config._nixos = withSystem config.system ({ branches, inputs', system, ... }@args:
+    config._nixos = withSystem config.system (ctx@{ branches, inputs', system, ... }:
       inputs.nixpkgs.lib.nixosSystem {
         modules = config.modules ++ [
-          ({ lib, pkgs, ... }: {
-            inherit (args) nixpkgs;
+          # Shared configuration across all NixOS machines
+          ../shared/nixos
+
+          (args@{ config, lib, pkgs, ... }: {
+            inherit (ctx) nixpkgs;
 
             # Extra arguments passed to the module system
             _module.args = {
@@ -44,7 +47,7 @@ let
             };
 
             networking.hostName = name;
-            system.stateVersion = config.stateVersion;
+            system.stateVersion = opts.config.stateVersion;
           })
         ];
       }

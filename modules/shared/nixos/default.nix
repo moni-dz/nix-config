@@ -170,7 +170,7 @@
     };
 
     fontconfig = {
-      enable = true;
+      enable = lib.mkDefault true;
 
       defaultFonts = {
         serif = [
@@ -211,6 +211,7 @@
     command-not-found.enable = false;
     dconf.enable = true;
     ssh.pubkeyAcceptedKeyTypes = [ "ssh-ed25519" ];
+    fish.enable = true;
   };
 
   qt.platformTheme = "qt5ct";
