@@ -27,28 +27,23 @@ let
       };
     };
 
-    config._darwin = withSystem config.system ({ inputs', system, nixpkgs-config, overlays, ... }@args:
+    config._darwin = withSystem config.system ({ branches, inputs', system, ... }@args:
       inputs.darwin.lib.darwinSystem {
         inherit inputs system;
 
         modules = config.modules ++ [
-
           ({ lib, pkgs, ... }: {
+            nixpkgs = builtins.removeAttrs args.nixpkgs [ "hostPlatform" ];
+
             # Extra arguments passed to the module system
             _module.args = {
-              inherit inputs' system;
-              inherit (args) master unstable stable;
+              inherit branches inputs' system;
               inputs = lib.mkForce inputs;
             };
 
             nix = import ../../nix-settings.nix {
               inherit lib inputs inputs';
               inherit (pkgs) stdenv;
-            };
-
-            nixpkgs = {
-              inherit overlays;
-              config = nixpkgs-config;
             };
 
             networking.hostName = name;

@@ -32,7 +32,7 @@ let
       };
     };
 
-    config._home = withSystem config.system ({ inputs', system, nixpkgs-config, overlays, ... }@args:
+    config._home = withSystem config.system ({ branches, inputs', system, ... }@args:
       inputs.home.lib.homeManagerConfiguration {
         # Default nixpkgs for home.nix
         pkgs = inputs.nixpkgs.legacyPackages.${system};
@@ -42,15 +42,11 @@ let
           ../../users/shared
 
           ({ lib, ... }: {
+            nixpkgs = builtins.removeAttrs args.nixpkgs [ "hostPlatform" ];
+
             # Extra arguments passed to the module system
             _module.args = {
-              inherit inputs inputs' system;
-              inherit (args) master unstable stable;
-            };
-
-            nixpkgs = {
-              inherit overlays;
-              config = nixpkgs-config;
+              inherit branches inputs inputs' system;
             };
 
             home = {

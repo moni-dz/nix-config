@@ -27,25 +27,20 @@ let
       };
     };
 
-    config._nixos = withSystem config.system ({ inputs', system, nixpkgs-config, overlays, ... }@args:
+    config._nixos = withSystem config.system ({ branches, inputs', system, ... }@args:
       inputs.nixpkgs.lib.nixosSystem {
         modules = config.modules ++ [
           ({ lib, pkgs, ... }: {
+            inherit (args) nixpkgs;
+
             # Extra arguments passed to the module system
             _module.args = {
-              inherit inputs' system;
-              inherit (args) master unstable stable;
+              inherit branches inputs' system;
             };
 
             nix = import ../../nix-settings.nix {
               inherit lib inputs inputs';
               inherit (pkgs) stdenv;
-            };
-
-            nixpkgs = {
-              inherit overlays;
-              config = nixpkgs-config;
-              hostPlatform = system;
             };
 
             networking.hostName = name;
