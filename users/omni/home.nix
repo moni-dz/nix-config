@@ -11,9 +11,6 @@
   imports = [
     # Append your custom home-manager modules in this list
     ../../modules/home-manager/wayland/windowManager/river
-
-    # Shared configuration across all users
-    ../shared/home.nix
   ];
 
   colorscheme = inputs.nix-colors.colorSchemes.material-darker;
@@ -135,12 +132,6 @@
       discordAlias = true;
       discordPackage = pkgs.discord-canary;
       css = import ./config/discocss-css.nix { inherit (config) colorscheme; };
-    };
-
-    doom-emacs = {
-      enable = false;
-      doomPrivateDir = ./config/emacs;
-      emacsPackage = pkgs.emacsPgtk;
     };
 
     ncspot.enable = true;

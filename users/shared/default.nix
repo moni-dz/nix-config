@@ -100,7 +100,7 @@
 
     fish = {
       enable = true;
-      shellAbbrs = import ../shared/config/sh-aliases.nix;
+      shellAbbrs = import ./config/sh-aliases.nix;
 
       interactiveShellInit = ''
         set -U fish_greeting
