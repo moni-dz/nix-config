@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ self, inputs, ... }:
 
 {
   imports = [
@@ -8,16 +8,7 @@
   ];
 
   perSystem = { lib, pkgs, system, ... }: {
-    _module.args =
-      let
-        pipe' = lib.flip lib.pipe;
-
-        importFilesRecursive = pipe' [
-          lib.filesystem.listFilesRecursive
-          (__filter (lib.hasSuffix "nix"))
-          (map import)
-        ];
-
+    _module.args = rec {
         # nixpkgs configuration
         nixpkgs = {
           config = {
@@ -32,12 +23,12 @@
 
           hostPlatform = system;
 
-          overlays = with inputs; [ emacs.overlay nixpkgs-f2k.overlays.stdenvs ]
-            ++ (importFilesRecursive ./../../overlays); # Overlays from the `overlays` directory
+          overlays = [
+            inputs.emacs.overlay
+            inputs.nixpkgs-f2k.overlays.stdenvs
+            self.overlays.default
+          ];
         };
-      in
-      {
-        inherit nixpkgs;
 
         /*
           One can access these nixpkgs branches like so:
