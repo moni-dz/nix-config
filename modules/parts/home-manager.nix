@@ -43,7 +43,7 @@ let
           # Shared configuration across all users
           ../shared/home-manager
 
-          (args@{ config, lib, ... }: {
+          (args@{ config, lib, pkgs, ... }: {
             nixpkgs = builtins.removeAttrs ctx.nixpkgs [ "hostPlatform" ];
 
             # Extra arguments passed to the module system
@@ -51,22 +51,30 @@ let
               inherit branches inputs inputs' system;
             };
 
-            home = {
-              inherit (opts.config) stateVersion;
-              username = name;
+            home =
+              let
+                username = __elemAt (lib.strings.split "@" name) 0;
+              in
+              {
+                inherit username;
+                inherit (opts.config) stateVersion;
 
-              homeDirectory =
-                if args.lib.hasSuffix "darwin" system
-                then "/Users/${name}"
-                else "/home/${name}";
-            };
-          } // (args.lib.optionalAttrs opts.config.agenix {
+                homeDirectory = lib.mkMerge [
+                  (lib.mkIf pkgs.stdenv.isDarwin "/Users/${username}")
+                  (lib.mkIf pkgs.stdenv.isLinux "/home/${username}")
+                ];
+              };
+          })
+        ] ++ lib.optionals config.agenix [
+          inputs.agenix.homeManagerModules.age
+
+          ({ config, ... }: {
             age.identityPaths = [
               "${config.home.homeDirectory}/.ssh/id_ed25519"
               "/etc/ssh/ssh_host_ed25519_key"
             ];
-          }))
-        ] ++ lib.optional opts.config.agenix inputs.agenix.homeManagerModules.age;
+          })
+        ];
       }
     );
   };

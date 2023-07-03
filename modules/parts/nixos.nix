@@ -50,9 +50,11 @@ let
 
             networking.hostName = name;
             system.stateVersion = config.stateVersion;
-          }
-          // (args.lib.optionalAttrs opts.config.wsl { wsl.wslConf.network.hostname = name; }))
-        ] ++ lib.optional opts.config.wsl inputs.nixos-wsl.nixosModules.wsl;
+          })
+        ] ++ lib.optionals config.wsl [
+          inputs.nixos-wsl.nixosModules.wsl
+          { wsl.wslConf.network.hostname = name; }
+        ];
       }
     );
   };
