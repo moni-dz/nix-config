@@ -1,4 +1,4 @@
-{ config, inputs, lib, pkgs, system, ... }:
+{ config, inputs, inputs', lib, pkgs, system, ... }:
 
 /*
   home-manager configuration
@@ -17,8 +17,9 @@
         nixpkgs-review;
 
       inherit (pkgs.gitAndTools) gh;
-      inherit (inputs.agenix.packages.${system}) agenix;
-      inherit (inputs.statix.packages.${system}) statix;
+      inherit (inputs'.agenix.packages) agenix;
+      inherit (inputs'.statix.packages) statix;
+      inherit (inputs'.comma.packages) comma;
     };
 
     sessionVariables = {
@@ -37,7 +38,20 @@
 
     git = {
       enable = true;
-      aliases."dft" = "difftool";
+
+      aliases = {
+        df = "difftool";
+        a = "add";
+        p = "push";
+        r = "rebase";
+        ri = "rebase -i";
+        cm = "commit";
+        pl = "pull";
+        s = "status";
+        st = "stash";
+        ck = "checkout";
+        rl = "reflog";
+      };
 
       extraConfig = {
         diff.tool = "difftastic";

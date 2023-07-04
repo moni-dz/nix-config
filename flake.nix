@@ -10,6 +10,7 @@
   inputs = {
     # Flake inputs
     agenix.url = "github:ryantm/agenix";
+    comma.url = "github:nix-community/comma";
     emacs.url = "github:nix-community/emacs-overlay";
     darwin.url = "github:lnl7/nix-darwin";
     home.url = "github:nix-community/home-manager";
@@ -33,6 +34,7 @@
     # Minimize duplicate instances of inputs
     agenix.inputs.nixpkgs.follows = "nixpkgs";
     agenix.inputs.darwin.follows = "darwin";
+    comma.inputs.nixpkgs.follows = "nixpkgs";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     emacs.inputs.nixpkgs.follows = "nixpkgs";
     home.inputs.nixpkgs.follows = "nixpkgs";
