@@ -53,5 +53,5 @@
     format = "[$read_only]($read_only_style) [$path]($style)";
   };
 
-  nix_shell.symbol = "(nix)";
+  nix_shell.format = "[(\\($name\\))]($style) ";
 }
