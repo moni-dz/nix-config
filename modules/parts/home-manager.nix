@@ -40,6 +40,8 @@ let
         pkgs = inputs.nixpkgs.legacyPackages.${system};
 
         modules = config.modules ++ [
+          inputs.nix-index-database.hmModules.nix-index
+
           # Shared configuration across all users
           ../shared/home-manager
 

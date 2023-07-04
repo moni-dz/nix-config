@@ -10,12 +10,12 @@
   inputs = {
     # Flake inputs
     agenix.url = "github:ryantm/agenix";
-    comma.url = "github:nix-community/comma";
     emacs.url = "github:nix-community/emacs-overlay";
     darwin.url = "github:lnl7/nix-darwin";
     home.url = "github:nix-community/home-manager";
     nix.url = "github:nixos/nix";
     nix-colors.url = "github:Misterio77/nix-colors";
+    nix-index-database.url = "github:Mic92/nix-index-database";
     nixos-wsl.url = "github:nix-community/nixos-wsl";
     nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
     nixpkgs-fmt.url = "github:nix-community/nixpkgs-fmt";
@@ -34,11 +34,11 @@
     # Minimize duplicate instances of inputs
     agenix.inputs.nixpkgs.follows = "nixpkgs";
     agenix.inputs.darwin.follows = "darwin";
-    comma.inputs.nixpkgs.follows = "nixpkgs";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     emacs.inputs.nixpkgs.follows = "nixpkgs";
     home.inputs.nixpkgs.follows = "nixpkgs";
     nix.inputs.nixpkgs.follows = "nixpkgs";
+    nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
     nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
     nixpkgs-f2k.inputs.nixpkgs.follows = "nixpkgs";
     statix.inputs.nixpkgs.follows = "nixpkgs";

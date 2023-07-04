@@ -19,7 +19,6 @@
       inherit (pkgs.gitAndTools) gh;
       inherit (inputs'.agenix.packages) agenix;
       inherit (inputs'.statix.packages) statix;
-      inherit (inputs'.comma.packages) comma;
     };
 
     sessionVariables = {
@@ -101,6 +100,8 @@
         (text "Uptime")
       ]);
     };
+
+    nix-index-database.comma.enable = true;
 
     starship = {
       enable = true;
