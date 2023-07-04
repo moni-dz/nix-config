@@ -57,8 +57,10 @@ See also:
 
 Resources and configurations I used to base on:
  * [[https://github.com/colemickens/nixos-flake-example][colemickens/nixos-flake-example]]
- * [[https://git.sr.ht/~dunklecat/nixos-config/tree/master/flake.nix][dunklecat/nixos-config]]
+ * [[https://nixos.wiki/wiki/NixOS_modules][NixOS modules on NixOS Wiki]]
+ * [[https://nixos.org/manual/nixos/stable/index.html#sec-writing-modules][Writing NixOS modules]]
  * [[https://www.youtube.com/watch?v=UeBX7Ide5a0][Nix Flakes talk by Eelco Dolstra on NixCon]]
+ * [[https://flake.parts/module-arguments.html][flake.parts module arguments]]
 
 *** Why flakes?
 

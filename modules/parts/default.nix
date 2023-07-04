@@ -31,16 +31,16 @@
       };
 
       /*
-          One can access these nixpkgs branches like so:
+        One can access these nixpkgs branches like so:
 
-          `branches.stable.mpd'
-          `branches.master.linuxPackages_xanmod'
-        */
+        `branches.stable.mpd'
+        `branches.master.linuxPackages_xanmod'
+      */
       branches =
         let
           pkgsFrom = branch: system: import branch {
             inherit system;
-            inherit (nixpkgs) config;
+            inherit (nixpkgs) config overlays;
           };
         in
         {
