@@ -39,9 +39,7 @@ let
             inherit (ctx) nixpkgs;
 
             # Extra arguments passed to the module system
-            _module.args = {
-              inherit branches inputs' system;
-            };
+            _module.args = { inherit branches inputs' system; };
 
             nix = import ../../nix-settings.nix {
               inherit lib inputs inputs';

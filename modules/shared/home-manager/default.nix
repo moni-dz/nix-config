@@ -3,8 +3,8 @@
 /*
   home-manager configuration
   Useful links:
-  - Home Manager Manual: https://rycee.gitlab.io/home-manager/
-  - Appendix A. Configuration Options: https://rycee.gitlab.io/home-manager/options.html
+  - Home Manager Manual: https://nix-community.gitlab.io/home-manager/
+  - Appendix A. Configuration Options: https://nix-community.gitlab.io/home-manager/options.html
 */
 {
   home = {
@@ -28,6 +28,16 @@
   };
 
   programs = {
+    dircolors = {
+      enable = true;
+      enableFishIntegration = config.programs.fish.enable;
+
+      extraConfig = __readFile (pkgs.fetchurl {
+        url = "https://raw.githubusercontent.com/trapd00r/LS_COLORS/3d833761506d6396f8331fcd11a32d9e3ad3ee80/LS_COLORS";
+        hash = "sha256-r70V0JvQ/zlI/uYZ33OGl99qphCXtAgj6+Y3TXbJTLU=";
+      });
+    };
+
     direnv = {
       enable = true;
       nix-direnv.enable = true;

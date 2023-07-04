@@ -49,9 +49,7 @@ let
             nixpkgs = builtins.removeAttrs ctx.nixpkgs [ "hostPlatform" ];
 
             # Extra arguments passed to the module system
-            _module.args = {
-              inherit branches inputs inputs' system;
-            };
+            _module.args = { inherit branches inputs inputs' system; };
 
             home =
               let
