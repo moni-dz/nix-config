@@ -11,19 +11,23 @@ let
     options = {
       system = lib.mkOption {
         type = types.enum [ "aarch64-darwin" "x86_64-darwin" ];
+        description = "System architecture for the configuration.";
       };
 
       stateVersion = lib.mkOption {
         type = types.int;
+        description = "nix-darwin state version, changing this value DOES NOT update your system.";
       };
 
       modules = lib.mkOption {
         type = types.listOf types.unspecified;
+        description = "List of nix-darwin modules to include in the configuration.";
       };
 
       _darwin = lib.mkOption {
         type = types.unspecified;
         readOnly = true;
+        description = "Composed nix-darwin configuration.";
       };
     };
 
@@ -33,7 +37,7 @@ let
 
         modules = config.modules ++ [
           (args@{ lib, pkgs, ... }: {
-            nixpkgs = builtins.removeAttrs ctx.nixpkgs [ "hostPlatform" ];
+            nixpkgs = removeAttrs ctx.nixpkgs [ "hostPlatform" ];
 
             # Extra arguments passed to the module system
             _module.args = {

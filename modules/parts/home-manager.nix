@@ -16,21 +16,26 @@ let
           "x86_64-darwin"
           "x86_64-linux"
         ];
+
+        description = "System architecture for the configuration.";
       };
 
       agenix = lib.mkEnableOption "agenix";
 
       stateVersion = lib.mkOption {
         type = types.str;
+        description = "home-manager state version, changing this value DOES NOT update your config.";
       };
 
       modules = lib.mkOption {
         type = types.listOf types.unspecified;
+        description = "List of home-manager modules to include in the configuration.";
       };
 
       _home = lib.mkOption {
         type = types.unspecified;
         readOnly = true;
+        description = "Composed home-manager configuration.";
       };
     };
 
@@ -46,7 +51,7 @@ let
           ../shared/home-manager
 
           (args@{ config, lib, pkgs, ... }: {
-            nixpkgs = builtins.removeAttrs ctx.nixpkgs [ "hostPlatform" ];
+            nixpkgs = removeAttrs ctx.nixpkgs [ "hostPlatform" ];
 
             # Extra arguments passed to the module system
             _module.args = { inherit branches inputs inputs' system; };

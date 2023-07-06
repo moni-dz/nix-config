@@ -11,21 +11,25 @@ let
     options = {
       system = lib.mkOption {
         type = types.enum [ "aarch64-linux" "x86_64-linux" ];
+        description = "System architecture for the configuration.";
       };
 
       stateVersion = lib.mkOption {
         type = types.str;
+        description = "NixOS state version, changing this value DOES NOT update your system.";
       };
 
       wsl = lib.mkEnableOption "nixos-wsl";
 
       modules = lib.mkOption {
         type = types.listOf types.unspecified;
+        description = "List of NixOS modules to include in the configuration.";
       };
 
       _nixos = lib.mkOption {
         type = types.unspecified;
         readOnly = true;
+        description = "Composed NixOS configuration.";
       };
     };
 

@@ -68,7 +68,6 @@
       '';
 
       shellInit = ''
-        fish_add_path /Users/moni/.cargo/bin
         fish_add_path /Users/moni/Library/Python/3.11/bin
         fish_add_path /usr/local/bin
         fish_add_path -m /opt/homebrew/bin
