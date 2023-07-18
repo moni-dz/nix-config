@@ -60,7 +60,7 @@
       MOZ_GLX_TEST_EARLY_WL_ROUNDTRIP = "1";
     };
 
-    systemPackages = lib.attrValues {
+    systemPackages = __attrValues {
       inherit (pkgs)
         file
         ntfs3g

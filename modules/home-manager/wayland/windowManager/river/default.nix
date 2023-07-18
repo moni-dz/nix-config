@@ -13,7 +13,7 @@ let
 
   genBind = mode:
     let
-      binds = with cfg.config; zipLists (attrNames keybindings.${mode}) (attrValues keybindings.${mode});
+      binds = with cfg.config; zipLists (attrNames keybindings.${mode}) (__attrValues keybindings.${mode});
     in
     toString (forEach binds
       (x: "riverctl map${optionalString (mode == "pointer") "-pointer"} ${if mode == "pointer" then "normal" else mode} ${x.fst} ${x.snd}\n"));

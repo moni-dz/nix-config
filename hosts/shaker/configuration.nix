@@ -2,10 +2,10 @@
 
 {
   environment = {
-    shells = lib.attrValues { inherit (pkgs) fish; };
+    shells = __attrValues { inherit (pkgs) fish; };
 
-    systemPackages = lib.attrValues {
-      inherit (pkgs) nano git fish home-manager;
+    systemPackages = __attrValues {
+      inherit (pkgs) gawk;
       inherit (inputs'.agenix.packages) agenix;
     };
   };
@@ -28,7 +28,7 @@
   fonts = {
     fontDir.enable = true;
 
-    fonts = lib.attrValues {
+    fonts = __attrValues {
       inherit (pkgs) fira-code comic-neue emacs-all-the-icons-fonts;
     };
   };

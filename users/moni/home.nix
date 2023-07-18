@@ -12,10 +12,10 @@
       let
         stdenv = pkgs.stdenvAdapters.withCFlags [ "-Ofast" "-pipe" "-mcpu=apple-m1" ] pkgs.llvmPackages_latest.stdenv;
       in
-      lib.attrValues {
+      __attrValues {
         inherit (pkgs)
           asitop
-          curlFull
+          curl
           coreutils-prefixed
           parallel
           fd
@@ -47,8 +47,6 @@
 
         inherit (inputs'.nixpkgs-f2k.packages) wezterm-git;
       };
-
-    sessionVariables.EDITOR = "hx";
   };
 
   programs = {

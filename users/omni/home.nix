@@ -47,7 +47,7 @@
       else "${pkgs.phinger-cursors}/share/icons/phinger-cursors"
     }";
 
-    packages = lib.attrValues {
+    packages = __attrValues {
       inherit (pkgs)
         bemenu
         brave-nightly

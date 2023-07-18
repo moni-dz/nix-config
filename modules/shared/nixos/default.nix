@@ -131,26 +131,10 @@
     binsh = "${pkgs.zsh}/bin/zsh";
     pathsToLink = [ "/share/zsh" ];
     shells = with pkgs; [ zsh ];
-
-    # Font packages should go in `fonts.fonts` a few lines below this.
-    systemPackages = lib.attrValues {
-      inherit (pkgs)
-        coreutils
-        curl
-        fd
-        home-manager
-        man-pages
-        man-pages-posix
-        ripgrep
-        wget;
-
-      git = pkgs.git.overrideAttrs (_: { __contentAddressed = true; });
-      svn = pkgs.subversion.overrideAttrs (_: { __contentAddressed = true; });
-    };
   };
 
   fonts = {
-    fonts = lib.attrValues {
+    fonts = __attrValues {
       inherit (pkgs)
         emacs-all-the-icons-fonts
         fantasque-sans-mono

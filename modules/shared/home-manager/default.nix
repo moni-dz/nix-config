@@ -8,9 +8,10 @@
 */
 {
   home = {
-    packages = lib.attrValues {
+    packages = __attrValues {
       inherit (pkgs)
         bat
+        ripgrep
         difftastic
         gitoxide
         nixpkgs-fmt
@@ -22,8 +23,7 @@
     };
 
     sessionVariables = {
-      MANPAGER = "sh -c 'col -bx | bat --theme ansi -l man -p'";
-      MANROFFOPT = "-c";
+      MANPAGER = "nvim +Man! -c 'nnoremap i <nop>'";
     };
   };
 
@@ -112,6 +112,57 @@
     };
 
     nix-index-database.comma.enable = true;
+
+    neovim = {
+      enable = true;
+      defaultEditor = true;
+
+      plugins = __attrValues {
+        inherit (pkgs.vimPlugins)
+          which-key-nvim
+          nvim-lspconfig
+          nvim-cmp
+          cmp-nvim-lsp
+          cmp-vsnip
+          cmp-path
+          cmp-buffer
+          popup-nvim
+          plenary-nvim
+          telescope-nvim
+          rust-tools-nvim
+          rose-pine;
+
+        nvim-treesitter = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
+
+        auto-dark-mode-nvim = pkgs.vimUtils.buildVimPluginFrom2Nix {
+          name = "auto-dark-mode-nvim";
+
+          src = pkgs.fetchFromGitHub {
+            owner = "f-person";
+            repo = "auto-dark-mode.nvim";
+            rev = "7d15094390f1a0638a5e533022e99a6aa503dbdf";
+            hash = "sha256-f3AJukU9osmHFAWxmSEAw5/GsQyBXDVPdW3eUJJSNpM=";
+          };
+        };
+
+        inlay-hints-nvim = pkgs.vimUtils.buildVimPluginFrom2Nix {
+          name = "inlay-hints-nvim";
+
+          src = pkgs.fetchFromGitHub {
+            owner = "simrat39";
+            repo = "inlay-hints.nvim";
+            rev = "006b0898f5d3874e8e528352103733142e705834";
+            hash = "sha256-cDWx08N+NhN5Voxh8f7RGzerbAYB5FHE6TpD4/o/MIQ=";
+          };
+        };
+      };
+
+      package = pkgs.neovim-unwrapped.override {
+        lua = pkgs.luajit;
+      };
+
+      extraLuaConfig = __readFile ./config/init.lua;
+    };
 
     starship = {
       enable = true;

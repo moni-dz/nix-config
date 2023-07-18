@@ -8,10 +8,8 @@
 */
 {
   home = {
-    packages = lib.attrValues {
-      inherit (pkgs) ripgrep pfetch;
+    packages = __attrValues {
+      inherit (pkgs) pfetch;
     };
-
-    sessionVariables.EDITOR = "nvim";
   };
 }

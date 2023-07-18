@@ -48,6 +48,23 @@
           unstable = pkgsFrom inputs.unstable system;
           stable = pkgsFrom inputs.stable system;
         };
+
+      # NixOS and nix-darwin base environment.systemPackages
+      basePackagesFor = pkgs: __attrValues {
+        inherit (pkgs)
+          nano
+          coreutils
+          curl
+          fd
+          home-manager
+          man-pages
+          man-pages-posix
+          ripgrep
+          wget;
+
+        git = pkgs.git.overrideAttrs (_: { __contentAddressed = true; });
+        svn = pkgs.subversion.overrideAttrs (_: { __contentAddressed = true; });
+      };
     };
 
     formatter = inputs.nixpkgs-fmt.defaultPackage.${system};

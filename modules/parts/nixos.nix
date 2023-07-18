@@ -52,10 +52,15 @@ let
 
             networking.hostName = name;
             system.stateVersion = config.stateVersion;
+            environment.systemPackages = ctx.basePackagesFor pkgs;
           })
         ] ++ lib.optionals config.wsl [
           inputs.nixos-wsl.nixosModules.wsl
-          { wsl.wslConf.network.hostname = name; }
+
+          (args@{ lib, pkgs, ... }: {
+            wsl.wslConf.network.hostname = name;
+            system.build.installBootLoader = args.lib.mkForce "${pkgs.coreutils}/bin/true";
+          })
         ];
       }
     );

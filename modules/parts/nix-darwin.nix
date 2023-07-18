@@ -52,6 +52,7 @@ let
 
             networking.hostName = name;
             system.stateVersion = config.stateVersion;
+            environment.systemPackages = ctx.basePackagesFor pkgs;
           })
         ];
       }
