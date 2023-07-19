@@ -53,7 +53,6 @@
       basePackagesFor = pkgs: __attrValues {
         inherit (pkgs)
           nano
-          coreutils
           curl
           fd
           home-manager
@@ -62,6 +61,7 @@
           ripgrep
           wget;
 
+        gnu-coreutils = if pkgs.stdenv.isLinux then pkgs.coreutils else pkgs.coreutils-prefixed;
         git = pkgs.git.overrideAttrs (_: { __contentAddressed = true; });
         svn = pkgs.subversion.overrideAttrs (_: { __contentAddressed = true; });
       };
