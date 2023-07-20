@@ -62,8 +62,8 @@
           wget;
 
         gnu-coreutils = if pkgs.stdenv.isLinux then pkgs.coreutils else pkgs.coreutils-prefixed;
-        git = pkgs.git.overrideAttrs (_: { __contentAddressed = true; });
-        svn = pkgs.subversion.overrideAttrs (_: { __contentAddressed = true; });
+        git = pkgs.git.overrideAttrs { __contentAddressed = true; };
+        svn = pkgs.subversion.overrideAttrs { __contentAddressed = true; };
       };
     };
 

@@ -116,7 +116,7 @@
         pathsToLink = [ "/share/man" ];
         extraOutputsToInstall = activeManOutputs;
         ignoreCollisions = true;
-      }).overrideAttrs (_: { __contentAddressed = true; });
+      }).overrideAttrs { __contentAddressed = true; };
     };
 
   environment = {

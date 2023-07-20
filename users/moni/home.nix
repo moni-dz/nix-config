@@ -10,7 +10,7 @@
   home = {
     packages =
       let
-        stdenv = pkgs.stdenvAdapters.withCFlags [ "-Ofast" "-pipe" "-mcpu=apple-m1" ] pkgs.llvmPackages_latest.stdenv;
+        stdenv = pkgs.stdenvAdapters.withCFlags [ "-Ofast" "-pipe" "-mcpu=apple-m2" ] pkgs.llvmPackages_latest.stdenv;
       in
       __attrValues {
         inherit (pkgs)
@@ -32,17 +32,17 @@
           screen
           exiv2
           dua
-          pigz
+          zstd
           hyperfine
           ffmpeg_6;
 
         sdrpp = pkgs.sdrpp.override {
           inherit stdenv;
 
-          fftwFloat = pkgs.fftwFloat.overrideAttrs (_: {
+          fftwFloat = pkgs.fftwFloat.overrideAttrs {
             inherit stdenv;
             postPatch = null;
-          });
+          };
         };
 
         inherit (inputs'.nixpkgs-f2k.packages) wezterm-git;
@@ -69,7 +69,7 @@
         fish_add_path /Users/moni/Library/Python/3.11/bin
         fish_add_path /usr/local/bin
         fish_add_path -m /opt/homebrew/bin
-        fish_add_path /opt/local/bin
+        fish_add_path -m /usr/bin
         fish_add_path -m /run/current-system/sw/bin
         fish_add_path -m /Users/moni/.nix-profile/bin
       '';
