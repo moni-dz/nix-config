@@ -8,45 +8,41 @@
 */
 {
   home = {
-    packages =
-      let
-        stdenv = pkgs.stdenvAdapters.withCFlags [ "-Ofast" "-pipe" "-mcpu=apple-m2" ] pkgs.llvmPackages_latest.stdenv;
-      in
-      __attrValues {
-        inherit (pkgs)
-          asitop
-          curl
-          coreutils-prefixed
-          parallel
-          fd
-          gnugrep
-          shellcheck
-          ripgrep
-          jq
-          pfetch
-          pandoc
-          helix
-          sqlite
-          libheif
-          avrdude
-          screen
-          exiv2
-          dua
-          zstd
-          hyperfine
-          ffmpeg_6;
+    packages = __attrValues {
+      inherit (pkgs)
+        asitop
+        curl
+        coreutils-prefixed
+        parallel
+        fd
+        gnugrep
+        shellcheck
+        ripgrep
+        jq
+        pfetch
+        pandoc
+        helix
+        sqlite
+        libheif
+        avrdude
+        screen
+        exiv2
+        dua
+        zstd
+        hyperfine
+        ffmpeg_6;
 
-        sdrpp = pkgs.sdrpp.override {
-          inherit stdenv;
+      sdrpp = pkgs.sdrpp.override {
+        stdenv = pkgs.appleM2Stdenv;
 
-          fftwFloat = pkgs.fftwFloat.overrideAttrs {
-            inherit stdenv;
-            postPatch = null;
-          };
+        fftwFloat = pkgs.fftwFloat.overrideAttrs {
+          stdenv = pkgs.appleM2Stdenv;
+          postPatch = null;
         };
-
-        inherit (inputs'.nixpkgs-f2k.packages) wezterm-git;
       };
+
+      inherit (inputs'.nixpkgs-f2k.packages) wezterm-git;
+    };
   };
 
   programs = {
