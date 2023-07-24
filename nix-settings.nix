@@ -33,7 +33,7 @@
   extraOptions = ''
     keep-outputs = true
     keep-derivations = true
-    auto-allocate-uids = true
+    auto-allocate-uids = false
     builders-use-substitutes = true
     http-connections = 0
   '' + lib.optionalString (stdenv.isDarwin && stdenv.isAarch64) ''
