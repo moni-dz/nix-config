@@ -40,15 +40,10 @@ let
           ../shared/nixos
 
           (args@{ lib, pkgs, ... }: {
-            inherit (ctx) nixpkgs;
+            inherit (ctx) nix nixpkgs;
 
             # Extra arguments passed to the module system
             _module.args = { inherit branches inputs' system; };
-
-            nix = import ../../nix-settings.nix {
-              inherit lib inputs inputs';
-              inherit (pkgs) stdenv;
-            };
 
             networking.hostName = name;
             system.stateVersion = config.stateVersion;

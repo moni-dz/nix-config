@@ -7,8 +7,14 @@
     ./nixos.nix
   ];
 
-  perSystem = { lib, pkgs, system, ... }: {
+  perSystem = { lib, pkgs, system, inputs', ... }: {
     _module.args = rec {
+      # nix the package manager configuration
+      nix = import ./nix-settings.nix {
+        inherit lib inputs inputs';
+        inherit (pkgs) stdenv;
+      };
+
       # nixpkgs configuration
       nixpkgs = {
         config = {

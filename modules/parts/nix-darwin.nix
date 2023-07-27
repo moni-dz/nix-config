@@ -37,17 +37,13 @@ let
 
         modules = config.modules ++ [
           (args@{ lib, pkgs, ... }: {
+            inherit (ctx) nix;
             nixpkgs = removeAttrs ctx.nixpkgs [ "hostPlatform" ];
 
             # Extra arguments passed to the module system
             _module.args = {
               inherit branches inputs' system;
               inputs = args.lib.mkForce inputs;
-            };
-
-            nix = import ../../nix-settings.nix {
-              inherit lib inputs inputs';
-              inherit (pkgs) stdenv;
             };
 
             networking.hostName = name;
