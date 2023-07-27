@@ -31,7 +31,7 @@ let
       };
     };
 
-    config._darwin = withSystem config.system (ctx@{ branches, inputs', system, ... }:
+    config._darwin = withSystem config.system (ctx@{ system, ... }:
       inputs.darwin.lib.darwinSystem {
         inherit inputs system;
 
@@ -39,13 +39,7 @@ let
           (args@{ lib, pkgs, ... }: {
             inherit (ctx) nix;
             nixpkgs = removeAttrs ctx.nixpkgs [ "hostPlatform" ];
-
-            # Extra arguments passed to the module system
-            _module.args = {
-              inherit branches inputs' system;
-              inputs = args.lib.mkForce inputs;
-            };
-
+            _module.args = ctx.extraModuleArgs;
             networking.hostName = name;
             system.stateVersion = config.stateVersion;
             environment.systemPackages = ctx.basePackagesFor pkgs;

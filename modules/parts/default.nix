@@ -15,7 +15,7 @@
         inherit (pkgs) stdenv;
       };
 
-      # nixpkgs configuration
+      # nixpkgs configuration (not the flake input)
       nixpkgs = {
         config = {
           allowBroken = true;
@@ -36,24 +36,30 @@
         ];
       };
 
-      /*
-        One can access these nixpkgs branches like so:
+      # Extra arguments passed to the module system
+      extraModuleArgs = {
+        inherit inputs' system;
+        inputs = lib.mkForce inputs;
 
-        `branches.stable.mpd'
-        `branches.master.linuxPackages_xanmod'
-      */
-      branches =
-        let
-          pkgsFrom = branch: system: import branch {
-            inherit system;
-            inherit (nixpkgs) config overlays;
+        /*
+          One can access these nixpkgs branches like so:
+
+          `branches.stable.mpd'
+          `branches.master.linuxPackages_xanmod'
+        */
+        branches =
+          let
+            pkgsFrom = branch: system: import branch {
+              inherit system;
+              inherit (nixpkgs) config overlays;
+            };
+          in
+          {
+            master = pkgsFrom inputs.master system;
+            unstable = pkgsFrom inputs.unstable system;
+            stable = pkgsFrom inputs.stable system;
           };
-        in
-        {
-          master = pkgsFrom inputs.master system;
-          unstable = pkgsFrom inputs.unstable system;
-          stable = pkgsFrom inputs.stable system;
-        };
+      };
 
       # NixOS and nix-darwin base environment.systemPackages
       basePackagesFor = pkgs: __attrValues {

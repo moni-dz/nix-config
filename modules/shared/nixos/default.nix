@@ -134,7 +134,7 @@
   };
 
   fonts = {
-    fonts = __attrValues {
+    packages = __attrValues {
       inherit (pkgs)
         emacs-all-the-icons-fonts
         fantasque-sans-mono

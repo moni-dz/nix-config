@@ -33,7 +33,7 @@ let
       };
     };
 
-    config._nixos = withSystem config.system (ctx@{ branches, inputs', system, ... }:
+    config._nixos = withSystem config.system (ctx:
       inputs.nixpkgs.lib.nixosSystem {
         modules = config.modules ++ [
           # Shared configuration across all NixOS machines
@@ -41,10 +41,7 @@ let
 
           (args@{ lib, pkgs, ... }: {
             inherit (ctx) nix nixpkgs;
-
-            # Extra arguments passed to the module system
-            _module.args = { inherit branches inputs' system; };
-
+            _module.args = ctx.extraModuleArgs;
             networking.hostName = name;
             system.stateVersion = config.stateVersion;
             environment.systemPackages = ctx.basePackagesFor pkgs;

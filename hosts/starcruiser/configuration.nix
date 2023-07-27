@@ -49,7 +49,7 @@
     };
   };
 
-  # Font packages should go in fonts.fonts in ../shared/configuration.nix.
+  # Font packages should go in fonts.packages in ../shared/configuration.nix.
   environment = {
     sessionVariables = {
       NIXOS_OZONE_WL = "1";
@@ -78,7 +78,7 @@
     };
   };
 
-  fonts.enableDefaultFonts = false;
+  fonts.enableDefaultPackages = false;
 
   networking = {
     firewall = {

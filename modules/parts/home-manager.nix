@@ -39,7 +39,7 @@ let
       };
     };
 
-    config._home = withSystem config.system (ctx@{ branches, inputs', system, ... }:
+    config._home = withSystem config.system (ctx@{ system, ... }:
       inputs.home.lib.homeManagerConfiguration {
         # Default nixpkgs for home.nix
         pkgs = inputs.nixpkgs.legacyPackages.${system};
@@ -52,9 +52,7 @@ let
 
           (args@{ config, lib, pkgs, ... }: {
             nixpkgs = removeAttrs ctx.nixpkgs [ "hostPlatform" ];
-
-            # Extra arguments passed to the module system
-            _module.args = { inherit branches inputs inputs' system; };
+            _module.args = ctx.extraModulesArgs;
 
             home =
               let
