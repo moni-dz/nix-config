@@ -39,10 +39,10 @@ let
       };
     };
 
-    config._home = withSystem config.system (ctx@{ system, ... }:
+    config._home = withSystem config.system (ctx:
       inputs.home.lib.homeManagerConfiguration {
         # Default nixpkgs for home.nix
-        pkgs = inputs.nixpkgs.legacyPackages.${system};
+        pkgs = inputs.nixpkgs.legacyPackages.${ctx.system};
 
         modules = config.modules ++ [
           inputs.nix-index-database.hmModules.nix-index
@@ -50,23 +50,19 @@ let
           # Shared configuration across all users
           ../shared/home-manager
 
-          (args@{ config, lib, pkgs, ... }: {
+          ({ config, lib, pkgs, ... }: {
+            _module.args = ctx.extraModuleArgs;
             nixpkgs = removeAttrs ctx.nixpkgs [ "hostPlatform" ];
-            _module.args = ctx.extraModulesArgs;
 
-            home =
-              let
-                username = __elemAt (lib.strings.split "@" name) 0;
-              in
-              {
-                inherit username;
-                inherit (opts.config) stateVersion;
+            home = {
+              username = __elemAt (lib.strings.split "@" name) 0;
+              inherit (opts.config) stateVersion;
 
-                homeDirectory = lib.mkMerge [
-                  (lib.mkIf pkgs.stdenv.isDarwin "/Users/${username}")
-                  (lib.mkIf pkgs.stdenv.isLinux "/home/${username}")
-                ];
-              };
+              homeDirectory = lib.mkMerge [
+                (lib.mkIf pkgs.stdenv.isDarwin "/Users/${config.home.username}")
+                (lib.mkIf pkgs.stdenv.isLinux "/home/${config.home.username}")
+              ];
+            };
           })
         ] ++ lib.optionals config.agenix [
           inputs.agenix.homeManagerModules.age

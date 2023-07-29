@@ -36,7 +36,7 @@
         ];
       };
 
-      # Extra arguments passed to the module system
+      # Extra arguments passed to the module system for nix-darwin, NixOS, and home-manager
       extraModuleArgs = {
         inherit inputs' system;
         inputs = lib.mkForce inputs;

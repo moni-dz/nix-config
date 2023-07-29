@@ -39,7 +39,7 @@ let
           # Shared configuration across all NixOS machines
           ../shared/nixos
 
-          (args@{ lib, pkgs, ... }: {
+          ({ pkgs, ... }: {
             inherit (ctx) nix nixpkgs;
             _module.args = ctx.extraModuleArgs;
             networking.hostName = name;
@@ -49,9 +49,9 @@ let
         ] ++ lib.optionals config.wsl [
           inputs.nixos-wsl.nixosModules.wsl
 
-          (args@{ lib, pkgs, ... }: {
+          ({ lib, pkgs, ... }: {
             wsl.wslConf.network.hostname = name;
-            system.build.installBootLoader = args.lib.mkForce "${pkgs.coreutils}/bin/true";
+            system.build.installBootLoader = lib.mkForce "${pkgs.coreutils}/bin/true";
           })
         ];
       }

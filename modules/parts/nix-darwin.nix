@@ -31,12 +31,13 @@ let
       };
     };
 
-    config._darwin = withSystem config.system (ctx@{ system, ... }:
+    config._darwin = withSystem config.system (ctx:
       inputs.darwin.lib.darwinSystem {
-        inherit inputs system;
+        inherit inputs;
+        inherit (ctx) system;
 
         modules = config.modules ++ [
-          (args@{ lib, pkgs, ... }: {
+          ({ pkgs, ... }: {
             inherit (ctx) nix;
             nixpkgs = removeAttrs ctx.nixpkgs [ "hostPlatform" ];
             _module.args = ctx.extraModuleArgs;
