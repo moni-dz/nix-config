@@ -5,6 +5,7 @@ vim.opt.mouse = "a"
 vim.opt.encoding = "utf-8"
 vim.opt.tabstop = 2
 vim.opt.shiftwidth = 2
+vim.opt.expandtab = true
 vim.opt.cmdheight = 0
 vim.opt.laststatus = 0
 
@@ -74,4 +75,14 @@ require("rust-tools").setup({
 	}
 })
 
-require("lspconfig").zls.setup({})
+local lsp = require("lspconfig")
+
+lsp.zls.setup({})
+--lsp.ccls.setup({})
+lsp.clangd.setup({})
+
+require("nvim-treesitter.configs").setup({
+	highlight = {
+		enable = true,
+	},
+})

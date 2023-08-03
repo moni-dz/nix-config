@@ -30,7 +30,8 @@
         dua
         zstd
         hyperfine
-        ffmpeg_6;
+        ffmpeg_6
+        blisp;
 
       sdrpp = pkgs.sdrpp.override {
         stdenv = pkgs.appleM2Stdenv;

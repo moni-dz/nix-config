@@ -29,7 +29,7 @@
     fontDir.enable = true;
 
     fonts = __attrValues {
-      inherit (pkgs) fira-code comic-neue emacs-all-the-icons-fonts;
+      inherit (pkgs) fira-code comic-neue fantasque-sans-mono emacs-all-the-icons-fonts;
     };
   };
 }
