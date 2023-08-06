@@ -17,10 +17,9 @@
 
       # nixpkgs configuration (not the flake input)
       nixpkgs = {
-        config = {
+        config = lib.mkForce {
           allowBroken = true;
           allowUnfree = true;
-          allowUnfreePredicate = _: true;
           tarball-ttl = 0;
 
           # Experimental options, disable if you don't know what you are doing!
@@ -29,7 +28,7 @@
 
         hostPlatform = system;
 
-        overlays = [
+        overlays = lib.mkForce [
           inputs.emacs.overlay
           inputs.nixpkgs-f2k.overlays.stdenvs
           self.overlays.default
