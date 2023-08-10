@@ -2,10 +2,10 @@
 
 {
   # nix-darwin configurations
-  parts.darwinConfigurations.shaker = {
+  parts.darwinConfigurations.riscake = {
     system = "aarch64-darwin";
     stateVersion = 4; # only change this if you know what you are doing.
-    modules = [ ./shaker/configuration.nix ];
+    modules = [ ./riscake/configuration.nix ];
   };
 
   # NixOS configurations

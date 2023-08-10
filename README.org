@@ -52,7 +52,7 @@ See also:
  * [[https://nixos.wiki/wiki/Flakes][flakes]]
  * [[https://flake.parts][flake-parts]], for the flake modules at [[https://github.com/fortuneteller2k/nix-config/blob/master/modules/parts][modules/parts]]
  * [[https://github.com/fortuneteller2k/nixpkgs-f2k][nixpkgs-f2k]], my package collection
- * [[https://github.com/LnL7/nix-darwin][nix-darwin]], for =hosts/shaker=
+ * [[https://github.com/LnL7/nix-darwin][nix-darwin]], for =hosts/riscake=
  * [[https://github.com/nix-community/NixOS-WSL][NixOS-WSL]], for =hosts/turncoat=
 
 Resources and configurations I used to base on:

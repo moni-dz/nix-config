@@ -77,5 +77,6 @@
     ];
 
     trusted-users = [ "root" "moni" "zero" ];
+    use-xdg-base-directories = true;
   };
 }

@@ -3,13 +3,13 @@
 {
   # home-manager configurations
   parts.homeConfigurations = {
-    "moni@shaker" = {
+    "moni@riscake" = {
       system = "aarch64-darwin";
       stateVersion = "23.05";
       agenix = true;
 
       modules = [ ./moni/home.nix ]
-        ++ lib.optional config.parts.homeConfigurations."moni@shaker".agenix ./moni/age.nix;
+        ++ lib.optional config.parts.homeConfigurations."moni@riscake".agenix ./moni/age.nix;
     };
 
     "moni@starcruiser" = {
