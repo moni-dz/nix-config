@@ -31,7 +31,8 @@
         zstd
         hyperfine
         ffmpeg_6
-        blisp;
+        blisp
+        picotool;
 
       inherit (pkgs.nodePackages_latest) webtorrent-cli;
       inherit (inputs'.nixpkgs-f2k.packages) wezterm-git;
@@ -65,9 +66,8 @@
 
       shellInit = ''
         fish_add_path /Users/moni/Library/Python/3.11/bin
-        fish_add_path /usr/local/bin
-        fish_add_path /opt/homebrew/bin
-        fish_add_path /usr/bin
+        fish_add_path -amP /opt/homebrew/bin
+        fish_add_path -amP /usr/bin
         fish_add_path -m /run/current-system/sw/bin
         fish_add_path -m /Users/moni/.nix-profile/bin
       '';
