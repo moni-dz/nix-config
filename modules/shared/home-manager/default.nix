@@ -73,8 +73,6 @@
       };
     };
 
-    home-manager.enable = true;
-
     htop = {
       enable = true;
 

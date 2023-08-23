@@ -1,4 +1,4 @@
-{ config, inputs', lib, pkgs, system, ... }:
+{ config, inputs, inputs', lib, pkgs, system, ... }:
 
 /*
   home-manager configuration
@@ -34,7 +34,6 @@
         blisp
         picotool;
 
-      inherit (pkgs.nodePackages_latest) webtorrent-cli;
       inherit (inputs'.nixpkgs-f2k.packages) wezterm-git;
 
       sdrpp = pkgs.sdrpp.override {

@@ -36,8 +36,6 @@
     auto-allocate-uids = false
     builders-use-substitutes = true
     http-connections = 0
-  '' + lib.optionalString (stdenv.isDarwin && stdenv.isAarch64) ''
-    extra-platforms = aarch64-darwin x86_64-darwin
   '';
 
   nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
@@ -78,5 +76,7 @@
 
     trusted-users = [ "root" "moni" "zero" ];
     use-xdg-base-directories = true;
-  };
+  } // (lib.optionalAttrs (stdenv.isDarwin && stdenv.isAarch64) {
+    extra-platforms = "x86_64-darwin";
+  });
 }

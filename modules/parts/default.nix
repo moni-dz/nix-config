@@ -66,11 +66,15 @@
           nano
           curl
           fd
-          home-manager
-          man-pages
-          man-pages-posix
           ripgrep
+          man-pages-posix
           wget;
+
+        home-manager = inputs'.home.packages.home-manager.override { path = "${inputs.home}"; };
+
+        man-pages =
+          if pkgs.stdenv.isLinux then pkgs.man-pages
+          else inputs'.nixpkgs-f2k.packages.man-pages-xnu;
 
         gnu-coreutils = if pkgs.stdenv.isLinux then pkgs.coreutils else pkgs.coreutils-prefixed;
         git = pkgs.git.overrideAttrs { __contentAddressed = true; };
