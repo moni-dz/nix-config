@@ -9,7 +9,7 @@
 {
   home = {
     packages = __attrValues {
-      inherit (pkgs) pfetch;
+      inherit (pkgs) pfetch temurin-jre-bin-17 daemonize;
     };
   };
 
