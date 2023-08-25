@@ -19,7 +19,6 @@
 
       inherit (pkgs.gitAndTools) gh;
       inherit (inputs'.agenix.packages) agenix;
-      inherit (inputs'.statix.packages) statix;
     };
 
     sessionVariables = {
@@ -114,7 +113,7 @@
       ]);
     };
 
-    nix-index-database.comma.enable = true;
+    nix-index-database.comma.enable = lib.mkDefault true;
 
     neovim = {
       enable = true;
