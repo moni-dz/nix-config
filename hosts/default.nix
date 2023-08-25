@@ -19,8 +19,8 @@
 
         {
           # NOTE: you should either change this or disable it completely by commenting it out
-          age.secrets.github-token = {
-            file = ../secrets/github-token.age;
+          age.secrets.tokens = {
+            file = ../secrets/tokens.age;
             owner = "moni";
             mode = "0444";
           };
@@ -43,8 +43,8 @@
           age = {
             identityPaths = [ "/home/zero/.ssh/id_ed25519" ];
 
-            secrets.github-token = {
-              file = ../secrets/github-token.age;
+            secrets.tokens = {
+              file = ../secrets/tokens.age;
               owner = "zero";
               mode = "0444";
             };

@@ -73,6 +73,11 @@
       };
     };
 
+    home-manager = {
+      enable = true;
+      path = "${inputs.home}";
+    };
+
     htop = {
       enable = true;
 

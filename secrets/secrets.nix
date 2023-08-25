@@ -12,5 +12,5 @@ let
   hosts = [ starcruiser riscake ];
 in
 {
-  "github-token.age".publicKeys = users ++ hosts;
+  "tokens.age".publicKeys = users ++ hosts;
 }

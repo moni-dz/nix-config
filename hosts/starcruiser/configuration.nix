@@ -111,7 +111,7 @@
         end
       end
 
-      . ${config.age.secrets.github-token.path}
+      . ${config.age.secrets.tokens.path}
     '';
   };
 

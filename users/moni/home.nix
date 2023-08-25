@@ -28,6 +28,7 @@
         screen
         exiv2
         dua
+        doctl
         zstd
         hyperfine
         ffmpeg_6
@@ -37,10 +38,10 @@
       inherit (inputs'.nixpkgs-f2k.packages) wezterm-git;
 
       sdrpp = pkgs.sdrpp.override {
-        stdenv = pkgs.appleM2Stdenv;
+        #stdenv = pkgs.appleM2Stdenv;
 
         fftwFloat = pkgs.fftwFloat.overrideAttrs {
-          stdenv = pkgs.appleM2Stdenv;
+          #stdenv = pkgs.appleM2Stdenv;
           postPatch = null;
         };
       };
@@ -60,7 +61,7 @@
           end
         end
         
-        . ${config.age.secrets.github-token.path}
+        . ${config.age.secrets.tokens.path}
       '';
 
       shellInit = ''
