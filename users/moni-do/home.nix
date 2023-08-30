@@ -9,7 +9,7 @@
 {
   home = {
     packages = __attrValues {
-      inherit (pkgs) pfetch temurin-jre-bin-17 daemonize;
+      inherit (pkgs) pfetch temurin-jre-bin-17 daemonize sqlite;
     };
   };
 
