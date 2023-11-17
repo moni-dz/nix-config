@@ -15,6 +15,7 @@
       stateVersion = "23.05";
 
       modules = [
+        inputs.nix-minecraft.nixosModules.minecraft-servers
         ./mistral/configuration.nix
       ];
     };
