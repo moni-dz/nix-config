@@ -25,7 +25,7 @@
     "moni@mistral" = {
       system = "x86_64-linux";
       stateVersion = "23.05";
-      modules = [ ./moni-do/home.nix ];
+      modules = [ ./volta/home.nix ];
     };
 
     "zero@turncoat" = {

@@ -57,6 +57,8 @@
 
   nixpkgs.overlays = lib.mkOverride 10 [ inputs.nix-minecraft.overlay ];
 
+  programs.fish.enable = true;
+
   services.minecraft-servers = {
     enable = true;
     eula = true;
@@ -105,7 +107,7 @@
           LazyDFU = pkgs.fetchurl {
             url = "https://cdn.modrinth.com/data/hvFnDODi/versions/0.1.3/lazydfu-0.1.3.jar";
             sha512 = "dc3766352c645f6da92b13000dffa80584ee58093c925c2154eb3c125a2b2f9a3af298202e2658b039c6ee41e81ca9a2e9d4b942561f7085239dd4421e0cce0a";
-            };
+          };
 
           C2ME = pkgs.fetchurl {
             url = "https://cdn.modrinth.com/data/VSNURh3q/versions/ilKwGRiJ/c2me-fabric-mc1.20.2-0.2.0%2Balpha.10.126.jar";
@@ -114,5 +116,12 @@
         });
       };
     };
+  };
+
+  users.users.moni = {
+    isNormalUser = true;
+    home = "/home/moni";
+    shell = pkgs.fish;
+    extraGroups = [ "wheel" ];
   };
 }
