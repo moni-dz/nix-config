@@ -9,6 +9,8 @@ let
 
   nixosOpts = opts@{ config, name, ... }: {
     options = {
+      server = lib.mkEnableOption "Host is a headless server configuration.";
+
       system = lib.mkOption {
         type = types.enum [ "aarch64-linux" "x86_64-linux" ];
         description = "System architecture for the configuration.";
@@ -35,10 +37,10 @@ let
 
     config._nixos = withSystem config.system (ctx:
       inputs.nixpkgs.lib.nixosSystem {
-        modules = config.modules ++ [
+        modules = config.modules ++ lib.optionals (!config.server) [
           # Shared configuration across all NixOS machines
           ../shared/nixos
-
+        ] ++ [
           ({ pkgs, ... }: {
             inherit (ctx) nix nixpkgs;
             _module.args = ctx.extraModuleArgs;

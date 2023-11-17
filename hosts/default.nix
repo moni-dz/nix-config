@@ -13,6 +13,7 @@
     mistral = {
       system = "x86_64-linux";
       stateVersion = "23.05";
+      server = true;
 
       modules = [
         inputs.nix-minecraft.nixosModules.minecraft-servers

@@ -56,7 +56,7 @@
       "ca-derivations"
       "flakes"
       "nix-command"
-      "configurable-impure-env"
+      # "configurable-impure-env"
     ];
 
     max-jobs = "auto";
