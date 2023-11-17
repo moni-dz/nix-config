@@ -50,7 +50,7 @@
     };
 
     #sessionVariables = {
-      #VCPKG_ROOT="${config.home.homeDirectory}/Documents/vcpkg";
+    #VCPKG_ROOT="${config.home.homeDirectory}/Documents/vcpkg";
     #};
   };
 
