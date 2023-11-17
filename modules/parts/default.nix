@@ -68,7 +68,9 @@
           fd
           ripgrep
           man-pages-posix
-          wget;
+          wget
+          git
+          subversion;
 
         home-manager = inputs'.home.packages.home-manager.override { path = "${inputs.home}"; };
 
@@ -77,8 +79,6 @@
           else inputs'.nixpkgs-f2k.packages.man-pages-xnu;
 
         gnu-coreutils = if pkgs.stdenv.isLinux then pkgs.coreutils else pkgs.coreutils-prefixed;
-        git = pkgs.git.overrideAttrs { __contentAddressed = true; };
-        svn = pkgs.subversion.overrideAttrs { __contentAddressed = true; };
       };
     };
 
