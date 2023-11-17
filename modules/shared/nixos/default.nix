@@ -110,13 +110,13 @@
     {
       generateCaches = true;
 
-      man-db.manualPages = (pkgs.buildEnv {
+      man-db.manualPages = pkgs.buildEnv {
         name = "man-paths";
         paths = config.environment.systemPackages;
         pathsToLink = [ "/share/man" ];
         extraOutputsToInstall = activeManOutputs;
         ignoreCollisions = true;
-      }).overrideAttrs { __contentAddressed = true; };
+      };
     };
 
   environment = {
