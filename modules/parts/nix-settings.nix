@@ -39,7 +39,7 @@
   '';
 
   nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
-  package = inputs'.nix.packages.default.overrideAttrs { doCheck = false; };
+  # package = inputs'.nix.packages.default.overrideAttrs { doCheck = false; };
 
   registry = {
     system.flake = inputs.self;
