@@ -13,7 +13,6 @@
         bat
         ripgrep
         difftastic
-        gitoxide
         nixpkgs-fmt
         nixpkgs-review;
 
@@ -42,7 +41,10 @@
       nix-direnv.enable = true;
     };
 
-    exa.enable = true;
+    eza = {
+      enable = true;
+      package = pkgs.eza;
+    };
 
     git = {
       enable = true;

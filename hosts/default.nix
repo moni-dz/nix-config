@@ -10,6 +10,15 @@
 
   # NixOS configurations
   parts.nixosConfigurations = {
+    mistral = {
+      system = "x86_64-linux";
+      stateVersion = "23.05";
+
+      modules = [
+        ./mistral/configuration.nix
+      ];
+    };
+
     starcruiser = {
       system = "x86_64-linux";
       stateVersion = "22.11"; # only change this if you know what you are doing.

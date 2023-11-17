@@ -33,7 +33,9 @@
         hyperfine
         ffmpeg_6
         blisp
-        picotool;
+        picotool
+        z3_4_12
+        julia_18-bin;
 
       inherit (inputs'.nixpkgs-f2k.packages) wezterm-git;
 
@@ -46,6 +48,10 @@
         };
       };
     };
+
+    #sessionVariables = {
+      #VCPKG_ROOT="${config.home.homeDirectory}/Documents/vcpkg";
+    #};
   };
 
   programs = {
@@ -66,8 +72,10 @@
 
       shellInit = ''
         fish_add_path /Users/moni/Library/Python/3.11/bin
-        fish_add_path -amP /opt/homebrew/bin
         fish_add_path -amP /usr/bin
+        fish_add_path -amP /opt/homebrew/bin
+        fish_add_path -amP /opt/local/bin
+        fish_add_path -amP /opt/homebrew/opt/llvm/bin
         fish_add_path -m /run/current-system/sw/bin
         fish_add_path -m /Users/moni/.nix-profile/bin
       '';
