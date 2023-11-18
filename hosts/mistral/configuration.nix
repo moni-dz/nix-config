@@ -66,7 +66,7 @@
     servers.volta = {
       enable = true;
       autoStart = true;
-      package = pkgs.fabricServers.fabric-1_20_2;
+      package = pkgs.fabricServers.fabric-1_20_1;
       jvmOpts = "-Xmx1700M -Xms1G";
       openFirewall = true;
 
@@ -85,13 +85,13 @@
       symlinks = {
         mods = pkgs.linkFarmFromDrvs "mods" (__attrValues {
           Starlight = pkgs.fetchurl {
-            url = "https://cdn.modrinth.com/data/H8CaAYZC/versions/PLbxwptm/starlight-1.1.3%2Bfabric.5867eae.jar";
-            sha512 = "bb9426b5218550d8f9baa3022604feec9f72ac1f1efea07ee70d9871040628d1db039b8c78f30593ab7a5dd4706317a141a4681b6c3adab3bfe7d862003e89e7";
+            url = "https://cdn.modrinth.com/data/H8CaAYZC/versions/XGIsoVGT/starlight-1.1.2%2Bfabric.dbc156f.jar";
+            sha512 = "6b0e363fc2d6cd2f73b466ab9ba4f16582bb079b8449b7f3ed6e11aa365734af66a9735a7203cf90f8bc9b24e7ce6409eb04d20f84e04c7c6b8e34f4cc8578bb";
           };
 
           Lithium = pkgs.fetchurl {
-            url = "https://cdn.modrinth.com/data/gvQqBUqZ/versions/qdzL5Hkg/lithium-fabric-mc1.20.2-0.12.0.jar";
-            sha512 = "88df5f96ee5a3011dbb2aae011b5c85166f9942906e4ebc58ebb7b452f01e18020b970aad3facebd02eb67ac4beea03de333414cf66172d817fa5cae50e1c73d";
+            url = "https://cdn.modrinth.com/data/gvQqBUqZ/versions/ZSNsJrPI/lithium-fabric-mc1.20.1-0.11.2.jar";
+            sha512 = "d1b5c90ba8b4879814df7fbf6e67412febbb2870e8131858c211130e9b5546e86b213b768b912fc7a2efa37831ad91caf28d6d71ba972274618ffd59937e5d0d";
           };
 
           FerriteCore = pkgs.fetchurl {
@@ -100,8 +100,8 @@
           };
 
           Krypton = pkgs.fetchurl {
-            url = "https://cdn.modrinth.com/data/fQEb0iXm/versions/cQ60Ouax/krypton-0.2.4.jar";
-            sha512 = "37a076ea08f7f49aebc8b0a1519ae7d1844bf169134b152f446dc7b95d37567808b96e8523001b98ebd19950420eb76da35df47e8d9b9af0846e68c7c829d7c0";
+            url = "https://cdn.modrinth.com/data/fQEb0iXm/versions/jiDwS0W1/krypton-0.2.3.jar";
+            sha512 = "92b73a70737cfc1daebca211bd1525de7684b554be392714ee29cbd558f2a27a8bdda22accbe9176d6e531d74f9bf77798c28c3e8559c970f607422b6038bc9e";
           };
 
           LazyDFU = pkgs.fetchurl {
@@ -110,8 +110,8 @@
           };
 
           C2ME = pkgs.fetchurl {
-            url = "https://cdn.modrinth.com/data/VSNURh3q/versions/ilKwGRiJ/c2me-fabric-mc1.20.2-0.2.0%2Balpha.10.126.jar";
-            sha512 = "c29eb0f1bd77f083118a3a7664ed92bb23c2bfa82a4fb3dde44f505f486c92301c2e51b24d1d5bd0fbb80c22da93bb787583aa8e6ff5f8913c7315e23184bebe";
+            url = "https://cdn.modrinth.com/data/VSNURh3q/versions/T5Pkyhit/c2me-fabric-mc1.20.1-0.2.0%2Balpha.11.0.jar";
+            sha512 = "9ea27bc6c794a3f428fc1c41d2d083b70e51883d1e836b02b7f556208de012fd28f2d9c9d42b71e33c7b52dd32efcd2e20932e56b16665ff935d0428ff583157";
           };
         });
       };
