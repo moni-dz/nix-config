@@ -11,7 +11,7 @@
 
       If you're not me or a XanMod kernel maintainer in Nixpkgs, use pkgs.linuxKernel.packages.linux_xanmod instead to avoid compilation.
     */
-    kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest;
+    kernelPackages = pkgs.linuxKernel.packages.linux_lqx;
 
     kernelParams = [
       "preempt=full"
@@ -19,40 +19,6 @@
       "quiet"
       "udev.log_level=3"
     ];
-
-    kernel.sysctl = {
-      "fs.file-max" = 2097152;
-      "kernel.printk" = "3 3 3 3";
-      "kernel.sched_migration_cost_ns" = 5000000;
-      "kernel.sched_nr_fork_threshold" = 3;
-      "kernel.sched_fake_interactive_win_time_ms" = 1000;
-      "kernel.unprivileged_userns_clone" = 1;
-      "net.core.default_qdisc" = "fq_pie";
-      "vm.dirty_ratio" = 60;
-      "vm.dirty_background_ratio" = 2;
-      "vm.swappiness" = 10;
-      "vm.vfs_cache_pressure" = 75;
-      "net.core.netdev_max_backlog" = 16384;
-      "net.core.somaxconn" = 8192;
-      "net.core.rmem_default" = 1048576;
-      "net.core.rmem_max" = 16777216;
-      "net.core.wmem_default" = 1048576;
-      "net.core.wmem_max" = 16777216;
-      "net.core.optmem_max" = 65536;
-      "net.ipv4.tcp_rmem" = "4096 1048576 2097152";
-      "net.ipv4.tcp_wmem" = "4096 65536 16777216";
-      "net.ipv4.udp_rmem_min" = 8192;
-      "net.ipv4.udp_wmem_min" = 8192;
-      "net.ipv4.tcp_fastopen" = 3;
-      "net.ipv4.tcp_keepalive_time" = 60;
-      "net.ipv4.tcp_keepalive_intvl" = 10;
-      "net.ipv4.tcp_keepalive_probes" = 6;
-      "net.ipv4.conf.default.log_martians" = 1;
-      "net.ipv4.conf.all.log_martians" = 1;
-      "net.ipv4.tcp_mtu_probing" = 1;
-      "net.ipv4.tcp_syncookies" = 1;
-      "net.ipv4.tcp_congestion_control" = "bbr2";
-    };
   };
 
   nixpkgs.overlays = lib.mkOverride 10 [ inputs.nix-minecraft.overlay ];
@@ -79,7 +45,8 @@
         gamemode = "survival";
         enable-rcon = true;
         "rcon.password" = "longview";
-        view-distance = 20;
+        view-distance = 10;
+        spawn-protection = 5;
       };
 
       symlinks = {
@@ -112,6 +79,21 @@
           C2ME = pkgs.fetchurl {
             url = "https://cdn.modrinth.com/data/VSNURh3q/versions/T5Pkyhit/c2me-fabric-mc1.20.1-0.2.0%2Balpha.11.0.jar";
             sha512 = "9ea27bc6c794a3f428fc1c41d2d083b70e51883d1e836b02b7f556208de012fd28f2d9c9d42b71e33c7b52dd32efcd2e20932e56b16665ff935d0428ff583157";
+          };
+
+          Fastload = pkgs.fetchurl {
+            url = "https://cdn.modrinth.com/data/kCpssoSb/versions/ys9T20o4/Fastload%2B1.18.2-1.20-3.4.0.jar";
+            sha512 = "024e9aa775037fe8727ac8aca55f68d2f6782dd87d099446f967ebbeb6eab73f0f0580eca100cb565f70bab02abce03239af0fca17248ceef2c05caa1cfcdd1e";
+          };
+
+          MemoryLeakFix = pkgs.fetchurl {
+            url = "https://cdn.modrinth.com/data/NRjRiSSD/versions/dGlflhb6/memoryleakfix-fabric-1.17%2B-1.1.2.jar";
+            sha512 = "a921d171d4391a690724cde818d43f666b03a36e1ffa05849c2c853f6e005f6fc4254f1bc040890a0a8a6eff57abf2edf73367189bb2ec9e34e9df92920d89ad";
+          };
+
+          VeryManyPlayers = pkgs.fetchurl {
+            url = "https://cdn.modrinth.com/data/wnEe9KBa/versions/sV8lIBhJ/vmp-fabric-mc1.20.1-0.2.0%2Bbeta.7.102-all.jar";
+            sha512 = "38ba14d870ddbcef233c9baa399005aaccde95d7b77175aa3a795eb9fed1086492b4ac5c6bbc05909dd76dce1b19b5c26613585161c2f3d20f2494beb8b23fe4";
           };
         });
       };
