@@ -34,7 +34,6 @@
       jvmOpts = lib.concatStringsSep " " [
         "-Xmx1700M"
         "-Xms1G"
-        "-XX:+UseTransparentHugePages"
       ];
 
       serverProperties = {
@@ -52,19 +51,9 @@
 
       symlinks = {
         mods = pkgs.linkFarmFromDrvs "mods" (__attrValues {
-          Fabric-API = pkgs.fetchurl {
-            url = "https://cdn.modrinth.com/data/P7dR8mSH/versions/JXpzzvU6/fabric-api-0.90.7%2B1.20.1.jar";
-            sha512 = "685db19acbf7289153bf7b8a426e582581b4d2ed9bccce69bce9c642866ce64771d6ada7ee66203180432c15fd1e42d146e7a44293680bd5d2323a6e08918339";
-          };
-
           Clumps = pkgs.fetchurl {
             url = "https://cdn.modrinth.com/data/Wnxd13zP/versions/l3neajc5/Clumps-fabric-1.20.1-12.0.0.3.jar";
             sha512 = "971b16c2cf0a61dda37bae380e7ad642d6123fb9e112b9d76abd897f6a4ea4c95f445a482a3c26b1ba7403b3b21618571664e6027a4ccec2125137c8dc7ba740";
-          };
-
-          Spark = pkgs.fetchurl {
-            url = "https://cdn.modrinth.com/data/l6YH9Als/versions/XGW2fviP/spark-1.10.53-fabric.jar";
-            sha512 = "ce6e8f7071bb37369ad3e90d844926b424e82d0fe0ffd0db7058abddc9cfcdd594e145c9395677ad70ec532f3da0b23b6862d1f1c20f7600263c215abb4fcea7";
           };
 
           Starlight = pkgs.fetchurl {
@@ -97,19 +86,9 @@
             sha512 = "9ea27bc6c794a3f428fc1c41d2d083b70e51883d1e836b02b7f556208de012fd28f2d9c9d42b71e33c7b52dd32efcd2e20932e56b16665ff935d0428ff583157";
           };
 
-          Fastload = pkgs.fetchurl {
-            url = "https://cdn.modrinth.com/data/kCpssoSb/versions/ys9T20o4/Fastload%2B1.18.2-1.20-3.4.0.jar";
-            sha512 = "024e9aa775037fe8727ac8aca55f68d2f6782dd87d099446f967ebbeb6eab73f0f0580eca100cb565f70bab02abce03239af0fca17248ceef2c05caa1cfcdd1e";
-          };
-
           MemoryLeakFix = pkgs.fetchurl {
             url = "https://cdn.modrinth.com/data/NRjRiSSD/versions/dGlflhb6/memoryleakfix-fabric-1.17%2B-1.1.2.jar";
             sha512 = "a921d171d4391a690724cde818d43f666b03a36e1ffa05849c2c853f6e005f6fc4254f1bc040890a0a8a6eff57abf2edf73367189bb2ec9e34e9df92920d89ad";
-          };
-
-          VeryManyPlayers = pkgs.fetchurl {
-            url = "https://cdn.modrinth.com/data/wnEe9KBa/versions/sV8lIBhJ/vmp-fabric-mc1.20.1-0.2.0%2Bbeta.7.102-all.jar";
-            sha512 = "38ba14d870ddbcef233c9baa399005aaccde95d7b77175aa3a795eb9fed1086492b4ac5c6bbc05909dd76dce1b19b5c26613585161c2f3d20f2494beb8b23fe4";
           };
         });
       };
