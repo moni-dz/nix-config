@@ -69,13 +69,11 @@
         spawn-protection = 5;
       };
 
-      symlinks = {
-        plugins = pkgs.linkFarmFromDrvs "mods" (__attrValues {
-          TabTPS = pkgs.fetchurl {
-            url = "https://cdn.modrinth.com/data/cUhi3iB2/versions/hBGWrGgD/tabtps-spigot-1.3.18.jar";
-            sha512 = "57b5aeea20aced2171a92611e898826a8b080bbbdc741aac3fdd1136e77cdb607afba183860f8e1a3b670f9b3f6febb5def43e51875dbebdddefc2c86dc04c06";
-          };
-        });
+      files = {
+        "plugins/spark.jar" = pkgs.fetchurl {
+          url = "https://ci.lucko.me/job/spark/396/artifact/spark-bukkit/build/libs/spark-1.10.55-bukkit.jar";
+          sha256 = "sha256-M49tu1FZPRJErpZAJB3QmtuKi98yqfXYZlEftcinGfY=";
+        };
       };
     };
   };
