@@ -74,6 +74,16 @@
           url = "https://ci.lucko.me/job/spark/396/artifact/spark-bukkit/build/libs/spark-1.10.55-bukkit.jar";
           sha256 = "sha256-M49tu1FZPRJErpZAJB3QmtuKi98yqfXYZlEftcinGfY=";
         };
+
+        "plugins/viaversion.jar" = pkgs.fetchurl {
+          url = "https://cdn.modrinth.com/data/P1OZGk5p/versions/DXFf7cQP/ViaVersion-4.9.0-23w45a-SNAPSHOT.jar";
+          sha512 = "abf015d197e7cc037b7a6f12f4354853d0b1d276547f87cc32b3e874ba241de1ebf50f35eca3cd7b41ae26cd4acfaf8f6bba9ba1797394ec4e8260c21bf1e3ff";
+        };
+
+        "plugins/essentialsx.jar" = pkgs.fetchurl {
+          url = "https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/jars/EssentialsX-2.21.0-dev+21-c68b277.jar";
+          sha256 = "sha256-7gvyn6Ys2+kIJiXJ0kZoLoXEHo8+BDXfSMbAOdpite8=";
+        };
       };
     };
   };
