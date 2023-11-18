@@ -6,11 +6,7 @@
   ];
 
   boot = {
-    /*
-      NOTE: replace this with your desired kernel, see: https://nixos.wiki/wiki/Linux_kernel for reference.
-
-      If you're not me or a XanMod kernel maintainer in Nixpkgs, use pkgs.linuxKernel.packages.linux_xanmod instead to avoid compilation.
-    */
+    # NOTE: replace this with your desired kernel, see: https://nixos.wiki/wiki/Linux_kernel for reference.
     kernelPackages = pkgs.linuxKernel.packages.linux_lqx;
 
     kernelParams = [
@@ -33,8 +29,13 @@
       enable = true;
       autoStart = true;
       package = pkgs.fabricServers.fabric-1_20_1;
-      jvmOpts = "-Xmx1700M -Xms1G";
       openFirewall = true;
+
+      jvmOpts = lib.concatStringsSep " " [
+        "-Xmx1700M"
+        "-Xms1G"
+        "-XX:+UseTransparentHugePages"
+      ];
 
       serverProperties = {
         motd = "moni";
@@ -51,6 +52,21 @@
 
       symlinks = {
         mods = pkgs.linkFarmFromDrvs "mods" (__attrValues {
+          Fabric-API = pkgs.fetchurl {
+            url = "https://cdn.modrinth.com/data/P7dR8mSH/versions/JXpzzvU6/fabric-api-0.90.7%2B1.20.1.jar";
+            sha512 = "685db19acbf7289153bf7b8a426e582581b4d2ed9bccce69bce9c642866ce64771d6ada7ee66203180432c15fd1e42d146e7a44293680bd5d2323a6e08918339";
+          };
+
+          Clumps = pkgs.fetchurl {
+            url = "https://cdn.modrinth.com/data/Wnxd13zP/versions/l3neajc5/Clumps-fabric-1.20.1-12.0.0.3.jar";
+            sha512 = "971b16c2cf0a61dda37bae380e7ad642d6123fb9e112b9d76abd897f6a4ea4c95f445a482a3c26b1ba7403b3b21618571664e6027a4ccec2125137c8dc7ba740";
+          };
+
+          Spark = pkgs.fetchurl {
+            url = "https://cdn.modrinth.com/data/l6YH9Als/versions/XGW2fviP/spark-1.10.53-fabric.jar";
+            sha512 = "ce6e8f7071bb37369ad3e90d844926b424e82d0fe0ffd0db7058abddc9cfcdd594e145c9395677ad70ec532f3da0b23b6862d1f1c20f7600263c215abb4fcea7";
+          };
+
           Starlight = pkgs.fetchurl {
             url = "https://cdn.modrinth.com/data/H8CaAYZC/versions/XGIsoVGT/starlight-1.1.2%2Bfabric.dbc156f.jar";
             sha512 = "6b0e363fc2d6cd2f73b466ab9ba4f16582bb079b8449b7f3ed6e11aa365734af66a9735a7203cf90f8bc9b24e7ce6409eb04d20f84e04c7c6b8e34f4cc8578bb";
