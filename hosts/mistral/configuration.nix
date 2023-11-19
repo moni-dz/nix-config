@@ -91,6 +91,11 @@
           sha512 = "63c41849020276a6f0156fc5d11abef77ca53c1ab44a242c97ca522666809c29427805cff38b2de484c7d5e2f3e7eb3eb8a989abcfebbd20419718881e12b00b";
         };
 
+        "plugins/luckperms.jar" = pkgs.fetchurl {
+          url = "https://download.luckperms.net/1521/bukkit/loader/LuckPerms-Bukkit-5.4.108.jar";
+          sha256 = "sha256-TN7HH/5JiG98xBACfuoJZILsiDxU8WX5laNDS3h+qR4=";
+        };
+
         "bukkit.yml" = pkgs.writeText "bukkit.yml" ''
           settings:
             allow-end: true
@@ -303,8 +308,8 @@
             disable-tripwire-updates: false
           chunk-loading-advanced:
             auto-config-send-distance: true
-            player-max-concurrent-chunk-generates: 7
-            player-max-concurrent-chunk-loads: 12
+            player-max-concurrent-chunk-generates: 10
+            player-max-concurrent-chunk-loads: 15
           chunk-loading-basic:
             player-max-chunk-generate-rate: 15.0
             player-max-chunk-load-rate: 100.0
