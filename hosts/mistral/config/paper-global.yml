@@ -20,8 +20,8 @@ block-updates:
   disable-tripwire-updates: false
 chunk-loading-advanced:
   auto-config-send-distance: true
-  player-max-concurrent-chunk-generates: 10
-  player-max-concurrent-chunk-loads: 15
+  player-max-concurrent-chunk-generates: 12
+  player-max-concurrent-chunk-loads: 25
 chunk-loading-basic:
   player-max-chunk-generate-rate: 15.0
   player-max-chunk-load-rate: 100.0
