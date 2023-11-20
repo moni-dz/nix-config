@@ -71,6 +71,11 @@
       };
 
       files = {
+        "plugins/coreprotect.jar" = pkgs.fetchurl {
+          url = "https://cdn.modrinth.com/data/Lu3KuzdV/versions/w3P6ufP1/CoreProtect-22.2.jar";
+          sha512 = "070d310bea288f56cdb3442bf80a73f16b1a0d1d82ac877855924b470c483d51f31993c34871063c8041aa1fe68d70a627b9c1fe9def943819b5ec3fcf03f19d";
+        }; 
+
         "plugins/spark.jar" = pkgs.fetchurl {
           url = "https://ci.lucko.me/job/spark/396/artifact/spark-bukkit/build/libs/spark-1.10.55-bukkit.jar";
           sha256 = "sha256-M49tu1FZPRJErpZAJB3QmtuKi98yqfXYZlEftcinGfY=";
