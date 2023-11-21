@@ -71,20 +71,20 @@
       };
 
       files = {
+        "plugins/worldedit.jar" = pkgs.fetchurl {
+          url = "https://dev.bukkit.org/projects/worldedit/files/4793142/download";
+          sha256 = "sha256-8X0+URLekKrp8Ab1io3ejW7zoAQnv26wsjTHhN0B+Ho=";
+        };
+
         "plugins/worldprotect.jar" = pkgs.fetchurl {
           url = "https://dev.bukkit.org/projects/worldguard/files/4675318/download";
           sha256 = "sha256-DATTDAyYwh6CDexvfjgJk0FqKT1+JkaEn23NTv3CQoc=";
         };
 
-        "plugins/worldedit.jar" = pkgs.fetchurl {
-          url = "https://cdn.modrinth.com/data/1u6JkXh5/versions/ans4Koju/worldedit-bukkit-7.3.0-beta-02.jar";
-          sha512 = "f77e429d5ef68d1c55ffb8cd247f694c1e30020e4db39f9906b0dd5c693a22adb87fb55cba68f1b61a0bc38b2c2e12effb03b1b64002829fa1abf815f3852353";
-        };
-
         "plugins/coreprotect.jar" = pkgs.fetchurl {
           url = "https://cdn.modrinth.com/data/Lu3KuzdV/versions/w3P6ufP1/CoreProtect-22.2.jar";
           sha512 = "070d310bea288f56cdb3442bf80a73f16b1a0d1d82ac877855924b470c483d51f31993c34871063c8041aa1fe68d70a627b9c1fe9def943819b5ec3fcf03f19d";
-        }; 
+        };
 
         "plugins/spark.jar" = pkgs.fetchurl {
           url = "https://ci.lucko.me/job/spark/396/artifact/spark-bukkit/build/libs/spark-1.10.55-bukkit.jar";

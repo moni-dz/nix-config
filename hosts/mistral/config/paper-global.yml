@@ -21,7 +21,7 @@ block-updates:
 chunk-loading-advanced:
   auto-config-send-distance: true
   player-max-concurrent-chunk-generates: 12
-  player-max-concurrent-chunk-loads: 25
+  player-max-concurrent-chunk-loads: 32
 chunk-loading-basic:
   player-max-chunk-generate-rate: 15.0
   player-max-chunk-load-rate: 100.0
