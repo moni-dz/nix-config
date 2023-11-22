@@ -41,7 +41,7 @@ nick-blacklist:
 
 # When this option is enabled, nickname length checking will exclude color codes in player names.
 # ie: "&6Notch" has 7 characters (2 are part of a color code), a length of 5 is used when this option is set to true
-ignore-colors-in-max-nick-length: false
+ignore-colors-in-max-nick-length: true
 
 # When this option is enabled, display names for hidden users will not be shown. This prevents players from being
 # able to see that they are online while vanished.
@@ -147,7 +147,7 @@ drop-items-if-full: false
 
 # Essentials Mail Notification
 # Should we notify players if they have no new mail?
-notify-no-new-mail: true
+notify-no-new-mail: false
 
 # Specifies the duration (in seconds) between each time a player is notified of mail they have.
 # Useful for servers with a lot of mail traffic.
@@ -171,7 +171,7 @@ overridden-commands:
 # You should not have to disable commands used in other plugins, they will automatically get priority.
 # See https://bukkit.fandom.com/wiki/Commands.yml#aliases to map commands to other plugins.
 disabled-commands:
-#  - nick
+  - godmode
 #  - clear
 
 # Whether or not Essentials should show detailed command usages.
@@ -426,7 +426,7 @@ per-warp-permission: false
 list:
     # To merge groups, list the groups you wish to merge
     #Staff: owner admin moderator
-    Admins: owner admin
+    Admins: op
     # To limit groups, set a max user limit
     #builder: 20
     # To hide groups, set the group as hidden
@@ -538,8 +538,8 @@ allow-silent-join-quit: false
 # {ONLINE} - The number of players online.
 # {UNIQUE} - The number of unique players to join the server.
 # {UPTIME} - The amount of time the server has been online.
-custom-join-message: "none"
-custom-quit-message: "none"
+custom-join-message: "nisulod na jud si {PLAYER}..."
+custom-quit-message: "aw ni pasi si {PLAYER}, {ONLINE} nalang ta..."
 
 # You can set a custom join message for users who join with a new username here.
 # This message will only be used if a user has joined before and have since changed their username.
@@ -970,13 +970,13 @@ protect:
     fireball-itemdamage: false
     witherskull-explosion: false
     witherskull-playerdamage: false
-    witherskull-itemdamage: false
+    witherskull-itemdamage: true
     wither-spawnexplosion: false
     wither-blockreplace: false
     creeper-explosion: false
     creeper-playerdamage: false
-    creeper-itemdamage: false
-    creeper-blockdamage: false
+    creeper-itemdamage: true
+    creeper-blockdamage: true
     ender-crystal-explosion: false
     enderdragon-blockdamage: true
     enderman-pickup: false

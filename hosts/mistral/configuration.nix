@@ -17,6 +17,8 @@
     ];
   };
 
+  environment.systemPackages = [ pkgs.tmux ];
+
   nixpkgs.overlays = lib.mkOverride 10 [ inputs.nix-minecraft.overlay ];
 
   programs.fish.enable = true;
@@ -96,9 +98,24 @@
           sha512 = "abf015d197e7cc037b7a6f12f4354853d0b1d276547f87cc32b3e874ba241de1ebf50f35eca3cd7b41ae26cd4acfaf8f6bba9ba1797394ec4e8260c21bf1e3ff";
         };
 
+        "plugins/vault.jar" = pkgs.fetchurl {
+          url = "https://github.com/MilkBowl/Vault/releases/download/1.7.3/Vault.jar";
+          sha256 = "sha256-prXtl/Q6XPW7rwCnyM0jxa/JvQA/hJh1r4s25s930B0=";
+        };
+
         "plugins/essentialsx.jar" = pkgs.fetchurl {
           url = "https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/jars/EssentialsX-2.21.0-dev+21-c68b277.jar";
           sha256 = "sha256-7gvyn6Ys2+kIJiXJ0kZoLoXEHo8+BDXfSMbAOdpite8=";
+        };
+
+        "plugins/essentialsx-chat.jar" = pkgs.fetchurl {
+          url = "https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/jars/EssentialsXChat-2.21.0-dev+21-c68b277.jar";
+          sha256 = "sha256-U4A/ll4OCdnSPOstZsVJhXWlxB4sPJn35oUvkq3UY5U=";
+        };
+
+        "plugins/essentialx-protect.jar" = pkgs.fetchurl {
+          url = "https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/jars/EssentialsXProtect-2.21.0-dev+21-c68b277.jar";
+          sha256 = "sha256-DPNpMvO4rkWoGhsn02Z09h37Fwmdq2/PDmSWLMvxBNk=";
         };
 
         "plugins/chunky.jar" = pkgs.fetchurl {
