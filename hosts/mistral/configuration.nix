@@ -70,6 +70,7 @@
         view-distance = 8;
         simulation-distance = 8;
         spawn-protection = 5;
+        allow-flight = true;
       };
 
       files = {
