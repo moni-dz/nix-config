@@ -56,6 +56,7 @@ let
 
             home = {
               username = __elemAt (lib.strings.split "@" name) 0;
+              enableNixpkgsReleaseCheck = false;
               inherit (opts.config) stateVersion;
 
               homeDirectory = lib.mkMerge [
