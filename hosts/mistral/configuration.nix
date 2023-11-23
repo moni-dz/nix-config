@@ -132,6 +132,7 @@
         "spigot.yml" = ./config/spigot.yml;
         "config/paper-global.yml" = ./config/paper-global.yml;
         "plugins/Essentials/config.yml" = ./config/essentials-config.yml;
+        "plugins/WorldEdit/config.yml" = ./config/worldedit-config.yml;
       };
     };
   };
