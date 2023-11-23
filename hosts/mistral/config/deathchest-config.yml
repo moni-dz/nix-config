@@ -1,0 +1,135 @@
+#
+# The Configuration file of Death Chest
+#    In this file you can customize the plugin.
+#
+
+# I recommend leaving this on true to receive notification if I published an update.
+update-checker: true
+auto-update: true
+
+duration-format: 'mm:ss'
+
+chest:
+  # The expiration of the chest in seconds.
+  # You can deactivate the expiration by setting the value to -1
+  expiration: 600
+  no-expiration-permission:
+    enabled: false
+    permission: 'deathchest.stays-forever'
+  # If this feature is enabled all caught items will be dropped if the chest has expired.
+  drop-items-after-expiration: false
+  # Set this option to true if you want to protect the death chests against explosions.
+  blast-protection: true
+
+  # This option protects the death chest against thieves if the player has the specific permission and the thief
+  # not the bypass permission.
+  thief-protection:
+    # Set the value to 'true' if you want to activate this feature
+    enabled: false
+    permission: 'deathchest.thiefprotected'
+    bypass-permission: 'deathchest.thiefprotected.bypass'
+    # To enable the expiration set the number to number greater than 0. The unit of this variable is seconds.
+    expiration: 0
+    # On this website you can find a list of all sounds which is implemented in SpigotMC
+    # @see https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Sound.html
+    # If you want to disable the sound or the message, you can delete these options
+    sound: BLOCK_CHEST_LOCKED;1.0;1.0
+    message: |-
+      &cYou are not permitted to open this chest
+
+# Here you can modify the inventory which opens when you right-click the death chest. You can use color codes with '&'
+# in the title and change the inventory size by changing the size value.
+inventory:
+  # Here you can use the Placeholder API and
+  #   ${player_name}: Name
+  #   ${player_displayname}: Displayname
+  #   ${duration}: Time left
+  title: 'gamit ni ${player_displayname}'
+  # Possible values are: 'constant' and 'flexible'
+  # constant: the size of the inventory is always 45 slots large
+  # flexible: the size of the inventory depends on the items which had the player in the inventory.
+  size: flexible
+
+# This section is for handling the hologram function in this plugin. You can remove this section to disable the feature,
+# or you set the 'enabled' option to false
+# This feature is only available if you have a supported hologram plugin installed.
+hologram:
+  # Set the value to 'false' if you want to deactivate this feature
+  enabled: true
+  # If you add lines you have to increase this value. This values depends on the hologram
+  # plugin and the distance between the plugin
+  height: 1
+  line-height: 0.25
+  # Support for ${player_name}: Name
+  #             ${player_displayname}: Displayname
+  #             ${duration}: Time left
+  lines:
+    - '&7&lR.I.P'
+    - '${player_name}'
+    - '&3-&6-&3-&6-&3-&6-&3-'
+    - '${duration}'
+
+# This section is for handling the particle function in this plugin. You can remove this section to disable the feature,
+# or you set the 'enabled' option to false
+particle:
+  # Set the value to 'false' if you want to deactivate this feature
+  enabled: true
+  radius: 1.0
+  count: 32
+  # Maximum is 20
+  speed: 20.0
+
+# This section is for handling the block breaking function in this plugin. You can remove this section to disable the feature,
+# or you set the 'enabled' option to false
+# This feature is only available if you have ProtocolLib installed.
+break-effect:
+  # Set the value to 'false' if you want to deactivate this feature
+  enabled: true
+  view-distance: 20.0
+
+# This section is for handling the notification function in this plugin. You can remove this section to disable the feature,
+# or you set the 'enabled' option to false.
+# This feature sends a message to the dead player. Here you can inform the player about the chest and their expiration.
+# You can send the death coordination by using the placeholders: ${x} ${y}, ${z} and ${world}
+# Also you can send the chest coordination by using the placeholders: ${chest_x}, ${chest_y} and ${chest_z}
+player-notification:
+  # Set the value to 'false' if you want to deactivate this feature
+  enabled: true
+  message: |-
+    &7You died. Your items were put into a chest which disappears after &c10 minutes&7! ${x} ${y} ${z}
+
+# Available Placeholders:
+# ${player_name} : shows the player name
+# ${player_displayname} : shows the player display name (Maybe with prefix)
+# ${x}, ${y}, ${z}, ${world} : shows the coordinates of the death location
+# ${chest_x}, ${chest_y}, ${chest_z} : shows the coordinates of the chest
+global-notification:
+  # Set the value to 'true' if you want to activate this feature
+  enabled: false
+  message: |-
+    &7${player_name} died at ${x} ${y} ${z} in ${world}
+
+# Available Placeholders:
+# ${player_name} : shows the player name
+# ${player_displayname} : shows the player display name (Maybe with prefix)
+# ${x}, ${y}, ${z}, ${world} : shows the coordinates of the death location
+# (coordinates of the chest isn't available for here)
+# To disable the death message change "enabled" to true and remove the message option.
+change-death-message:
+  # Set the value to 'true' if you want to activate this feature
+  enabled: false
+  message: |-
+    &7${player_name} died at ${x} ${y} ${z} in ${world}
+
+# This section configures the activation of this plugin for specific worlds.
+world-filter:
+  # Possible values: blacklist, whitelist
+  filter: blacklist
+  worlds:
+    - disabled_world
+
+
+# Do not touch this!
+config-version: 3
+# Prints debug messages if property is set to true
+debug: false
