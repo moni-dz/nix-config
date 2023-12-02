@@ -73,7 +73,7 @@
       shellInit = ''
         fish_add_path /Users/moni/Library/Python/3.11/bin
         fish_add_path -amP /usr/bin
-        fish_add_path -amP /opt/homebrew/bin
+        fish_add_path -m /opt/homebrew/bin
         fish_add_path -amP /opt/local/bin
         fish_add_path -amP /opt/homebrew/opt/llvm/bin
         fish_add_path -m /run/current-system/sw/bin
