@@ -68,12 +68,16 @@
         end
         
         . ${config.age.secrets.tokens.path}
+        . /Users/moni/anaconda3/etc/fish/conf.d/conda.fish
       '';
 
       shellInit = ''
         fish_add_path /Users/moni/Library/Python/3.11/bin
+        fish_add_path -m /Users/moni/anaconda3/bin
         fish_add_path -amP /usr/bin
         fish_add_path -m /opt/homebrew/bin
+        fish_add_path -amP /Users/moni/.ghcup/bin
+        fish_add_path -amP /Users/moni/.cabal/bin
         fish_add_path -amP /opt/local/bin
         fish_add_path -amP /opt/homebrew/opt/llvm/bin
         fish_add_path -m /run/current-system/sw/bin
