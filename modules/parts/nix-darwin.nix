@@ -4,9 +4,6 @@ let
   inherit lib;
   inherit (lib) types;
 
-  cfg = config.parts.darwinConfigurations;
-  configurations = __mapAttrs (_: value: value._darwin) cfg;
-
   darwinOpts = { config, name, ... }: {
     options = {
       system = lib.mkOption {
@@ -55,5 +52,5 @@ in
     type = types.attrsOf (types.submodule darwinOpts);
   };
 
-  config.flake.darwinConfigurations = configurations;
+  config.flake.darwinConfigurations = __mapAttrs (_: value: value._darwin) config.parts.darwinConfigurations;
 }

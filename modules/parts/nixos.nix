@@ -4,9 +4,6 @@ let
   inherit lib;
   inherit (lib) types;
 
-  cfg = config.parts.nixosConfigurations;
-  configurations = __mapAttrs (_: value: value._nixos) cfg;
-
   nixosOpts = opts@{ config, name, ... }: {
     options = {
       server = lib.mkEnableOption "Host is a headless server configuration.";
@@ -65,5 +62,5 @@ in
     type = types.attrsOf (types.submodule nixosOpts);
   };
 
-  config.flake.nixosConfigurations = configurations;
+  config.flake.nixosConfigurations = __mapAttrs (_: value: value._nixos) config.parts.nixosConfigurations;
 }

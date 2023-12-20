@@ -23,128 +23,146 @@
 
   programs.fish.enable = true;
 
-  services.minecraft-servers = {
-    enable = true;
-    eula = true;
+  networking.firewall = {
+    allowedTCPPorts = [ 4747 ];
+    allowedUDPPorts = [ 4747 ];
+  };
 
-    servers.volta = {
+  services = {
+    gonic = {
       enable = true;
-      autoStart = true;
-      package = pkgs.paperServers.paper-1_20_1;
-      openFirewall = true;
 
-      jvmOpts = lib.concatStringsSep " " [
-        "-Xms2500M"
-        "-Xmx2500M"
-        "-XX:+UseG1GC"
-        "-XX:+ParallelRefProcEnabled"
-        "-XX:MaxGCPauseMillis=200"
-        "-XX:+UnlockExperimentalVMOptions"
-        "-XX:+DisableExplicitGC"
-        "-XX:+AlwaysPreTouch"
-        "-XX:G1NewSizePercent=30"
-        "-XX:G1MaxNewSizePercent=40"
-        "-XX:G1HeapRegionSize=8M"
-        "-XX:G1ReservePercent=20"
-        "-XX:G1HeapWastePercent=5"
-        "-XX:G1MixedGCCountTarget=4"
-        "-XX:InitiatingHeapOccupancyPercent=15"
-        "-XX:G1MixedGCLiveThresholdPercent=90"
-        "-XX:G1RSetUpdatingPauseTimePercent=5"
-        "-XX:SurvivorRatio=32"
-        "-XX:+PerfDisableSharedMem"
-        "-XX:MaxTenuringThreshold=1"
-        "-Dusing.aikars.flags=https://mcflags.emc.gs"
-        "-Daikars.new.flags=true"
-      ];
-
-      serverProperties = {
-        motd = "hihihi - moni";
-        server-port = 43000;
-        online-mode = false;
-        max-players = 20;
-        difficulty = "normal";
-        gamemode = "survival";
-        enable-rcon = true;
-        "rcon.password" = "longview";
-        view-distance = 8;
-        simulation-distance = 8;
-        spawn-protection = 5;
-        allow-flight = true;
+      settings = {
+        cache-path = "/var/cache/gonic";
+        listen-addr = "128.199.204.196:4747";
+        music-path = [ "/mnt/music" ];
+        podcast-path = "/mnt/podcasts";
       };
+    };
 
-      files = {
-        "plugins/worldedit.jar" = pkgs.fetchurl {
-          url = "https://dev.bukkit.org/projects/worldedit/files/4793142/download";
-          hash = "sha256-8X0+URLekKrp8Ab1io3ejW7zoAQnv26wsjTHhN0B+Ho=";
+    minecraft-servers = {
+      enable = true;
+      eula = true;
+
+      servers.volta = {
+        enable = true;
+        autoStart = false;
+        package = pkgs.paperServers.paper-1_20_1;
+        openFirewall = true;
+
+        jvmOpts = lib.concatStringsSep " " [
+          "-Xms2500M"
+          "-Xmx2500M"
+          "-XX:+UseG1GC"
+          "-XX:+ParallelRefProcEnabled"
+          "-XX:MaxGCPauseMillis=200"
+          "-XX:+UnlockExperimentalVMOptions"
+          "-XX:+DisableExplicitGC"
+          "-XX:+AlwaysPreTouch"
+          "-XX:G1NewSizePercent=30"
+          "-XX:G1MaxNewSizePercent=40"
+          "-XX:G1HeapRegionSize=8M"
+          "-XX:G1ReservePercent=20"
+          "-XX:G1HeapWastePercent=5"
+          "-XX:G1MixedGCCountTarget=4"
+          "-XX:InitiatingHeapOccupancyPercent=15"
+          "-XX:G1MixedGCLiveThresholdPercent=90"
+          "-XX:G1RSetUpdatingPauseTimePercent=5"
+          "-XX:SurvivorRatio=32"
+          "-XX:+PerfDisableSharedMem"
+          "-XX:MaxTenuringThreshold=1"
+          "-Dusing.aikars.flags=https://mcflags.emc.gs"
+          "-Daikars.new.flags=true"
+        ];
+
+        serverProperties = {
+          motd = "hihihi - moni";
+          server-port = 43000;
+          online-mode = false;
+          max-players = 20;
+          difficulty = "normal";
+          gamemode = "survival";
+          enable-rcon = true;
+          "rcon.password" = "longview";
+          view-distance = 8;
+          simulation-distance = 8;
+          spawn-protection = 5;
+          allow-flight = true;
         };
 
-        "plugins/worldprotect.jar" = pkgs.fetchurl {
-          url = "https://dev.bukkit.org/projects/worldguard/files/4675318/download";
-          hash = "sha256-DATTDAyYwh6CDexvfjgJk0FqKT1+JkaEn23NTv3CQoc=";
-        };
+        files = {
+          "plugins/worldedit.jar" = pkgs.fetchurl {
+            url = "https://dev.bukkit.org/projects/worldedit/files/4793142/download";
+            hash = "sha256-8X0+URLekKrp8Ab1io3ejW7zoAQnv26wsjTHhN0B+Ho=";
+          };
 
-        "plugins/coreprotect.jar" = pkgs.fetchurl {
-          url = "https://cdn.modrinth.com/data/Lu3KuzdV/versions/w3P6ufP1/CoreProtect-22.2.jar";
-          hash = "sha512-Bw0xC+ooj1bNs0Qr+Apz8WsaDR2CrId4VZJLRwxIPVHzGZPDSHEGPIBBqh/mjXCmJ7nB/p3vlDgZtew/zwPxnQ==";
-        };
+          "plugins/worldprotect.jar" = pkgs.fetchurl {
+            url = "https://dev.bukkit.org/projects/worldguard/files/4675318/download";
+            hash = "sha256-DATTDAyYwh6CDexvfjgJk0FqKT1+JkaEn23NTv3CQoc=";
+          };
 
-        "plugins/spark.jar" = pkgs.fetchurl {
-          url = "https://ci.lucko.me/job/spark/396/artifact/spark-bukkit/build/libs/spark-1.10.55-bukkit.jar";
-          hash = "sha256-M49tu1FZPRJErpZAJB3QmtuKi98yqfXYZlEftcinGfY=";
-        };
+          "plugins/coreprotect.jar" = pkgs.fetchurl {
+            url = "https://cdn.modrinth.com/data/Lu3KuzdV/versions/w3P6ufP1/CoreProtect-22.2.jar";
+            hash = "sha512-Bw0xC+ooj1bNs0Qr+Apz8WsaDR2CrId4VZJLRwxIPVHzGZPDSHEGPIBBqh/mjXCmJ7nB/p3vlDgZtew/zwPxnQ==";
+          };
 
-        "plugins/viaversion.jar" = pkgs.fetchurl {
-          url = "https://cdn.modrinth.com/data/P1OZGk5p/versions/DXFf7cQP/ViaVersion-4.9.0-23w45a-SNAPSHOT.jar";
-          hash = "sha512-q/AV0ZfnzAN7em8S9DVIU9Cx0nZUf4fMMrPodLokHeHr9Q817KPNe0GuJs1Kz6+Pa7qboXlzlOxOgmDCG/Hj/w==";
-        };
+          "plugins/spark.jar" = pkgs.fetchurl {
+            url = "https://ci.lucko.me/job/spark/396/artifact/spark-bukkit/build/libs/spark-1.10.55-bukkit.jar";
+            hash = "sha256-M49tu1FZPRJErpZAJB3QmtuKi98yqfXYZlEftcinGfY=";
+          };
 
-        "plugins/vault.jar" = pkgs.fetchurl {
-          url = "https://github.com/MilkBowl/Vault/releases/download/1.7.3/Vault.jar";
-          sha256 = "sha256-prXtl/Q6XPW7rwCnyM0jxa/JvQA/hJh1r4s25s930B0=";
-        };
+          "plugins/viaversion.jar" = pkgs.fetchurl {
+            url = "https://cdn.modrinth.com/data/P1OZGk5p/versions/DXFf7cQP/ViaVersion-4.9.0-23w45a-SNAPSHOT.jar";
+            hash = "sha512-q/AV0ZfnzAN7em8S9DVIU9Cx0nZUf4fMMrPodLokHeHr9Q817KPNe0GuJs1Kz6+Pa7qboXlzlOxOgmDCG/Hj/w==";
+          };
 
-        "plugins/essentialsx.jar" = pkgs.fetchurl {
-          url = "https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/jars/EssentialsX-2.21.0-dev+21-c68b277.jar";
-          sha256 = "sha256-7gvyn6Ys2+kIJiXJ0kZoLoXEHo8+BDXfSMbAOdpite8=";
-        };
+          "plugins/vault.jar" = pkgs.fetchurl {
+            url = "https://github.com/MilkBowl/Vault/releases/download/1.7.3/Vault.jar";
+            sha256 = "sha256-prXtl/Q6XPW7rwCnyM0jxa/JvQA/hJh1r4s25s930B0=";
+          };
 
-        "plugins/essentialsx-chat.jar" = pkgs.fetchurl {
-          url = "https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/jars/EssentialsXChat-2.21.0-dev+21-c68b277.jar";
-          sha256 = "sha256-U4A/ll4OCdnSPOstZsVJhXWlxB4sPJn35oUvkq3UY5U=";
-        };
+          "plugins/essentialsx.jar" = pkgs.fetchurl {
+            url = "https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/jars/EssentialsX-2.21.0-dev+21-c68b277.jar";
+            sha256 = "sha256-7gvyn6Ys2+kIJiXJ0kZoLoXEHo8+BDXfSMbAOdpite8=";
+          };
 
-        "plugins/essentialx-protect.jar" = pkgs.fetchurl {
-          url = "https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/jars/EssentialsXProtect-2.21.0-dev+21-c68b277.jar";
-          hash = "sha256-DPNpMvO4rkWoGhsn02Z09h37Fwmdq2/PDmSWLMvxBNk=";
-        };
+          "plugins/essentialsx-chat.jar" = pkgs.fetchurl {
+            url = "https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/jars/EssentialsXChat-2.21.0-dev+21-c68b277.jar";
+            sha256 = "sha256-U4A/ll4OCdnSPOstZsVJhXWlxB4sPJn35oUvkq3UY5U=";
+          };
 
-        "plugins/deathchest.jar" = pkgs.fetchurl {
-          url = "https://hangarcdn.papermc.io/plugins/CyntrixAlgorithm/DeathChest/versions/2.1.1/PAPER/deathchest.jar";
-          hash = "sha256-djHwoB3AsLBEtegyaWaIBkAwM2WTL8vqtCtJrHduNSw=";
-        };
+          "plugins/essentialx-protect.jar" = pkgs.fetchurl {
+            url = "https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/jars/EssentialsXProtect-2.21.0-dev+21-c68b277.jar";
+            hash = "sha256-DPNpMvO4rkWoGhsn02Z09h37Fwmdq2/PDmSWLMvxBNk=";
+          };
 
-        "plugins/chunky.jar" = pkgs.fetchurl {
-          url = "https://cdn.modrinth.com/data/fALzjamp/versions/B0xkCkk4/Chunky-1.3.92.jar";
-          hash = "sha512-Y8QYSQICdqbwFW/F0Rq+93ylPBq0SiQsl8pSJmaAnClCeAXP84st5ITH1eLz5+s+uKmJq8/rvSBBlxiIHhKwCw==";
-        };
+          "plugins/deathchest.jar" = pkgs.fetchurl {
+            url = "https://hangarcdn.papermc.io/plugins/CyntrixAlgorithm/DeathChest/versions/2.1.1/PAPER/deathchest.jar";
+            hash = "sha256-djHwoB3AsLBEtegyaWaIBkAwM2WTL8vqtCtJrHduNSw=";
+          };
 
-        "plugins/luckperms.jar" = pkgs.fetchurl {
-          url = "https://download.luckperms.net/1521/bukkit/loader/LuckPerms-Bukkit-5.4.108.jar";
-          hash = "sha256-TN7HH/5JiG98xBACfuoJZILsiDxU8WX5laNDS3h+qR4=";
-        };
+          "plugins/chunky.jar" = pkgs.fetchurl {
+            url = "https://cdn.modrinth.com/data/fALzjamp/versions/B0xkCkk4/Chunky-1.3.92.jar";
+            hash = "sha512-Y8QYSQICdqbwFW/F0Rq+93ylPBq0SiQsl8pSJmaAnClCeAXP84st5ITH1eLz5+s+uKmJq8/rvSBBlxiIHhKwCw==";
+          };
 
-        "plugins/placeholderapi.jar" = pkgs.fetchurl {
-          url = "https://hangarcdn.papermc.io/plugins/HelpChat/PlaceholderAPI/versions/2.11.5/PAPER/PlaceholderAPI-2.11.5.jar";
-          hash = "sha256-RDVvvForTFvaqdkwLB1G2o2fpD1JiudaGZPtHy5XhO8=";
-        };
+          "plugins/luckperms.jar" = pkgs.fetchurl {
+            url = "https://download.luckperms.net/1521/bukkit/loader/LuckPerms-Bukkit-5.4.108.jar";
+            hash = "sha256-TN7HH/5JiG98xBACfuoJZILsiDxU8WX5laNDS3h+qR4=";
+          };
 
-        "bukkit.yml" = ./config/bukkit.yml;
-        "spigot.yml" = ./config/spigot.yml;
-        "config/paper-global.yml" = ./config/paper-global.yml;
-        "plugins/Essentials/config.yml" = ./config/essentials-config.yml;
-        "plugins/WorldEdit/config.yml" = ./config/worldedit-config.yml;
-        "plugins/DeathChest/config.yml" = ./config/deathchest-config.yml;
+          "plugins/placeholderapi.jar" = pkgs.fetchurl {
+            url = "https://hangarcdn.papermc.io/plugins/HelpChat/PlaceholderAPI/versions/2.11.5/PAPER/PlaceholderAPI-2.11.5.jar";
+            hash = "sha256-RDVvvForTFvaqdkwLB1G2o2fpD1JiudaGZPtHy5XhO8=";
+          };
+
+          "bukkit.yml" = ./config/bukkit.yml;
+          "spigot.yml" = ./config/spigot.yml;
+          "config/paper-global.yml" = ./config/paper-global.yml;
+          "plugins/Essentials/config.yml" = ./config/essentials-config.yml;
+          "plugins/WorldEdit/config.yml" = ./config/worldedit-config.yml;
+          "plugins/DeathChest/config.yml" = ./config/deathchest-config.yml;
+        };
       };
     };
   };

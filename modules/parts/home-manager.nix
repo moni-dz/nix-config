@@ -4,9 +4,6 @@ let
   inherit lib;
   inherit (lib) types;
 
-  cfg = config.parts.homeConfigurations;
-  configurations = __mapAttrs (_: value: value._home) cfg;
-
   homeOpts = opts@{ config, lib, name, ... }: {
     options = {
       system = lib.mkOption {
@@ -84,5 +81,5 @@ in
     type = types.attrsOf (types.submodule homeOpts);
   };
 
-  config.flake.homeConfigurations = configurations;
+  config.flake.homeConfigurations = __mapAttrs (_: value: value._home) config.parts.homeConfigurations;
 }

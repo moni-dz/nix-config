@@ -11,8 +11,10 @@
     packages = __attrValues {
       inherit (pkgs)
         asitop
+        fanbox-dl
         curl
         coreutils-prefixed
+        nix-output-monitor
         parallel
         fd
         gnugrep
@@ -31,19 +33,18 @@
         doctl
         zstd
         hyperfine
-        ffmpeg_6
+        ffmpeg
         blisp
         picotool
-        z3_4_12
         julia_18-bin;
 
       inherit (inputs'.nixpkgs-f2k.packages) wezterm-git;
 
       sdrpp = pkgs.sdrpp.override {
-        #stdenv = pkgs.appleM2Stdenv;
+        stdenv = pkgs.appleM2Stdenv;
 
         fftwFloat = pkgs.fftwFloat.overrideAttrs {
-          #stdenv = pkgs.appleM2Stdenv;
+          stdenv = pkgs.appleM2Stdenv;
           postPatch = null;
         };
       };

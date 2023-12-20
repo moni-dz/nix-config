@@ -138,7 +138,7 @@
 
         nvim-treesitter = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
 
-        auto-dark-mode-nvim = pkgs.vimUtils.buildVimPluginFrom2Nix {
+        auto-dark-mode-nvim = pkgs.vimUtils.buildVimPlugin {
           name = "auto-dark-mode-nvim";
 
           src = pkgs.fetchFromGitHub {
@@ -149,7 +149,7 @@
           };
         };
 
-        inlay-hints-nvim = pkgs.vimUtils.buildVimPluginFrom2Nix {
+        inlay-hints-nvim = pkgs.vimUtils.buildVimPlugin {
           name = "inlay-hints-nvim";
 
           src = pkgs.fetchFromGitHub {

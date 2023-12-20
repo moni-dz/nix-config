@@ -2,31 +2,19 @@
 
 # Nix daemon settings that can't be put in `nixConfig`.
 {
-  buildMachines = lib.optionals stdenv.isDarwin [
-    {
-      hostName = "192.168.1.9";
+  buildMachines = __attrValues {
+    mistral = {
+      hostName = "mistral";
       system = "x86_64-linux";
       sshUser = "moni";
       sshKey = "/Users/moni/.ssh/id_ed25519";
-      publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUtyUGRxSWlUckdxbk42ZUFoUnVHbDlaVjJzVXovSVI4NVQzL1R6VVQ0T2wgcm9vdEBzdGFyY3J1aXNlcgo=";
-      maxJobs = 6;
-      speedFactor = 2;
+      publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUI4OElSOXl0QnJCWlRycVpja0p0b1N2OVR6d1hNdDVQMm85RlcvVjNQd1Ygcm9vdEBtaXN0cmFsCg==";
+      maxJobs = 2;
+      speedFactor = 1;
       supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
       mandatoryFeatures = [ ];
-    }
-
-    {
-      hostName = "localhost";
-      system = "aarch64-linux";
-      sshUser = "builder";
-      sshKey = "/Users/moni/.ssh/builder_ed25519";
-      publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUpCV2N4Yi9CbGFxdDFhdU90RStGOFFVV3JVb3RpQzVxQkorVXVFV2RWQ2Igcm9vdEBuaXhvcwo=";
-      maxJobs = 6;
-      speedFactor = 3;
-      supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
-      mandatoryFeatures = [ ];
-    }
-  ];
+    };
+  };
 
   distributedBuilds = true;
 
@@ -39,7 +27,11 @@
   '';
 
   nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
-  # package = inputs'.nix.packages.default.overrideAttrs { doCheck = false; };
+
+  # package = (inputs'.nix.packages.default.override {
+  #  doCheck = false;
+  #  installUnitTests = false;
+  # }).overrideAttrs (old: { buildInputs = old.buildInputs ++ old.checkInputs; });
 
   registry = {
     system.flake = inputs.self;
@@ -47,7 +39,7 @@
     home-manager.flake = inputs.home;
   };
 
-  settings = {
+  settings = rec {
     accept-flake-config = true;
     flake-registry = __toFile "begone-evil.json" (__toJSON { flakes = [ ]; version = 2; });
 
@@ -61,11 +53,20 @@
 
     max-jobs = "auto";
 
-    # home-manager will attempt to rebuild the world otherwise...
+    substituters = trusted-substituters;
+
     trusted-substituters = [
-      "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store/?priority=10"
-      "https://cache.nixos.org?priority=7"
-      "https://nix-community.cachix.org?priority=5"
+      "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store?priority=10"
+      "https://mirror.sjtu.edu.cn/nix-channels/store?priority=10"
+      "https://mirrors.ustc.edu.cn/nix-channels/store?priority=15"
+      "https://mirrors.cernet.edu.cn/nix-channels/store?priority=15"
+      "https://mirrors.cqupt.edu.cn/nix-channels/store?priority=15"
+      "https://mirror.iscas.ac.cn/nix-channels/store?priority=15"
+      "https://mirror.nju.edu.cn/nix-channels/store?priority=15"
+      "https://mirrors4.sau.edu.cn/nix-channels/store?priority=15"
+      "https://nix-mirror.freetls.fastly.net?priority=11"
+      "https://cache.nixos.org?priority=12"
+      "https://nix-community.cachix.org?priority=13"
       "https://nixpkgs-wayland.cachix.org"
     ];
 
