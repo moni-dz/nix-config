@@ -76,7 +76,7 @@
         ];
 
         serverProperties = {
-          motd = "hihihi - moni";
+          motd = "juice";
           server-port = 43000;
           online-mode = false;
           max-players = 20;
@@ -112,23 +112,23 @@
           };
 
           "plugins/viaversion.jar" = pkgs.fetchurl {
-            url = "https://cdn.modrinth.com/data/P1OZGk5p/versions/DXFf7cQP/ViaVersion-4.9.0-23w45a-SNAPSHOT.jar";
-            hash = "sha512-q/AV0ZfnzAN7em8S9DVIU9Cx0nZUf4fMMrPodLokHeHr9Q817KPNe0GuJs1Kz6+Pa7qboXlzlOxOgmDCG/Hj/w==";
+            url = "https://cdn.modrinth.com/data/P1OZGk5p/versions/5ELLKlnY/ViaVersion-4.9.3-SNAPSHOT.jar";
+            hash = "sha512-e4QzpI+rtOhVde8gFiOz3nAoofB89R6/EkkXFPmddCJlnrWL0CTSyhtdMha5xQsRtxxLIJ4Kd662PxGZ/QPL+w==";
           };
 
           "plugins/vault.jar" = pkgs.fetchurl {
             url = "https://github.com/MilkBowl/Vault/releases/download/1.7.3/Vault.jar";
-            sha256 = "sha256-prXtl/Q6XPW7rwCnyM0jxa/JvQA/hJh1r4s25s930B0=";
+            hash = "sha256-prXtl/Q6XPW7rwCnyM0jxa/JvQA/hJh1r4s25s930B0=";
           };
 
           "plugins/essentialsx.jar" = pkgs.fetchurl {
-            url = "https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/jars/EssentialsX-2.21.0-dev+21-c68b277.jar";
-            sha256 = "sha256-7gvyn6Ys2+kIJiXJ0kZoLoXEHo8+BDXfSMbAOdpite8=";
+            url = "https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/jars/EssentialsX-2.21.0-dev+24-0af4436.jar";
+            hash = "sha256-3Nw/oK9vC3zKcqcPaL/a38uJ6dlZRPDcsf5AYH/ArvE=";
           };
 
           "plugins/essentialsx-chat.jar" = pkgs.fetchurl {
             url = "https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/jars/EssentialsXChat-2.21.0-dev+21-c68b277.jar";
-            sha256 = "sha256-U4A/ll4OCdnSPOstZsVJhXWlxB4sPJn35oUvkq3UY5U=";
+            hash = "sha256-U4A/ll4OCdnSPOstZsVJhXWlxB4sPJn35oUvkq3UY5U=";
           };
 
           "plugins/essentialx-protect.jar" = pkgs.fetchurl {
@@ -154,6 +154,11 @@
           "plugins/placeholderapi.jar" = pkgs.fetchurl {
             url = "https://hangarcdn.papermc.io/plugins/HelpChat/PlaceholderAPI/versions/2.11.5/PAPER/PlaceholderAPI-2.11.5.jar";
             hash = "sha256-RDVvvForTFvaqdkwLB1G2o2fpD1JiudaGZPtHy5XhO8=";
+          };
+
+          "plugins/multiworld.jar" = pkgs.fetchurl {
+            url = "https://hangarcdn.papermc.io/plugins/Multiverse/Multiverse-Core/versions/4.3.12/PAPER/multiverse-core-4.3.12.jar";
+            hash = "sha256-mCN6rzXG7nv9lft/OZ73A7PnK/+Oq0iKkEqtnUUwzRA=";
           };
 
           "bukkit.yml" = ./config/bukkit.yml;

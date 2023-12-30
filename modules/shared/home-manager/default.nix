@@ -74,6 +74,35 @@
       };
     };
 
+    helix = {
+      enable = true;
+      defaultEditor = true;
+
+      themes = {
+        rose-pine-moon = fromTOML (__readFile (__fetchurl {
+          url = "https://raw.githubusercontent.com/rose-pine/helix/main/rose_pine_moon.toml";
+          sha256 = "sha256-6okdImytU6EU10UuiOdWE5OP7t0pWf5wx/bFK43DDgk=";
+        }));
+
+        rose-pine-dawn = fromTOML (__readFile (__fetchurl {
+          url = "https://raw.githubusercontent.com/rose-pine/helix/main/rose_pine_dawn.toml";
+          sha256 = "sha256-9WNRaI3OIhSquwNmQCkYgicCZGvcEBmari6m+pAg0b8=";
+        }));
+      };
+
+      settings = {
+        theme = "rose-pine-moon";
+
+        editor = {
+          cursor-shape = {
+            insert = "bar";
+            normal = "block";
+            select = "underline";
+          };
+        };
+      };
+    };
+
     home-manager = {
       enable = true;
       path = "${inputs.home}";
@@ -119,7 +148,7 @@
 
     neovim = {
       enable = true;
-      defaultEditor = true;
+      defaultEditor = false;
 
       plugins = __attrValues {
         inherit (pkgs.vimPlugins)

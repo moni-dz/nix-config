@@ -36,6 +36,7 @@
         ffmpeg
         blisp
         picotool
+        spicetify-cli
         julia_18-bin;
 
       inherit (inputs'.nixpkgs-f2k.packages) wezterm-git;

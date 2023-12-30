@@ -39,46 +39,47 @@
     home-manager.flake = inputs.home;
   };
 
-  settings = rec {
-    accept-flake-config = true;
-    flake-registry = __toFile "begone-evil.json" (__toJSON { flakes = [ ]; version = 2; });
+  settings = lib.mkMerge [
+    {
+      accept-flake-config = true;
+      flake-registry = __toFile "begone-evil.json" (__toJSON { flakes = [ ]; version = 2; });
 
-    experimental-features = [
-      "auto-allocate-uids"
-      "ca-derivations"
-      "flakes"
-      "nix-command"
-      # "configurable-impure-env"
-    ];
+      experimental-features = [
+        "auto-allocate-uids"
+        "ca-derivations"
+        "flakes"
+        "nix-command"
+        # "configurable-impure-env"
+      ];
 
-    max-jobs = "auto";
+      max-jobs = "auto";
 
-    substituters = trusted-substituters;
+      trusted-substituters = [
+        "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store?priority=10"
+        "https://mirror.sjtu.edu.cn/nix-channels/store?priority=10"
+        "https://mirrors.ustc.edu.cn/nix-channels/store?priority=15"
+        "https://mirrors.cernet.edu.cn/nix-channels/store?priority=15"
+        "https://mirrors.cqupt.edu.cn/nix-channels/store?priority=15"
+        "https://mirror.iscas.ac.cn/nix-channels/store?priority=15"
+        "https://mirror.nju.edu.cn/nix-channels/store?priority=15"
+        "https://mirrors4.sau.edu.cn/nix-channels/store?priority=15"
+        "https://nix-mirror.freetls.fastly.net?priority=11"
+        "https://cache.nixos.org?priority=12"
+        "https://nix-community.cachix.org?priority=13"
+        "https://nixpkgs-wayland.cachix.org"
+      ];
 
-    trusted-substituters = [
-      "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store?priority=10"
-      "https://mirror.sjtu.edu.cn/nix-channels/store?priority=10"
-      "https://mirrors.ustc.edu.cn/nix-channels/store?priority=15"
-      "https://mirrors.cernet.edu.cn/nix-channels/store?priority=15"
-      "https://mirrors.cqupt.edu.cn/nix-channels/store?priority=15"
-      "https://mirror.iscas.ac.cn/nix-channels/store?priority=15"
-      "https://mirror.nju.edu.cn/nix-channels/store?priority=15"
-      "https://mirrors4.sau.edu.cn/nix-channels/store?priority=15"
-      "https://nix-mirror.freetls.fastly.net?priority=11"
-      "https://cache.nixos.org?priority=12"
-      "https://nix-community.cachix.org?priority=13"
-      "https://nixpkgs-wayland.cachix.org"
-    ];
+      trusted-public-keys = [
+        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
+      ];
 
-    trusted-public-keys = [
-      "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-      "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
-    ];
+      trusted-users = [ "root" "moni" "zero" ];
 
-    trusted-users = [ "root" "moni" "zero" ];
-    use-xdg-base-directories = true;
-  } // (lib.optionalAttrs (stdenv.isDarwin && stdenv.isAarch64) {
-    extra-platforms = "x86_64-darwin";
-  });
+      use-xdg-base-directories = true;
+    }
+
+    (lib.mkIf (stdenv.isDarwin && stdenv.isAarch64) { extra-platforms = "x86_64-darwin"; })
+  ];
 }
