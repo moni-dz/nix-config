@@ -161,12 +161,23 @@
             hash = "sha256-mCN6rzXG7nv9lft/OZ73A7PnK/+Oq0iKkEqtnUUwzRA=";
           };
 
+          "plugins/multiworld-inventories.jar" = pkgs.fetchurl {
+            url = "https://hangarcdn.papermc.io/plugins/Multiverse/Multiverse-Inventories/versions/4.2.6/PAPER/multiverse-inventories-4.2.6.jar";
+            hash = "sha256-Lh73k4g9iRFpDMtfi5OJMG9blauRXwZ4df8zt87Ep+g=";
+          };
+
+          "plugins/multiworld-signportals.jar" = pkgs.fetchurl {
+            url = "https://hangarcdn.papermc.io/plugins/Multiverse/Multiverse-SignPortals/versions/4.2.2/PAPER/multiverse-signportals-4.2.2.jar";
+            hash = "sha256-FJkS5kzCfET7eObqEnVW5K5ziNnp5B3baxPjQgMRL6s=";
+          };
+
           "bukkit.yml" = ./config/bukkit.yml;
           "spigot.yml" = ./config/spigot.yml;
           "config/paper-global.yml" = ./config/paper-global.yml;
           "plugins/Essentials/config.yml" = ./config/essentials-config.yml;
           "plugins/WorldEdit/config.yml" = ./config/worldedit-config.yml;
           "plugins/DeathChest/config.yml" = ./config/deathchest-config.yml;
+          "plugins/Multiverse-Core/config.yml" = ./config/multiverse-core.yml;
         };
       };
     };
