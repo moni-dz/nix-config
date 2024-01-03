@@ -79,6 +79,11 @@
       defaultEditor = true;
 
       themes = {
+        rose-pine = fromTOML (__readFile (__fetchurl {
+          url = "https://raw.githubusercontent.com/rose-pine/helix/main/rose_pine.toml";
+          sha256 = "sha256-Jrn8jjZ8RoRf7dLEHWoPNQslX+EKK4oBP76RjFVV5hA=";
+        }));
+      
         rose-pine-moon = fromTOML (__readFile (__fetchurl {
           url = "https://raw.githubusercontent.com/rose-pine/helix/main/rose_pine_moon.toml";
           sha256 = "sha256-6okdImytU6EU10UuiOdWE5OP7t0pWf5wx/bFK43DDgk=";
@@ -91,7 +96,7 @@
       };
 
       settings = {
-        theme = "rose-pine-moon";
+        theme = "rose-pine";
 
         editor = {
           cursor-shape = {
