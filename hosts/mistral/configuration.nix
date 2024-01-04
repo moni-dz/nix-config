@@ -171,6 +171,12 @@
             hash = "sha256-FJkS5kzCfET7eObqEnVW5K5ziNnp5B3baxPjQgMRL6s=";
           };
 
+          "plugins/mcmmo.jar" = pkgs.requireFile {
+            url = "https://mcmmo.org";
+            name = "mcMMO-2.1.225.jar";
+            hash = "sha256-PoVKTcIxQEzn8OCNM1herUG7+ojD1JmVRY3xrQ2I1uQ=";
+          };
+
           "bukkit.yml" = ./config/bukkit.yml;
           "spigot.yml" = ./config/spigot.yml;
           "config/paper-global.yml" = ./config/paper-global.yml;
