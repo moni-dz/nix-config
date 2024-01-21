@@ -17,7 +17,7 @@
       enable = true;
 
       skhdConfig = ''
-        cmd - return : open -na wezterm
+        cmd - return : open -na iterm
       '';
     };
   };

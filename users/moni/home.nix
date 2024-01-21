@@ -36,10 +36,10 @@
         ffmpeg
         blisp
         picotool
-        spicetify-cli
-        julia_18-bin;
+        spicetify-cli;
 
-      inherit (inputs'.nixpkgs-f2k.packages) wezterm-git;
+      # inherit (inputs'.nixpkgs-f2k.packages) wezterm-git;
+      inherit (inputs'.nil.packages) nil;
 
       sdrpp = pkgs.sdrpp.override {
         stdenv = pkgs.appleM2Stdenv;

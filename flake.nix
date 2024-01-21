@@ -13,6 +13,7 @@
     emacs.url = "github:nix-community/emacs-overlay";
     darwin.url = "github:lnl7/nix-darwin";
     home.url = "github:nix-community/home-manager";
+    nil.url = "github:oxalica/nil";
     nix.url = "github:nixos/nix";
     nix-colors.url = "github:Misterio77/nix-colors";
     nix-index-database.url = "github:Mic92/nix-index-database";
