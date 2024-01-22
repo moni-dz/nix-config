@@ -217,6 +217,8 @@
       ];
     };
 
+    dbus.implementation = "broker";
+
     journald.extraConfig = lib.mkForce "";
 
     openssh = {

@@ -29,6 +29,8 @@
   };
 
   services = {
+    dbus.implementation = "broker";
+
     gonic = {
       enable = true;
 
