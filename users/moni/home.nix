@@ -36,6 +36,9 @@
         ffmpeg
         blisp
         picotool
+        typst
+        typst-lsp
+        typst-preview
         spicetify-cli;
 
       # inherit (inputs'.nixpkgs-f2k.packages) wezterm-git;
