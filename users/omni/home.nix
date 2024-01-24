@@ -9,7 +9,7 @@
 {
   imports = [
     # Append your custom home-manager modules in this list
-    ../../modules/home-manager/wayland/windowManager/river
+    # ../../modules/home-manager/wayland/windowManager/river
   ];
 
   colorscheme = inputs.nix-colors.colorSchemes.material-darker;
@@ -28,7 +28,7 @@
     theme = {
       name = "phocus";
 
-      package = inputs'.nixpkgs-f2k.packages.phocus.override {
+      package = inputs'.nixpkgs-f2k.packages.phocus-modified.override {
         inherit (config.colorscheme) colors;
         primary = config.colorscheme.colors.base0D;
         secondary = config.colorscheme.colors.base0E;
@@ -50,7 +50,7 @@
     packages = __attrValues {
       inherit (pkgs)
         bemenu
-        brave-nightly
+        brave
         brightnessctl
         discord-canary
         clang
@@ -94,13 +94,11 @@
     };
 
     sessionPath = [
-      "${config.xdg.configHome}/emacs/bin"
       "${config.xdg.configHome}/scripts"
       "${config.home.homeDirectory}/.local/bin"
     ];
 
     sessionVariables = with config.colorscheme.colors; {
-      EDITOR = "emacs -nw";
       BEMENU_OPTS = "-H 18 -l 5 --fn 'Iosevka FT QP Light 10.5' --tb '#${base0D}' --tf '#${base02}' --hb '#${base0D}' --hf '#${base02}' --nb '#${base02}' --fb '#${base02}'";
       BROWSER = "brave";
       GOPATH = "${config.home.homeDirectory}/Extras/go";
@@ -338,11 +336,6 @@
 
   xdg = {
     configFile = {
-      "emacs" = {
-        recursive = true;
-        source = ./config/emacs;
-      };
-
       "networkmanager-dmenu/config.ini".source = (pkgs.formats.ini { }).generate "config.ini" {
         dmenu.dmenu_command = "bemenu ${config.home.sessionVariables.BEMENU_OPTS}";
         editor.terminal = "${pkgs.alacritty}/bin/alacritty";
