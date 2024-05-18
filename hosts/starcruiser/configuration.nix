@@ -147,11 +147,17 @@
     greetd = {
       enable = true;
 
-      settings = {
-        default_session.command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd 'sway --unsupported-gpu'";
+      settings =
+      let
+        sway-cmd = lib.concatStringsSep [
+          (lib.getExe config.programs.sway.package)
+          "--unsupported-gpu"
+        ];
+      in {
+        default_session.command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd '${sway-cmd}'";
 
         initial_session = {
-          command = "sway --unsupported-gpu";
+          command = "${sway-cmd}";
           user = "moni";
         };
       };

@@ -1,4 +1,4 @@
-{ config, inputs, lib, pkgs, system, ... }:
+{ pkgs, ... }:
 
 /*
   home-manager configuration

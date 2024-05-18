@@ -25,11 +25,6 @@
   programs.fish.enable = true;
   security.pam.enableSudoTouchIdAuth = true;
 
-  nix.linux-builder = {
-    enable = true;
-    maxJobs = 6;
-  };
-
   fonts = {
     fontDir.enable = true;
 

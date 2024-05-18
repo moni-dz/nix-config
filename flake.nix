@@ -22,8 +22,10 @@
     nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
     nixpkgs-fmt.url = "github:nix-community/nixpkgs-fmt";
     nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
+    nvim.url = "github:nix-community/neovim-nightly-overlay";
     parts.url = "github:hercules-ci/flake-parts";
     statix.url = "github:nerdypepper/statix";
+    lix.url = "git+https://git.lix.systems/lix-project/lix.git";
 
     # Nixpkgs branches
     master.url = "github:nixos/nixpkgs/master";

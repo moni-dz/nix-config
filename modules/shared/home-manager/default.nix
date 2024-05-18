@@ -1,4 +1,4 @@
-{ config, inputs, inputs', lib, pkgs, system, ... }:
+{ config, inputs, inputs', lib, pkgs, ... }:
 
 /*
   home-manager configuration
@@ -81,7 +81,7 @@
       themes = {
         rose-pine = fromTOML (__readFile (__fetchurl {
           url = "https://raw.githubusercontent.com/rose-pine/helix/main/rose_pine.toml";
-          sha256 = "sha256-Jrn8jjZ8RoRf7dLEHWoPNQslX+EKK4oBP76RjFVV5hA=";
+          sha256 = "sha256-C9PRimsu8JOHMDVAZovTwGtNnjM0/ZHHnJ8igtcalHs";
         }));
 
         rose-pine-moon = fromTOML (__readFile (__fetchurl {
@@ -110,7 +110,7 @@
 
     home-manager = {
       enable = true;
-      path = "${inputs.home}";
+      path = lib.mkForce "${inputs.home}";
     };
 
     htop = {
@@ -168,7 +168,8 @@
           plenary-nvim
           telescope-nvim
           rust-tools-nvim
-          rose-pine;
+          rose-pine
+          leap-nvim;
 
         nvim-treesitter = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
 
@@ -195,10 +196,7 @@
         };
       };
 
-      package = pkgs.neovim-unwrapped.override {
-        lua = pkgs.luajit;
-      };
-
+      package = inputs'.nvim.packages.default;
       extraLuaConfig = __readFile ./config/init.lua;
     };
 
