@@ -18,9 +18,11 @@
 
       inherit (pkgs.gitAndTools) gh;
       inherit (inputs'.agenix.packages) agenix;
+      inherit (inputs'.nvim.packages) neovim;
     };
 
     sessionVariables = {
+      EDITOR = "nvim";
       MANPAGER = "nvim +Man! -c 'nnoremap i <nop>'";
     };
   };
@@ -75,8 +77,8 @@
     };
 
     helix = {
-      enable = true;
-      defaultEditor = true;
+      enable = false;
+      defaultEditor = false;
 
       themes = {
         rose-pine = fromTOML (__readFile (__fetchurl {
@@ -152,7 +154,7 @@
     nix-index-database.comma.enable = lib.mkDefault true;
 
     neovim = {
-      enable = true;
+      enable = false;
       defaultEditor = false;
 
       plugins = __attrValues {

@@ -11,6 +11,7 @@
     packages = __attrValues {
       inherit (pkgs)
         asitop
+        avrdude
         fanbox-dl
         curl
         coreutils-prefixed
@@ -26,7 +27,6 @@
         helix
         sqlite
         libheif
-        avrdude
         screen
         exiv2
         dua
@@ -38,21 +38,11 @@
         picotool
         typst
         typst-lsp
-        typst-preview
-        spicetify-cli;
+        typst-preview;
 
       # inherit (inputs'.nixpkgs-f2k.packages) wezterm-git;
       inherit (inputs'.nil.packages) nil;
       inherit (inputs'.nvim.packages) neovim;
-
-      sdrpp = pkgs.sdrpp.override {
-        stdenv = pkgs.appleM2Stdenv;
-
-        fftwFloat = pkgs.fftwFloat.overrideAttrs {
-          stdenv = pkgs.appleM2Stdenv;
-          postPatch = null;
-        };
-      };
     };
 
     sessionVariables = {
@@ -80,8 +70,9 @@
       shellInit = ''
         fish_add_path /Users/moni/Library/Python/3.11/bin
         fish_add_path -m /Users/moni/.local/share/miniconda/bin
+        fish_add_path -amP /Applications/ArmGNUToolchain/13.2.Rel1/arm-none-eabi/bin
         fish_add_path -amP /usr/bin
-        fish_add_path -m /opt/homebrew/bin
+        fish_add_path -amP /opt/homebrew/bin
         fish_add_path -amP /usr/local/smlnj/bin
         fish_add_path -amP /opt/local/bin
         fish_add_path -amP /opt/homebrew/opt/llvm/bin

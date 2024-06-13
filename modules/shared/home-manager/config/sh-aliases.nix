@@ -7,7 +7,7 @@
   mv = "mv -i";
   cp = "cp -i";
   rm = "rm -i";
-  vi = "hx";
-  vim = "hx";
+  vi = "nvim";
+  vim = "nvim";
   vimdiff = "nvim -d";
 }

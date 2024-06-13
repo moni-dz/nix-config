@@ -148,19 +148,20 @@
       enable = true;
 
       settings =
-      let
-        sway-cmd = lib.concatStringsSep [
-          (lib.getExe config.programs.sway.package)
-          "--unsupported-gpu"
-        ];
-      in {
-        default_session.command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd '${sway-cmd}'";
+        let
+          sway-cmd = lib.concatStringsSep [
+            (lib.getExe config.programs.sway.package)
+            "--unsupported-gpu"
+          ];
+        in
+        {
+          default_session.command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd '${sway-cmd}'";
 
-        initial_session = {
-          command = "${sway-cmd}";
-          user = "moni";
+          initial_session = {
+            command = "${sway-cmd}";
+            user = "moni";
+          };
         };
-      };
     };
 
     samba = {

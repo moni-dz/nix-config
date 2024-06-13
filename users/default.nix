@@ -8,8 +8,9 @@
       stateVersion = "23.05";
       agenix = true;
 
-      modules = [ ./moni/home.nix ]
-        ++ lib.optional config.parts.homeConfigurations."moni@riscake".agenix ./moni/age.nix;
+      modules = [
+        ./moni/home.nix
+      ] ++ lib.optional config.parts.homeConfigurations."moni@riscake".agenix ./moni/age.nix;
     };
 
     "moni@starcruiser" = {

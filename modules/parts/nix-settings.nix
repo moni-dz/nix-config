@@ -21,7 +21,7 @@
   extraOptions = ''
     keep-outputs = true
     keep-derivations = true
-    auto-allocate-uids = false
+    auto-allocate-uids = true
     builders-use-substitutes = true
     http-connections = 0
   '';

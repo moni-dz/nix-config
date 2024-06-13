@@ -72,8 +72,7 @@ if not vim.g.vscode then
       inlay_hints = { auto = true }
     },
 
-    server = {
-      standalone = true,
+    server = {      standalone = true,
       on_attach = function(c, b) ih.on_attach(c, b) end
     }
   })
