@@ -46,12 +46,12 @@
       servers.volta = {
         enable = true;
         autoStart = false;
-        package = pkgs.paperServers.paper-1_21;
+        package = pkgs.paperServers.paper-1_20_1;
         openFirewall = true;
 
         jvmOpts = lib.concatStringsSep " " [
-          "-Xms4500M"
-          "-Xmx4500M"
+          "-Xms4800M"
+          "-Xmx4800M"
           "-XX:+UseG1GC"
           "-XX:+ParallelRefProcEnabled"
           "-XX:MaxGCPauseMillis=200"
@@ -83,8 +83,8 @@
           gamemode = "survival";
           enable-rcon = true;
           "rcon.password" = "longview";
-          view-distance = 20;
-          simulation-distance = 20;
+          view-distance = 16;
+          simulation-distance = 16;
           spawn-protection = 5;
           allow-flight = true;
         };
@@ -105,19 +105,9 @@
             hash = "sha512-Bw0xC+ooj1bNs0Qr+Apz8WsaDR2CrId4VZJLRwxIPVHzGZPDSHEGPIBBqh/mjXCmJ7nB/p3vlDgZtew/zwPxnQ==";
           };
 
-          "plugins/spark.jar" = pkgs.fetchurl {
-            url = "https://ci.lucko.me/job/spark/419/artifact/spark-bukkit/build/libs/spark-1.10.74-bukkit.jar";
-            hash = "sha256-tfYJg+0lRuHGz1Lr4HuTzbPqMZMMcFN30h2lA1WT3WE";
-          };
-
-          "plugins/chunky.jar" = pkgs.fetchurl {
-            url = "https://cdn.modrinth.com/data/fALzjamp/versions/6ENKPUbu/Chunky-1.4.10.jar";
-            hash = "sha256-iOyPboWgHpRB5BO+G5fTh42e1cSGPDmBdvwhUCeyn3s";
-          };
-
           "plugins/viaversion.jar" = pkgs.fetchurl {
-            url = "https://cdn.modrinth.com/data/P1OZGk5p/versions/543Ndqg7/ViaVersion-5.0.2-SNAPSHOT.jar";
-            hash = "sha512-vM5wuMXlfskfpIPrhuDB833aWSVyeHanfRkUrpBnCg1AwDA4S7Om9RsZc8WMLf88+VexpzhPfjCljY1qval60g";
+            url = "https://cdn.modrinth.com/data/P1OZGk5p/versions/5ELLKlnY/ViaVersion-4.9.3-SNAPSHOT.jar";
+            hash = "sha512-e4QzpI+rtOhVde8gFiOz3nAoofB89R6/EkkXFPmddCJlnrWL0CTSyhtdMha5xQsRtxxLIJ4Kd662PxGZ/QPL+w==";
           };
 
           "plugins/vault.jar" = pkgs.fetchurl {
@@ -141,13 +131,18 @@
           };
 
           "plugins/deathchest.jar" = pkgs.fetchurl {
-            url = "https://hangarcdn.papermc.io/plugins/CyntrixAlgorithm/DeathChest/versions/2.2.5/PAPER/deathchest.jar";
-            hash = "sha256-LbiuNnUP+frH0bPV1NNZIzEwaz9w/hOkbbJn+tWbdps";
+            url = "https://hangarcdn.papermc.io/plugins/CyntrixAlgorithm/DeathChest/versions/2.1.1/PAPER/deathchest.jar";
+            hash = "sha256-djHwoB3AsLBEtegyaWaIBkAwM2WTL8vqtCtJrHduNSw=";
+          };
+
+          "plugins/chunky.jar" = pkgs.fetchurl {
+            url = "https://cdn.modrinth.com/data/fALzjamp/versions/B0xkCkk4/Chunky-1.3.92.jar";
+            hash = "sha512-Y8QYSQICdqbwFW/F0Rq+93ylPBq0SiQsl8pSJmaAnClCeAXP84st5ITH1eLz5+s+uKmJq8/rvSBBlxiIHhKwCw==";
           };
 
           "plugins/luckperms.jar" = pkgs.fetchurl {
-            url = "https://download.luckperms.net/1552/bukkit/loader/LuckPerms-Bukkit-5.4.137.jar";
-            hash = "sha256-nvSzZsCxb8ZaVKVK3RFkG9KzZipCmYoanCCJuNnEc88";
+            url = "https://download.luckperms.net/1551/bukkit/loader/LuckPerms-Bukkit-5.4.136.jar";
+            hash = "sha256-Zr7wGzriaVeeFZE5Wm424w3A2ow4GocWDjkpN9hxknQ";
           };
 
           "plugins/placeholderapi.jar" = pkgs.fetchurl {
@@ -195,4 +190,3 @@
     extraGroups = [ "wheel" ];
   };
 }
-
