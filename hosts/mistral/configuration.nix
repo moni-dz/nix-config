@@ -50,8 +50,8 @@
         openFirewall = true;
 
         jvmOpts = lib.concatStringsSep " " [
-          "-Xms5500M"
-          "-Xmx5500M"
+          "-Xms5000M"
+          "-Xmx5000M"
           "-XX:+UseG1GC"
           "-XX:+ParallelRefProcEnabled"
           "-XX:MaxGCPauseMillis=200"
