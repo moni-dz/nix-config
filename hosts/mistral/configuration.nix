@@ -50,8 +50,8 @@
         openFirewall = true;
 
         jvmOpts = lib.concatStringsSep " " [
-          "-Xms5000M"
-          "-Xmx5000M"
+          "-Xms4500M"
+          "-Xmx4500M"
           "-XX:+UseG1GC"
           "-XX:+ParallelRefProcEnabled"
           "-XX:MaxGCPauseMillis=200"
@@ -110,6 +110,11 @@
             hash = "sha256-tfYJg+0lRuHGz1Lr4HuTzbPqMZMMcFN30h2lA1WT3WE";
           };
 
+          "plugins/chunky.jar" = pkgs.fetchurl {
+            url = "https://cdn.modrinth.com/data/fALzjamp/versions/6ENKPUbu/Chunky-1.4.10.jar";
+            hash = "sha256-iOyPboWgHpRB5BO+G5fTh42e1cSGPDmBdvwhUCeyn3s";
+          };
+
           "plugins/viaversion.jar" = pkgs.fetchurl {
             url = "https://cdn.modrinth.com/data/P1OZGk5p/versions/543Ndqg7/ViaVersion-5.0.2-SNAPSHOT.jar";
             hash = "sha512-vM5wuMXlfskfpIPrhuDB833aWSVyeHanfRkUrpBnCg1AwDA4S7Om9RsZc8WMLf88+VexpzhPfjCljY1qval60g";
@@ -138,11 +143,6 @@
           "plugins/deathchest.jar" = pkgs.fetchurl {
             url = "https://hangarcdn.papermc.io/plugins/CyntrixAlgorithm/DeathChest/versions/2.2.5/PAPER/deathchest.jar";
             hash = "sha256-LbiuNnUP+frH0bPV1NNZIzEwaz9w/hOkbbJn+tWbdps";
-          };
-
-          "plugins/chunky.jar" = pkgs.fetchurl {
-            url = "https://cdn.modrinth.com/data/fALzjamp/versions/6ENKPUbu/Chunky-1.4.10.jar";
-            hash = "sha512-9ECX3abWDohA8vtdm/nZDHXymfzccdVAahjqjJfQ47ZiqOt75CgkO96FuHEHuz7/50/NbciHuuFJds2UJhlI8w";
           };
 
           "plugins/luckperms.jar" = pkgs.fetchurl {
