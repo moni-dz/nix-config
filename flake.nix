@@ -26,6 +26,10 @@
     parts.url = "github:hercules-ci/flake-parts";
     statix.url = "github:nerdypepper/statix";
     lix.url = "git+https://git.lix.systems/lix-project/lix.git";
+    nix-parallel.url = "github:DeterminateSystems/nix-src/multithreaded-eval";
+
+    # Non-flake inputs
+    yabai = { url = "github:koekeishiya/yabai"; flake = false; };
 
     # Nixpkgs branches
     master.url = "github:nixos/nixpkgs/master";

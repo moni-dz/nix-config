@@ -59,19 +59,15 @@
   programs.fish.enable = true;
   security.pam.enableSudoTouchIdAuth = true;
 
-  fonts = {
-    fontDir.enable = true;
-
-    fonts = __attrValues {
-      inherit (pkgs)
-        fira-code
-        comic-neue
-        fantasque-sans-mono
-        maple-mono-otf
-        emacs-all-the-icons-fonts
-        terminus_font_ttf
-        unifont
-        unifont_upper;
-    };
+  fonts.packages = __attrValues {
+    inherit (pkgs)
+      fira-code
+      comic-neue
+      fantasque-sans-mono
+      maple-mono-otf
+      emacs-all-the-icons-fonts
+      terminus_font_ttf
+      unifont
+      unifont_upper;
   };
 }

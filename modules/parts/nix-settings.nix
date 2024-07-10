@@ -27,7 +27,15 @@
   '';
 
   nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
-  package = inputs'.lix.packages.default;
+
+  package = inputs'.nix-parallel.packages.default.override {
+    pname = "nix-parallel";
+    doCheck = false;
+    doInstallCheck = false;
+    installUnitTests = false;
+  };
+  
+  # package = inputs'.lix.packages.default;
 
   registry = {
     system.flake = inputs.self;

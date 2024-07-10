@@ -1,10 +1,6 @@
 { inputs, modulesPath, lib, pkgs, ... }:
 
 {
-  imports = lib.optional (__pathExists ./do-userdata.nix) ./do-userdata.nix ++ [
-    (modulesPath + "/virtualisation/digital-ocean-config.nix")
-  ];
-
   boot = {
     # NOTE: replace this with your desired kernel, see: https://nixos.wiki/wiki/Linux_kernel for reference.
     kernelPackages = pkgs.linuxKernel.packages.linux_lqx;
@@ -15,6 +11,8 @@
       "quiet"
       "udev.log_level=3"
     ];
+
+    loader.grub.device = "/dev/sda";
   };
 
   environment.systemPackages = [ pkgs.tmux ];
@@ -31,19 +29,8 @@
   services = {
     dbus.implementation = "broker";
 
-    gonic = {
-      enable = true;
-
-      settings = {
-        cache-path = "/var/cache/gonic";
-        listen-addr = "128.199.204.196:4747";
-        music-path = [ "/mnt/music" ];
-        podcast-path = "/mnt/podcasts";
-      };
-    };
-
     minecraft-servers = {
-      enable = true;
+      enable = false;
       eula = true;
 
       servers.volta = {
