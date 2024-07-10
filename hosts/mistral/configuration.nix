@@ -31,6 +31,14 @@
   services = {
     dbus.implementation = "broker";
 
+    openssh = {
+      enable = true;
+      settings = {
+        GatewayPorts = "yes";
+        PermitRootLogin = "yes";
+      };
+    };
+
     minecraft-servers = {
       enable = false;
       eula = true;
