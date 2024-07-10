@@ -61,13 +61,13 @@ world-settings:
   default:
     below-zero-generation-in-existing-chunks: true
     merge-radius:
-      item: 2.5
-      exp: 3.0
+      item: 4.0
+      exp: 6.0
     view-distance: default
     simulation-distance: default
     mob-spawn-range: 5
     item-despawn-rate: 6000
-    arrow-despawn-rate: 1200
+    arrow-despawn-rate: 300
     trident-despawn-rate: 1200
     zombie-aggressive-towards-villager: true
     nerf-spawner-mobs: true
@@ -100,10 +100,10 @@ world-settings:
       glowberry-modifier: 100
       pitcherplant-modifier: 100
     entity-activation-range:
-      animals: 32
-      monsters: 32
+      animals: 16
+      monsters: 24
       raiders: 48
-      misc: 16
+      misc: 8
       water: 16
       villagers: 32
       flying-monsters: 32
@@ -123,7 +123,7 @@ world-settings:
       villagers-work-immunity-after: 100
       villagers-work-immunity-for: 20
       villagers-active-for-panic: true
-      tick-inactive-villagers: true
+      tick-inactive-villagers: false
       ignore-spectators: false
     entity-tracking-range:
       players: 48
@@ -168,8 +168,8 @@ world-settings:
       other-multiplier: 0.0
     max-tnt-per-tick: 100
     max-tick-time:
-      tile: 50
-      entity: 50
+      tile: 1000
+      entity: 1000
     verbose: false
 config-version: 12
 stats:

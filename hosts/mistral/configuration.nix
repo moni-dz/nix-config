@@ -40,18 +40,18 @@
     };
 
     minecraft-servers = {
-      enable = false;
+      enable = true;
       eula = true;
 
       servers.volta = {
         enable = true;
         autoStart = false;
-        package = pkgs.paperServers.paper-1_20_1;
+        package = pkgs.paperServers.paper-1_21;
         openFirewall = true;
 
         jvmOpts = lib.concatStringsSep " " [
-          "-Xms2500M"
-          "-Xmx2500M"
+          "-Xms5500M"
+          "-Xmx5500M"
           "-XX:+UseG1GC"
           "-XX:+ParallelRefProcEnabled"
           "-XX:MaxGCPauseMillis=200"
@@ -83,8 +83,8 @@
           gamemode = "survival";
           enable-rcon = true;
           "rcon.password" = "longview";
-          view-distance = 8;
-          simulation-distance = 8;
+          view-distance = 20;
+          simulation-distance = 20;
           spawn-protection = 5;
           allow-flight = true;
         };
@@ -106,13 +106,13 @@
           };
 
           "plugins/spark.jar" = pkgs.fetchurl {
-            url = "https://ci.lucko.me/job/spark/396/artifact/spark-bukkit/build/libs/spark-1.10.55-bukkit.jar";
-            hash = "sha256-M49tu1FZPRJErpZAJB3QmtuKi98yqfXYZlEftcinGfY=";
+            url = "https://ci.lucko.me/job/spark/419/artifact/spark-bukkit/build/libs/spark-1.10.74-bukkit.jar";
+            hash = "sha256-tfYJg+0lRuHGz1Lr4HuTzbPqMZMMcFN30h2lA1WT3WE";
           };
 
           "plugins/viaversion.jar" = pkgs.fetchurl {
-            url = "https://cdn.modrinth.com/data/P1OZGk5p/versions/5ELLKlnY/ViaVersion-4.9.3-SNAPSHOT.jar";
-            hash = "sha512-e4QzpI+rtOhVde8gFiOz3nAoofB89R6/EkkXFPmddCJlnrWL0CTSyhtdMha5xQsRtxxLIJ4Kd662PxGZ/QPL+w==";
+            url = "https://cdn.modrinth.com/data/P1OZGk5p/versions/543Ndqg7/ViaVersion-5.0.2-SNAPSHOT.jar";
+            hash = "sha512-vM5wuMXlfskfpIPrhuDB833aWSVyeHanfRkUrpBnCg1AwDA4S7Om9RsZc8WMLf88+VexpzhPfjCljY1qval60g";
           };
 
           "plugins/vault.jar" = pkgs.fetchurl {
@@ -121,33 +121,33 @@
           };
 
           "plugins/essentialsx.jar" = pkgs.fetchurl {
-            url = "https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/jars/EssentialsX-2.21.0-dev+24-0af4436.jar";
-            hash = "sha256-3Nw/oK9vC3zKcqcPaL/a38uJ6dlZRPDcsf5AYH/ArvE=";
+            url = "https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/jars/EssentialsX-2.21.0-dev+102-fcf6e64.jar";
+            hash = "sha256-XHPS96loP1pzGQ507ioVuJ3xGikG5w1dtMHPhMdFlbo";
           };
 
           "plugins/essentialsx-chat.jar" = pkgs.fetchurl {
-            url = "https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/jars/EssentialsXChat-2.21.0-dev+21-c68b277.jar";
-            hash = "sha256-U4A/ll4OCdnSPOstZsVJhXWlxB4sPJn35oUvkq3UY5U=";
+            url = "https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/jars/EssentialsXChat-2.21.0-dev+102-fcf6e64.jar";
+            hash = "sha256-iQY4iBK3Ehp06MUcBKfh9pHq+QuwI47rDbDVNKUtLiA";
           };
 
           "plugins/essentialx-protect.jar" = pkgs.fetchurl {
-            url = "https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/jars/EssentialsXProtect-2.21.0-dev+21-c68b277.jar";
-            hash = "sha256-DPNpMvO4rkWoGhsn02Z09h37Fwmdq2/PDmSWLMvxBNk=";
+            url = "https://ci.ender.zone/job/EssentialsX/lastSuccessfulBuild/artifact/jars/EssentialsXProtect-2.21.0-dev+102-fcf6e64.jar";
+            hash = "sha256-wDqFnVlsaT1LHSVfnQxrd8IU2y5ZBqZ8OltAJjydrkA";
           };
 
           "plugins/deathchest.jar" = pkgs.fetchurl {
-            url = "https://hangarcdn.papermc.io/plugins/CyntrixAlgorithm/DeathChest/versions/2.1.1/PAPER/deathchest.jar";
-            hash = "sha256-djHwoB3AsLBEtegyaWaIBkAwM2WTL8vqtCtJrHduNSw=";
+            url = "https://hangarcdn.papermc.io/plugins/CyntrixAlgorithm/DeathChest/versions/2.2.5/PAPER/deathchest.jar";
+            hash = "sha256-LbiuNnUP+frH0bPV1NNZIzEwaz9w/hOkbbJn+tWbdps";
           };
 
           "plugins/chunky.jar" = pkgs.fetchurl {
-            url = "https://cdn.modrinth.com/data/fALzjamp/versions/B0xkCkk4/Chunky-1.3.92.jar";
-            hash = "sha512-Y8QYSQICdqbwFW/F0Rq+93ylPBq0SiQsl8pSJmaAnClCeAXP84st5ITH1eLz5+s+uKmJq8/rvSBBlxiIHhKwCw==";
+            url = "https://cdn.modrinth.com/data/fALzjamp/versions/6ENKPUbu/Chunky-1.4.10.jar";
+            hash = "sha512-9ECX3abWDohA8vtdm/nZDHXymfzccdVAahjqjJfQ47ZiqOt75CgkO96FuHEHuz7/50/NbciHuuFJds2UJhlI8w";
           };
 
           "plugins/luckperms.jar" = pkgs.fetchurl {
-            url = "https://download.luckperms.net/1521/bukkit/loader/LuckPerms-Bukkit-5.4.108.jar";
-            hash = "sha256-TN7HH/5JiG98xBACfuoJZILsiDxU8WX5laNDS3h+qR4=";
+            url = "https://download.luckperms.net/1552/bukkit/loader/LuckPerms-Bukkit-5.4.137.jar";
+            hash = "sha256-nvSzZsCxb8ZaVKVK3RFkG9KzZipCmYoanCCJuNnEc88";
           };
 
           "plugins/placeholderapi.jar" = pkgs.fetchurl {
