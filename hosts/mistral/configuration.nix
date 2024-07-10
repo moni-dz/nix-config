@@ -1,6 +1,8 @@
 { inputs, modulesPath, lib, pkgs, ... }:
 
 {
+  imports = [ ./hardware-configuration.nix ];
+
   boot = {
     # NOTE: replace this with your desired kernel, see: https://nixos.wiki/wiki/Linux_kernel for reference.
     kernelPackages = pkgs.linuxKernel.packages.linux_lqx;
