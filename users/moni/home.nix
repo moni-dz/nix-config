@@ -37,7 +37,6 @@
         blisp
         picotool
         typst
-        typst-lsp
         tinymist;
 
       # inherit (inputs'.nixpkgs-f2k.packages) wezterm-git;
