@@ -38,7 +38,7 @@
         picotool
         typst
         typst-lsp
-        typst-preview;
+        tinymist;
 
       # inherit (inputs'.nixpkgs-f2k.packages) wezterm-git;
       inherit (inputs'.nil.packages) nil;

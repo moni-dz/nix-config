@@ -14,7 +14,7 @@
     nix-daemon.enable = true;
 
     skhd = {
-      enable = true;
+      enable = false;
 
       skhdConfig =
         let
@@ -33,8 +33,8 @@
     };
 
     yabai = {
-      enable = true;
-      enableScriptingAddition = true;
+      enable = false;
+      enableScriptingAddition = false;
       package = pkgs.yabai;
 
       config = let gap = 8; in {
