@@ -34,7 +34,7 @@
     doInstallCheck = false;
     installUnitTests = false;
   };
-  
+
   # package = inputs'.lix.packages.default;
 
   registry = {

@@ -43,10 +43,7 @@
       package = config.boot.kernelPackages.nvidiaPackages.beta;
     };
 
-    opengl = {
-      enable = true;
-      driSupport = true;
-    };
+    graphics.enable = true;
   };
 
   # Font packages should go in fonts.packages in ../shared/configuration.nix.
@@ -63,6 +60,7 @@
     systemPackages = __attrValues {
       inherit (pkgs)
         file
+        nautilus
         ntfs3g
         pavucontrol
         pulseaudio
@@ -74,7 +72,6 @@
         zip;
 
       inherit (pkgs.qt5) qtwayland;
-      inherit (pkgs.gnome3) nautilus;
     };
   };
 
@@ -149,7 +146,7 @@
 
       settings =
         let
-          sway-cmd = lib.concatStringsSep [
+          sway-cmd = lib.concatStringsSep " " [
             (lib.getExe config.programs.sway.package)
             "--unsupported-gpu"
           ];

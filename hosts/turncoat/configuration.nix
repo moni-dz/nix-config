@@ -10,7 +10,7 @@
     wslConf.automount.root = "/mnt";
   };
 
-  hardware.opengl.enable = true;
+  hardware.graphics.enable = true;
 
   environment.systemPackages = with pkgs; [
     git

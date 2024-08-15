@@ -82,7 +82,7 @@
     colors =
       let colorscheme = inputs.nix-colors.colorSchemes.material-darker;
       in
-      with colorscheme.colors; [
+      with colorscheme.palette; [
         base01
         base08
         base0B
