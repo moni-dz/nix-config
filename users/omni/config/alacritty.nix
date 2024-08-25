@@ -1,6 +1,10 @@
-{ colorscheme, isWayland ? false }:
+{
+  colorscheme,
+  isWayland ? false,
+}:
 
-with colorscheme.colors; {
+with colorscheme.colors;
+{
   env.TERM = "xterm-256color";
 
   font = {

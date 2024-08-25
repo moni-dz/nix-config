@@ -1,4 +1,8 @@
-{ lib, python3, fetchFromGitHub }:
+{
+  lib,
+  python3,
+  fetchFromGitHub,
+}:
 
 python3.pkgs.buildPythonApplication rec {
   pname = "asitop";
@@ -13,7 +17,10 @@ python3.pkgs.buildPythonApplication rec {
 
   doCheck = false;
 
-  propagatedBuildInputs = with python3.pkgs; [ psutil pydashing ];
+  propagatedBuildInputs = with python3.pkgs; [
+    psutil
+    pydashing
+  ];
 
   meta = with lib; {
     homepage = "https://github.com/tikh/asitop";

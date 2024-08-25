@@ -1,4 +1,13 @@
-{ config, lib, pkgs, system, self, inputs, inputs', ... }:
+{
+  config,
+  lib,
+  pkgs,
+  system,
+  self,
+  inputs,
+  inputs',
+  ...
+}:
 
 {
   environment = {
@@ -37,17 +46,21 @@
       enableScriptingAddition = false;
       package = pkgs.yabai;
 
-      config = let gap = 8; in {
-        layout = "bsp";
-        mouse_follows_focus = "off";
-        top_padding = gap;
-        bottom_padding = gap;
-        left_padding = gap;
-        right_padding = gap;
-        window_gap = gap;
-        window_placement = "second_child";
-        window_shadow = "float";
-      };
+      config =
+        let
+          gap = 8;
+        in
+        {
+          layout = "bsp";
+          mouse_follows_focus = "off";
+          top_padding = gap;
+          bottom_padding = gap;
+          left_padding = gap;
+          right_padding = gap;
+          window_gap = gap;
+          window_placement = "second_child";
+          window_shadow = "float";
+        };
 
       extraConfig = ''
         yabai -m rule --add app='System Settings' manage=off
@@ -67,6 +80,7 @@
       emacs-all-the-icons-fonts
       terminus_font_ttf
       unifont
-      unifont_upper;
+      unifont_upper
+      ;
   };
 }

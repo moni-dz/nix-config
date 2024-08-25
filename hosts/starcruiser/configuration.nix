@@ -1,4 +1,11 @@
-{ config, lib, pkgs, options, system, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  options,
+  system,
+  ...
+}:
 
 /*
   NixOS configuration
@@ -69,7 +76,8 @@
         unrar
         unzip
         xarchiver
-        zip;
+        zip
+        ;
 
       inherit (pkgs.qt5) qtwayland;
     };
@@ -79,17 +87,30 @@
 
   networking = {
     firewall = {
-      allowedTCPPorts = [ 445 139 ];
-      allowedUDPPorts = [ 137 138 ];
+      allowedTCPPorts = [
+        445
+        139
+      ];
+      allowedUDPPorts = [
+        137
+        138
+      ];
     };
 
-    nameservers = [ "1.1.1.1" "1.0.0.1" "8.8.8.8" "8.8.4.4" ];
+    nameservers = [
+      "1.1.1.1"
+      "1.0.0.1"
+      "8.8.8.8"
+      "8.8.4.4"
+    ];
   };
 
   nix.sshServe = {
     enable = true;
     protocol = "ssh-ng";
-    keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBlr5SHXali3ttWt8ygyWgCW2usWVsBhXebeyi2XKO2Z lythe1107@gmail.com" ];
+    keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBlr5SHXali3ttWt8ygyWgCW2usWVsBhXebeyi2XKO2Z lythe1107@gmail.com"
+    ];
   };
 
   # https://github.com/nix-community/home-manager/issues/1288#issuecomment-636352427

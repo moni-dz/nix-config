@@ -41,6 +41,10 @@
     format-muted = "婢  Muted";
     format-source = "";
     format-source-muted = "Muted";
-    format-icons.default = [ " " " " " " ];
+    format-icons.default = [
+      " "
+      " "
+      " "
+    ];
   };
 }

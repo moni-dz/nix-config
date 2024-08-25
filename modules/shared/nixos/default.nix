@@ -1,4 +1,13 @@
-{ config, lib, pkgs, options, inputs, inputs', system, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  options,
+  inputs,
+  inputs',
+  system,
+  ...
+}:
 
 /*
   NixOS configuration
@@ -80,9 +89,11 @@
     keyMap = "us";
 
     colors =
-      let colorscheme = inputs.nix-colors.colorSchemes.material-darker;
+      let
+        colorscheme = inputs.nix-colors.colorSchemes.material-darker;
       in
-      with colorscheme.palette; [
+      with colorscheme.palette;
+      [
         base01
         base08
         base0B
@@ -143,13 +154,20 @@
         sarasa-gothic
         symbola
         terminus_font
-        twemoji-color-font;
+        twemoji-color-font
+        ;
 
       inherit (inputs'.nixpkgs-f2k.packages)
         iosevka-ft-bin
-        iosevka-ft-qp-bin;
+        iosevka-ft-qp-bin
+        ;
 
-      nerdfonts = pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" "Iosevka" ]; };
+      nerdfonts = pkgs.nerdfonts.override {
+        fonts = [
+          "FantasqueSansMono"
+          "Iosevka"
+        ];
+      };
     };
 
     fontconfig = {

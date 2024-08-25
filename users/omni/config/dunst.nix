@@ -1,6 +1,7 @@
 { colorscheme }:
 
-with colorscheme.colors; {
+with colorscheme.colors;
+{
   global = {
     padding = 8;
     markup = "full";

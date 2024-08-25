@@ -1,4 +1,9 @@
-{ config, inputs', pkgs, ... }:
+{
+  config,
+  inputs',
+  pkgs,
+  ...
+}:
 
 /*
   home-manager configuration
@@ -37,7 +42,8 @@
         blisp
         picotool
         typst
-        tinymist;
+        tinymist
+        ;
 
       # inherit (inputs'.nixpkgs-f2k.packages) wezterm-git;
       inherit (inputs'.nil.packages) nil;
@@ -61,7 +67,7 @@
             echo 'export var=value'
           end
         end
-        
+
         . ${config.age.secrets.tokens.path}
         . /Users/moni/.local/share/miniconda/etc/fish/conf.d/conda.fish
       '';

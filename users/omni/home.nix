@@ -1,4 +1,12 @@
-{ config, inputs, inputs', lib, pkgs, system, ... }:
+{
+  config,
+  inputs,
+  inputs',
+  lib,
+  pkgs,
+  system,
+  ...
+}:
 
 /*
   home-manager configuration
@@ -42,9 +50,10 @@
 
   home = {
     file.".icons/default".source = "${
-      if config.colorscheme.kind == "light"
-      then "${pkgs.phinger-cursors}/share/icons/phinger-cursors-light"
-      else "${pkgs.phinger-cursors}/share/icons/phinger-cursors"
+      if config.colorscheme.kind == "light" then
+        "${pkgs.phinger-cursors}/share/icons/phinger-cursors-light"
+      else
+        "${pkgs.phinger-cursors}/share/icons/phinger-cursors"
     }";
 
     packages = __attrValues {
@@ -73,7 +82,8 @@
         nvd
         wayland-utils
         xdragon
-        xdg_utils;
+        xdg_utils
+        ;
 
       inherit (pkgs.nodePackages) insect;
       inherit (pkgs.sway-contrib) grimshot;
@@ -87,7 +97,8 @@
         swaylock
         wf-recorder
         wl-clipboard
-        wlogout;
+        wlogout
+        ;
 
       palette = pkgs.writers.writeDashBin "palette" (import ./scripts/palette.nix);
       volume = pkgs.writers.writeDashBin "volume" (import ./scripts/volume.nix);
@@ -142,8 +153,14 @@
           layer = "bottom";
           position = "top";
           height = 17;
-          modules-left = [ "sway/workspaces" "sway/mode" ];
-          modules-right = [ "pulseaudio" "clock" ];
+          modules-left = [
+            "sway/workspaces"
+            "sway/mode"
+          ];
+          modules-right = [
+            "pulseaudio"
+            "clock"
+          ];
           modules = import ./config/waybar/modules.nix;
         }
       ];
@@ -189,16 +206,38 @@
         package = inputs'.nixpkgs-wayland.packages.swayidle;
 
         events = [
-          { event = "before-sleep"; command = display "off"; }
-          { event = "before-sleep"; command = "swaylock"; }
-          { event = "after-resume"; command = display "on"; }
-          { event = "lock"; command = display "off"; }
-          { event = "unlock"; command = display "on"; }
+          {
+            event = "before-sleep";
+            command = display "off";
+          }
+          {
+            event = "before-sleep";
+            command = "swaylock";
+          }
+          {
+            event = "after-resume";
+            command = display "on";
+          }
+          {
+            event = "lock";
+            command = display "off";
+          }
+          {
+            event = "unlock";
+            command = display "on";
+          }
         ];
 
         timeouts = [
-          { timeout = 300; command = display "off"; resumeCommand = display "on"; }
-          { timeout = 310; command = "swaylock"; }
+          {
+            timeout = 300;
+            command = display "off";
+            resumeCommand = display "on";
+          }
+          {
+            timeout = 310;
+            command = "swaylock";
+          }
         ];
       };
   };
@@ -354,8 +393,10 @@
       "wlogout/style.css".text = import ./config/wlogout/style.nix {
         inherit (config) colorscheme;
         iconsDirectory =
-          let inherit (inputs'.nixpkgs-wayland.packages) wlogout;
-          in "${wlogout}/share/wlogout/icons";
+          let
+            inherit (inputs'.nixpkgs-wayland.packages) wlogout;
+          in
+          "${wlogout}/share/wlogout/icons";
       };
     };
 

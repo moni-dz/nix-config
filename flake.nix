@@ -2,10 +2,20 @@
   description = "A somewhat huge NixOS/nix-darwin/home-manager configuration using Nix Flakes.";
   nixConfig.commit-lockfile-summary = "flake: bump inputs";
 
-  outputs = inputs: inputs.parts.lib.mkFlake { inherit inputs; } {
-    systems = [ "aarch64-darwin" "x86_64-linux" ];
-    imports = [ ./modules/parts ./overlays ./hosts ./users ];
-  };
+  outputs =
+    inputs:
+    inputs.parts.lib.mkFlake { inherit inputs; } {
+      systems = [
+        "aarch64-darwin"
+        "x86_64-linux"
+      ];
+      imports = [
+        ./modules/parts
+        ./overlays
+        ./hosts
+        ./users
+      ];
+    };
 
   inputs = {
     # Flake inputs
@@ -29,7 +39,10 @@
     nix-parallel.url = "github:DeterminateSystems/nix-src/multithreaded-eval";
 
     # Non-flake inputs
-    yabai = { url = "github:koekeishiya/yabai"; flake = false; };
+    yabai = {
+      url = "github:koekeishiya/yabai";
+      flake = false;
+    };
 
     # Nixpkgs branches
     master.url = "github:nixos/nixpkgs/master";

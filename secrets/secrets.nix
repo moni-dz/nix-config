@@ -8,8 +8,15 @@ let
   starcruiser = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKrPdqIiTrGqnN6eAhRuGl9ZV2sUz/IR85T3/TzUT4Ol";
   riscake = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEeZg4xxANKadIm8hnhM/rQrl77Xwwp0tFRnnANtFgI3";
 
-  users = [ moni.linux moni.darwin zero ];
-  hosts = [ starcruiser riscake ];
+  users = [
+    moni.linux
+    moni.darwin
+    zero
+  ];
+  hosts = [
+    starcruiser
+    riscake
+  ];
 in
 {
   "tokens.age".publicKeys = users ++ hosts;

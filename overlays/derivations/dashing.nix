@@ -1,4 +1,9 @@
-{ lib, buildPythonPackage, fetchPypi, blessed }:
+{
+  lib,
+  buildPythonPackage,
+  fetchPypi,
+  blessed,
+}:
 
 buildPythonPackage rec {
   pname = "dashing";

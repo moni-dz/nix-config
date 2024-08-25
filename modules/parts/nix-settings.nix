@@ -1,4 +1,9 @@
-{ lib, stdenv, inputs, inputs' }:
+{
+  lib,
+  stdenv,
+  inputs,
+  inputs',
+}:
 
 # Nix daemon settings that can't be put in `nixConfig`.
 {
@@ -11,7 +16,12 @@
       publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUI4OElSOXl0QnJCWlRycVpja0p0b1N2OVR6d1hNdDVQMm85RlcvVjNQd1Ygcm9vdEBtaXN0cmFsCg==";
       maxJobs = 2;
       speedFactor = 1;
-      supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
+      supportedFeatures = [
+        "nixos-test"
+        "benchmark"
+        "big-parallel"
+        "kvm"
+      ];
       mandatoryFeatures = [ ];
     };
   };
@@ -29,12 +39,12 @@
   nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 
   /*
-  package = inputs'.nix-parallel.packages.default.override {
-    pname = "nix-parallel";
-    doCheck = false;
-    doInstallCheck = false;
-    installUnitTests = false;
-  };
+    package = inputs'.nix-parallel.packages.default.override {
+      pname = "nix-parallel";
+      doCheck = false;
+      doInstallCheck = false;
+      installUnitTests = false;
+    };
   */
 
   package = inputs'.lix.packages.default.overrideAttrs { doCheck = false; };
@@ -48,7 +58,10 @@
   settings = lib.mkMerge [
     {
       accept-flake-config = true;
-      flake-registry = __toFile "begone-evil.json" (__toJSON { flakes = [ ]; version = 2; });
+      flake-registry = __toFile "begone-evil.json" (__toJSON {
+        flakes = [ ];
+        version = 2;
+      });
 
       experimental-features = [
         "auto-allocate-uids"
@@ -84,7 +97,11 @@
         "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
       ];
 
-      trusted-users = [ "root" "moni" "zero" ];
+      trusted-users = [
+        "root"
+        "moni"
+        "zero"
+      ];
 
       use-xdg-base-directories = true;
     }

@@ -1,6 +1,7 @@
 { colorscheme }:
 
-with colorscheme.colors; {
+with colorscheme.colors;
+{
   window-title-basename = true;
   selection-clipboard = "clipboard";
 
