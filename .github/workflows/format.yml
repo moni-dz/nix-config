@@ -14,4 +14,4 @@ jobs:
         install_url: https://github.com/numtide/nix-unstable-installer/releases/download/nix-2.10.0pre20220629_b7eb4ac/install
         extra_nix_config: |
           experimental-features = nix-command flakes
-    - run: nix run nixpkgs#nixpkgs-fmt -- --check ./
+    - run: nix run nixpkgs#nixfmt-rfc-style -- -c .

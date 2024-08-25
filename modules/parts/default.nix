@@ -94,6 +94,6 @@
           };
       };
 
-      formatter = inputs.nixfmt.packages.${system}.default;
+      formatter = inputs.nixpkgs.legacyPackages.${system}.nixfmt-rfc-style;
     };
 }

@@ -30,7 +30,7 @@
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
     nixos-wsl.url = "github:nix-community/nixos-wsl";
     nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
-    nixpkgs-fmt.url = "github:nix-community/nixpkgs-fmt";
+    nixfmt.url = "github:NixOS/nixfmt";
     nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
     nvim.url = "github:nix-community/neovim-nightly-overlay";
     parts.url = "github:hercules-ci/flake-parts";
