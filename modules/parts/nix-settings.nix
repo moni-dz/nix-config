@@ -28,14 +28,16 @@
 
   nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 
+  /*
   package = inputs'.nix-parallel.packages.default.override {
     pname = "nix-parallel";
     doCheck = false;
     doInstallCheck = false;
     installUnitTests = false;
   };
+  */
 
-  # package = inputs'.lix.packages.default;
+  package = inputs'.lix.packages.default.overrideAttrs { doCheck = false; };
 
   registry = {
     system.flake = inputs.self;
@@ -51,9 +53,10 @@
       experimental-features = [
         "auto-allocate-uids"
         "ca-derivations"
+        #"configurable-impure-env"
+        "dynamic-derivations"
         "flakes"
         "nix-command"
-        # "configurable-impure-env"
       ];
 
       max-jobs = "auto";

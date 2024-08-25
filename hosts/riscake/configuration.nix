@@ -64,7 +64,6 @@
       fira-code
       comic-neue
       fantasque-sans-mono
-      maple-mono-otf
       emacs-all-the-icons-fonts
       terminus_font_ttf
       unifont
