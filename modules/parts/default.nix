@@ -94,6 +94,6 @@
           };
       };
 
-      formatter = inputs.nixpkgs-fmt.defaultPackage.${system};
+      formatter = inputs.nixfmt.packages.${system}.default;
     };
 }
