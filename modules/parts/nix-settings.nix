@@ -13,7 +13,7 @@
       system = "x86_64-linux";
       sshUser = "moni";
       sshKey = "/Users/moni/.ssh/id_ed25519";
-      publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUI4OElSOXl0QnJCWlRycVpja0p0b1N2OVR6d1hNdDVQMm85RlcvVjNQd1Ygcm9vdEBtaXN0cmFsCg==";
+      publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUZEUkd5RFFsSFBvZ1lJdDBJSXdJKy8xRCtVM3FiT0hPWk95UHNBTjJOV3Qgcm9vdEB2bWkxOTk4NTU4Cg==";
       maxJobs = 2;
       speedFactor = 1;
       supportedFeatures = [
