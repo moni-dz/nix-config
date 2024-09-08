@@ -16,6 +16,16 @@
       server = true;
 
       modules = [
+        inputs.agenix.nixosModules.default
+
+        {
+          age.secrets.ms-sql-server = {
+            file = ../secrets/ms-sql-server.age;
+            owner = "moni";
+            mode = "0444";
+          };
+        }
+
         inputs.nix-minecraft.nixosModules.minecraft-servers
         ./mistral/configuration.nix
       ];

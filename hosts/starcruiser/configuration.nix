@@ -189,10 +189,10 @@
       # $ sudo smbpasswd -a yourusername
 
       # This adds to the [global] section:
-      extraConfig = ''
-        browseable = yes
-        smb encrypt = required
-      '';
+      settings."global" = {
+        browseable = "yes";
+        "smb encrypt" = "required";
+      };
 
       shares = {
         homes = {

@@ -1,6 +1,7 @@
 {
   inputs,
   modulesPath,
+  config,
   lib,
   pkgs,
   ...
@@ -30,8 +31,12 @@
   programs.fish.enable = true;
 
   networking.firewall = {
-    allowedTCPPorts = [ 4747 ];
-    allowedUDPPorts = [ 4747 ];
+    allowedTCPPorts = [
+      1433
+      4747
+    ];
+
+    interfaces.podman1.allowedUDPPorts = [ 53 ];
   };
 
   services = {
@@ -189,10 +194,40 @@
     };
   };
 
+  systemd.services.create-podman-network = with config.virtualisation.oci-containers; {
+    serviceConfig.Type = "oneshot";
+    wantedBy = [ "${backend}-ms-sql-server.service" ];
+
+    script = ''
+      ${lib.getExe pkgs.podman} network exists db-net || ${lib.getExe pkgs.podman} network create db-net
+    '';
+  };
+
   users.users.moni = {
     isNormalUser = true;
     home = "/home/moni";
     shell = pkgs.fish;
     extraGroups = [ "wheel" ];
+  };
+
+  virtualisation = {
+    podman.enable = true;
+
+    oci-containers = {
+      backend = "podman";
+
+      containers.ms-sql-server = {
+        image = "mcr.microsoft.com/mssql/server:2022-latest";
+        autoStart = true;
+        ports = [ "1433:1433" ];
+
+        environment = {
+          ACCEPT_EULA = "Y";
+          MSSQL_SA_PASSWORD = __readFile config.age.secrets.ms-sql-server.path; # yes, this is bad but I don't have much choice...
+        };
+
+        extraOptions = [ "--network=db-net" ];
+      };
+    };
   };
 }
