@@ -135,13 +135,6 @@
       };
     };
 
-    discocss = {
-      enable = false;
-      discordAlias = true;
-      discordPackage = pkgs.discord-canary;
-      css = import ./config/discocss-css.nix { inherit (config) colorscheme; };
-    };
-
     ncspot.enable = true;
 
     waybar = {

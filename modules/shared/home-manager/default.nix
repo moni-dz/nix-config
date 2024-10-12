@@ -86,46 +86,6 @@
       };
     };
 
-    helix = {
-      enable = false;
-      defaultEditor = false;
-
-      themes = {
-        rose-pine = fromTOML (
-          __readFile (__fetchurl {
-            url = "https://raw.githubusercontent.com/rose-pine/helix/main/rose_pine.toml";
-            sha256 = "sha256-C9PRimsu8JOHMDVAZovTwGtNnjM0/ZHHnJ8igtcalHs";
-          })
-        );
-
-        rose-pine-moon = fromTOML (
-          __readFile (__fetchurl {
-            url = "https://raw.githubusercontent.com/rose-pine/helix/main/rose_pine_moon.toml";
-            sha256 = "sha256-6okdImytU6EU10UuiOdWE5OP7t0pWf5wx/bFK43DDgk=";
-          })
-        );
-
-        rose-pine-dawn = fromTOML (
-          __readFile (__fetchurl {
-            url = "https://raw.githubusercontent.com/rose-pine/helix/main/rose_pine_dawn.toml";
-            sha256 = "sha256-9WNRaI3OIhSquwNmQCkYgicCZGvcEBmari6m+pAg0b8=";
-          })
-        );
-      };
-
-      settings = {
-        theme = "rose-pine";
-
-        editor = {
-          cursor-shape = {
-            insert = "bar";
-            normal = "block";
-            select = "underline";
-          };
-        };
-      };
-    };
-
     home-manager = {
       enable = true;
       path = lib.mkForce "${inputs.home}";
@@ -177,56 +137,6 @@
     };
 
     nix-index-database.comma.enable = lib.mkDefault true;
-
-    neovim = {
-      enable = false;
-      defaultEditor = false;
-
-      plugins = __attrValues {
-        inherit (pkgs.vimPlugins)
-          which-key-nvim
-          nvim-lspconfig
-          nvim-cmp
-          cmp-nvim-lsp
-          cmp-vsnip
-          cmp-path
-          cmp-buffer
-          popup-nvim
-          plenary-nvim
-          telescope-nvim
-          rust-tools-nvim
-          rose-pine
-          leap-nvim
-          ;
-
-        nvim-treesitter = pkgs.vimPlugins.nvim-treesitter.withAllGrammars;
-
-        auto-dark-mode-nvim = pkgs.vimUtils.buildVimPlugin {
-          name = "auto-dark-mode-nvim";
-
-          src = pkgs.fetchFromGitHub {
-            owner = "f-person";
-            repo = "auto-dark-mode.nvim";
-            rev = "7d15094390f1a0638a5e533022e99a6aa503dbdf";
-            hash = "sha256-f3AJukU9osmHFAWxmSEAw5/GsQyBXDVPdW3eUJJSNpM=";
-          };
-        };
-
-        inlay-hints-nvim = pkgs.vimUtils.buildVimPlugin {
-          name = "inlay-hints-nvim";
-
-          src = pkgs.fetchFromGitHub {
-            owner = "simrat39";
-            repo = "inlay-hints.nvim";
-            rev = "006b0898f5d3874e8e528352103733142e705834";
-            hash = "sha256-cDWx08N+NhN5Voxh8f7RGzerbAYB5FHE6TpD4/o/MIQ=";
-          };
-        };
-      };
-
-      package = inputs'.nvim.packages.default;
-      extraLuaConfig = __readFile ./config/init.lua;
-    };
 
     starship = {
       enable = true;

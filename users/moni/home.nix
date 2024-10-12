@@ -16,36 +16,16 @@
     packages = __attrValues {
       inherit (pkgs)
         asitop
-        avrdude
         fanbox-dl
         curl
-        coreutils-prefixed
         nix-output-monitor
         parallel
         fd
-        gnugrep
-        shellcheck
         ripgrep
         jq
         pfetch
-        pandoc
-        helix
-        sqlite
-        libheif
-        screen
-        exiv2
-        dua
-        doctl
-        zstd
-        hyperfine
-        ffmpeg
-        blisp
-        picotool
-        typst
-        tinymist
         ;
 
-      # inherit (inputs'.nixpkgs-f2k.packages) wezterm-git;
       inherit (inputs'.nil.packages) nil;
       inherit (inputs'.nvim.packages) neovim;
     };

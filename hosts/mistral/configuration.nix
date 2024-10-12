@@ -223,7 +223,7 @@
 
         environment = {
           ACCEPT_EULA = "Y";
-          MSSQL_SA_PASSWORD = __readFile config.age.secrets.ms-sql-server.path; # yes, this is bad but I don't have much choice...
+          # MSSQL_SA_PASSWORD = __readFile config.age.secrets.ms-sql-server.path; # yes, this is bad but I don't have much choice...
         };
 
         extraOptions = [ "--network=db-net" ];
