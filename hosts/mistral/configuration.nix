@@ -34,6 +34,7 @@
     allowedTCPPorts = [
       1433
       4747
+      5432
     ];
 
     interfaces.podman1.allowedUDPPorts = [ 53 ];
@@ -48,6 +49,12 @@
         GatewayPorts = "yes";
         PermitRootLogin = "yes";
       };
+    };
+
+    postgresql = {
+      enable = true;
+      package = pkgs.postgresql_17;
+      enableTCPIP = true;
     };
 
     minecraft-servers = {
