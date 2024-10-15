@@ -19,6 +19,7 @@
       inherit (pkgs)
         bat
         ripgrep
+        jujutsu
         difftastic
         nixpkgs-fmt
         nixpkgs-review

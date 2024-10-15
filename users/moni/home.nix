@@ -24,6 +24,7 @@
         ripgrep
         jq
         pfetch
+        nixd
         ;
 
       inherit (inputs'.nil.packages) nil;

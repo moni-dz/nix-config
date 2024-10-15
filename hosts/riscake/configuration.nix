@@ -14,7 +14,6 @@
     shells = __attrValues { inherit (pkgs) fish; };
 
     systemPackages = __attrValues {
-      inherit (pkgs) gawk;
       inherit (inputs'.agenix.packages) agenix;
     };
   };
