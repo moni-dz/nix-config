@@ -27,15 +27,6 @@
   };
 
   distributedBuilds = true;
-
-  extraOptions = ''
-    keep-outputs = true
-    keep-derivations = true
-    auto-allocate-uids = true
-    builders-use-substitutes = true
-    http-connections = 0
-  '';
-
   nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 
   /*
@@ -47,7 +38,7 @@
     };
   */
 
-  package = inputs'.lix.packages.default.overrideAttrs { doCheck = false; };
+  # package = inputs'.lix.packages.default.overrideAttrs { doCheck = false; };
 
   registry = {
     system.flake = inputs.self;
@@ -57,7 +48,15 @@
 
   settings = lib.mkMerge [
     {
+      auto-allocate-uids = true;
+      keep-outputs = true;
+      keep-derivations = true;
+      keep-going = true;
+      builders-use-substitutes = true;
+      allow-unsafe-native-code-during-evaluation = true;
       accept-flake-config = true;
+      http-connections = 0;
+      
       flake-registry = __toFile "begone-evil.json" (__toJSON {
         flakes = [ ];
         version = 2;
@@ -66,10 +65,11 @@
       experimental-features = [
         "auto-allocate-uids"
         "ca-derivations"
-        #"configurable-impure-env"
+        # "configurable-impure-env"
         "dynamic-derivations"
         "flakes"
         "nix-command"
+        # "pipe-operator"
       ];
 
       max-jobs = "auto";

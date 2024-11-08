@@ -9,5 +9,10 @@ _:
         pydashing = pfinal.callPackage ./derivations/dashing.nix { };
       };
     };
+
+    iosevka-ft = prev.iosevka.override {
+      privateBuildPlan = __readFile ./patches/iosevka-ft-build-plan.toml;
+      set = "Ft";
+    };
   };
 }

@@ -1,0 +1,96 @@
+[buildPlans.IosevkaFt]
+family = "Iosevka FT"
+spacing = "term"
+serifs = "sans"
+noCvSs = false
+exportGlyphNames = true
+
+  [buildPlans.IosevkaFt.variants]
+  inherits = "ss14"
+
+    [buildPlans.IosevkaFt.variants.design]
+    two = "curly-neck-serifless"
+    three = "two-arcs"
+    four = "closed-serifless"
+    five = "upright-flat-serifless"
+    six = "closed-contour"
+    seven = "straight-serifless"
+    eight = "crossing-asymmetric"
+    nine = "closed-contour"
+    zero = "dotted"
+    capital-j = "serifless"
+    capital-k = "curly-serifless"
+    capital-r = "curly-serifless"
+    capital-w = "straight-serifless"
+    a = "double-storey-tailed"
+    b = "toothed-serifless"
+    d = "tailed-serifed"
+    f = "flat-hook-serifless"
+    g = "single-storey-serifless"
+    h = "straight-serifless"
+    i = "serifed"
+    k = "curly-serifless"
+    l = "serifed-flat-tailed"
+    m = "serifless"
+    p = "eared-serifless"
+    q = "straight-serifless"
+    s = "serifless"
+    t = "flat-hook-short-neck"
+    u = "tailed-serifless"
+    w = "straight-flat-top-serifless"
+    x = "straight-serifless"
+    y = "cursive-serifless"
+    z = "straight-serifless"
+    lower-alpha = "crossing"
+    lower-delta = "flat-top"
+    lower-lambda = "tailed-turn"
+    lower-mu = "tailed-serifless"
+    lower-nu = "straight"
+    lower-xi = "rounded"
+    lower-psi = "serifless"
+    cyrl-capital-ka = "curly-serifless"
+    cyrl-ka = "curly-serifless"
+    cyrl-capital-u = "cursive-serifless"
+    cyrl-u = "cursive-serifless"
+    braille-dot = "round"
+    asterisk = "hex-low"
+    underscore = "above-baseline"
+    caret = "high"
+    ascii-grave = "raised-turn-comma"
+    ascii-single-quote = "raised-comma"
+    paren = "normal"
+    brace = "curly-flat-boundary"
+    ampersand = "upper-open"
+    at = "compact"
+    dollar = "slanted-through"
+    cent = "slanted-through"
+    percent = "rings-segmented-slash"
+    question = "smooth"
+    micro-sign = "tailed-serifless"
+
+    [buildPlans.IosevkaFt.variants.italic]
+    a = "double-storey-serifless"
+    f = "serifless"
+    z = "straight-serifless"
+
+    [buildPlans.IosevkaFt.variants.oblique]
+    f = "serifless"
+    cyrl-ef = "cursive"
+
+  [buildPlans.IosevkaFt.ligations]
+  inherits = "dlig"
+
+[buildPlans.IosevkaFt.widths.Normal]
+shape = 500
+menu = 5
+css = "normal"
+
+[buildPlans.IosevkaFt.widths.Extended]
+shape = 600
+menu = 7
+css = "expanded"
+
+[buildPlans.IosevkaFt.widths.UltraExtended]
+shape = 720
+menu = 9
+css = "ultra-expanded"
