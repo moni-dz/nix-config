@@ -23,6 +23,6 @@
   security.pam.enableSudoTouchIdAuth = true;
 
   fonts.packages = __attrValues {
-    inherit (pkgs) comic-neue iosevka-ft;
+    inherit (pkgs) comic-neue;
   };
 }

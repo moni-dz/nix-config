@@ -19,7 +19,6 @@
       inherit (pkgs)
         bat
         ripgrep
-        jujutsu
         difftastic
         nixpkgs-fmt
         nixpkgs-review
@@ -31,7 +30,7 @@
     };
 
     sessionVariables = {
-      EDITOR = "nvim";
+      EDITOR = "nano";
       MANPAGER = "nvim +Man! -c 'nnoremap i <nop>'";
     };
   };
@@ -51,6 +50,7 @@
 
     direnv = {
       enable = true;
+      silent = true;
       nix-direnv.enable = true;
     };
 

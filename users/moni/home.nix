@@ -15,7 +15,6 @@
   home = {
     packages = __attrValues {
       inherit (pkgs)
-        asitop
         fanbox-dl
         curl
         nix-output-monitor
@@ -28,11 +27,6 @@
         ;
 
       inherit (inputs'.nil.packages) nil;
-      inherit (inputs'.nvim.packages) neovim;
-    };
-
-    sessionVariables = {
-      MODULAR_HOME = "/Users/moni/.local/share/modular";
     };
   };
 
@@ -59,6 +53,7 @@
         fish_add_path -amP /Applications/ArmGNUToolchain/13.2.Rel1/arm-none-eabi/bin
         fish_add_path -amP /usr/bin
         fish_add_path -amP /opt/homebrew/bin
+        fish_add_path -amP /Users/moni/.modular/bin
         fish_add_path -amP /usr/local/smlnj/bin
         fish_add_path -amP /opt/local/bin
         fish_add_path -amP /opt/homebrew/opt/llvm/bin

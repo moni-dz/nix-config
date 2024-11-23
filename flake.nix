@@ -31,13 +31,10 @@
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
     nixos-wsl.url = "github:nix-community/nixos-wsl";
     nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
-    nixfmt.url = "github:NixOS/nixfmt";
     nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
     nvim.url = "github:nix-community/neovim-nightly-overlay";
     parts.url = "github:hercules-ci/flake-parts";
     statix.url = "github:nerdypepper/statix";
-    lix.url = "git+https://git.lix.systems/lix-project/lix.git";
-    # nix-parallel.url = "github:DeterminateSystems/nix-src/multithreaded-eval";
 
     # Non-flake inputs
 
