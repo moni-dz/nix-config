@@ -1,22 +1,10 @@
 { self, inputs, ... }:
 
 {
-  flake.overlays.default = final: prev: {
-    iosevka-ft = prev.iosevka.override {
-      privateBuildPlan = __readFile ./patches/iosevka-ft-build-plan.toml;
-      set = "Ft";
-    };
-  };
+  imports = [ ./overlays.nix ];
 
   perSystem =
-    { lib, system, ... }:
-    let
-      pkgs = import inputs.nixpkgs {
-        inherit system;
-        allowUnfree = true;
-        allowUnsupportedSystem = true;
-      };
-    in
+    { pkgs, ... }:
     {
       packages = removeAttrs (self.overlays.default pkgs pkgs) [ "lib" ];
     };
