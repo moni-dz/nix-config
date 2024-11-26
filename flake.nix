@@ -11,7 +11,7 @@
       ];
       imports = [
         ./modules/parts
-        ./overlays
+        ./packages
         ./hosts
         ./users
       ];
