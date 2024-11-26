@@ -37,7 +37,6 @@
           hostPlatform = system;
 
           overlays = lib.mkForce [
-            inputs.emacs.overlay
             inputs.nixpkgs-f2k.overlays.stdenvs
             self.overlays.default
           ];

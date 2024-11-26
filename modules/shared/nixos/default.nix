@@ -146,7 +146,6 @@
   fonts = {
     packages = __attrValues {
       inherit (pkgs)
-        emacs-all-the-icons-fonts
         fantasque-sans-mono
         # NOTE: use only when current is outdated
         # iosevka-ft
