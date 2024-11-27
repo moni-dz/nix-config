@@ -10,7 +10,7 @@
           set = "Ft";
         };
 
-        lib = (inputs.nixpkgs-f2k.overlays.default final prev).lib;
+        inherit (inputs.nixpkgs-f2k.overlays.default final prev) lib;
       }
       // (inputs.nvim.overlays.default final prev);
   };
