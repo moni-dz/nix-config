@@ -5,7 +5,7 @@
     default =
       final: prev:
       {
-        iosevkaft = prev.iosevka.override {
+        iosevka-ft = prev.iosevka.override {
           privateBuildPlan = __readFile ./patches/iosevka-ft-build-plan.toml;
           set = "Ft";
         };

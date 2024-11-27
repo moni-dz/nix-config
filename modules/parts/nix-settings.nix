@@ -5,7 +5,6 @@
   inputs',
 }:
 
-# Nix daemon settings that can't be put in `nixConfig`.
 {
   buildMachines = __attrValues {
     mistral = {
@@ -28,17 +27,6 @@
 
   distributedBuilds = true;
   nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
-
-  /*
-    package = inputs'.nix-parallel.packages.default.override {
-      pname = "nix-parallel";
-      doCheck = false;
-      doInstallCheck = false;
-      installUnitTests = false;
-    };
-  */
-
-  # package = inputs'.lix.packages.default.overrideAttrs { doCheck = false; };
 
   registry = {
     system.flake = inputs.self;
@@ -69,7 +57,6 @@
         "dynamic-derivations"
         "flakes"
         "nix-command"
-        # "pipe-operator"
       ];
 
       max-jobs = "auto";
@@ -119,5 +106,6 @@
     }
 
     (lib.mkIf (stdenv.isDarwin && stdenv.isAarch64) { extra-platforms = "x86_64-darwin"; })
+    (lib.mkIf stdenv.isDarwin { sandbox = "relaxed"; })
   ];
 }

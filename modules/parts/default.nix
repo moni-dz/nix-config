@@ -12,6 +12,7 @@
       lib,
       pkgs,
       system,
+      self',
       inputs',
       ...
     }:
@@ -35,11 +36,7 @@
           };
 
           hostPlatform = system;
-
-          overlays = lib.mkForce [
-            inputs.nixpkgs-f2k.overlays.stdenvs
-            self.overlays.default
-          ];
+          overlays = [ self.overlays.default ];
         };
 
         # Extra arguments passed to the module system for nix-darwin, NixOS, and home-manager
@@ -87,7 +84,7 @@
             home-manager = inputs'.home.packages.home-manager.override { path = "${inputs.home}"; };
 
             man-pages =
-              if pkgs.stdenv.isLinux then pkgs.man-pages else inputs'.nixpkgs-f2k.packages.man-pages-xnu;
+              if pkgs.stdenv.isLinux then pkgs.man-pages else self'.packages.man-pages-xnu;
 
             gnu-coreutils = if pkgs.stdenv.isLinux then pkgs.coreutils else pkgs.coreutils-prefixed;
           };

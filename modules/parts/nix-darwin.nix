@@ -50,8 +50,7 @@ let
             (
               { pkgs, ... }:
               {
-                inherit (ctx) nix;
-                nixpkgs = removeAttrs ctx.nixpkgs [ "hostPlatform" ];
+                inherit (ctx) nix nixpkgs;
                 _module.args = ctx.extraModuleArgs;
                 networking.hostName = name;
                 system.stateVersion = config.stateVersion;
