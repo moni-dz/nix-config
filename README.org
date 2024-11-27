@@ -4,7 +4,7 @@
 
 [[assets/nixos-official-logo.png]]
 
-[[https://github.com/nixos/nixpkgs][file:https://img.shields.io/badge/NixOS-24.05-informational?style=flat.svg]]
+[[https://github.com/nixos/nixpkgs][file:https://img.shields.io/badge/NixOS-24.11-informational?style=flat.svg]]
 
 [[https://github.com/fortuneteller2k/nix-config/actions/workflows/check.yml][https://github.com/fortuneteller2k/nix-config/actions/workflows/check.yml/badge.svg]] [[https://github.com/fortuneteller2k/nix-config/actions/workflows/statix.yml][https://github.com/fortuneteller2k/nix-config/actions/workflows/statix.yml/badge.svg]] [[https://github.com/fortuneteller2k/nix-config/actions/workflows/format.yml][https://github.com/fortuneteller2k/nix-config/actions/workflows/format.yml/badge.svg]] 
 
@@ -13,7 +13,7 @@
 
 (I highly recommend making your own configuration and copy snippets from mine, but anyway...)
 
-Get the latest NixOS 24.05 image [[https://releases.nixos.org/?prefix=nixos/unstable/][here]], do your partitions (root must be mounted at =/mnt=), then run the following commands:
+Get the latest NixOS 24.11 image [[https://releases.nixos.org/?prefix=nixos/unstable/][here]], do your partitions (root must be mounted at =/mnt=), then run the following commands:
 #+begin_src sh
   # move the output file of this to hosts/*/hardware-configuration.nix
   nixos-generate-config
