@@ -11,11 +11,23 @@
       ];
 
       imports = [
+        inputs.parts.flakeModules.partitions
         ./modules/parts
-        ./packages
         ./hosts
         ./users
       ];
+
+      partitions = {
+        drvs = {
+          extraInputsFlake = ./packages;
+          module = ./packages/module.nix;
+        };
+      };
+
+      partitionedAttrs = {
+        overlays = "drvs";
+        packages = "drvs";
+      };
     };
 
   inputs = {
@@ -24,23 +36,17 @@
     darwin.url = "github:lnl7/nix-darwin";
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/0.1";
     home.url = "github:nix-community/home-manager";
-    nil.url = "github:oxalica/nil";
-    nix.url = "github:nixos/nix";
     nix-colors.url = "github:Misterio77/nix-colors";
     nix-index-database.url = "github:Mic92/nix-index-database";
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
     nixos-wsl.url = "github:nix-community/nixos-wsl";
-    nixpkgs-f2k.url = "github:fortuneteller2k/nixpkgs-f2k";
-    nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
-    nvim.url = "github:nix-community/neovim-nightly-overlay";
     parts.url = "github:hercules-ci/flake-parts";
-    statix.url = "github:nerdypepper/statix";
 
     # Non-flake inputs
 
     # Nixpkgs branches
     master.url = "github:nixos/nixpkgs/master";
-    stable.url = "github:nixos/nixpkgs/release-23.05";
+    stable.url = "github:nixos/nixpkgs/release-24.11";
     unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
     # Default Nixpkgs for packages and modules
@@ -51,11 +57,8 @@
     agenix.inputs.darwin.follows = "darwin";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     home.inputs.nixpkgs.follows = "nixpkgs";
-    nix.inputs.nixpkgs.follows = "nixpkgs";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
     nix-minecraft.inputs.nixpkgs.follows = "nixpkgs";
     nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
-    nixpkgs-f2k.inputs.nixpkgs.follows = "nixpkgs";
-    statix.inputs.nixpkgs.follows = "nixpkgs";
   };
 }

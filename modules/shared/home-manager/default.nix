@@ -28,7 +28,7 @@
 
       inherit (pkgs.gitAndTools) gh;
       inherit (inputs'.agenix.packages) agenix;
-      inherit (inputs'.nvim.packages) neovim;
+      inherit (self'.packages) neovim;
     };
 
     sessionVariables = {

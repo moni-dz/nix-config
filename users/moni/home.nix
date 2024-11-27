@@ -24,9 +24,8 @@
         jq
         pfetch
         nixd
+        nil
         ;
-
-      inherit (inputs'.nil.packages) nil;
     };
   };
 

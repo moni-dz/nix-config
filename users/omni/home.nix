@@ -1,5 +1,6 @@
 {
   config,
+  self',
   inputs,
   inputs',
   lib,
@@ -36,7 +37,7 @@
     theme = {
       name = "phocus";
 
-      package = inputs'.nixpkgs-f2k.packages.phocus-modified.override {
+      package = self'.packages.phocus-modified.override {
         inherit (config.colorscheme) colors;
         primary = config.colorscheme.colors.base0D;
         secondary = config.colorscheme.colors.base0E;
@@ -89,7 +90,7 @@
       inherit (pkgs.sway-contrib) grimshot;
       inherit (inputs'.agenix.packages) agenix;
 
-      inherit (inputs'.nixpkgs-wayland.packages)
+      inherit (self'.packages)
         grim
         slurp
         swaybg
@@ -139,7 +140,7 @@
 
     waybar = {
       enable = true;
-      package = inputs'.nixpkgs-wayland.packages.waybar;
+      package = self'.packages.waybar;
 
       settings = [
         {
@@ -177,7 +178,7 @@
     dunst = {
       enable = true;
 
-      package = inputs'.nixpkgs-wayland.packages.dunst.overrideAttrs (old: {
+      package = self'.packages.dunst.overrideAttrs (old: {
         __contentAddressed = true;
       });
 
@@ -196,7 +197,7 @@
       in
       {
         enable = true;
-        package = inputs'.nixpkgs-wayland.packages.swayidle;
+        package = self'.packages.swayidle;
 
         events = [
           {
@@ -387,7 +388,7 @@
         inherit (config) colorscheme;
         iconsDirectory =
           let
-            inherit (inputs'.nixpkgs-wayland.packages) wlogout;
+            inherit (self'.packages) wlogout;
           in
           "${wlogout}/share/wlogout/icons";
       };
