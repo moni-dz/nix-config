@@ -3,8 +3,8 @@
   lib,
   pkgs,
   options,
+  self',
   inputs,
-  inputs',
   system,
   ...
 }:
@@ -156,17 +156,10 @@
         twemoji-color-font
         ;
 
-      inherit (inputs'.nixpkgs-f2k.packages)
+      inherit (self'.packages)
         iosevka-ft-bin
         iosevka-ft-qp-bin
         ;
-
-      nerdfonts = pkgs.nerdfonts.override {
-        fonts = [
-          "FantasqueSansMono"
-          "Iosevka"
-        ];
-      };
     };
 
     fontconfig = {
