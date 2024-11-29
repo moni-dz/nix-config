@@ -1,5 +1,6 @@
 {
   config,
+  self',
   inputs,
   inputs',
   lib,
@@ -19,10 +20,8 @@
   home = {
     packages = __attrValues {
       inherit (pkgs)
-        bat
         ripgrep
         difftastic
-        nixpkgs-fmt
         nixpkgs-review
         ;
 
@@ -32,7 +31,7 @@
     };
 
     sessionVariables = {
-      EDITOR = "nano";
+      EDITOR = "nvim";
       MANPAGER = "nvim +Man! -c 'nnoremap i <nop>'";
     };
   };

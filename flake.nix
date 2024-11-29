@@ -22,11 +22,17 @@
           extraInputsFlake = ./packages;
           module = ./packages/module.nix;
         };
+
+        dev = {
+          extraInputsFlake = ./dev;
+          module = ./dev/module.nix;
+        };
       };
 
       partitionedAttrs = {
         overlays = "drvs";
         packages = "drvs";
+        formatter = "dev";
       };
     };
 
@@ -46,8 +52,6 @@
 
     # Nixpkgs branches
     master.url = "github:nixos/nixpkgs/master";
-    stable.url = "github:nixos/nixpkgs/release-24.11";
-    unstable.url = "github:nixos/nixpkgs/nixpkgs-unstable";
 
     # Default Nixpkgs for packages and modules
     nixpkgs.follows = "master";
@@ -56,6 +60,7 @@
     agenix.inputs.nixpkgs.follows = "nixpkgs";
     agenix.inputs.darwin.follows = "darwin";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
+    determinate.inputs.nixpkgs.follows = "nixpkgs";
     home.inputs.nixpkgs.follows = "nixpkgs";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
     nix-minecraft.inputs.nixpkgs.follows = "nixpkgs";

@@ -41,29 +41,8 @@
 
         # Extra arguments passed to the module system for nix-darwin, NixOS, and home-manager
         extraModuleArgs = {
-          inherit inputs' system;
+          inherit self' inputs' system;
           inputs = lib.mkForce inputs;
-
-          /*
-            One can access these nixpkgs branches like so:
-
-            `branches.stable.mpd'
-            `branches.master.linuxPackages_xanmod'
-          */
-          branches =
-            let
-              pkgsFrom =
-                branch: system:
-                import branch {
-                  inherit system;
-                  inherit (nixpkgs) config overlays;
-                };
-            in
-            {
-              master = pkgsFrom inputs.master system;
-              unstable = pkgsFrom inputs.unstable system;
-              stable = pkgsFrom inputs.stable system;
-            };
         };
 
         # NixOS and nix-darwin base environment.systemPackages
@@ -83,13 +62,10 @@
 
             home-manager = inputs'.home.packages.home-manager.override { path = "${inputs.home}"; };
 
-            man-pages =
-              if pkgs.stdenv.isLinux then pkgs.man-pages else self'.packages.man-pages-xnu;
+            man-pages = if pkgs.stdenv.isLinux then pkgs.man-pages else self'.packages.man-pages-xnu;
 
             gnu-coreutils = if pkgs.stdenv.isLinux then pkgs.coreutils else pkgs.coreutils-prefixed;
           };
       };
-
-      formatter = inputs.nixpkgs.legacyPackages.${system}.nixfmt-rfc-style;
     };
 }
