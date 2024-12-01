@@ -1,5 +1,6 @@
 {
   description = "Stub flake for drv partition dependencies";
+  nixConfig.commit-lockfile-summary = "flake: bump package inputs";
   outputs = _: { };
 
   inputs = {
