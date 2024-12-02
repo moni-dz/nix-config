@@ -41,7 +41,12 @@
 
         # Extra arguments passed to the module system for nix-darwin, NixOS, and home-manager
         extraModuleArgs = {
-          inherit self' inputs' inputs system;
+          inherit
+            self'
+            inputs'
+            inputs
+            system
+            ;
         };
 
         # NixOS and nix-darwin base environment.systemPackages
