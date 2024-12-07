@@ -23,11 +23,11 @@
     fish = {
       enable = true;
       shellAbbrs = {
-        ls = "eza";
-        ll = "eza -l";
-        la = "eza -a";
-        lt = "eza --tree";
-        lla = "eza -la";
+        ls = "eza --hyperlink";
+        ll = "eza -l --hyperlink";
+        la = "eza -a --hyperlink";
+        lt = "eza --tree --hyperlink";
+        lla = "eza -la --hyperlink";
         mv = "mv -i";
         cp = "cp -i";
         rm = "rm -i";
