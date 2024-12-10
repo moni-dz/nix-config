@@ -3,7 +3,7 @@
 {
   programs = {
     dircolors = {
-      enable = true;
+      enable = false;
       enableFishIntegration = config.programs.fish.enable;
 
       extraConfig = __readFile (
