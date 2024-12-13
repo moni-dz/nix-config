@@ -1,11 +1,12 @@
-{ config
-, lib
-, pkgs
-, system
-, self
-, inputs
-, inputs'
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  system,
+  self,
+  inputs,
+  inputs',
+  ...
 }:
 
 {
@@ -43,7 +44,10 @@
       enable = true;
       enableScriptingAddition = true;
 
-      config = let gap = 8; in
+      config =
+        let
+          gap = 8;
+        in
         {
           layout = "bsp";
           mouse_follows_focus = "off";
@@ -57,6 +61,8 @@
         };
 
       extraConfig = ''
+        yabai -m signal --add app='^Ghostty$' event=window_created action='yabai -m space --layout bsp'
+        yabai -m signal --add app='^Ghostty$' event=window_destroyed action='yabai -m space --layout bsp'
         yabai -m rule --add app='System Settings' manage=off
         yabai -m rule --add app='Finder' manage=off
       '';

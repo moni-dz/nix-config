@@ -2,6 +2,11 @@
 
 {
   programs = {
+    atuin = {
+      enable = true;
+      daemon.enable = true;
+    };
+
     dircolors = {
       enable = false;
       enableFishIntegration = config.programs.fish.enable;
@@ -45,48 +50,61 @@
       enable = true;
       settings = {
         command_timeout = 3000;
-        format = "$username$hostname$nix_shell$character";
-        right_format = "$directory$git_branch$git_commit$git_state$git_status";
+        format = "$hostname$username$nix_shell$character";
+        right_format = "$directory$git_branch$git_state$git_commit$git_status";
 
         character = {
-          success_symbol = "[♥](bold green)";
-          error_symbol = "[♥](bold red)";
-          vimcmd_symbol = "[♡](bold purple)";
-          vimcmd_replace_symbol = "[♡](bold green)";
-          vimcmd_replace_one_symbol = "[♡](bold green)";
-          vimcmd_visual_symbol = "[♡](bold yellow)";
+          success_symbol = "[ ♥ ](fg:black bg:cyan)";
+          error_symbol = "[ ♥ ](fg:black bg:red)";
+          vimcmd_symbol = "[ ♡ ](fg:black bg:purple)";
+          vimcmd_replace_symbol = "[ ♡ ](fg:black bg:green)";
+          vimcmd_replace_one_symbol = "[ ♡ ](fg:black bg:green)";
+          vimcmd_visual_symbol = "[ ♡ ](fg:black bg:yellow)";
         };
 
         username = {
-          format = "[$user]($style) ";
+          style_user = "bg:purple fg:black";
+          style_root = "bg:red fg:black";
+          format = "[ $user ]($style)";
           disabled = false;
           show_always = true;
         };
 
         hostname = {
+          style = "fg:black bg:blue";
           ssh_only = true;
           ssh_symbol = "";
-          format = "at [$hostname](bold blue) ";
+          format = "[ ✦ $hostname ✦ ]($style)";
           disabled = false;
         };
 
-        git_commit.format = ''( [\($hash$tag\)]($style))'';
-        git_state.format = " [\\($state( $progress_current/$progress_total)\\)]($style)";
+        git_commit = {
+          style = "fg:black bg:purple";
+          format = ''[ $hash$tag ]($style)'';
+        };
+
+        git_state = {
+          style = "fg:black bg:red";
+          format = "[ $state $progress_current/$progress_total ]($style)";
+        };
 
         git_status = {
-          ahead = "↑";
-          behind = "↓";
-          conflicted = "±";
-          deleted = "×";
-          diverged = "↕";
-          modified = "‼";
-          renamed = "≡";
-          stashed = "⌂";
-          format = ''( [\[$all_status$ahead_behind\]]($style))'';
+          style = "fg:black bg:red";
+          ahead = "▲";
+          behind = "▼";
+          conflicted = "± ";
+          deleted = "× ";
+          diverged = "◊";
+          up_to_date = "♥";
+          modified = "‼ ";
+          renamed = "≡ ";
+          stashed = "▽ ";
+          format = ''[ $all_status$ahead_behind ]($style)'';
         };
 
         git_branch = {
-          format = " → [$symbol$branch(:$remote_branch)]($style)";
+          style = "fg:black bg:green";
+          format = "[ $symbol$branch(:$remote_branch) ]($style)";
           symbol = "";
         };
 
@@ -94,11 +112,16 @@
         line_break.disabled = true;
 
         directory = {
-          read_only = "(ro)";
-          format = "[$read_only]($read_only_style) [$path]($style)";
+          style = "bg:blue fg:black";
+          read_only_style = "bg:red fg:black";
+          read_only = " RO ";
+          format = "[$read_only]($read_only_style)[ $path ]($style)";
         };
 
-        nix_shell.format = "[(\\($name\\))]($style) ";
+        nix_shell = {
+          style = "fg:black bg:yellow";
+          format = "[ $name ]($style)";
+        };
       };
     };
 

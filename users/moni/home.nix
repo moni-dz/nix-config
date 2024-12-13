@@ -1,7 +1,8 @@
-{ config
-, inputs'
-, pkgs
-, ...
+{
+  config,
+  inputs',
+  pkgs,
+  ...
 }:
 
 /*
@@ -24,21 +25,6 @@
         ;
     };
   };
-
-  xdg.configFile."ghostty/testing.glsl".text = ''
-    void mainImage(out vec4 fragColor, in vec2 fragCoord)
-    {
-            vec2 uv = fragCoord.xy / iResolution.xy;
-            vec3 gradientStartColor = vec3(0.188,0.204,0.275);
-            vec3 gradientEndColor = vec3(0.067,0.067,0.106);
-            float mixValue = distance(uv, vec2(0.25, 0.5));
-            vec3 gradientColor = mix(gradientStartColor, gradientEndColor, mixValue);
-            vec4 terminalColor = texture(iChannel0, uv);
-            float mask = 1.0 - step(0.5, dot(terminalColor.rgb, vec3(1.0)));
-            vec3 blendedColor = mix(terminalColor.rgb, gradientColor, mask);
-            fragColor = vec4(blendedColor, terminalColor.a);
-    }
-  '';
 
   programs = {
     fish = {
