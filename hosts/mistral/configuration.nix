@@ -1,10 +1,9 @@
-{
-  inputs,
-  modulesPath,
-  config,
-  lib,
-  pkgs,
-  ...
+{ inputs
+, modulesPath
+, config
+, lib
+, pkgs
+, ...
 }:
 
 {
@@ -12,7 +11,7 @@
 
   boot = {
     # NOTE: replace this with your desired kernel, see: https://nixos.wiki/wiki/Linux_kernel for reference.
-    kernelPackages = pkgs.linuxKernel.packages.linux_lqx;
+    kernelPackages = pkgs.linuxKernel.packages.linux_xanmod;
 
     kernelParams = [
       "preempt=full"
