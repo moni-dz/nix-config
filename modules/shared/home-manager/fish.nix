@@ -99,6 +99,7 @@
           modified = "‼ ";
           renamed = "≡ ";
           stashed = "▽ ";
+          untracked = "? ";
           format = ''[ $all_status$ahead_behind ]($style)'';
         };
 
