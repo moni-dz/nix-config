@@ -42,11 +42,22 @@
 
     jujutsu = {
       enable = config.programs.git.enable;
-      settings.ui.diff-editor = [
-        "nvim"
-        "-c"
-        "DiffEditor $left $right $output"
-      ];
+      settings = {
+        user = {
+          name = "moni-dz";
+          email = "lythe1107@gmail.com";
+        };
+
+        ui = {
+          diff-editor = [
+            "nvim"
+            "-c"
+            "DiffEditor $left $right $output"
+          ];
+
+          paginate = "never";
+        };
+      };
     };
   };
 }
