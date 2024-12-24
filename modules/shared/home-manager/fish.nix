@@ -92,15 +92,16 @@
           style = "fg:black bg:red";
           ahead = "▲";
           behind = "▼";
-          conflicted = "± ";
-          deleted = "× ";
+          conflicted = "±";
+          deleted = "×";
           diverged = "◊";
-          up_to_date = "♥";
-          modified = "‼ ";
-          renamed = "≡ ";
-          stashed = "▽ ";
-          untracked = "? ";
-          format = ''[ $all_status$ahead_behind ]($style)'';
+          up_to_date = "√";
+          modified = "‼";
+          staged = "+";
+          renamed = "≡";
+          stashed = "▽";
+          untracked = "?";
+          format = ''[( $all_status$ahead_behind )]($style)'';
         };
 
         git_branch = {

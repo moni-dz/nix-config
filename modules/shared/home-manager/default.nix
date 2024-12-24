@@ -15,17 +15,14 @@
   - Appendix A. Configuration Options: https://nix-community.gitlab.io/home-manager/options.html
 */
 {
-  imports = [ ./fish.nix ];
+  imports = [
+    ./fish.nix
+    ./vcs.nix
+  ];
 
   home = {
     packages = __attrValues {
-      inherit (pkgs)
-        ripgrep
-        difftastic
-        nixpkgs-review
-        ;
-
-      inherit (pkgs.gitAndTools) gh;
+      inherit (pkgs) ripgrep;
       inherit (inputs'.agenix.packages) agenix;
       inherit (self'.packages) neovim;
     };
@@ -40,34 +37,6 @@
     eza = {
       enable = true;
       package = pkgs.eza;
-    };
-
-    git = {
-      enable = true;
-
-      aliases = {
-        df = "difftool";
-        a = "add";
-        p = "push";
-        r = "rebase";
-        ri = "rebase -i";
-        cm = "commit";
-        pl = "pull";
-        s = "status";
-        st = "stash";
-        ck = "checkout";
-        rl = "reflog";
-      };
-
-      extraConfig = {
-        diff.tool = "difftastic";
-        pager.difftool = true;
-
-        difftool = {
-          prompt = false;
-          difftastic.cmd = ''${lib.getExe pkgs.difftastic} "$LOCAL" "$REMOTE"'';
-        };
-      };
     };
 
     home-manager = {

@@ -1,6 +1,5 @@
 {
   config,
-  inputs',
   pkgs,
   ...
 }:
@@ -21,7 +20,11 @@
         fd
         ripgrep
         jq
-        sapling
+        krabby
+        nixd
+        nixfmt-rfc-style
+        typst
+        tinymist
         ;
     };
   };
