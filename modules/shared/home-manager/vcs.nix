@@ -73,6 +73,11 @@
             "set"
             "--revision"
           ];
+
+          gp = [
+            "git"
+            "push"
+          ];
         };
 
         user = {
