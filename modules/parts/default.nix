@@ -17,7 +17,7 @@
       ...
     }:
     {
-      _module.args = rec {
+      _module.args = {
         # nix the package manager configuration
         nix = import ./nix-settings.nix {
           inherit lib inputs inputs';
@@ -65,9 +65,7 @@
               ;
 
             home-manager = inputs'.home.packages.home-manager.override { path = "${inputs.home}"; };
-
             man-pages = if pkgs.stdenv.isLinux then pkgs.man-pages else self'.packages.man-pages-xnu;
-
             gnu-coreutils = if pkgs.stdenv.isLinux then pkgs.coreutils else pkgs.coreutils-prefixed;
           };
       };

@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  self',
   ...
 }:
 
@@ -42,6 +43,8 @@
 
     jujutsu = {
       enable = config.programs.git.enable;
+      #package = self'.packages.jujutsu.overrideAttrs { doCheck = false; };
+
       settings = {
         core.fsmonitor = "watchman";
         format.tree-level-conflicts = true;
