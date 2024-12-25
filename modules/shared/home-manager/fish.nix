@@ -51,7 +51,7 @@
       settings = {
         command_timeout = 3000;
         format = "$hostname$username$nix_shell$character";
-        right_format = "$directory$git_branch$git_state$git_commit$git_status";
+        right_format = "$directory\${custom.jjid}$git_state$git_commit$git_status";
 
         character = {
           success_symbol = "[ ♥ ](fg:black bg:cyan)";
@@ -123,6 +123,17 @@
         nix_shell = {
           style = "fg:black bg:yellow";
           format = "[ $name ]($style)";
+        };
+
+        custom = {
+          jjid = {
+            ignore_timeout = true;
+            description = "current jj status";
+            when = "jj root";
+            command = "jj log -r@ --no-graph --ignore-working-copy --color never --limit 1 -T 'change_id.shortest(4)'";
+            style = "fg:black bg:green";
+            format = "[ $output ]($style)";
+          };
         };
       };
     };
