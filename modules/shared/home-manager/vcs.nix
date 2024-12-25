@@ -43,12 +43,52 @@
     jujutsu = {
       enable = config.programs.git.enable;
       settings = {
+        core.fsmonitor = "watchman";
+        format.tree-level-conflicts = true;
+
+        aliases = {
+          l = [
+            "log"
+            "-r"
+            "reachable(@, mutable())"
+          ];
+
+          lm = [
+            "log"
+            "-r"
+            "(master..@):: | (master..@)-"
+          ];
+
+          lmain = [
+            "log"
+            "-r"
+            "(main..@):: | (main..@)-"
+          ];
+
+          mv = [
+            "bookmark"
+            "set"
+            "--revision"
+          ];
+        };
+
         user = {
           name = "moni-dz";
           email = "lythe1107@gmail.com";
         };
 
+        git = {
+          fetch = [
+            "upstream"
+            "origin"
+          ];
+
+          push = "origin";
+        };
+
         ui = {
+          editor = "nvim";
+
           diff-editor = [
             "nvim"
             "-c"
