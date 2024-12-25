@@ -1,11 +1,12 @@
-{ config
-, lib
-, pkgs
-, system
-, self
-, inputs
-, inputs'
-, ...
+{
+  config,
+  lib,
+  pkgs,
+  system,
+  self,
+  inputs,
+  inputs',
+  ...
 }:
 
 {

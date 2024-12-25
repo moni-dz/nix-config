@@ -42,7 +42,7 @@
     };
 
     jujutsu = {
-      enable = config.programs.git.enable;
+      inherit (config.programs.git) enable;
       #package = self'.packages.jujutsu.overrideAttrs { doCheck = false; };
 
       settings = {
