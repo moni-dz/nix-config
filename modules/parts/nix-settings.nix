@@ -2,30 +2,10 @@
   lib,
   stdenv,
   inputs,
-  inputs',
+  ...
 }:
 
 {
-  buildMachines = __attrValues {
-    mistral = {
-      hostName = "mistral";
-      system = "x86_64-linux";
-      sshUser = "moni";
-      sshKey = "/Users/moni/.ssh/id_ed25519";
-      publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUZEUkd5RFFsSFBvZ1lJdDBJSXdJKy8xRCtVM3FiT0hPWk95UHNBTjJOV3Qgcm9vdEB2bWkxOTk4NTU4Cg==";
-      maxJobs = 2;
-      speedFactor = 1;
-      supportedFeatures = [
-        "nixos-test"
-        "benchmark"
-        "big-parallel"
-        "kvm"
-      ];
-      mandatoryFeatures = [ ];
-    };
-  };
-
-  distributedBuilds = true;
   nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
 
   registry = {
