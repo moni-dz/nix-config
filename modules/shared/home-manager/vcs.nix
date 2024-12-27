@@ -96,6 +96,7 @@
 
         ui = {
           editor = "nvim";
+          default-command = "log";
 
           diff-editor = [
             "nvim"
