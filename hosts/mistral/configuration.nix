@@ -39,7 +39,8 @@
       enable = true;
       settings = {
         GatewayPorts = "yes";
-        PermitRootLogin = "yes";
+        PasswordAuthentication = false;
+        PermitRootLogin = "prohibit-password";
       };
     };
 
