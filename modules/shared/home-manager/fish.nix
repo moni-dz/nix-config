@@ -114,6 +114,7 @@
         line_break.disabled = true;
 
         directory = {
+          truncation_length = 1;
           style = "bg:blue fg:black";
           read_only_style = "bg:red fg:black";
           read_only = " RO ";
@@ -142,9 +143,9 @@
             style = "fg:black bg:red";
             format = "[ $output ]($style)";
             command = ''
-              jj log -r@ -n1 --ignore-working-copy --no-graph --color always  -T '
+              jj log -r@ -n1 --ignore-working-copy --no-graph --color never -T '
                 separate("",
-                  if(!empty, "${config.programs.starship.settings.git_status.staged}"),
+                  if(!empty, "∆"),
                   if(conflict, "${config.programs.starship.settings.git_status.conflicted}"),
                   if(divergent, "${config.programs.starship.settings.git_status.diverged}"),
                   if(hidden, "${config.programs.starship.settings.git_status.deleted}"),
