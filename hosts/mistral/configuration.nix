@@ -28,7 +28,10 @@
 
   nixpkgs.overlays = lib.mkOverride 10 [ inputs.nix-minecraft.overlay ];
 
-  programs.fish.enable = true;
+  programs = {
+    fish.enable = true;
+    mosh.enable = true;
+  };
 
   # networking.firewall.allowedTCPPorts = [ 1433 4747 5432 ];
 
