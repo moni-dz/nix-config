@@ -22,7 +22,7 @@
 
   home = {
     packages = __attrValues {
-      inherit (pkgs) ripgrep;
+      inherit (pkgs) mosh ripgrep;
       inherit (inputs'.agenix.packages) agenix;
       inherit (self'.packages) neovim;
     };
