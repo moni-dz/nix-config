@@ -40,7 +40,7 @@
       settings = {
         GatewayPorts = "yes";
         PasswordAuthentication = false;
-        PermitRootLogin = "prohibit-password";
+        PermitRootLogin = "yes";
       };
     };
 
@@ -199,5 +199,8 @@
     home = "/home/moni";
     shell = pkgs.fish;
     extraGroups = [ "wheel" ];
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBlr5SHXali3ttWt8ygyWgCW2usWVsBhXebeyi2XKO2Z lythe1107@gmail.com"
+    ];
   };
 }
