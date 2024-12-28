@@ -22,7 +22,7 @@
 
   home = {
     packages = __attrValues {
-      inherit (pkgs) mosh ripgrep;
+      inherit (pkgs) eternal-terminal mosh ripgrep;
       inherit (inputs'.agenix.packages) agenix;
 
       nvim = self'.packages.neovim.override { libuv = pkgs.libuv.overrideAttrs { doCheck = false; }; };

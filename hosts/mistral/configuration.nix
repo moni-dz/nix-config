@@ -1,7 +1,5 @@
 {
   inputs,
-  modulesPath,
-  config,
   lib,
   pkgs,
   ...
@@ -37,6 +35,7 @@
 
   services = {
     dbus.implementation = "broker";
+    eternal-terminal.enable = true;
 
     openssh = {
       enable = true;
