@@ -5,7 +5,7 @@
 
   perSystem = _: {
     treefmt = {
-      projectRootFile = ".git/config";
+      projectRootFile = "flake.nix";
       programs.nixfmt.enable = true;
 
       settings.global.excludes = [
@@ -17,6 +17,7 @@
         "*.png"
         "*.toml"
         "*.yml"
+        ".jj/*"
       ];
     };
   };

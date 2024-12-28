@@ -2,13 +2,11 @@
   config,
   lib,
   pkgs,
-  self',
   ...
 }:
 
 {
   home.packages = __attrValues {
-    inherit (pkgs) difftastic;
     inherit (pkgs.gitAndTools) gh;
   };
 
@@ -43,18 +41,18 @@
 
     jujutsu = {
       inherit (config.programs.git) enable;
-      #package = self'.packages.jujutsu.overrideAttrs { doCheck = false; };
 
       settings = {
         core.fsmonitor = "watchman";
         format.tree-level-conflicts = true;
 
         aliases = {
-          l = [
-            "log"
-            "-r"
-            "reachable(@, mutable())"
+          ds = [
+            "desc"
+            "-m"
           ];
+
+          df = [ "diff" ];
 
           lm = [
             "log"
@@ -95,9 +93,27 @@
           push-bookmark-prefix = "moni/";
         };
 
+        signing = {
+          sign-all = "true";
+          backend = "ssh";
+          key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBlr5SHXali3ttWt8ygyWgCW2usWVsBhXebeyi2XKO2Z";
+        };
+
         ui = {
           editor = "nvim";
-          default-command = "log";
+
+          default-command = [
+            "log"
+            "-r"
+            "reachable(@, mutable())"
+          ];
+
+          diff.tool = [
+            "${lib.getExe pkgs.difftastic}"
+            "--color=always"
+            "$left"
+            "$right"
+          ];
 
           diff-editor = [
             "nvim"
