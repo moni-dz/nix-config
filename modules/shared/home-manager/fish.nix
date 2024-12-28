@@ -114,7 +114,7 @@
         line_break.disabled = true;
 
         directory = {
-          truncation_length = 1;
+          truncation_length = 2;
           style = "bg:blue fg:black";
           read_only_style = "bg:red fg:black";
           read_only = " RO ";
@@ -141,7 +141,7 @@
             description = "current jj bookmark status";
             when = "jj root";
             style = "fg:black bg:red";
-            format = "[ $output ]($style)";
+            format = "[( $output )]($style)";
             command = ''
               jj log -r@ -n1 --ignore-working-copy --no-graph --color never -T '
                 separate("",

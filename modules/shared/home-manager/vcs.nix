@@ -92,6 +92,7 @@
           ];
 
           push = "origin";
+          push-bookmark-prefix = "moni/";
         };
 
         ui = {
