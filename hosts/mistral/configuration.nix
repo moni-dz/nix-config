@@ -30,7 +30,12 @@
     mosh.enable = true;
   };
 
-  # networking.firewall.allowedTCPPorts = [ 1433 4747 5432 ];
+  networking.firewall.allowedTCPPorts = [
+    2022
+    # 1433
+    # 4747
+    # 5432
+  ];
 
   services = {
     dbus.implementation = "broker";
