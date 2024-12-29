@@ -22,4 +22,5 @@ in
   ];
 
   "crowdsec.age".publicKeys = users ++ [ mistral ];
+  "bouncer.age".publicKeys = users ++ [ mistral ];
 }

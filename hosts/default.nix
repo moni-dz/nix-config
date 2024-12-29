@@ -22,10 +22,18 @@
         inputs.nix-minecraft.nixosModules.minecraft-servers
 
         {
-          age.secrets.crowdsec = {
-            file = ../secrets/crowdsec.age;
-            owner = "moni";
-            mode = "0444";
+          age.secrets = {
+            bouncer = {
+              file = ../secrets/bouncer.age;
+              owner = "moni";
+              mode = "0444";
+            };
+
+            crowdsec = {
+              file = ../secrets/crowdsec.age;
+              owner = "moni";
+              mode = "0444";
+            };
           };
         }
 

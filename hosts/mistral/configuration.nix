@@ -41,21 +41,21 @@
     # 5432
   ];
 
-  /*
-    systemd.services.crowdsec.serviceConfig = {
-      ExecStartPre = let
+  systemd.services.crowdsec.serviceConfig = {
+    ExecStartPre =
+      let
         script = pkgs.writeScriptBin "register-bouncer" ''
           #!${pkgs.runtimeShell}
           set -eu
           set -o pipefail
 
-          if ! cscli bouncers list | grep -q "crowdsec-bouncer"; then
-            cscli bouncers add "crowdsec-bouncer" --key "$(cat ${config.age.secrets.crowdsec-bouncer.path})"
+          if ! cscli bouncers list | grep -q "tough-guy"; then
+            cscli bouncers add "tough-guy" --key "$(cat ${config.age.secrets.bouncer.path})"
           fi
         '';
-      in ["${script}/bin/register-bouncer"];
-    };
-  */
+      in
+      [ "${script}/bin/register-bouncer" ];
+  };
 
   services = {
     dbus.implementation = "broker";
@@ -67,7 +67,10 @@
 
     crowdsec-firewall-bouncer = {
       enable = false;
-      settings.api_url = "http://localhost:8080";
+      settings = {
+        api_url = "http://localhost:8080";
+        api_key = __readFile config.age.secrets.bouncer.path; # yes, this is an antipattern, but if someone's in you are fucked anyway...
+      };
     };
 
     eternal-terminal.enable = true;
