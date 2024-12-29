@@ -41,8 +41,8 @@
     # 5432
   ];
 
-  systemd.services.crowdsec.serviceConfig = {
-    ExecStartPre =
+  systemd.services = {
+    crowdsec.serviceConfig.ExecStartPre =
       let
         script = pkgs.writeScriptBin "register-bouncer" ''
           #!${pkgs.runtimeShell}
@@ -55,6 +55,8 @@
         '';
       in
       [ "${script}/bin/register-bouncer" ];
+
+    crowdsec-update-hub.serviceConfig.ExecStartPost = lib.mkForce "";
   };
 
   services = {
@@ -63,6 +65,12 @@
     crowdsec = {
       enable = true;
       enrollKeyFile = config.age.secrets.crowdsec.path;
+
+      settings.acquisitions_path = (pkgs.formats.yaml { }).generate "acquisitions.yaml" {
+        source = "journalctl";
+        journalctl_filter = [ "_SYSTEMD_UNIT=sshd.service" ];
+        labels.type = "syslog";
+      };
     };
 
     crowdsec-firewall-bouncer = {
