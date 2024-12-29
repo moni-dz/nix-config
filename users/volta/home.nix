@@ -10,6 +10,7 @@
   home = {
     packages = __attrValues {
       inherit (pkgs)
+        krabby
         pfetch
         temurin-jre-bin-17
         daemonize
