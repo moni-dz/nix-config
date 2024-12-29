@@ -41,6 +41,29 @@
     # 5432
   ];
 
+  services = {
+    crowdsec = {
+      enable = true;
+      allowLocalJournalAccess = true;
+      enrollKeyFile = config.age.secrets.crowdsec.path;
+
+      settings =
+        let
+          yaml = (pkgs.formats.yaml { }).generate;
+          acquisitions_file = yaml "acquisitions.yaml" {
+            source = "journalctl";
+            journalctl_filter = [ "_SYSTEMD_UNIT=sshd.service" ];
+            labels.type = "syslog";
+          };
+        in
+        {
+          crowdsec_service.acquisition_path = acquisitions_file;
+        };
+    };
+
+    crowdsec-firewall-bouncer.enable = true;
+  };
+
   systemd.tmpfiles.rules = [
     "Z '/var/lib/crowdsec' 0764 crowdsec crowdsec - -"
     "Z '/var/lib/crowdsec/data' 0764 crowdsec crowdsec - -"
@@ -56,12 +79,6 @@
         pkg = cfg.package;
       in
       {
-        ExecPaths = lib.mkForce [
-          "/nix/store"
-          "/run/current-system/sw/bin/"
-        ];
-
-        NoExecPaths = lib.mkForce [ ];
         ExecStart = lib.mkForce "${pkgs.coreutils}/bin/stdbuf -oL -- ${pkg}/bin/crowdsec -c ${configFile}";
 
         ExecStartPre =
@@ -93,38 +110,21 @@
           ];
       };
 
+    crowdsec-firewall-bouncer.serviceConfig =
+      let
+        cfg = config.services.crowdsec-firewall-bouncer;
+        pkg = cfg.package;
+      in
+      {
+        ExecStart = lib.mkForce "${pkg}/bin/cs-firewall-bouncer -c ${config.age.secrets.bouncer.path}";
+        ExecStartPre = lib.mkForce [ "${pkg}/bin/cs-firewall-bouncer -t -c ${config.age.secrets.bouncer.path}" ];
+      };
+
     crowdsec-update-hub.serviceConfig.ExecStartPost = lib.mkForce "";
   };
 
   services = {
     dbus.implementation = "broker";
-
-    crowdsec = {
-      enable = true;
-      allowLocalJournalAccess = true;
-      enrollKeyFile = config.age.secrets.crowdsec.path;
-
-      settings =
-        let
-          yaml = (pkgs.formats.yaml { }).generate;
-          acquisitions_file = yaml "acquisitions.yaml" {
-            source = "journalctl";
-            journalctl_filter = [ "_SYSTEMD_UNIT=sshd.service" ];
-            labels.type = "syslog";
-          };
-        in
-        {
-          crowdsec_service.acquisition_path = acquisitions_file;
-        };
-    };
-
-    crowdsec-firewall-bouncer = {
-      enable = false;
-      settings = {
-        api_url = "http://localhost:8080";
-        api_key = __readFile config.age.secrets.bouncer.path; # yes, this is an antipattern, but if someone's in you are fucked anyway...
-      };
-    };
 
     eternal-terminal.enable = true;
 
