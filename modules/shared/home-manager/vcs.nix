@@ -105,7 +105,9 @@
           default-command = [
             "log"
             "-r"
-            "reachable(@, mutable())"
+            "reachable(@, mutable() | ~mutable())"
+            "-n"
+            "8"
           ];
 
           diff.tool = [
