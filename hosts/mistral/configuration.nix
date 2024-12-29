@@ -41,20 +41,57 @@
     # 5432
   ];
 
-  systemd.services = {
-    crowdsec.serviceConfig.ExecStartPre =
-      let
-        script = pkgs.writeScriptBin "register-bouncer" ''
-          #!${pkgs.runtimeShell}
-          set -eu
-          set -o pipefail
+  systemd.tmpfiles.rules = [
+    "Z '/var/lib/crowdsec' 0764 crowdsec crowdsec - -"
+    "Z '/var/lib/crowdsec/data' 0764 crowdsec crowdsec - -"
+    "Z '/var/lib/crowdsec/hub' 0764 crowdsec crowdsec - -"
+  ];
 
-          if ! cscli bouncers list | grep -q "tough-guy"; then
-            cscli bouncers add "tough-guy" --key "$(cat ${config.age.secrets.bouncer.path})"
-          fi
-        '';
+  systemd.services = {
+    crowdsec.serviceConfig =
+      let
+        cfg = config.services.crowdsec;
+        format = pkgs.formats.yaml { };
+        configFile = format.generate "crowdsec.yaml" cfg.settings;
+        pkg = cfg.package;
       in
-      [ "${script}/bin/register-bouncer" ];
+      {
+        ExecPaths = lib.mkForce [
+          "/nix/store"
+          "/run/current-system/sw/bin/"
+        ];
+
+        NoExecPaths = lib.mkForce [ ];
+        ExecStart = lib.mkForce "${pkgs.coreutils}/bin/stdbuf -oL -- ${pkg}/bin/crowdsec -c ${configFile}";
+
+        ExecStartPre =
+          let
+            setup = pkgs.writeScriptBin "crowdsec-setup" ''
+              #!${pkgs.runtimeShell}
+              set -eu
+              set -o pipefail
+
+              ${lib.optionalString cfg.settings.api.server.enable ''
+                if [ ! -s "${cfg.settings.api.client.credentials_path}" ]; then
+                  cscli machine add "${cfg.name}" --auto
+                fi
+              ''}
+
+              ${lib.optionalString (cfg.enrollKeyFile != null) ''
+                if ! grep -q password "${cfg.settings.api.server.online_client.credentials_path}" ]; then
+                  cscli capi register
+                fi
+
+                if [ ! -e "${cfg.settings.api.server.console_path}" ]; then
+                  cscli console enroll "$(cat ${cfg.enrollKeyFile})" --name ${cfg.name}
+                fi
+              ''}
+            '';
+          in
+          lib.mkForce [
+            "${setup}/bin/crowdsec-setup"
+          ];
+      };
 
     crowdsec-update-hub.serviceConfig.ExecStartPost = lib.mkForce "";
   };
@@ -64,13 +101,21 @@
 
     crowdsec = {
       enable = true;
+      allowLocalJournalAccess = true;
       enrollKeyFile = config.age.secrets.crowdsec.path;
 
-      settings.acquisitions_path = (pkgs.formats.yaml { }).generate "acquisitions.yaml" {
-        source = "journalctl";
-        journalctl_filter = [ "_SYSTEMD_UNIT=sshd.service" ];
-        labels.type = "syslog";
-      };
+      settings =
+        let
+          yaml = (pkgs.formats.yaml { }).generate;
+          acquisitions_file = yaml "acquisitions.yaml" {
+            source = "journalctl";
+            journalctl_filter = [ "_SYSTEMD_UNIT=sshd.service" ];
+            labels.type = "syslog";
+          };
+        in
+        {
+          crowdsec_service.acquisition_path = acquisitions_file;
+        };
     };
 
     crowdsec-firewall-bouncer = {
