@@ -17,7 +17,18 @@
 
       modules = [
         inputs.agenix.nixosModules.default
+        inputs.crowdsec.nixosModules.crowdsec
+        inputs.crowdsec.nixosModules.crowdsec-firewall-bouncer
         inputs.nix-minecraft.nixosModules.minecraft-servers
+
+        {
+          age.secrets.crowdsec = {
+            file = ../secrets/crowdsec.age;
+            owner = "moni";
+            mode = "0444";
+          };
+        }
+
         ./mistral/configuration.nix
       ];
     };

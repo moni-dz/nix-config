@@ -1,4 +1,5 @@
 {
+  config,
   inputs,
   lib,
   pkgs,
@@ -23,7 +24,10 @@
 
   environment.systemPackages = [ pkgs.tmux ];
 
-  nixpkgs.overlays = lib.mkOverride 10 [ inputs.nix-minecraft.overlay ];
+  nixpkgs.overlays = lib.mkOverride 10 [
+    inputs.nix-minecraft.overlay
+    inputs.crowdsec.overlays.default
+  ];
 
   programs = {
     fish.enable = true;
@@ -37,8 +41,35 @@
     # 5432
   ];
 
+  /*
+    systemd.services.crowdsec.serviceConfig = {
+      ExecStartPre = let
+        script = pkgs.writeScriptBin "register-bouncer" ''
+          #!${pkgs.runtimeShell}
+          set -eu
+          set -o pipefail
+
+          if ! cscli bouncers list | grep -q "crowdsec-bouncer"; then
+            cscli bouncers add "crowdsec-bouncer" --key "$(cat ${config.age.secrets.crowdsec-bouncer.path})"
+          fi
+        '';
+      in ["${script}/bin/register-bouncer"];
+    };
+  */
+
   services = {
     dbus.implementation = "broker";
+
+    crowdsec = {
+      enable = true;
+      enrollKeyFile = config.age.secrets.crowdsec.path;
+    };
+
+    crowdsec-firewall-bouncer = {
+      enable = false;
+      settings.api_url = "http://localhost:8080";
+    };
+
     eternal-terminal.enable = true;
 
     openssh = {
