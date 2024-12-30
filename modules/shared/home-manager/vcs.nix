@@ -94,9 +94,9 @@
         };
 
         signing = {
-          sign-all = "true";
+          sign-all = true;
           backend = "ssh";
-          key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBlr5SHXali3ttWt8ygyWgCW2usWVsBhXebeyi2XKO2Z";
+          key = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
         };
 
         ui = {

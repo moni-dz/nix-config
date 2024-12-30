@@ -65,6 +65,11 @@
     };
   };
 
+  security.pam = {
+    rssh.enable = true;
+    services.sudo.rssh = true;
+  };
+
   users.users.moni = {
     isNormalUser = true;
     home = "/home/moni";
