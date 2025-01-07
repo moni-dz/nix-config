@@ -1,0 +1,30 @@
+diff --git a/lua/mellifluous/highlights/general.lua b/lua/mellifluous/highlights/general.lua
+index cd7b3b9..11ca1b4 100644
+--- a/lua/mellifluous/highlights/general.lua
++++ b/lua/mellifluous/highlights/general.lua
+@@ -121,7 +121,7 @@ function M.set(hl, colors)
+     --
+     -- Uncomment and edit if you want more specific syntax highlighting.
+     hl.set("Comment", { fg = colors.comments, style = config.styles.comments or {} }) -- Any comment
+-    hl.set("Constant", { fg = colors.constants, style = config.styles.constants or {} } ) -- (*) Any constant
++    hl.set("Constant", { fg = colors.constants, style = config.styles.constants or {} }) -- (*) Any constant
+     hl.set("String", { fg = colors.strings, style = config.styles.strings or {} }) --   A string constant: 'this is a string'
+     hl.set("Character", { fg = hl.get("String").fg }) --   A character constant: 'c', '\n'
+     hl.set("Number", { link = "Constant" }) --   A number constant: 234, 0xff
+@@ -201,12 +201,12 @@ function M.set(hl, colors)
+         bg = (config.transparent_background.enabled and "NONE")
+             or colors.bg:with_overlay(hl.get("DiagnosticOk").fg, 12),
+     }) -- Used for 'Ok' diagnostic virtual text.
+-    hl.set("DiagnosticUnderlineError", { underline = true, sp = hl.get("DiagnosticError").fg }) -- Used to underline 'Error' diagnostics.
+-    hl.set("DiagnosticUnderlineWarn", { underline = true, sp = hl.get("DiagnosticWarn").fg }) -- Used to underline 'Warn' diagnostics.
++    hl.set("DiagnosticUnderlineError", { undercurl = true, sp = hl.get("DiagnosticError").fg }) -- Used to underline 'Error' diagnostics.
++    hl.set("DiagnosticUnderlineWarn", { undercurl = true, sp = hl.get("DiagnosticWarn").fg }) -- Used to underline 'Warn' diagnostics.
+     hl.set("DiagnosticUnderlineInfo", { underline = true, sp = hl.get("DiagnosticInfo").fg }) -- Used to underline 'Info' diagnostics.
+-    hl.set("DiagnosticUnderlineHint", { underline = true, sp = hl.get("DiagnosticHint").fg }) -- Used to underline 'Hint' diagnostics.
++    hl.set("DiagnosticUnderlineHint", { undercurl = true, sp = hl.get("DiagnosticHint").fg }) -- Used to underline 'Hint' diagnostics.
+     hl.set("DiagnosticUnderlineOk", { underline = true, sp = hl.get("DiagnosticOk").fg }) -- Used to underline 'Ok' diagnostics.
+-    hl.set("DiagnosticUnnecessary", { underline = true }) -- Used to underline unnecessary or unused code.
++    hl.set("DiagnosticUnnecessary", { undercurl = true }) -- Used to underline unnecessary or unused code.
+     hl.set("DiagnosticSignError", { fg = hl.get("DiagnosticError").fg, bg = hl.get("LineNr").bg }) -- Used for 'Error' signs in sign column.
+     hl.set("DiagnosticSignWarn", { fg = hl.get("DiagnosticWarn").fg, bg = hl.get("LineNr").bg }) -- Used for 'Warn' signs in sign column.
+     hl.set("DiagnosticSignInfo", { fg = hl.get("DiagnosticInfo").fg, bg = hl.get("LineNr").bg }) -- Used for 'Info' signs in sign column.

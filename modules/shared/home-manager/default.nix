@@ -92,4 +92,6 @@
 
     nix-index-database.comma.enable = lib.mkDefault true;
   };
+
+  xdg.configFile."nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/nix-config/nvim";
 }

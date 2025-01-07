@@ -76,6 +76,12 @@
             "git"
             "push"
           ];
+
+          ft = [
+            "git"
+            "fetch"
+            "-b"
+          ];
         };
 
         user = {
@@ -97,6 +103,22 @@
           sign-all = true;
           backend = "ssh";
           key = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
+        };
+
+        merge-tools.diffconflicts = {
+          program = "nvim";
+          merge-tool-edits-conflict-markers = true;
+
+          merge-args = [
+            "-c"
+            "let g:jj_diffconflicts_marker_length=$marker_length"
+            "-c"
+            "JJDiffConflicts!"
+            "$output"
+            "$base"
+            "$left"
+            "$right"
+          ];
         };
 
         ui = {
