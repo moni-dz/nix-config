@@ -82,6 +82,11 @@
             "fetch"
             "-b"
           ];
+
+          rb = [
+            "rebase"
+            "-d"
+          ];
         };
 
         user = {
