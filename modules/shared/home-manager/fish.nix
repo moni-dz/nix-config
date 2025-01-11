@@ -5,6 +5,11 @@
     atuin = {
       enable = true;
       daemon.enable = true;
+
+      settings = {
+        style = "full";
+        sync_frequency = "5m";
+      };
     };
 
     dircolors = {
