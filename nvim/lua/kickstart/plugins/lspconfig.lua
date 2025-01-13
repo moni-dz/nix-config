@@ -191,6 +191,10 @@ return {
           },
         },
 
+        ocamllsp = {
+          filetypes = { 'ml', 'ocaml', 'menhir', 'ocamlinterface', 'ocamllex', 'reason', 'dune' },
+        },
+
         tinymist = {},
 
         lua_ls = {
@@ -241,6 +245,7 @@ return {
       }
 
       require('lspconfig').nixd.setup(servers['nixd'])
+      require('lspconfig').ocamllsp.setup(servers['ocamllsp'])
     end,
   },
   {
