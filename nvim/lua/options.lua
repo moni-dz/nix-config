@@ -1,7 +1,3 @@
--- [[ Setting options ]]
--- See `:help vim.opt`
--- NOTE: You can change these options as you wish!
---  For more options, you can see `:help option-list`
 vim.api.nvim_set_var('t_Cs', '\\e[4:3m')
 vim.api.nvim_set_var('t_Ce', '\\e[4:0m')
 vim.keymap.set('v', '<A-j>', ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
@@ -9,9 +5,6 @@ vim.keymap.set('v', '<A-k>', ":m '<-2<CR>gv=gv", { noremap = true, silent = true
 
 -- Make line numbers default
 vim.opt.number = false
--- You can also add relative line numbers, to help with jumping.
---  Experiment for yourself to see if you like it!
--- vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'

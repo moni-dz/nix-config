@@ -1,10 +1,3 @@
---[[
---
--- This file is not required for your own configuration,
--- but helps people determine if their system is setup correctly.
---
---]]
-
 local check_version = function()
   local verstr = tostring(vim.version())
   if not vim.version.ge then
