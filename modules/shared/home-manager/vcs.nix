@@ -57,13 +57,7 @@
           lm = [
             "log"
             "-r"
-            "(master..@):: | (master..@)-"
-          ];
-
-          lmain = [
-            "log"
-            "-r"
-            "(main..@):: | (main..@)-"
+            "present(@) | present(ancestors(tracked_remote_bookmarks() & mine(), 5))"
           ];
 
           mv = [
@@ -132,7 +126,7 @@
           default-command = [
             "log"
             "-r"
-            "reachable(@, mutable() | ~mutable())"
+            "present(@) | ancestors(remote_bookmarks().., 2) | present(trunk()) | reachable(@, mutable() | ~mutable())"
             "-n"
             "8"
           ];
