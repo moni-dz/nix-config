@@ -26,7 +26,6 @@
 
       skhdConfig =
         let
-          spaces = map toString (lib.range 1 5);
           ws = n: "cmd - ${n} : yabai -m space --focus ${n}";
           move = n: "shift + cmd - ${n} : yabai -m window --space ${n}; yabai -m space --focus ${n}";
         in
@@ -37,12 +36,13 @@
           cmd - e : yabai -m window --toggle zoom-fullscreen
           shift + cmd - e : yabai -m window --toggle float --grid 4:4:1:1:2:2
         ''
-        + lib.optionalString config.services.yabai.enable (lib.concatLines (map move spaces));
+        + lib.optionalString config.services.yabai.enable (lib.concatLines (map move (map toString (lib.range 1 6))))
+        + lib.optionalString config.services.yabai.enable (lib.concatLines (map ws (map toString (lib.range 1 6))));
     };
 
     yabai = {
-      enable = true;
-      enableScriptingAddition = true;
+      enable = false;
+      enableScriptingAddition = false;
 
       config =
         let

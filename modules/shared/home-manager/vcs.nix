@@ -57,7 +57,7 @@
           lm = [
             "log"
             "-r"
-            "present(@) | present(ancestors(tracked_remote_bookmarks() & mine(), 5))"
+            "present(@) | present(ancestors(bookmarks() & mine() & mutable(), 5))"
           ];
 
           mv = [
