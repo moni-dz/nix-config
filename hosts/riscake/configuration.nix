@@ -36,8 +36,12 @@
           cmd - e : yabai -m window --toggle zoom-fullscreen
           shift + cmd - e : yabai -m window --toggle float --grid 4:4:1:1:2:2
         ''
-        + lib.optionalString config.services.yabai.enable (lib.concatLines (map move (map toString (lib.range 1 6))))
-        + lib.optionalString config.services.yabai.enable (lib.concatLines (map ws (map toString (lib.range 1 6))));
+        + lib.optionalString config.services.yabai.enable (
+          lib.concatLines (map move (map toString (lib.range 1 6)))
+        )
+        + lib.optionalString config.services.yabai.enable (
+          lib.concatLines (map ws (map toString (lib.range 1 6)))
+        );
     };
 
     yabai = {

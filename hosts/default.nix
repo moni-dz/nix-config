@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ self, inputs, ... }:
 
 {
   # nix-darwin configurations
@@ -20,6 +20,7 @@
         inputs.crowdsec.nixosModules.crowdsec
         inputs.crowdsec.nixosModules.crowdsec-firewall-bouncer
         inputs.nix-minecraft.nixosModules.minecraft-servers
+        self.nixosModules.shpool
 
         {
           age.secrets = {

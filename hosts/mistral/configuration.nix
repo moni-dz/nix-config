@@ -48,6 +48,7 @@
     dbus.implementation = "broker";
 
     eternal-terminal.enable = true;
+    shpool.enable = true;
 
     openssh = {
       enable = true;
