@@ -16,7 +16,6 @@
 
   settings = lib.mkMerge [
     {
-      auto-allocate-uids = true;
       keep-outputs = true;
       keep-derivations = true;
       keep-going = true;
@@ -55,7 +54,6 @@
         "https://nix-community.cachix.org?priority=13"
         "https://nixpkgs-wayland.cachix.org"
         "https://cache.lix.systems"
-        "https://cache.flakehub.com"
       ];
 
       trusted-public-keys = [
@@ -75,6 +73,9 @@
     }
 
     (lib.mkIf (stdenv.isDarwin && stdenv.isAarch64) { extra-platforms = "x86_64-darwin"; })
-    (lib.mkIf stdenv.isDarwin { sandbox = "relaxed"; })
+    (lib.mkIf stdenv.isDarwin {
+      sandbox = "relaxed";
+      auto-allocate-uids = true;
+    })
   ];
 }
