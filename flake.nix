@@ -13,6 +13,7 @@
       imports = [
         inputs.parts.flakeModules.partitions
         ./modules/parts
+        ./modules/nixos
         ./hosts
         ./users
       ];
