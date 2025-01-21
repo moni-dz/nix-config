@@ -36,6 +36,8 @@ return {
     end,
 
     opts = {
+      auto_hide = 1,
+
       icons = {
         filetype = { enabled = false },
       },
