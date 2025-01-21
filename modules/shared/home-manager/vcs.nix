@@ -81,6 +81,13 @@
             "rebase"
             "-d"
           ];
+
+          rba = [
+            "rebase"
+            "-b"
+            "all:(mine() & mutable() & bookmarks())"
+            "-d"
+          ];
         };
 
         user = {
