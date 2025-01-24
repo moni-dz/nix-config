@@ -2,12 +2,14 @@
   config,
   lib,
   pkgs,
+  self',
   ...
 }:
 
 {
   home.packages = __attrValues {
     inherit (pkgs.gitAndTools) gh;
+    inherit (pkgs) gnupg;
   };
 
   programs = {
@@ -41,6 +43,7 @@
 
     jujutsu = {
       inherit (config.programs.git) enable;
+      package = self'.packages.jujutsu;
 
       settings = {
         core.fsmonitor = "watchman";
@@ -127,8 +130,74 @@
           ];
         };
 
+        templates = {
+          log = ''
+            if(root,
+              separate(" ",
+                format_short_change_id(self.change_id()),
+                format_short_commit_id(self.commit_id()),
+                label("root", "root()"),
+                self.bookmarks(),
+              ) ++ "\n",
+              label(if(current_working_copy, "working_copy"),
+                concat(
+                  separate(" ",
+                    if(self.conflict(), label("conflict", "conflict")),
+                    if(!empty, label("empty", "∆")),
+                    if(empty && description, label("empty", "git-merge")),
+                    format_short_change_id_with_hidden_and_divergent_info(self),
+                    format_short_commit_id(self.commit_id()),
+                    self.bookmarks(),
+                    self.tags(),
+                    if(author.name() && author.email(), separate(" as ", author.email().local(), author.name())),
+                    if(author.name() && !author.email(), author.name()),
+                    if(!author.name() && author.email(), author.email().local()),
+                    if(!author.name() && !author.email(), email_placeholder),
+                    commit_timestamp(self).local().format("%Y-%m-%d"),
+                    self.working_copies(),
+                    if(self.git_head(), label("git_head", "git_head()")),
+                    if(config("ui.show-cryptographic-signatures").as_boolean(),
+                      format_short_cryptographic_signature(self.signature())),
+                  )
+                  ++ "\n",
+                  if(description, description.first_line() ++ "\n"),
+                ),
+              )
+            ) ++ "\n"
+          '';
+
+          log_node = ''
+            coalesce(
+              if(!self, label("elided", "▬")),
+              label(
+                separate(" ",
+                  if(current_working_copy, "working_copy"),
+                  if(immutable, "immutable"),
+                  if(conflict, "conflict"),
+                ),
+                coalesce(
+                  if(current_working_copy, "►"),
+                  if(root, "⌂"),
+                  if(immutable, "■"),
+                  if(conflict, "▼"),
+                  "□",
+                )
+              )
+            )
+          '';
+
+          op_log_node = ''
+            coalesce(
+              if(current_operation, label("current_operation", "►")),
+              "□",
+            )
+          '';
+        };
+
         ui = {
           editor = "nvim";
+          graph.style = "square";
+          show-cryptographic-signatures = false;
 
           default-command = [
             "log"
