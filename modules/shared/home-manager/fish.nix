@@ -56,7 +56,7 @@
       settings = {
         command_timeout = 3000;
         format = "$hostname$username$nix_shell$character";
-        right_format = "$directory\${custom.jjid}\${custom.jjstat}$git_state$git_commit$git_status";
+        right_format = "$directory\${custom.jjid}\${custom.jjbookmark}\${custom.jjstat}$git_state$git_commit$git_status";
 
         character = {
           success_symbol = "[ ♥ ](fg:black bg:cyan)";
@@ -131,37 +131,50 @@
           format = "[ $name ]($style)";
         };
 
-        custom = {
-          jjid = {
-            ignore_timeout = true;
-            description = "current jj revision";
-            when = "jj root";
-            command = "jj log -r@ --no-graph --ignore-working-copy --color never --limit 1 -T 'change_id.shortest(4)'";
-            style = "fg:black bg:green";
-            format = "[ $output ]($style)";
-          };
+        custom =
+          let
+            jj-log = "jj log -r@ -n1 --no-graph --ignore-working-copy --color never -T";
+          in
+          {
+            jjid = {
+              ignore_timeout = true;
+              description = "current jj revision";
+              when = "jj root";
+              command = "${jj-log} 'change_id.shortest(4)'";
+              style = "fg:black bg:green";
+              format = "[ $output ]($style)";
+            };
 
-          jjstat = {
-            ignore_timeout = true;
-            description = "current jj bookmark status";
-            when = "jj root";
-            style = "fg:black bg:red";
-            format = "[( $output )]($style)";
-            command = ''
-              jj log -r@ -n1 --ignore-working-copy --no-graph --color never -T '
-                separate("",
-                  if(!empty, "∆"),
-                  if(conflict, "${config.programs.starship.settings.git_status.conflicted}"),
-                  if(divergent, "${config.programs.starship.settings.git_status.diverged}"),
-                  if(hidden, "${config.programs.starship.settings.git_status.deleted}"),
-                  if(immutable, "λ"),
-                  if(git_head, "★"),
-                  if(root, "☆")
-                )
-              '
-            '';
+            jjbookmark = {
+              ignore_timeout = true;
+              description = "jj bookmark of current revision";
+              when = "jj root";
+              command = "${jj-log} 'self.bookmarks()' | tr ' ' '\n' | sort -k1.1n | head -1";
+              style = "fg:black bg:purple";
+              format = "[( $output )]($style)";
+            };
+
+            jjstat = {
+              ignore_timeout = true;
+              description = "current jj bookmark status";
+              when = "jj root";
+              style = "fg:black bg:red";
+              format = "[( $output )]($style)";
+              command = ''
+                ${jj-log} '
+                  separate("",
+                    if(!empty, "∆"),
+                    if(conflict, "${config.programs.starship.settings.git_status.conflicted}"),
+                    if(divergent, "${config.programs.starship.settings.git_status.diverged}"),
+                    if(hidden, "${config.programs.starship.settings.git_status.deleted}"),
+                    if(immutable, "λ"),
+                    if(git_head, "★"),
+                    if(root, "☆")
+                  )
+                '
+              '';
+            };
           };
-        };
       };
     };
 

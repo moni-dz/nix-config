@@ -61,9 +61,9 @@
           ];
 
           mv = [
-            "bookmark"
-            "set"
-            "--revision"
+            "b"
+            "s"
+            "-r"
           ];
 
           gp = [
@@ -133,7 +133,7 @@
           default-command = [
             "log"
             "-r"
-            "present(@) | ancestors(remote_bookmarks().., 2) | present(trunk()) | reachable(@, mutable() | ~mutable())"
+            "present(@) | ancestors(remote_bookmarks().., 2) | present(trunk()) | reachable(@, all())"
             "-n"
             "8"
           ];
