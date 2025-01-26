@@ -144,7 +144,7 @@
                   separate(" ",
                     if(self.conflict(), label("conflict", "conflict")),
                     if(!empty, label("empty", "∆")),
-                    if(empty && description, label("empty", "git-merge")),
+                    if(empty && self.parents().len() > 1, label("empty", "git-merge")),
                     format_short_change_id_with_hidden_and_divergent_info(self),
                     format_short_commit_id(self.commit_id()),
                     self.bookmarks(),
