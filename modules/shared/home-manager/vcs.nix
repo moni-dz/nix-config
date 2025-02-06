@@ -109,7 +109,7 @@
         };
 
         signing = {
-          sign-all = true;
+          behavior = "own";
           backend = "ssh";
           key = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
         };

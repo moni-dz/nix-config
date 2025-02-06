@@ -59,6 +59,9 @@
         fish_add_path -amP /Users/moni/.local/share/modular/pkg/packages.modular.com_mojo/bin
         fish_add_path -m /run/current-system/sw/bin
         fish_add_path -m /Users/moni/.nix-profile/bin
+
+        set --export BUN_INSTALL "$HOME/.bun"
+        set --export PATH $BUN_INSTALL/bin $PATH
       '';
     };
   };
