@@ -2,7 +2,7 @@
 
 {
   services.minecraft-servers = {
-    enable = false;
+    enable = true;
     eula = true;
 
     servers =
@@ -50,14 +50,76 @@
       {
         cobble = {
           enable = true;
-          autoStart = false;
+          autoStart = true;
           package = pkgs.fabricServers.fabric-1_21_1;
           openFirewall = true;
 
+          inherit jvmOpts serverProperties;
+
           symlinks = {
+            "mods/architectury.jar" = pkgs.fetchurl {
+              url = "https://cdn.modrinth.com/data/lhGA9TYQ/versions/Wto0RchG/architectury-13.0.8-fabric.jar";
+              sha512 = "7a24a0481732c5504b07347d64a2843c10c29e748018af8e5f5844e5ea2f4517433886231025d823f90eb0b0271d1fa9849c27e7b0c81476c73753f79f19302a";
+            };
+
+            "mods/fabric-api.jar" = pkgs.fetchurl {
+              url = "https://cdn.modrinth.com/data/P7dR8mSH/versions/aHOmYIWr/fabric-api-0.115.1%2B1.21.1.jar";
+              sha512 = "54e039c309e3001089cd97b382cd0193c4fa5eaa92eeb351409588d8a203cdd81e7133d0479bd66331d487a69259e4b7b2db138afec99707f4d43dafc11aa13b";
+            };
+
+            "mods/fabric-kotlin.jar" = pkgs.fetchurl {
+              url = "https://cdn.modrinth.com/data/Ha28R6CL/versions/476dzMG5/fabric-language-kotlin-1.13.1%2Bkotlin.2.1.10.jar";
+              sha512 = "8e3609ef53a731c5509b304397e7fd4e37f2bbb4353b0d6234e74438846f0464743022f3339ba4f5acf21b023c80420ce59c194c1dfb11aeb79caffa6f842fb6";
+            };
+
             "mods/cobblemon.jar" = pkgs.fetchurl {
               url = "https://cdn.modrinth.com/data/MdwFAVRL/versions/v77SHSXW/Cobblemon-fabric-1.6.1%2B1.21.1.jar";
               sha512 = "b7082befee07efd3e0c5857807f739082df5994ec0e7fe3217ce6cdaec7d2ca47ed51bd129096fd4eca8cbcf7de415d14602868a3357980ff88e55b3148dc7f4";
+            };
+
+            "mods/cobblemon-xp.jar" = pkgs.fetchurl {
+              url = "https://cdn.modrinth.com/data/LBl4Qguc/versions/XJKujgmB/cobblemon-capturexp-1.6-fabric-1.0.0.jar";
+              sha512 = "9a5c9a6264fb959ca27d5eb0c065a1dd4f002fb2c3e3564c0c00fc6e1a08b9e38d023a3ed273cf3c857d29688ba99d07383004abda8cc5b954a44845fe7092c3";
+            };
+
+            "mods/cobblemon-counter.jar" = pkgs.fetchurl {
+              url = "https://cdn.modrinth.com/data/rj8uLYP4/versions/6kSMeH0Q/cobblemon-counter-1.6-fabric-1.3.1.jar";
+              sha512 = "cd94a999dfed4af11ff4b7a51dea70dfa144a891b482e13f6819d0d6aca73286a53f0cfc480655e4cbba127a144fe2b79bfbfe6f5b928c3d325d99f6fa83e214";
+            };
+
+            "mods/cobblemon-unchained.jar" = pkgs.fetchurl {
+              url = "https://cdn.modrinth.com/data/wh0wnzrT/versions/yqyJSngh/cobblemon-unchained-1.6-fabric-1.0.1.jar";
+              sha512 = "a70b1d731a00c1760f2b87c879a298fc176ad0ae09de0686d74dc69cbbef357ee088a908c6bd31c14ed680b4320e5adde485ed4c17999e0552be2e0266f9f251";
+            };
+
+            "mods/cobblemon-fight-or-flight.jar" = pkgs.fetchurl {
+              url = "https://cdn.modrinth.com/data/cTdIg5HZ/versions/wvVbdpeV/fightorflight-fabric-0.7.4.jar";
+              sha512 = "2b6aa9af37febdf3fb47a830276f9f0395f3ca98ee2a7903db6ef03d361a164817e62dc6f97fb4b6100a4a3efb842dd140f934415c2bc6ea573a569af1354e6a";
+            };
+
+            "mods/cobblemon-rider.jar" = pkgs.fetchurl {
+              url = "https://cdn.modrinth.com/data/ZLu8WiYO/versions/kjtNSQr4/cobblemonridingfabric-1.3.4.jar";
+              sha512 = "9b57431176fe22fdd173bafa2244c6261f5bb63a1e9d3bdb2d824c931b49ebb8cddd746ca53ee0d9564327c9a7b1d3a898b4f84cc91e19bf8c870ea859cebbcd";
+            };
+
+            "mods/cobblemon-spawn-notification.jar" = pkgs.fetchurl {
+              url = "https://cdn.modrinth.com/data/LPuJjiQz/versions/7Vq83ds8/cobblemon-spawn-notification-1.6-fabric-1.0.0.jar";
+              sha512 = "a14a7f00fb17f670a5704f833cb5dde007615fa48beddb8c0687654d5258748b43bdd7f555050ed63ad2d9f2f8efcfad2936de4c0303f008b863e73867a3009d";
+            };
+
+            "mods/owo-lib.jar" = pkgs.fetchurl {
+              url = "https://cdn.modrinth.com/data/ccKDOlHs/versions/vCCHsvEa/owo-lib-0.12.15%2B1.21.jar";
+              sha512 = "faa86df062ec4fa58b653455deb1307a778e4307392f51a29c5a87de78da7173bb6f77a5ed239306226f2bf972aa9221fbd946a2c07232ecfa09f798ae381924";
+            };
+
+            "mods/lavender.jar" = pkgs.fetchurl {
+              url = "https://cdn.modrinth.com/data/D5h9NKNI/versions/gdB0WW0x/lavender-0.1.15%2B1.21.jar";
+              sha512 = "5fe79ac7b8c150de305b317884d32b16c5d89c3b284f0d7ea4f2ded07e44750ac6a6e1b91993706700da0bf69329552a09e7476f6ed0d7911f7d425cb187c060";
+            };
+
+            "mods/knowlogy.jar" = pkgs.fetchurl {
+              url = "https://cdn.modrinth.com/data/V4OTaHaq/versions/v1gchzmq/knowlogy-fabric-0.7.1-1.21.1.jar";
+              sha512 = "b05d0cc49ea80eceebc7e639b4548b8701d866bcf97a4d1d390c5e644505356a643b35e57b447701ea8b52e3af3533012543b1e04e9c50bb95a2e51d08aed520";
             };
 
             "mods/lithium.jar" = pkgs.fetchurl {
