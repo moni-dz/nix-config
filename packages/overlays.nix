@@ -23,8 +23,6 @@
           substituteInPlace install.sh --replace /usr/local $out
         '';
       };
-
-      fish = prev.callPackage ./derivations/fish.nix { };
     };
   };
 }

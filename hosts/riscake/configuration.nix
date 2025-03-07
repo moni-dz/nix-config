@@ -2,9 +2,6 @@
   config,
   lib,
   pkgs,
-  system,
-  self,
-  inputs,
   inputs',
   ...
 }:
@@ -72,7 +69,6 @@
   };
 
   programs.fish.enable = true;
-  security.pam.enableSudoTouchIdAuth = true;
 
   fonts.packages = __attrValues {
     inherit (pkgs) comic-neue;
