@@ -4,7 +4,6 @@
   programs = {
     atuin = {
       enable = true;
-      daemon.enable = true;
 
       settings = {
         style = "full";

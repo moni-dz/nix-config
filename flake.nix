@@ -44,6 +44,7 @@
     darwin.url = "github:lnl7/nix-darwin";
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/0.1";
     home.url = "github:nix-community/home-manager";
+    lix.url = "git+https://git.lix.systems/lix-project/lix";
     nix-colors.url = "github:Misterio77/nix-colors";
     nix-index-database.url = "github:Mic92/nix-index-database";
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";

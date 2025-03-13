@@ -53,7 +53,6 @@ let
               ../shared/nixos
             ]
             ++ [
-              inputs.determinate.nixosModules.default
               (
                 { pkgs, ... }:
                 {

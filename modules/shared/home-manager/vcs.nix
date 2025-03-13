@@ -43,7 +43,7 @@
 
     jujutsu = {
       inherit (config.programs.git) enable;
-      package = self'.packages.jujutsu;
+      package = self'.packages.jujutsu.overrideAttrs { doCheck = false; };
 
       settings = {
         core.fsmonitor = "watchman";

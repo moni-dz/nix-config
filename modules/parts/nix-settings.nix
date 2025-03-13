@@ -2,11 +2,13 @@
   lib,
   stdenv,
   inputs,
+  inputs',
   ...
 }:
 
 {
   nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+  package = inputs'.lix.packages.default.overrideAttrs { doCheck = false; };
 
   registry = {
     system.flake = inputs.self;
@@ -32,7 +34,6 @@
       experimental-features = [
         "auto-allocate-uids"
         "ca-derivations"
-        # "configurable-impure-env"
         "dynamic-derivations"
         "flakes"
         "nix-command"
@@ -42,13 +43,6 @@
 
       trusted-substituters = [
         "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store?priority=10"
-        "https://mirror.sjtu.edu.cn/nix-channels/store?priority=10"
-        "https://mirrors.ustc.edu.cn/nix-channels/store?priority=15"
-        "https://mirrors.cernet.edu.cn/nix-channels/store?priority=15"
-        "https://mirrors.cqupt.edu.cn/nix-channels/store?priority=15"
-        "https://mirror.iscas.ac.cn/nix-channels/store?priority=15"
-        "https://mirror.nju.edu.cn/nix-channels/store?priority=15"
-        "https://mirrors4.sau.edu.cn/nix-channels/store?priority=15"
         "https://nix-mirror.freetls.fastly.net?priority=11"
         "https://cache.nixos.org?priority=12"
         "https://nix-community.cachix.org?priority=13"
@@ -75,7 +69,7 @@
     (lib.mkIf (stdenv.isDarwin && stdenv.isAarch64) { extra-platforms = "x86_64-darwin"; })
     (lib.mkIf stdenv.isDarwin {
       sandbox = "relaxed";
-      auto-allocate-uids = true;
+      #auto-allocate-uids = true;
     })
   ];
 }

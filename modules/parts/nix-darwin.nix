@@ -46,7 +46,6 @@ let
           inherit (ctx) system;
 
           modules = config.modules ++ [
-            inputs.determinate.darwinModules.default
             (
               { pkgs, ... }:
               {
