@@ -50,11 +50,6 @@
         format.tree-level-conflicts = true;
 
         aliases = {
-          ds = [
-            "desc"
-            "-m"
-          ];
-
           df = [ "diff" ];
 
           lm = [
@@ -72,17 +67,6 @@
           gp = [
             "git"
             "push"
-          ];
-
-          ft = [
-            "git"
-            "fetch"
-            "-b"
-          ];
-
-          rb = [
-            "rebase"
-            "-d"
           ];
 
           rba = [
