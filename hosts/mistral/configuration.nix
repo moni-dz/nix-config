@@ -39,6 +39,7 @@
 
   networking.firewall.allowedTCPPorts = [
     2022
+    3306
     # 1433
     # 4747
     # 5432
@@ -63,6 +64,11 @@
       enable = false;
       package = pkgs.postgresql_17;
       enableTCPIP = true;
+    };
+
+    mysql = {
+      enable = true;
+      package = pkgs.mariadb_114;
     };
   };
 

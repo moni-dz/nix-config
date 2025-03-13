@@ -70,6 +70,12 @@
 
   programs.fish.enable = true;
 
+  security.pam.services.sudo_local = {
+    reattach = true;
+    touchIdAuth = true;
+    watchIdAuth = true;
+  };
+
   fonts.packages = __attrValues {
     inherit (pkgs) comic-neue;
   };
