@@ -42,7 +42,6 @@
     agenix.url = "github:ryantm/agenix";
     crowdsec.url = "git+https://codeberg.org/kampka/nix-flake-crowdsec.git";
     darwin.url = "github:lnl7/nix-darwin";
-    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/0.1";
     home.url = "github:nix-community/home-manager";
     lix.url = "git+https://git.lix.systems/lix-project/lix";
     nix-colors.url = "github:Misterio77/nix-colors";
@@ -64,8 +63,8 @@
     agenix.inputs.darwin.follows = "darwin";
     crowdsec.inputs.nixpkgs.follows = "nixpkgs";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
-    determinate.inputs.nixpkgs.follows = "nixpkgs";
     home.inputs.nixpkgs.follows = "nixpkgs";
+    lix.inputs.nixpkgs.follows = "nixpkgs";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
     nix-minecraft.inputs.nixpkgs.follows = "nixpkgs";
     nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
