@@ -16,7 +16,7 @@
 */
 {
   imports = [
-    ./fish.nix
+    ./shells.nix
     ./vcs.nix
   ];
 
@@ -36,7 +36,7 @@
 
   programs = {
     eza = {
-      enable = true;
+      enable = config.programs.fish.enable;
       package = pkgs.eza;
     };
 

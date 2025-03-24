@@ -1,6 +1,11 @@
 { config, pkgs, ... }:
 
 {
+  home.shell = {
+    enableFishIntegration = config.programs.fish.enable;
+    enableNushellIntegration = config.programs.nushell.enable;
+  };
+
   programs = {
     atuin = {
       enable = true;
@@ -13,7 +18,6 @@
 
     dircolors = {
       enable = false;
-      enableFishIntegration = config.programs.fish.enable;
 
       extraConfig = __readFile (
         pkgs.fetchurl {
@@ -30,7 +34,7 @@
     };
 
     fish = {
-      enable = true;
+      enable = false;
       shellAbbrs = {
         ls = "eza --hyperlink";
         ll = "eza -l --hyperlink";
@@ -48,6 +52,16 @@
       interactiveShellInit = ''
         set -U fish_greeting
       '';
+    };
+
+    nushell = {
+      enable = true;
+
+      shellAliases = {
+        vi = "nvim";
+        vim = "nvim";
+        vimdiff = "nvim -d";
+      };
     };
 
     starship = {
@@ -177,9 +191,6 @@
       };
     };
 
-    zoxide = {
-      enable = true;
-      enableFishIntegration = config.programs.fish.enable;
-    };
+    zoxide.enable = true;
   };
 }

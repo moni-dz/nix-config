@@ -47,13 +47,9 @@
       '';
 
       shellInit = ''
-        # fish_add_path /Users/moni/Library/Python/3.11/bin
-        # fish_add_path -m /Users/moni/.local/share/miniconda/bin
-        # fish_add_path -amP /Applications/ArmGNUToolchain/13.2.Rel1/arm-none-eabi/bin
         fish_add_path -amP /usr/bin
         fish_add_path -amP /opt/homebrew/bin
         fish_add_path -amP /Users/moni/.modular/bin
-        # fish_add_path -amP /usr/local/smlnj/bin
         fish_add_path -amP /opt/local/bin
         fish_add_path -amP /opt/homebrew/opt/llvm/bin
         fish_add_path -amP /Users/moni/.local/share/modular/pkg/packages.modular.com_mojo/bin
@@ -62,6 +58,16 @@
 
         set --export BUN_INSTALL "$HOME/.bun"
         set --export PATH $BUN_INSTALL/bin $PATH
+      '';
+    };
+
+    nushell = {
+      envFile.text = ''
+        open $"(getconf DARWIN_USER_TEMP_DIR)/agenix/tokens" | split column " " | get column2 | split column "=" | reduce -f {} {|it, acc| $acc | upsert $it.column1 $it.column2 } | load-env
+        $env.BUN_INSTALL = ($env.HOME | path join ".bun")
+        $env.path ++= ["/usr/bin" "/opt/homebrew/bin" "/Users/moni/.modular/bin" "/opt/local/bin" "/opt/homebrew/opt/llvm/bin" "/Users/moni/.local/share/modular/pkg/packages.modular.com_mojo/bin" ($env.BUN_INSTALL | path join "bin")]
+        $env.config.buffer_editor = "nvim"
+        $env.config.show_banner = false
       '';
     };
   };

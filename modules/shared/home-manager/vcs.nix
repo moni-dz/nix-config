@@ -41,6 +41,21 @@
       };
     };
 
+    nushell = lib.mkIf config.programs.jujutsu.enable {
+      extraEnv = ''
+        let jj_cache = "${config.xdg.cacheHome}/jj"
+        if not ($jj_cache | path exists) {
+          mkdir $jj_cache
+        }
+        ${config.programs.jujutsu.package}/bin/jj util completion nushell |
+          save --force ${config.xdg.cacheHome}/jj/init.nu
+      '';
+
+      extraConfig = ''
+        source ${config.xdg.cacheHome}/jj/init.nu
+      '';
+    };
+
     jujutsu = {
       inherit (config.programs.git) enable;
       package = self'.packages.jujutsu.overrideAttrs { doCheck = false; };
