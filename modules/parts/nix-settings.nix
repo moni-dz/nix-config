@@ -37,6 +37,7 @@
         "dynamic-derivations"
         "flakes"
         "nix-command"
+        "pipe-operator"
       ];
 
       max-jobs = "auto";
