@@ -45,12 +45,30 @@
           simulation-distance = 24;
           spawn-protection = 5;
           allow-flight = true;
+          keep-inventory = true;
         };
       in
       {
-        cobble = {
+        bettermc = let
+          modpack = pkgs.fetchPackwizModpack {
+            url = "https://raw.githubusercontent.com/moni-dz/bmc3-packwiz/refs/heads/master/pack.toml";
+            packHash = "";
+          };
+        in {
           enable = true;
           autoStart = true;
+          package = pkgs.fabricServers.fabric-1_21_1;
+          openFirewall = true;
+
+          inherit jvmOpts serverProperties;
+
+          symlinks = {
+            "mods" = "${modpack}/mods";
+          };
+        };
+        cobble = {
+          enable = false;
+          autoStart = false;
           package = pkgs.fabricServers.fabric-1_21_1;
           openFirewall = true;
 

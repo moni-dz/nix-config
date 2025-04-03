@@ -7,10 +7,14 @@
 }:
 
 {
-  home.packages = __attrValues {
-    inherit (pkgs.gitAndTools) gh;
-    inherit (pkgs) gnupg;
-  };
+  home.packages = lib.mkMerge [
+    (__attrValues {
+      inherit (pkgs.gitAndTools) gh;
+      inherit (pkgs) gnupg;
+    })
+
+    (lib.mkIf config.programs.jujutsu.enable [ pkgs.watchman ])
+  ];
 
   programs = {
     git = {
