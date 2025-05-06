@@ -42,8 +42,8 @@
     agenix.url = "github:ryantm/agenix";
     crowdsec.url = "git+https://codeberg.org/kampka/nix-flake-crowdsec.git";
     darwin.url = "github:lnl7/nix-darwin";
-    home.url = "github:nix-community/home-manager";
-    lix.url = "git+https://git.lix.systems/lix-project/lix";
+    home.url = "github:nix-community/home-manager/master";
+    nix.url = "github:nixos/nix/master";
     nix-colors.url = "github:Misterio77/nix-colors";
     nix-index-database.url = "github:Mic92/nix-index-database";
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
@@ -51,6 +51,7 @@
     parts.url = "github:hercules-ci/flake-parts";
 
     # Non-flake inputs
+    infuse = { url = "git+https://codeberg.org/amjoseph/infuse.nix.git"; flake = false; };
 
     # Nixpkgs branches
     master.url = "github:nixos/nixpkgs/master";
@@ -64,7 +65,7 @@
     crowdsec.inputs.nixpkgs.follows = "nixpkgs";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     home.inputs.nixpkgs.follows = "nixpkgs";
-    lix.inputs.nixpkgs.follows = "nixpkgs";
+    nix.inputs.nixpkgs.follows = "nixpkgs";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
     nix-minecraft.inputs.nixpkgs.follows = "nixpkgs";
     nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";

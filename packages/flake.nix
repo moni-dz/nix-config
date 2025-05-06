@@ -9,6 +9,7 @@
     nixpkgs-wayland.url = "github:nix-community/nixpkgs-wayland";
     nvim.url = "github:nix-community/neovim-nightly-overlay";
     jj.url = "github:jj-vcs/jj";
+    infuse = { url = "git+https://codeberg.org/amjoseph/infuse.nix.git"; flake = false; };
 
     nixpkgs-f2k.inputs.nixpkgs.follows = "nixpkgs";
     nixpkgs-wayland.inputs.nixpkgs.follows = "nixpkgs";

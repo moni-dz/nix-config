@@ -31,7 +31,7 @@ in
     }:
     {
       _module.args.pkgs = pkgsFrom system;
-      packages = removeAttrs (self.overlays.default pkgs pkgs) [ "lib" ] // {
+      packages = removeAttrs (self.overlays.default pkgs pkgs) [ "infuse" "lib" ] // {
         inherit (inputs'.nixpkgs-f2k.packages) iosevka-ft-bin iosevka-ft-qp-bin;
         inherit (inputs'.jj.packages) jujutsu;
         inherit (inputs'.nvim.packages) neovim;

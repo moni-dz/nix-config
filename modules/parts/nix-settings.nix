@@ -3,12 +3,13 @@
   stdenv,
   inputs,
   inputs',
+  infuse,
   ...
 }:
 
 {
   nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
-  package = inputs'.lix.packages.default.overrideAttrs { doCheck = false; };
+  package = infuse inputs'.nix.packages.default { __output.doCheck.__assign = false; };
 
   registry = {
     system.flake = inputs.self;
@@ -37,7 +38,7 @@
         "dynamic-derivations"
         "flakes"
         "nix-command"
-        "pipe-operator"
+        "pipe-operators"
       ];
 
       max-jobs = "auto";
@@ -68,9 +69,6 @@
     }
 
     (lib.mkIf (stdenv.isDarwin && stdenv.isAarch64) { extra-platforms = "x86_64-darwin"; })
-    (lib.mkIf stdenv.isDarwin {
-      sandbox = "relaxed";
-      #auto-allocate-uids = true;
-    })
+    (lib.mkIf stdenv.isDarwin { sandbox = "relaxed"; })
   ];
 }

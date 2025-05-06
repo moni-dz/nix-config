@@ -26,7 +26,7 @@
           move = n: "shift + cmd - ${n} : yabai -m window --space ${n}; yabai -m space --focus ${n}";
         in
         ''
-          cmd - return : open -na ghostty
+          cmd - return : ^open -na ghostty
         ''
         + lib.optionalString config.services.yabai.enable ''
           cmd - e : yabai -m window --toggle zoom-fullscreen

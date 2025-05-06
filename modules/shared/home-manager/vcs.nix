@@ -3,6 +3,7 @@
   lib,
   pkgs,
   self',
+  infuse,
   ...
 }:
 
@@ -62,7 +63,13 @@
 
     jujutsu = {
       inherit (config.programs.git) enable;
-      package = self'.packages.jujutsu.overrideAttrs { doCheck = false; };
+      
+      package = infuse self'.packages.jujutsu {
+        __output = {
+          version.__prepend = "0.29.0-";
+          doCheck.__assign = false;
+        };
+      };
 
       settings = {
         core.fsmonitor = "watchman";
