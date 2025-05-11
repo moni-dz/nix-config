@@ -1,0 +1,103 @@
+From dececb705f2f2ef637450233deb8b358e8964876 Mon Sep 17 00:00:00 2001
+From: moni-dz <lythe1107@gmail.com>
+Date: Sun, 11 May 2025 09:53:27 +0800
+Subject: [PATCH] Improve build failure error messages
+
+Taken from https://github.com/DeterminateSystems/nix-src/pull/58
+---
+ src/libstore/build/derivation-goal.cc | 33 +++++++++++++++++++++++----
+ tests/functional/build.sh             |  6 +++--
+ 2 files changed, 32 insertions(+), 7 deletions(-)
+
+diff --git a/src/libstore/build/derivation-goal.cc b/src/libstore/build/derivation-goal.cc
+index 344d1c7ea..11d5857cb 100644
+--- a/src/libstore/build/derivation-goal.cc
++++ b/src/libstore/build/derivation-goal.cc
+@@ -353,6 +353,20 @@ struct value_comparison
+     }
+ };
+ 
++static std::string showKnownOutputs(Store & store, const Derivation & drv)
++{
++    std::string msg;
++    StorePathSet expectedOutputPaths;
++    for (auto & i : drv.outputsAndOptPaths(store))
++        if (i.second.second)
++            expectedOutputPaths.insert(*i.second.second);
++    if (!expectedOutputPaths.empty()) {
++        msg += "\nOutput paths:";
++        for (auto & p : expectedOutputPaths)
++            msg += fmt("\n  %s", Magenta(store.printStorePath(p)));
++    }
++    return msg;
++}
+ 
+ /* At least one of the output paths could not be
+    produced using a substitute.  So we have to build instead. */
+@@ -430,9 +444,14 @@ Goal::Co DerivationGoal::gaveUpOnSubstitution()
+     if (nrFailed != 0) {
+         if (!useDerivation)
+             throw Error("some dependencies of '%s' are missing", worker.store.printStorePath(drvPath));
+-        co_return done(BuildResult::DependencyFailed, {}, Error(
+-                "%s dependencies of derivation '%s' failed to build",
+-                nrFailed, worker.store.printStorePath(drvPath)));
++        auto msg = fmt(
++            "Cannot build '%s'.\n"
++            "Reason: " ANSI_RED "%d %s failed" ANSI_NORMAL ".",
++            Magenta(worker.store.printStorePath(drvPath)),
++            nrFailed,
++            nrFailed == 1 ? "dependency" : "dependencies");
++        msg += showKnownOutputs(worker.store, *drv);
++        co_return done(BuildResult::DependencyFailed, {}, Error(msg));
+     }
+ 
+     if (retrySubstitution == RetrySubstitution::YesNeed) {
+@@ -1033,7 +1052,7 @@ void runPostBuildHook(
+ void DerivationGoal::appendLogTailErrorMsg(std::string & msg)
+ {
+     if (!logger->isVerbose() && !logTail.empty()) {
+-        msg += fmt(";\nlast %d log lines:\n", logTail.size());
++        msg += fmt("\nLast %d log lines:\n", logTail.size());
+         for (auto & line : logTail) {
+             msg += "> ";
+             msg += line;
+@@ -1090,10 +1109,14 @@ Goal::Co DerivationGoal::hookDone()
+ 
+     /* Check the exit status. */
+     if (!statusOk(status)) {
+-        auto msg = fmt("builder for '%s' %s",
++        auto msg = fmt(
++            "Cannot build '%s'.\n"
++            "Reason: " ANSI_RED "builder %s" ANSI_NORMAL ".",
+             Magenta(worker.store.printStorePath(drvPath)),
+             statusToString(status));
+ 
++        msg += showKnownOutputs(worker.store, *drv);
++
+         appendLogTailErrorMsg(msg);
+ 
+         outputLocks.unlock();
+diff --git a/tests/functional/build.sh b/tests/functional/build.sh
+index 3f65a7c2c..d65ac6854 100755
+--- a/tests/functional/build.sh
++++ b/tests/functional/build.sh
+@@ -179,12 +179,14 @@ test "$(<<<"$out" grep -cE '^error:')" = 4
+ out="$(nix build -f fod-failing.nix -L x4 2>&1)" && status=0 || status=$?
+ test "$status" = 1
+ test "$(<<<"$out" grep -cE '^error:')" = 2
+-<<<"$out" grepQuiet -E "error: 1 dependencies of derivation '.*-x4\\.drv' failed to build"
++<<<"$out" grepQuiet -E "error: Cannot build '.*-x4\\.drv'"
++<<<"$out" grepQuiet -E "Reason: 1 dependency failed."
+ <<<"$out" grepQuiet -E "hash mismatch in fixed-output derivation '.*-x2\\.drv'"
+ 
+ out="$(nix build -f fod-failing.nix -L x4 --keep-going 2>&1)" && status=0 || status=$?
+ test "$status" = 1
+ test "$(<<<"$out" grep -cE '^error:')" = 3
+-<<<"$out" grepQuiet -E "error: 2 dependencies of derivation '.*-x4\\.drv' failed to build"
++<<<"$out" grepQuiet -E "error: Cannot build '.*-x4\\.drv'"
++<<<"$out" grepQuiet -E "Reason: 2 dependencies failed."
+ <<<"$out" grepQuiet -vE "hash mismatch in fixed-output derivation '.*-x3\\.drv'"
+ <<<"$out" grepQuiet -vE "hash mismatch in fixed-output derivation '.*-x2\\.drv'"
+-- 
+2.49.0
+

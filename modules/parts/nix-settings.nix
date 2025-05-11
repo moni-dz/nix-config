@@ -9,7 +9,16 @@
 
 {
   nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
-  package = infuse inputs'.nix.packages.default { __output.doCheck.__assign = false; };
+
+  package =
+    infuse
+      (inputs'.nix.packages.default.appendPatches [
+        ../../packages/patches/improve-build-failure-error.patch
+        ../../packages/patches/lazy-trees-v2.patch
+      ])
+      {
+        __output.doCheck.__assign = false;
+      };
 
   registry = {
     system.flake = inputs.self;
@@ -22,6 +31,7 @@
       keep-outputs = true;
       keep-derivations = true;
       keep-going = true;
+      lazy-trees = true;
       builders-use-substitutes = true;
       allow-unsafe-native-code-during-evaluation = true;
       accept-flake-config = true;
