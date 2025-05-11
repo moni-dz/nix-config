@@ -27,8 +27,13 @@
 
           # nix the package manager configuration
           nix = import ./nix-settings.nix {
-            inherit lib inputs inputs' infuse;
-            inherit (pkgs) stdenv;
+            inherit
+              lib
+              inputs
+              inputs'
+              infuse
+              pkgs
+              ;
           };
 
           # nixpkgs configuration (not the flake input)
@@ -72,7 +77,9 @@
                 subversion
                 ;
 
-              home-manager = infuse inputs'.home.packages.home-manager { __input.path.__assign = "${inputs.home}"; };
+              home-manager = infuse inputs'.home.packages.home-manager {
+                __input.path.__assign = "${inputs.home}";
+              };
               man-pages = if pkgs.stdenv.isLinux then pkgs.man-pages else self'.packages.man-pages-xnu;
               gnu-coreutils = if pkgs.stdenv.isLinux then pkgs.coreutils else pkgs.coreutils-prefixed;
             };

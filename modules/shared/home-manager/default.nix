@@ -26,7 +26,9 @@
       inherit (pkgs) eternal-terminal mosh ripgrep;
       inherit (inputs'.agenix.packages) agenix;
 
-      nvim = infuse self'.packages.neovim { __input.libuv.__assign = infuse pkgs.libuv { __output.doCheck.__assign = false; }; };
+      nvim = infuse self'.packages.neovim {
+        __input.libuv.__assign = infuse pkgs.libuv { __output.doCheck.__assign = false; };
+      };
     };
 
     sessionVariables = {

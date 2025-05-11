@@ -63,7 +63,7 @@
 
     jujutsu = {
       inherit (config.programs.git) enable;
-      
+
       package = infuse self'.packages.jujutsu {
         __output = {
           version.__prepend = "0.29.0-";

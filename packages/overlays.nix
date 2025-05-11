@@ -5,8 +5,7 @@
     default = final: prev: {
       lib = prev.lib.extend (
         lfinal: lprev: {
-          infuse =
-            (import "${inputs.infuse.outPath}/default.nix" { lib = lprev; }).v1.infuse;
+          infuse = (import "${inputs.infuse.outPath}/default.nix" { lib = lprev; }).v1.infuse;
         }
       );
 

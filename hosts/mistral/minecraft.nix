@@ -49,23 +49,25 @@
         };
       in
       {
-        bettermc = let
-          modpack = pkgs.fetchPackwizModpack {
-            url = "https://raw.githubusercontent.com/moni-dz/bmc3-packwiz/refs/heads/master/pack.toml";
-            packHash = "";
-          };
-        in {
-          enable = true;
-          autoStart = true;
-          package = pkgs.fabricServers.fabric-1_21_1;
-          openFirewall = true;
+        bettermc =
+          let
+            modpack = pkgs.fetchPackwizModpack {
+              url = "https://raw.githubusercontent.com/moni-dz/bmc3-packwiz/refs/heads/master/pack.toml";
+              packHash = "";
+            };
+          in
+          {
+            enable = true;
+            autoStart = true;
+            package = pkgs.fabricServers.fabric-1_21_1;
+            openFirewall = true;
 
-          inherit jvmOpts serverProperties;
+            inherit jvmOpts serverProperties;
 
-          symlinks = {
-            "mods" = "${modpack}/mods";
+            symlinks = {
+              "mods" = "${modpack}/mods";
+            };
           };
-        };
         cobble = {
           enable = false;
           autoStart = false;
