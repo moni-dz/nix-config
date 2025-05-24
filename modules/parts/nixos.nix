@@ -48,7 +48,7 @@ let
         inputs.nixpkgs.lib.nixosSystem {
           modules =
             config.modules
-            ++ lib.optionals (!config.server) [
+            ++ lib.optionals (!config.server && !config.wsl) [
               # Shared configuration across all NixOS machines
               ../shared/nixos
             ]
@@ -68,15 +68,12 @@ let
               )
             ]
             ++ lib.optionals config.wsl [
-              inputs.nixos-wsl.nixosModules.wsl
+              inputs.nixos-wsl.nixosModules.default
 
-              (
-                { lib, pkgs, ... }:
-                {
-                  wsl.wslConf.network.hostname = name;
-                  system.build.installBootLoader = lib.mkForce "${pkgs.coreutils}/bin/true";
-                }
-              )
+              {
+                wsl.enable = true;
+              }
+              
             ];
         }
       );

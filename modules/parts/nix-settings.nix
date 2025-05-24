@@ -25,7 +25,7 @@
         # libstore: Use `boost::regex` for GC root discovery
         (pkgs.fetchpatch2 {
           url = "https://patch-diff.githubusercontent.com/raw/NixOS/nix/pull/13142.patch";
-          hash = "sha256-jMmOR4uNllvdRHXr41GXYVi/q74m6tDNzJea8DfnPMQ=";
+          hash = "sha256-RcLlP/RaUUunTKeWMav1H8HRORVuY+WdwO3eyk37BKQ=";
         })
 
         # Improve the "dirty" message, by clarifying what the jargon means

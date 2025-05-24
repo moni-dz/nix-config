@@ -19,4 +19,13 @@
       inherit (pkgs) pfetch;
     };
   };
+
+  programs = {
+    nushell = {
+      envFile.text = ''
+        open ($env.XDG_RUNTIME_DIR | path join agenix/tokens) | split column " " | get column2 | split column "=" | reduce -f {} {|it, acc| $acc | upsert $it.column1 $it.column2 } | load-env
+        $env.config.show_banner = false
+      '';
+    };
+  };
 }

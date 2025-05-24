@@ -9,17 +9,29 @@
   };
 
   # NixOS configurations
-  parts.nixosConfigurations.mistral = {
-    system = "x86_64-linux";
-    stateVersion = "23.05";
-    server = true;
+  parts.nixosConfigurations = {
+    mistral = {
+      system = "x86_64-linux";
+      stateVersion = "23.05";
+      server = true;
 
-    modules = [
-      inputs.agenix.nixosModules.default
-      inputs.nix-minecraft.nixosModules.minecraft-servers
-      self.nixosModules.shpool
+      modules = [
+        inputs.agenix.nixosModules.default
+        inputs.nix-minecraft.nixosModules.minecraft-servers
+        self.nixosModules.shpool
 
-      ./mistral/configuration.nix
-    ];
+        ./mistral/configuration.nix
+      ];
+    };
+
+    weasel = {
+      system = "x86_64-linux";
+      stateVersion = "24.11";
+      wsl = true;
+
+      modules = [
+        ./weasel/configuration.nix
+      ];
+    };
   };
 }
