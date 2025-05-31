@@ -16,7 +16,7 @@
 {
   home = {
     packages = __attrValues {
-      inherit (pkgs) pfetch;
+      inherit (pkgs) pfetch nix-output-monitor;
     };
   };
 

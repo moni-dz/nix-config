@@ -59,7 +59,12 @@ let
                   inherit (ctx) nix nixpkgs;
                   _module.args = ctx.extraModuleArgs;
                   networking.hostName = name;
-                  system.stateVersion = config.stateVersion;
+                  
+                  system = {
+                    stateVersion = config.stateVersion;
+                    rebuild.enableNg = true;
+                  };
+
                   environment = {
                     enableAllTerminfo = true;
                     systemPackages = ctx.basePackagesFor pkgs;

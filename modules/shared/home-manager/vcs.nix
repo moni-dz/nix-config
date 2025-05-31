@@ -217,7 +217,7 @@
             "8"
           ];
 
-          diff.tool = [
+          diff-formatter = [
             "${lib.getExe pkgs.difftastic}"
             "--color=always"
             "$left"

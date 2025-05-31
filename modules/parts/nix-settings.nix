@@ -20,24 +20,16 @@
   package =
     infuse
       (inputs'.nix.packages.default.appendPatches [
-        ../../packages/patches/lazy-trees-v2.patch
-
-        # libstore: Use `boost::regex` for GC root discovery
+        # Lazy trees v2
         (pkgs.fetchpatch2 {
-          url = "https://patch-diff.githubusercontent.com/raw/NixOS/nix/pull/13142.patch";
-          hash = "sha256-RcLlP/RaUUunTKeWMav1H8HRORVuY+WdwO3eyk37BKQ=";
+          url = "https://patch-diff.githubusercontent.com/raw/NixOS/nix/pull/13225.patch";
+          hash = "sha256-NsJfyOq1fX7Em9l3ukaowBQDRl9urkpAM7EjkJGmtvY=";
         })
 
         # Improve the "dirty" message, by clarifying what the jargon means
         (pkgs.fetchpatch2 {
           url = "https://patch-diff.githubusercontent.com/raw/DeterminateSystems/nix-src/pull/32.patch";
           hash = "sha256-3ceSM+I8NI2t7OxbDnpWlm9DhPN0THxQCAtVaqylQ44=";
-        })
-
-        # Improve 'cannot read file from tarball' error
-        (pkgs.fetchpatch2 {
-          url = "https://patch-diff.githubusercontent.com/raw/DeterminateSystems/nix-src/pull/64.patch";
-          hash = "sha256-545nyXRQxgSZYus6/f8oQGjIgSGROqdnuAboLN4P37s=";
         })
       ])
       {
