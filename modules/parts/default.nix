@@ -20,7 +20,7 @@
       _module.args =
         let
           # infuse.nix (https://codeberg.org/amjoseph/infuse.nix)
-          infuse = (import "${inputs.infuse.outPath}/default.nix" { inherit lib; }).v1.infuse;
+          inherit ((import "${inputs.infuse.outPath}/default.nix" { inherit (inputs.nixpkgs) lib; }).v1) infuse;
         in
         {
           inherit infuse;
