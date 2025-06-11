@@ -1,0 +1,1653 @@
+From 077da512210365304b33de7edbeeba2db7685fae Mon Sep 17 00:00:00 2001
+From: Eelco Dolstra <edolstra@gmail.com>
+Date: Mon, 19 May 2025 16:45:53 +0200
+Subject: [PATCH] Lazy trees v2
+
+This adds a setting 'lazy-trees' that causes flake inputs to be
+"mounted" as virtual filesystems on top of /nix/store as random
+"virtual" store paths. Only when the store path is actually used as a
+dependency of a store derivation do we materialize ("devirtualize")
+the input by copying it to its content-addressed location in the
+store.
+
+String contexts determine when devirtualization happens. One wrinkle
+is that there are cases where we had store paths without proper
+contexts, in particular when the user does `toString <path>` (where
+<path> is a source tree in the Nix store) and passes the result to a
+derivation. This usage was always broken, since it can result in
+derivations that lack correct references. But to ensure that we don't
+change evaluation results, we introduce a new type of context that
+results in devirtualization but not in store references. We also now
+print a warning about this.
+---
+ src/libcmd/installable-value.cc               |  3 +-
+ .../include/nix/expr/tests/value/context.hh   |  5 ++
+ .../tests/value/context.cc                    | 12 +++
+ src/libexpr/eval-cache.cc                     | 19 +++--
+ src/libexpr/eval.cc                           | 63 +++++++++++---
+ src/libexpr/include/nix/expr/eval-settings.hh |  5 ++
+ src/libexpr/include/nix/expr/eval.hh          | 38 ++++++++-
+ .../include/nix/expr/print-ambiguous.hh       |  8 +-
+ src/libexpr/include/nix/expr/value/context.hh | 33 ++++++-
+ src/libexpr/paths.cc                          | 85 +++++++++++++++++++
+ src/libexpr/primops.cc                        | 44 +++++++++-
+ src/libexpr/primops/context.cc                | 28 +++++-
+ src/libexpr/primops/fetchMercurial.cc         |  2 +-
+ src/libexpr/primops/fetchTree.cc              |  8 +-
+ src/libexpr/print-ambiguous.cc                | 24 +++---
+ src/libexpr/print.cc                          |  6 +-
+ src/libexpr/value-to-json.cc                  |  3 +-
+ src/libexpr/value/context.cc                  |  9 ++
+ src/libfetchers/fetchers.cc                   | 35 ++++----
+ src/libfetchers/filtering-source-accessor.cc  |  7 +-
+ src/libfetchers/git.cc                        |  1 +
+ src/libfetchers/github.cc                     |  7 ++
+ .../include/nix/fetchers/fetchers.hh          |  2 +-
+ .../nix/fetchers/filtering-source-accessor.hh |  2 +
+ src/libflake/flake.cc                         | 60 +++++--------
+ src/libflake/include/nix/flake/flake.hh       | 11 ++-
+ src/libstore/store-api.cc                     |  8 +-
+ src/libutil/include/nix/util/meson.build      |  1 +
+ .../nix/util/mounted-source-accessor.hh       | 20 +++++
+ .../include/nix/util/source-accessor.hh       |  4 +-
+ src/libutil/mounted-source-accessor.cc        | 31 +++++--
+ src/nix-env/user-env.cc                       |  2 +-
+ src/nix-instantiate/nix-instantiate.cc        |  7 +-
+ src/nix/app.cc                                |  3 +
+ src/nix/env.cc                                |  1 +
+ src/nix/flake.cc                              | 31 +++++--
+ tests/functional/flakes/flakes.sh             |  1 +
+ tests/functional/flakes/source-paths.sh       | 34 ++++++++
+ tests/functional/flakes/unlocked-override.sh  |  1 +
+ .../lang/eval-fail-hashfile-missing.err.exp   |  2 +-
+ tests/nixos/github-flakes.nix                 |  6 +-
+ 41 files changed, 539 insertions(+), 133 deletions(-)
+ create mode 100644 src/libutil/include/nix/util/mounted-source-accessor.hh
+
+diff --git a/src/libcmd/installable-value.cc b/src/libcmd/installable-value.cc
+index e92496347..f5a129205 100644
+--- a/src/libcmd/installable-value.cc
++++ b/src/libcmd/installable-value.cc
+@@ -57,7 +57,8 @@ std::optional<DerivedPathWithInfo> InstallableValue::trySinglePathToDerivedPaths
+     else if (v.type() == nString) {
+         return {{
+             .path = DerivedPath::fromSingle(
+-                state->coerceToSingleDerivedPath(pos, v, errorCtx)),
++                state->devirtualize(
++                    state->coerceToSingleDerivedPath(pos, v, errorCtx))),
+             .info = make_ref<ExtraPathInfo>(),
+         }};
+     }
+diff --git a/src/libexpr-test-support/include/nix/expr/tests/value/context.hh b/src/libexpr-test-support/include/nix/expr/tests/value/context.hh
+index a6a851d3a..a473f6f12 100644
+--- a/src/libexpr-test-support/include/nix/expr/tests/value/context.hh
++++ b/src/libexpr-test-support/include/nix/expr/tests/value/context.hh
+@@ -23,6 +23,11 @@ struct Arbitrary<NixStringContextElem::DrvDeep> {
+     static Gen<NixStringContextElem::DrvDeep> arbitrary();
+ };
+ 
++template<>
++struct Arbitrary<NixStringContextElem::Path> {
++    static Gen<NixStringContextElem::Path> arbitrary();
++};
++
+ template<>
+ struct Arbitrary<NixStringContextElem> {
+     static Gen<NixStringContextElem> arbitrary();
+diff --git a/src/libexpr-test-support/tests/value/context.cc b/src/libexpr-test-support/tests/value/context.cc
+index 51ff1b2ae..9a27f8730 100644
+--- a/src/libexpr-test-support/tests/value/context.cc
++++ b/src/libexpr-test-support/tests/value/context.cc
+@@ -15,6 +15,15 @@ Gen<NixStringContextElem::DrvDeep> Arbitrary<NixStringContextElem::DrvDeep>::arb
+     });
+ }
+ 
++Gen<NixStringContextElem::Path> Arbitrary<NixStringContextElem::Path>::arbitrary()
++{
++    return gen::map(gen::arbitrary<StorePath>(), [](StorePath storePath) {
++        return NixStringContextElem::Path{
++            .storePath = storePath,
++        };
++    });
++}
++
+ Gen<NixStringContextElem> Arbitrary<NixStringContextElem>::arbitrary()
+ {
+     return gen::mapcat(
+@@ -30,6 +39,9 @@ Gen<NixStringContextElem> Arbitrary<NixStringContextElem>::arbitrary()
+             case 2:
+                 return gen::map(
+                     gen::arbitrary<NixStringContextElem::Built>(), [](NixStringContextElem a) { return a; });
++            case 3:
++                return gen::map(
++                    gen::arbitrary<NixStringContextElem::Path>(), [](NixStringContextElem a) { return a; });
+             default:
+                 assert(false);
+             }
+diff --git a/src/libexpr/eval-cache.cc b/src/libexpr/eval-cache.cc
+index 0d732f59c..72a6b60ea 100644
+--- a/src/libexpr/eval-cache.cc
++++ b/src/libexpr/eval-cache.cc
+@@ -618,18 +618,21 @@ string_t AttrCursor::getStringWithContext()
+             if (auto s = std::get_if<string_t>(&cachedValue->second)) {
+                 bool valid = true;
+                 for (auto & c : s->second) {
+-                    const StorePath & path = std::visit(overloaded {
+-                        [&](const NixStringContextElem::DrvDeep & d) -> const StorePath & {
+-                            return d.drvPath;
++                    const StorePath * path = std::visit(overloaded {
++                        [&](const NixStringContextElem::DrvDeep & d) -> const StorePath * {
++                            return &d.drvPath;
+                         },
+-                        [&](const NixStringContextElem::Built & b) -> const StorePath & {
+-                            return b.drvPath->getBaseStorePath();
++                        [&](const NixStringContextElem::Built & b) -> const StorePath * {
++                            return &b.drvPath->getBaseStorePath();
+                         },
+-                        [&](const NixStringContextElem::Opaque & o) -> const StorePath & {
+-                            return o.path;
++                        [&](const NixStringContextElem::Opaque & o) -> const StorePath * {
++                            return &o.path;
++                        },
++                        [&](const NixStringContextElem::Path & p) -> const StorePath * {
++                            return nullptr;
+                         },
+                     }, c.raw);
+-                    if (!root->state.store->isValidPath(path)) {
++                    if (!path || !root->state.store->isValidPath(*path)) {
+                         valid = false;
+                         break;
+                     }
+diff --git a/src/libexpr/eval.cc b/src/libexpr/eval.cc
+index 7346a7651..e493a7e23 100644
+--- a/src/libexpr/eval.cc
++++ b/src/libexpr/eval.cc
+@@ -16,6 +16,7 @@
+ #include "nix/expr/print.hh"
+ #include "nix/fetchers/filtering-source-accessor.hh"
+ #include "nix/util/memory-source-accessor.hh"
++#include "nix/util/mounted-source-accessor.hh"
+ #include "nix/expr/gc-small-vector.hh"
+ #include "nix/util/url.hh"
+ #include "nix/fetchers/fetch-to-store.hh"
+@@ -267,7 +268,7 @@ EvalState::EvalState(
+                    exception, and make union source accessor
+                    catch it, so we don't need to do this hack.
+                  */
+-                {CanonPath(store->storeDir), store->getFSAccessor(settings.pureEval)},
++                {CanonPath(store->storeDir), makeFSSourceAccessor(dirOf(store->toRealPath(StorePath::dummy)))}
+             }))
+     , rootFS(
+         ({
+@@ -282,12 +283,9 @@ EvalState::EvalState(
+                /nix/store while using a chroot store. */
+             auto accessor = getFSSourceAccessor();
+ 
+-            auto realStoreDir = dirOf(store->toRealPath(StorePath::dummy));
+-            if (settings.pureEval || store->storeDir != realStoreDir) {
+-                accessor = settings.pureEval
+-                    ? storeFS
+-                    : makeUnionSourceAccessor({accessor, storeFS});
+-            }
++            accessor = settings.pureEval
++                ? storeFS.cast<SourceAccessor>()
++                : makeUnionSourceAccessor({accessor, storeFS});
+ 
+             /* Apply access control if needed. */
+             if (settings.restrictEval || settings.pureEval)
+@@ -980,7 +978,16 @@ void EvalState::mkPos(Value & v, PosIdx p)
+     auto origin = positions.originOf(p);
+     if (auto path = std::get_if<SourcePath>(&origin)) {
+         auto attrs = buildBindings(3);
+-        attrs.alloc(sFile).mkString(path->path.abs());
++        if (path->accessor == rootFS && store->isInStore(path->path.abs()))
++            // FIXME: only do this for virtual store paths?
++            attrs.alloc(sFile).mkString(path->path.abs(),
++                {
++                    NixStringContextElem::Path{
++                        .storePath = store->toStorePath(path->path.abs()).first
++                    }
++                });
++        else
++            attrs.alloc(sFile).mkString(path->path.abs());
+         makePositionThunks(*this, p, attrs.alloc(sLine), attrs.alloc(sColumn));
+         v.mkAttrs(attrs);
+     } else
+@@ -2106,7 +2113,7 @@ void ExprConcatStrings::eval(EvalState & state, Env & env, Value & v)
+     else if (firstType == nFloat)
+         v.mkFloat(nf);
+     else if (firstType == nPath) {
+-        if (!context.empty())
++        if (hasContext(context))
+             state.error<EvalError>("a string that refers to a store path cannot be appended to a path").atPos(pos).withFrame(env, *this).debugThrow();
+         v.mkPath(state.rootPath(CanonPath(str())));
+     } else
+@@ -2315,7 +2322,10 @@ std::string_view EvalState::forceStringNoCtx(Value & v, const PosIdx pos, std::s
+ {
+     auto s = forceString(v, pos, errorCtx);
+     if (v.context()) {
+-        error<EvalError>("the string '%1%' is not allowed to refer to a store path (such as '%2%')", v.string_view(), v.context()[0]).withTrace(pos, errorCtx).debugThrow();
++        NixStringContext context;
++        copyContext(v, context);
++        if (hasContext(context))
++            error<EvalError>("the string '%1%' is not allowed to refer to a store path (such as '%2%')", v.string_view(), v.context()[0]).withTrace(pos, errorCtx).debugThrow();
+     }
+     return s;
+ }
+@@ -2364,6 +2374,9 @@ BackedStringView EvalState::coerceToString(
+     }
+ 
+     if (v.type() == nPath) {
++        // FIXME: instead of copying the path to the store, we could
++        // return a virtual store path that lazily copies the path to
++        // the store in devirtualize().
+         return
+             !canonicalizePath && !copyToStore
+             ? // FIXME: hack to preserve path literals that end in a
+@@ -2371,7 +2384,16 @@ BackedStringView EvalState::coerceToString(
+               v.payload.path.path
+             : copyToStore
+             ? store->printStorePath(copyPathToStore(context, v.path()))
+-            : std::string(v.path().path.abs());
++            : ({
++                auto path = v.path();
++                if (path.accessor == rootFS && store->isInStore(path.path.abs())) {
++                    context.insert(
++                        NixStringContextElem::Path{
++                            .storePath = store->toStorePath(path.path.abs()).first
++                        });
++                }
++                std::string(path.path.abs());
++              });
+     }
+ 
+     if (v.type() == nAttrs) {
+@@ -2454,7 +2476,7 @@ StorePath EvalState::copyPathToStore(NixStringContext & context, const SourcePat
+                 *store,
+                 path.resolveSymlinks(SymlinkResolution::Ancestors),
+                 settings.readOnlyMode ? FetchMode::DryRun : FetchMode::Copy,
+-                path.baseName(),
++                computeBaseName(path),
+                 ContentAddressMethod::Raw::NixArchive,
+                 nullptr,
+                 repair);
+@@ -2509,7 +2531,7 @@ StorePath EvalState::coerceToStorePath(const PosIdx pos, Value & v, NixStringCon
+     auto path = coerceToString(pos, v, context, errorCtx, false, false, true).toOwned();
+     if (auto storePath = store->maybeParseStorePath(path))
+         return *storePath;
+-    error<EvalError>("path '%1%' is not in the Nix store", path).withTrace(pos, errorCtx).debugThrow();
++    error<EvalError>("cannot coerce '%s' to a store path because it is not a subpath of the Nix store", path).withTrace(pos, errorCtx).debugThrow();
+ }
+ 
+ 
+@@ -2535,6 +2557,11 @@ std::pair<SingleDerivedPath, std::string_view> EvalState::coerceToSingleDerivedP
+         [&](NixStringContextElem::Built && b) -> SingleDerivedPath {
+             return std::move(b);
+         },
++        [&](NixStringContextElem::Path && p) -> SingleDerivedPath {
++            error<EvalError>(
++                "string '%s' has no context",
++                s).withTrace(pos, errorCtx).debugThrow();
++        },
+     }, ((NixStringContextElem &&) *context.begin()).raw);
+     return {
+         std::move(derivedPath),
+@@ -3118,6 +3145,11 @@ SourcePath EvalState::findFile(const LookupPath & lookupPath, const std::string_
+ 
+         auto res = (r / CanonPath(suffix)).resolveSymlinks();
+         if (res.pathExists()) return res;
++
++        // Backward compatibility hack: throw an exception if access
++        // to this path is not allowed.
++        if (auto accessor = res.accessor.dynamic_pointer_cast<FilteringSourceAccessor>())
++            accessor->checkAccess(res.path);
+     }
+ 
+     if (hasPrefix(path, "nix/"))
+@@ -3188,6 +3220,11 @@ std::optional<SourcePath> EvalState::resolveLookupPathPath(const LookupPath::Pat
+         if (path.resolveSymlinks().pathExists())
+             return finish(std::move(path));
+         else {
++            // Backward compatibility hack: throw an exception if access
++            // to this path is not allowed.
++            if (auto accessor = path.accessor.dynamic_pointer_cast<FilteringSourceAccessor>())
++                accessor->checkAccess(path.path);
++
+             logWarning({
+                 .msg = HintFmt("Nix search path entry '%1%' does not exist, ignoring", value)
+             });
+diff --git a/src/libexpr/include/nix/expr/eval-settings.hh b/src/libexpr/include/nix/expr/eval-settings.hh
+index 9ff73138a..7f6741021 100644
+--- a/src/libexpr/include/nix/expr/eval-settings.hh
++++ b/src/libexpr/include/nix/expr/eval-settings.hh
+@@ -279,6 +279,11 @@ struct EvalSettings : Config
+ 
+           This option can be enabled by setting `NIX_ABORT_ON_WARN=1` in the environment.
+         )"};
++
++    Setting<bool> lazyTrees{this, false, "lazy-trees",
++        R"(
++          If set to true, flakes and trees fetched by [`builtins.fetchTree`](@docroot@/language/builtins.md#builtins-fetchTree) are only copied to the Nix store when they're used as a dependency of a derivation. This avoids copying (potentially large) source trees unnecessarily.
++        )"};
+ };
+ 
+ /**
+diff --git a/src/libexpr/include/nix/expr/eval.hh b/src/libexpr/include/nix/expr/eval.hh
+index 27294d114..56fe5bac0 100644
+--- a/src/libexpr/include/nix/expr/eval.hh
++++ b/src/libexpr/include/nix/expr/eval.hh
+@@ -37,6 +37,7 @@ class Store;
+ namespace fetchers {
+ struct Settings;
+ struct InputCache;
++struct Input;
+ }
+ struct EvalSettings;
+ class EvalState;
+@@ -44,6 +45,7 @@ class StorePath;
+ struct SingleDerivedPath;
+ enum RepairFlag : bool;
+ struct MemorySourceAccessor;
++struct MountedSourceAccessor;
+ namespace eval_cache {
+     class EvalCache;
+ }
+@@ -272,7 +274,7 @@ public:
+     /**
+      * The accessor corresponding to `store`.
+      */
+-    const ref<SourceAccessor> storeFS;
++    const ref<MountedSourceAccessor> storeFS;
+ 
+     /**
+      * The accessor for the root filesystem.
+@@ -450,6 +452,15 @@ public:
+ 
+     void checkURI(const std::string & uri);
+ 
++    /**
++     * Mount an input on the Nix store.
++     */
++    StorePath mountInput(
++        fetchers::Input & input,
++        const fetchers::Input & originalInput,
++        ref<SourceAccessor> accessor,
++        bool requireLockable);
++
+     /**
+      * Parse a Nix expression from the specified file.
+      */
+@@ -564,6 +575,18 @@ public:
+     std::optional<std::string> tryAttrsToString(const PosIdx pos, Value & v,
+         NixStringContext & context, bool coerceMore = false, bool copyToStore = true);
+ 
++    StorePath devirtualize(
++        const StorePath & path,
++        StringMap * rewrites = nullptr);
++
++    SingleDerivedPath devirtualize(
++        const SingleDerivedPath & path,
++        StringMap * rewrites = nullptr);
++
++    std::string devirtualize(
++        std::string_view s,
++        const NixStringContext & context);
++
+     /**
+      * String coercion.
+      *
+@@ -579,6 +602,19 @@ public:
+ 
+     StorePath copyPathToStore(NixStringContext & context, const SourcePath & path);
+ 
++
++    /**
++     * Compute the base name for a `SourcePath`. For non-store paths,
++     * this is just `SourcePath::baseName()`. But for store paths, for
++     * backwards compatibility, it needs to be `<hash>-source`,
++     * i.e. as if the path were copied to the Nix store. This results
++     * in a "double-copied" store path like
++     * `/nix/store/<hash1>-<hash2>-source`. We don't need to
++     * materialize /nix/store/<hash2>-source though. Still, this
++     * requires reading/hashing the path twice.
++     */
++    std::string computeBaseName(const SourcePath & path);
++
+     /**
+      * Path coercion.
+      *
+diff --git a/src/libexpr/include/nix/expr/print-ambiguous.hh b/src/libexpr/include/nix/expr/print-ambiguous.hh
+index 9e5a27e6d..d4ecea0bf 100644
+--- a/src/libexpr/include/nix/expr/print-ambiguous.hh
++++ b/src/libexpr/include/nix/expr/print-ambiguous.hh
+@@ -16,10 +16,10 @@ namespace nix {
+  * See: https://github.com/NixOS/nix/issues/9730
+  */
+ void printAmbiguous(
+-    Value &v,
+-    const SymbolTable &symbols,
+-    std::ostream &str,
+-    std::set<const void *> *seen,
++    EvalState & state,
++    Value & v,
++    std::ostream & str,
++    std::set<const void *> * seen,
+     int depth);
+ 
+ }
+diff --git a/src/libexpr/include/nix/expr/value/context.hh b/src/libexpr/include/nix/expr/value/context.hh
+index f2de184ea..f53c9b997 100644
+--- a/src/libexpr/include/nix/expr/value/context.hh
++++ b/src/libexpr/include/nix/expr/value/context.hh
+@@ -54,10 +54,35 @@ struct NixStringContextElem {
+      */
+     using Built = SingleDerivedPath::Built;
+ 
++    /**
++     * A store path that will not result in a store reference when
++     * used in a derivation or toFile.
++     *
++     * When you apply `builtins.toString` to a path value representing
++     * a path in the Nix store (as is the case with flake inputs),
++     * historically you got a string without context
++     * (e.g. `/nix/store/...-source`). This is broken, since it allows
++     * you to pass a store path to a derivation/toFile without a
++     * proper store reference. This is especially a problem with lazy
++     * trees, since the store path is a virtual path that doesn't
++     * exist.
++     *
++     * For backwards compatibility, and to warn users about this
++     * unsafe use of `toString`, we keep track of such strings as a
++     * special type of context.
++     */
++    struct Path
++    {
++        StorePath storePath;
++
++        GENERATE_CMP(Path, me->storePath);
++    };
++
+     using Raw = std::variant<
+         Opaque,
+         DrvDeep,
+-        Built
++        Built,
++        Path
+     >;
+ 
+     Raw raw;
+@@ -82,4 +107,10 @@ struct NixStringContextElem {
+ 
+ typedef std::set<NixStringContextElem> NixStringContext;
+ 
++/**
++ * Returns false if `context` has no elements other than
++ * `NixStringContextElem::Path`.
++ */
++bool hasContext(const NixStringContext & context);
++
+ }
+diff --git a/src/libexpr/paths.cc b/src/libexpr/paths.cc
+index c5107de3a..fa8ebea48 100644
+--- a/src/libexpr/paths.cc
++++ b/src/libexpr/paths.cc
+@@ -1,5 +1,7 @@
+ #include "nix/store/store-api.hh"
+ #include "nix/expr/eval.hh"
++#include "nix/util/mounted-source-accessor.hh"
++#include "nix/fetchers/fetch-to-store.hh"
+ 
+ namespace nix {
+ 
+@@ -18,4 +20,87 @@ SourcePath EvalState::storePath(const StorePath & path)
+     return {rootFS, CanonPath{store->printStorePath(path)}};
+ }
+ 
++StorePath EvalState::devirtualize(const StorePath & path, StringMap * rewrites)
++{
++    if (auto mount = storeFS->getMount(CanonPath(store->printStorePath(path)))) {
++        auto storePath = fetchToStore(
++            fetchSettings,
++            *store,
++            SourcePath{ref(mount)},
++            settings.readOnlyMode ? FetchMode::DryRun : FetchMode::Copy,
++            path.name());
++        assert(storePath.name() == path.name());
++        if (rewrites)
++            rewrites->emplace(path.hashPart(), storePath.hashPart());
++        return storePath;
++    } else
++        return path;
++}
++
++SingleDerivedPath EvalState::devirtualize(const SingleDerivedPath & path, StringMap * rewrites)
++{
++    if (auto o = std::get_if<SingleDerivedPath::Opaque>(&path.raw()))
++        return SingleDerivedPath::Opaque{devirtualize(o->path, rewrites)};
++    else
++        return path;
++}
++
++std::string EvalState::devirtualize(std::string_view s, const NixStringContext & context)
++{
++    StringMap rewrites;
++
++    for (auto & c : context)
++        if (auto o = std::get_if<NixStringContextElem::Opaque>(&c.raw))
++            devirtualize(o->path, &rewrites);
++
++    return rewriteStrings(std::string(s), rewrites);
++}
++
++std::string EvalState::computeBaseName(const SourcePath & path)
++{
++    if (path.accessor == rootFS) {
++        if (auto storePath = store->maybeParseStorePath(path.path.abs())) {
++            warn(
++                "Performing inefficient double copy of path '%s' to the store. "
++                "This can typically be avoided by rewriting an attribute like `src = ./.` "
++                "to `src = builtins.path { path = ./.; name = \"source\"; }`.",
++                path);
++            return std::string(
++                fetchToStore(fetchSettings, *store, path, FetchMode::DryRun, storePath->name()).to_string());
++        }
++    }
++    return std::string(path.baseName());
++}
++
++StorePath EvalState::mountInput(
++    fetchers::Input & input, const fetchers::Input & originalInput, ref<SourceAccessor> accessor, bool requireLockable)
++{
++    auto storePath = settings.lazyTrees
++                         ? StorePath::random(input.getName())
++                         : fetchToStore(fetchSettings, *store, accessor, FetchMode::Copy, input.getName());
++
++    allowPath(storePath); // FIXME: should just whitelist the entire virtual store
++
++    storeFS->mount(CanonPath(store->printStorePath(storePath)), accessor);
++
++    if (requireLockable && (!settings.lazyTrees || !input.isLocked()) && !input.getNarHash()) {
++        auto narHash = accessor->hashPath(CanonPath::root);
++        input.attrs.insert_or_assign("narHash", narHash.to_string(HashFormat::SRI, true));
++    }
++
++    // FIXME: what to do with the NAR hash in lazy mode?
++    if (!settings.lazyTrees && originalInput.getNarHash()) {
++        auto expected = originalInput.computeStorePath(*store);
++        if (storePath != expected)
++            throw Error(
++                (unsigned int) 102,
++                "NAR hash mismatch in input '%s', expected '%s' but got '%s'",
++                originalInput.to_string(),
++                store->printStorePath(storePath),
++                store->printStorePath(expected));
++    }
++
++    return storePath;
++}
++
+ }
+diff --git a/src/libexpr/primops.cc b/src/libexpr/primops.cc
+index 48bc272f9..433800306 100644
+--- a/src/libexpr/primops.cc
++++ b/src/libexpr/primops.cc
+@@ -14,6 +14,7 @@
+ #include "nix/expr/value-to-xml.hh"
+ #include "nix/expr/primops.hh"
+ #include "nix/fetchers/fetch-to-store.hh"
++#include "nix/util/mounted-source-accessor.hh"
+ 
+ #include <boost/container/small_vector.hpp>
+ #include <nlohmann/json.hpp>
+@@ -75,7 +76,10 @@ StringMap EvalState::realiseContext(const NixStringContext & context, StorePathS
+                 ensureValid(b.drvPath->getBaseStorePath());
+             },
+             [&](const NixStringContextElem::Opaque & o) {
+-                ensureValid(o.path);
++                // We consider virtual store paths valid here. They'll
++                // be devirtualized if needed elsewhere.
++                if (!storeFS->getMount(CanonPath(store->printStorePath(o.path))))
++                    ensureValid(o.path);
+                 if (maybePathsOut)
+                     maybePathsOut->emplace(o.path);
+             },
+@@ -85,6 +89,9 @@ StringMap EvalState::realiseContext(const NixStringContext & context, StorePathS
+                 if (maybePathsOut)
+                     maybePathsOut->emplace(d.drvPath);
+             },
++            [&](const NixStringContextElem::Path & p) {
++                // FIXME: do something?
++            },
+         }, c.raw);
+     }
+ 
+@@ -1448,6 +1455,10 @@ static void derivationStrictInternal(
+     /* Everything in the context of the strings in the derivation
+        attributes should be added as dependencies of the resulting
+        derivation. */
++    StringMap rewrites;
++
++    std::optional<std::string> drvS;
++
+     for (auto & c : context) {
+         std::visit(overloaded {
+             /* Since this allows the builder to gain access to every
+@@ -1470,11 +1481,24 @@ static void derivationStrictInternal(
+                 drv.inputDrvs.ensureSlot(*b.drvPath).value.insert(b.output);
+             },
+             [&](const NixStringContextElem::Opaque & o) {
+-                drv.inputSrcs.insert(o.path);
++                drv.inputSrcs.insert(state.devirtualize(o.path, &rewrites));
++            },
++            [&](const NixStringContextElem::Path & p) {
++                if (!drvS) drvS = drv.unparse(*state.store, true);
++                if (drvS->find(p.storePath.to_string()) != drvS->npos) {
++                    auto devirtualized = state.devirtualize(p.storePath, &rewrites);
++                    warn(
++                        "Using 'builtins.derivation' to create a derivation named '%s' that references the store path '%s' without a proper context. "
++                        "The resulting derivation will not have a correct store reference, so this is unreliable and may stop working in the future.",
++                        drvName,
++                        state.store->printStorePath(devirtualized));
++                }
+             },
+         }, c.raw);
+     }
+ 
++    drv.applyRewrites(rewrites);
++
+     /* Do we have all required attributes? */
+     if (drv.builder == "")
+         state.error<EvalError>("required attribute 'builder' missing")
+@@ -2378,10 +2402,21 @@ static void prim_toFile(EvalState & state, const PosIdx pos, Value * * args, Val
+     std::string contents(state.forceString(*args[1], context, pos, "while evaluating the second argument passed to builtins.toFile"));
+ 
+     StorePathSet refs;
++    StringMap rewrites;
+ 
+     for (auto c : context) {
+         if (auto p = std::get_if<NixStringContextElem::Opaque>(&c.raw))
+             refs.insert(p->path);
++        else if (auto p = std::get_if<NixStringContextElem::Path>(&c.raw)) {
++            if (contents.find(p->storePath.to_string()) != contents.npos) {
++                auto devirtualized = state.devirtualize(p->storePath, &rewrites);
++                warn(
++                    "Using 'builtins.toFile' to create a file named '%s' that references the store path '%s' without a proper context. "
++                    "The resulting file will not have a correct store reference, so this is unreliable and may stop working in the future.",
++                    name,
++                    state.store->printStorePath(devirtualized));
++            }
++        }
+         else
+             state.error<EvalError>(
+                 "files created by %1% may not reference derivations, but %2% references %3%",
+@@ -2391,6 +2426,8 @@ static void prim_toFile(EvalState & state, const PosIdx pos, Value * * args, Val
+             ).atPos(pos).debugThrow();
+     }
+ 
++    contents = rewriteStrings(contents, rewrites);
++
+     auto storePath = settings.readOnlyMode
+         ? state.store->makeFixedOutputPathFromCA(name, TextInfo {
+             .hash = hashString(HashAlgorithm::SHA256, contents),
+@@ -2540,6 +2577,7 @@ static void addPath(
+                 {}));
+ 
+         if (!expectedHash || !state.store->isValidPath(*expectedStorePath)) {
++            // FIXME: make this lazy?
+             auto dstPath = fetchToStore(
+                 state.fetchSettings,
+                 *state.store,
+@@ -2571,7 +2609,7 @@ static void prim_filterSource(EvalState & state, const PosIdx pos, Value * * arg
+         "while evaluating the second argument (the path to filter) passed to 'builtins.filterSource'");
+     state.forceFunction(*args[0], pos, "while evaluating the first argument passed to builtins.filterSource");
+ 
+-    addPath(state, pos, path.baseName(), path, args[0], ContentAddressMethod::Raw::NixArchive, std::nullopt, v, context);
++    addPath(state, pos, state.computeBaseName(path), path, args[0], ContentAddressMethod::Raw::NixArchive, std::nullopt, v, context);
+ }
+ 
+ static RegisterPrimOp primop_filterSource({
+diff --git a/src/libexpr/primops/context.cc b/src/libexpr/primops/context.cc
+index 6a7284e05..28153c778 100644
+--- a/src/libexpr/primops/context.cc
++++ b/src/libexpr/primops/context.cc
+@@ -7,9 +7,15 @@ namespace nix {
+ 
+ static void prim_unsafeDiscardStringContext(EvalState & state, const PosIdx pos, Value * * args, Value & v)
+ {
+-    NixStringContext context;
++    NixStringContext context, filtered;
++
+     auto s = state.coerceToString(pos, *args[0], context, "while evaluating the argument passed to builtins.unsafeDiscardStringContext");
+-    v.mkString(*s);
++
++    for (auto & c : context)
++        if (auto * p = std::get_if<NixStringContextElem::Path>(&c.raw))
++            filtered.insert(*p);
++
++    v.mkString(*s, filtered);
+ }
+ 
+ static RegisterPrimOp primop_unsafeDiscardStringContext({
+@@ -21,12 +27,19 @@ static RegisterPrimOp primop_unsafeDiscardStringContext({
+     .fun = prim_unsafeDiscardStringContext,
+ });
+ 
++bool hasContext(const NixStringContext & context)
++{
++    for (auto & c : context)
++        if (!std::get_if<NixStringContextElem::Path>(&c.raw))
++            return true;
++    return false;
++}
+ 
+ static void prim_hasContext(EvalState & state, const PosIdx pos, Value * * args, Value & v)
+ {
+     NixStringContext context;
+     state.forceString(*args[0], context, pos, "while evaluating the argument passed to builtins.hasContext");
+-    v.mkBool(!context.empty());
++    v.mkBool(hasContext(context));
+ }
+ 
+ static RegisterPrimOp primop_hasContext({
+@@ -103,7 +116,7 @@ static void prim_addDrvOutputDependencies(EvalState & state, const PosIdx pos, V
+     NixStringContext context;
+     auto s = state.coerceToString(pos, *args[0], context, "while evaluating the argument passed to builtins.addDrvOutputDependencies");
+ 
+-	auto contextSize = context.size();
++    auto contextSize = context.size();
+     if (contextSize != 1) {
+         state.error<EvalError>(
+             "context of string '%s' must have exactly one element, but has %d",
+@@ -136,6 +149,11 @@ static void prim_addDrvOutputDependencies(EvalState & state, const PosIdx pos, V
+                  above does not make much sense. */
+                 return std::move(c);
+             },
++            [&](const NixStringContextElem::Path & p) -> NixStringContextElem::DrvDeep {
++                state.error<EvalError>(
++                    "`addDrvOutputDependencies` does not work on a string without context"
++                ).atPos(pos).debugThrow();
++            },
+         }, context.begin()->raw) }),
+     };
+ 
+@@ -206,6 +224,8 @@ static void prim_getContext(EvalState & state, const PosIdx pos, Value * * args,
+             [&](NixStringContextElem::Opaque && o) {
+                 contextInfos[std::move(o.path)].path = true;
+             },
++            [&](NixStringContextElem::Path && p) {
++            },
+         }, ((NixStringContextElem &&) i).raw);
+     }
+ 
+diff --git a/src/libexpr/primops/fetchMercurial.cc b/src/libexpr/primops/fetchMercurial.cc
+index 189bd1f73..843beb4d1 100644
+--- a/src/libexpr/primops/fetchMercurial.cc
++++ b/src/libexpr/primops/fetchMercurial.cc
+@@ -64,7 +64,7 @@ static void prim_fetchMercurial(EvalState & state, const PosIdx pos, Value * * a
+     if (rev) attrs.insert_or_assign("rev", rev->gitRev());
+     auto input = fetchers::Input::fromAttrs(state.fetchSettings, std::move(attrs));
+ 
+-    auto [storePath, input2] = input.fetchToStore(state.store);
++    auto [storePath, accessor, input2] = input.fetchToStore(state.store);
+ 
+     auto attrs2 = state.buildBindings(8);
+     state.mkStorePathString(storePath, attrs2.alloc(state.sOutPath));
+diff --git a/src/libexpr/primops/fetchTree.cc b/src/libexpr/primops/fetchTree.cc
+index bdd65b4c6..8cb597edf 100644
+--- a/src/libexpr/primops/fetchTree.cc
++++ b/src/libexpr/primops/fetchTree.cc
+@@ -10,6 +10,8 @@
+ #include "nix/util/url.hh"
+ #include "nix/expr/value-to-json.hh"
+ #include "nix/fetchers/fetch-to-store.hh"
++#include "nix/fetchers/input-cache.hh"
++#include "nix/util/mounted-source-accessor.hh"
+ 
+ #include <nlohmann/json.hpp>
+ 
+@@ -204,11 +206,11 @@ static void fetchTree(
+             throw Error("input '%s' is not allowed to use the '__final' attribute", input.to_string());
+     }
+ 
+-    auto [storePath, input2] = input.fetchToStore(state.store);
++    auto cachedInput = state.inputCache->getAccessor(state.store, input, fetchers::UseRegistries::No);
+ 
+-    state.allowPath(storePath);
++    auto storePath = state.mountInput(cachedInput.lockedInput, input, cachedInput.accessor, true);
+ 
+-    emitTreeAttrs(state, storePath, input2, v, params.emptyRevFallback, false);
++    emitTreeAttrs(state, storePath, cachedInput.lockedInput, v, params.emptyRevFallback, false);
+ }
+ 
+ static void prim_fetchTree(EvalState & state, const PosIdx pos, Value * * args, Value & v)
+diff --git a/src/libexpr/print-ambiguous.cc b/src/libexpr/print-ambiguous.cc
+index 0646783c2..e5bfe3ccd 100644
+--- a/src/libexpr/print-ambiguous.cc
++++ b/src/libexpr/print-ambiguous.cc
+@@ -7,10 +7,10 @@ namespace nix {
+ 
+ // See: https://github.com/NixOS/nix/issues/9730
+ void printAmbiguous(
+-    Value &v,
+-    const SymbolTable &symbols,
+-    std::ostream &str,
+-    std::set<const void *> *seen,
++    EvalState & state,
++    Value & v,
++    std::ostream & str,
++    std::set<const void *> * seen,
+     int depth)
+ {
+     checkInterrupt();
+@@ -26,9 +26,13 @@ void printAmbiguous(
+     case nBool:
+         printLiteralBool(str, v.boolean());
+         break;
+-    case nString:
+-        printLiteralString(str, v.string_view());
++    case nString: {
++        NixStringContext context;
++        copyContext(v, context);
++        // FIXME: make devirtualization configurable?
++        printLiteralString(str, state.devirtualize(v.string_view(), context));
+         break;
++    }
+     case nPath:
+         str << v.path().to_string(); // !!! escaping?
+         break;
+@@ -40,9 +44,9 @@ void printAmbiguous(
+             str << "«repeated»";
+         else {
+             str << "{ ";
+-            for (auto & i : v.attrs()->lexicographicOrder(symbols)) {
+-                str << symbols[i->name] << " = ";
+-                printAmbiguous(*i->value, symbols, str, seen, depth - 1);
++            for (auto & i : v.attrs()->lexicographicOrder(state.symbols)) {
++                str << state.symbols[i->name] << " = ";
++                printAmbiguous(state, *i->value, str, seen, depth - 1);
+                 str << "; ";
+             }
+             str << "}";
+@@ -56,7 +60,7 @@ void printAmbiguous(
+             str << "[ ";
+             for (auto v2 : v.listItems()) {
+                 if (v2)
+-                    printAmbiguous(*v2, symbols, str, seen, depth - 1);
++                    printAmbiguous(state, *v2, str, seen, depth - 1);
+                 else
+                     str << "(nullptr)";
+                 str << " ";
+diff --git a/src/libexpr/print.cc b/src/libexpr/print.cc
+index 06bae9c5c..2badbb1bb 100644
+--- a/src/libexpr/print.cc
++++ b/src/libexpr/print.cc
+@@ -249,7 +249,11 @@ private:
+ 
+     void printString(Value & v)
+     {
+-        printLiteralString(output, v.string_view(), options.maxStringLength, options.ansiColors);
++        NixStringContext context;
++        copyContext(v, context);
++        std::ostringstream s;
++        printLiteralString(s, v.string_view(), options.maxStringLength, options.ansiColors);
++        output << state.devirtualize(s.str(), context);
+     }
+ 
+     void printPath(Value & v)
+diff --git a/src/libexpr/value-to-json.cc b/src/libexpr/value-to-json.cc
+index 4c0667d9e..f51108459 100644
+--- a/src/libexpr/value-to-json.cc
++++ b/src/libexpr/value-to-json.cc
+@@ -7,9 +7,10 @@
+ #include <iomanip>
+ #include <nlohmann/json.hpp>
+ 
+-
+ namespace nix {
++
+ using json = nlohmann::json;
++
+ // TODO: rename. It doesn't print.
+ json printValueAsJSON(EvalState & state, bool strict,
+     Value & v, const PosIdx pos, NixStringContext & context, bool copyToStore)
+diff --git a/src/libexpr/value/context.cc b/src/libexpr/value/context.cc
+index 40d08da59..cb3e6b691 100644
+--- a/src/libexpr/value/context.cc
++++ b/src/libexpr/value/context.cc
+@@ -57,6 +57,11 @@ NixStringContextElem NixStringContextElem::parse(
+             .drvPath = StorePath { s.substr(1) },
+         };
+     }
++    case '@': {
++        return NixStringContextElem::Path {
++            .storePath = StorePath { s.substr(1) },
++        };
++    }
+     default: {
+         // Ensure no '!'
+         if (s.find("!") != std::string_view::npos) {
+@@ -100,6 +105,10 @@ std::string NixStringContextElem::to_string() const
+             res += '=';
+             res += d.drvPath.to_string();
+         },
++        [&](const NixStringContextElem::Path & p) {
++            res += '@';
++            res += p.storePath.to_string();
++        },
+     }, raw);
+ 
+     return res;
+diff --git a/src/libfetchers/fetchers.cc b/src/libfetchers/fetchers.cc
+index 9cb896601..754ddb277 100644
+--- a/src/libfetchers/fetchers.cc
++++ b/src/libfetchers/fetchers.cc
+@@ -189,34 +189,30 @@ bool Input::contains(const Input & other) const
+ }
+ 
+ // FIXME: remove
+-std::pair<StorePath, Input> Input::fetchToStore(ref<Store> store) const
++std::tuple<StorePath, ref<SourceAccessor>, Input> Input::fetchToStore(ref<Store> store) const
+ {
+     if (!scheme)
+         throw Error("cannot fetch unsupported input '%s'", attrsToJSON(toAttrs()));
+ 
+-    auto [storePath, input] = [&]() -> std::pair<StorePath, Input> {
+-        try {
+-            auto [accessor, result] = getAccessorUnchecked(store);
+-
+-            auto storePath = nix::fetchToStore(*settings, *store, SourcePath(accessor), FetchMode::Copy, result.getName());
++    try {
++        auto [accessor, result] = getAccessorUnchecked(store);
+ 
+-            auto narHash = store->queryPathInfo(storePath)->narHash;
+-            result.attrs.insert_or_assign("narHash", narHash.to_string(HashFormat::SRI, true));
++        auto storePath = nix::fetchToStore(*settings, *store, SourcePath(accessor), FetchMode::Copy, result.getName());
+ 
+-            result.attrs.insert_or_assign("__final", Explicit<bool>(true));
++        auto narHash = store->queryPathInfo(storePath)->narHash;
++        result.attrs.insert_or_assign("narHash", narHash.to_string(HashFormat::SRI, true));
+ 
+-            assert(result.isFinal());
++        result.attrs.insert_or_assign("__final", Explicit<bool>(true));
+ 
+-            checkLocks(*this, result);
++        assert(result.isFinal());
+ 
+-            return {storePath, result};
+-        } catch (Error & e) {
+-            e.addTrace({}, "while fetching the input '%s'", to_string());
+-            throw;
+-        }
+-    }();
++        checkLocks(*this, result);
+ 
+-    return {std::move(storePath), input};
++        return {std::move(storePath), accessor, result};
++    } catch (Error & e) {
++        e.addTrace({}, "while fetching the input '%s'", to_string());
++        throw;
++    }
+ }
+ 
+ void Input::checkLocks(Input specified, Input & result)
+@@ -234,6 +230,9 @@ void Input::checkLocks(Input specified, Input & result)
+         if (auto prevNarHash = specified.getNarHash())
+             specified.attrs.insert_or_assign("narHash", prevNarHash->to_string(HashFormat::SRI, true));
+ 
++        if (auto narHash = result.getNarHash())
++            result.attrs.insert_or_assign("narHash", narHash->to_string(HashFormat::SRI, true));
++
+         for (auto & field : specified.attrs) {
+             auto field2 = result.attrs.find(field.first);
+             if (field2 != result.attrs.end() && field.second != field2->second)
+diff --git a/src/libfetchers/filtering-source-accessor.cc b/src/libfetchers/filtering-source-accessor.cc
+index 72a3fb4eb..97f230c7e 100644
+--- a/src/libfetchers/filtering-source-accessor.cc
++++ b/src/libfetchers/filtering-source-accessor.cc
+@@ -20,9 +20,14 @@ bool FilteringSourceAccessor::pathExists(const CanonPath & path)
+ }
+ 
+ std::optional<SourceAccessor::Stat> FilteringSourceAccessor::maybeLstat(const CanonPath & path)
++{
++    return isAllowed(path) ? next->maybeLstat(prefix / path) : std::nullopt;
++}
++
++SourceAccessor::Stat FilteringSourceAccessor::lstat(const CanonPath & path)
+ {
+     checkAccess(path);
+-    return next->maybeLstat(prefix / path);
++    return next->lstat(prefix / path);
+ }
+ 
+ SourceAccessor::DirEntries FilteringSourceAccessor::readDirectory(const CanonPath & path)
+diff --git a/src/libfetchers/git.cc b/src/libfetchers/git.cc
+index f7e4894fc..1a4d85f7d 100644
+--- a/src/libfetchers/git.cc
++++ b/src/libfetchers/git.cc
+@@ -15,6 +15,7 @@
+ #include "nix/fetchers/fetch-settings.hh"
+ #include "nix/util/json-utils.hh"
+ #include "nix/util/archive.hh"
++#include "nix/util/mounted-source-accessor.hh"
+ 
+ #include <regex>
+ #include <string.h>
+diff --git a/src/libfetchers/github.cc b/src/libfetchers/github.cc
+index 7a902d816..d25352170 100644
+--- a/src/libfetchers/github.cc
++++ b/src/libfetchers/github.cc
+@@ -335,6 +335,13 @@ struct GitArchiveInputScheme : InputScheme
+             false,
+             "«" + input.to_string() + "»");
+ 
++        if (!input.settings->trustTarballsFromGitForges)
++            // FIXME: computing the NAR hash here is wasteful if
++            // copyInputToStore() is just going to hash/copy it as
++            // well.
++            input.attrs.insert_or_assign("narHash",
++                accessor->hashPath(CanonPath::root).to_string(HashFormat::SRI, true));
++
+         return {accessor, input};
+     }
+ 
+diff --git a/src/libfetchers/include/nix/fetchers/fetchers.hh b/src/libfetchers/include/nix/fetchers/fetchers.hh
+index 1f8f6bdac..cd096b29a 100644
+--- a/src/libfetchers/include/nix/fetchers/fetchers.hh
++++ b/src/libfetchers/include/nix/fetchers/fetchers.hh
+@@ -121,7 +121,7 @@ public:
+      * Fetch the entire input into the Nix store, returning the
+      * location in the Nix store and the locked input.
+      */
+-    std::pair<StorePath, Input> fetchToStore(ref<Store> store) const;
++    std::tuple<StorePath, ref<SourceAccessor>, Input> fetchToStore(ref<Store> store) const;
+ 
+     /**
+      * Check the locking attributes in `result` against
+diff --git a/src/libfetchers/include/nix/fetchers/filtering-source-accessor.hh b/src/libfetchers/include/nix/fetchers/filtering-source-accessor.hh
+index 2b59f03ca..1a90fe9ef 100644
+--- a/src/libfetchers/include/nix/fetchers/filtering-source-accessor.hh
++++ b/src/libfetchers/include/nix/fetchers/filtering-source-accessor.hh
+@@ -38,6 +38,8 @@ struct FilteringSourceAccessor : SourceAccessor
+ 
+     bool pathExists(const CanonPath & path) override;
+ 
++    Stat lstat(const CanonPath & path) override;
++
+     std::optional<Stat> maybeLstat(const CanonPath & path) override;
+ 
+     DirEntries readDirectory(const CanonPath & path) override;
+diff --git a/src/libflake/flake.cc b/src/libflake/flake.cc
+index 24252d710..788f120a7 100644
+--- a/src/libflake/flake.cc
++++ b/src/libflake/flake.cc
+@@ -14,6 +14,7 @@
+ #include "nix/store/local-fs-store.hh"
+ #include "nix/fetchers/fetch-to-store.hh"
+ #include "nix/util/memory-source-accessor.hh"
++#include "nix/util/mounted-source-accessor.hh"
+ #include "nix/fetchers/input-cache.hh"
+ 
+ #include <nlohmann/json.hpp>
+@@ -21,27 +22,10 @@
+ namespace nix {
+ 
+ using namespace flake;
++using namespace fetchers;
+ 
+ namespace flake {
+ 
+-static StorePath copyInputToStore(
+-    EvalState & state,
+-    fetchers::Input & input,
+-    const fetchers::Input & originalInput,
+-    ref<SourceAccessor> accessor)
+-{
+-    auto storePath = fetchToStore(*input.settings, *state.store, accessor, FetchMode::Copy, input.getName());
+-
+-    state.allowPath(storePath);
+-
+-    auto narHash = state.store->queryPathInfo(storePath)->narHash;
+-    input.attrs.insert_or_assign("narHash", narHash.to_string(HashFormat::SRI, true));
+-
+-    assert(!originalInput.getNarHash() || storePath == originalInput.computeStorePath(*state.store));
+-
+-    return storePath;
+-}
+-
+ static void forceTrivialValue(EvalState & state, Value & value, const PosIdx pos)
+ {
+     if (value.isThunk() && value.isTrivial())
+@@ -67,7 +51,7 @@ static std::pair<std::map<FlakeId, FlakeInput>, fetchers::Attrs> parseFlakeInput
+ 
+ static void parseFlakeInputAttr(
+     EvalState & state,
+-    const Attr & attr,
++    const nix::Attr & attr,
+     fetchers::Attrs & attrs)
+ {
+     // Allow selecting a subset of enum values
+@@ -338,7 +322,8 @@ static Flake getFlake(
+     EvalState & state,
+     const FlakeRef & originalRef,
+     fetchers::UseRegistries useRegistries,
+-    const InputAttrPath & lockRootAttrPath)
++    const InputAttrPath & lockRootAttrPath,
++    bool requireLockable)
+ {
+     // Fetch a lazy tree first.
+     auto cachedInput = state.inputCache->getAccessor(state.store, originalRef.input, useRegistries);
+@@ -361,16 +346,16 @@ static Flake getFlake(
+         lockedRef = FlakeRef(std::move(cachedInput2.lockedInput), newLockedRef.subdir);
+     }
+ 
+-    // Copy the tree to the store.
+-    auto storePath = copyInputToStore(state, lockedRef.input, originalRef.input, cachedInput.accessor);
+-
+     // Re-parse flake.nix from the store.
+-    return readFlake(state, originalRef, resolvedRef, lockedRef, state.storePath(storePath), lockRootAttrPath);
++    return readFlake(
++        state, originalRef, resolvedRef, lockedRef,
++        state.storePath(state.mountInput(lockedRef.input, originalRef.input, cachedInput.accessor, requireLockable)),
++        lockRootAttrPath);
+ }
+ 
+-Flake getFlake(EvalState & state, const FlakeRef & originalRef, fetchers::UseRegistries useRegistries)
++Flake getFlake(EvalState & state, const FlakeRef & originalRef, fetchers::UseRegistries useRegistries, bool requireLockable)
+ {
+-    return getFlake(state, originalRef, useRegistries, {});
++    return getFlake(state, originalRef, useRegistries, {}, requireLockable);
+ }
+ 
+ static LockFile readLockFile(
+@@ -400,7 +385,8 @@ LockedFlake lockFlake(
+         state,
+         topRef,
+         useRegistriesTop,
+-        {});
++        {},
++        lockFlags.requireLockable);
+ 
+     if (lockFlags.applyNixConfig) {
+         flake.config.apply(settings);
+@@ -579,7 +565,8 @@ LockedFlake lockFlake(
+                                 state,
+                                 ref,
+                                 useRegistries,
+-                                inputAttrPath);
++                                inputAttrPath,
++                                true);
+                         }
+                     };
+ 
+@@ -728,17 +715,15 @@ LockedFlake lockFlake(
+                                 if (auto resolvedPath = resolveRelativePath()) {
+                                     return {*resolvedPath, *input.ref};
+                                 } else {
+-                                    auto cachedInput = state.inputCache->getAccessor(
+-                                        state.store,
+-                                        input.ref->input,
+-                                        useRegistriesInputs);
++                                    auto cachedInput = state.inputCache->getAccessor(state.store, input.ref->input, useRegistriesTop);
+ 
++                                    auto resolvedRef = FlakeRef(std::move(cachedInput.resolvedInput), input.ref->subdir);
+                                     auto lockedRef = FlakeRef(std::move(cachedInput.lockedInput), input.ref->subdir);
+ 
+-                                    // FIXME: allow input to be lazy.
+-                                    auto storePath = copyInputToStore(state, lockedRef.input, input.ref->input, cachedInput.accessor);
+-
+-                                    return {state.storePath(storePath), lockedRef};
++                                    return {
++                                        state.storePath(state.mountInput(lockedRef.input, input.ref->input, cachedInput.accessor, true)),
++                                        lockedRef
++                                    };
+                                 }
+                             }();
+ 
+@@ -851,7 +836,8 @@ LockedFlake lockFlake(
+                         flake = getFlake(
+                             state,
+                             topRef,
+-                            useRegistriesTop);
++                            useRegistriesTop,
++                            lockFlags.requireLockable);
+ 
+                         if (lockFlags.commitLockFile &&
+                             flake.lockedRef.input.getRev() &&
+diff --git a/src/libflake/include/nix/flake/flake.hh b/src/libflake/include/nix/flake/flake.hh
+index ed34aa9c8..8481aaa19 100644
+--- a/src/libflake/include/nix/flake/flake.hh
++++ b/src/libflake/include/nix/flake/flake.hh
+@@ -115,7 +115,11 @@ struct Flake
+     }
+ };
+ 
+-Flake getFlake(EvalState & state, const FlakeRef & flakeRef, fetchers::UseRegistries useRegistries);
++Flake getFlake(
++    EvalState & state,
++    const FlakeRef & flakeRef,
++    fetchers::UseRegistries useRegistries,
++    bool requireLockable = true);
+ 
+ /**
+  * Fingerprint of a locked flake; used as a cache key.
+@@ -213,6 +217,11 @@ struct LockFlags
+      * for those inputs will be ignored.
+      */
+     std::set<InputAttrPath> inputUpdates;
++
++    /**
++     * Whether to require a locked input.
++     */
++    bool requireLockable = true;
+ };
+ 
+ LockedFlake lockFlake(
+diff --git a/src/libstore/store-api.cc b/src/libstore/store-api.cc
+index 296f2251a..33d04e041 100644
+--- a/src/libstore/store-api.cc
++++ b/src/libstore/store-api.cc
+@@ -215,8 +215,12 @@ StorePath Store::addToStore(
+     auto sink = sourceToSink([&](Source & source) {
+         LengthSource lengthSource(source);
+         storePath = addToStoreFromDump(lengthSource, name, fsm, method, hashAlgo, references, repair);
+-        if (settings.warnLargePathThreshold && lengthSource.total >= settings.warnLargePathThreshold)
+-            warn("copied large path '%s' to the store (%s)", path, renderSize(lengthSource.total));
++        if (settings.warnLargePathThreshold && lengthSource.total >= settings.warnLargePathThreshold) {
++            static bool failOnLargePath = getEnv("_NIX_TEST_FAIL_ON_LARGE_PATH").value_or("") == "1";
++            if (failOnLargePath)
++                throw Error("won't copy large path '%s' to the store (%d)", path, renderSize(lengthSource.total));
++            warn("copied large path '%s' to the store (%d)", path, renderSize(lengthSource.total));
++        }
+     });
+     dumpPath(path, *sink, fsm, filter);
+     sink->finish();
+diff --git a/src/libutil/include/nix/util/meson.build b/src/libutil/include/nix/util/meson.build
+index e30b8dacd..329d40612 100644
+--- a/src/libutil/include/nix/util/meson.build
++++ b/src/libutil/include/nix/util/meson.build
+@@ -43,6 +43,7 @@ headers = files(
+   'logging.hh',
+   'lru-cache.hh',
+   'memory-source-accessor.hh',
++  'mounted-source-accessor.hh',
+   'muxable-pipe.hh',
+   'os-string.hh',
+   'pool.hh',
+diff --git a/src/libutil/include/nix/util/mounted-source-accessor.hh b/src/libutil/include/nix/util/mounted-source-accessor.hh
+new file mode 100644
+index 000000000..2e8d45dd6
+--- /dev/null
++++ b/src/libutil/include/nix/util/mounted-source-accessor.hh
+@@ -0,0 +1,20 @@
++#pragma once
++
++#include "source-accessor.hh"
++
++namespace nix {
++
++struct MountedSourceAccessor : SourceAccessor
++{
++    virtual void mount(CanonPath mountPoint, ref<SourceAccessor> accessor) = 0;
++
++    /**
++     * Return the accessor mounted on `mountPoint`, or `nullptr` if
++     * there is no such mount point.
++     */
++    virtual std::shared_ptr<SourceAccessor> getMount(CanonPath mountPoint) = 0;
++};
++
++ref<MountedSourceAccessor> makeMountedSourceAccessor(std::map<CanonPath, ref<SourceAccessor>> mounts);
++
++}
+diff --git a/src/libutil/include/nix/util/source-accessor.hh b/src/libutil/include/nix/util/source-accessor.hh
+index 92a9adc46..28c6fe885 100644
+--- a/src/libutil/include/nix/util/source-accessor.hh
++++ b/src/libutil/include/nix/util/source-accessor.hh
+@@ -118,7 +118,7 @@ struct SourceAccessor : std::enable_shared_from_this<SourceAccessor>
+         std::string typeString();
+     };
+ 
+-    Stat lstat(const CanonPath & path);
++    virtual Stat lstat(const CanonPath & path);
+ 
+     virtual std::optional<Stat> maybeLstat(const CanonPath & path) = 0;
+ 
+@@ -214,8 +214,6 @@ ref<SourceAccessor> getFSSourceAccessor();
+  */
+ ref<SourceAccessor> makeFSSourceAccessor(std::filesystem::path root);
+ 
+-ref<SourceAccessor> makeMountedSourceAccessor(std::map<CanonPath, ref<SourceAccessor>> mounts);
+-
+ /**
+  * Construct an accessor that presents a "union" view of a vector of
+  * underlying accessors. Earlier accessors take precedence over later.
+diff --git a/src/libutil/mounted-source-accessor.cc b/src/libutil/mounted-source-accessor.cc
+index b7de2afbf..28e799e4c 100644
+--- a/src/libutil/mounted-source-accessor.cc
++++ b/src/libutil/mounted-source-accessor.cc
+@@ -1,12 +1,12 @@
+-#include "nix/util/source-accessor.hh"
++#include "nix/util/mounted-source-accessor.hh"
+ 
+ namespace nix {
+ 
+-struct MountedSourceAccessor : SourceAccessor
++struct MountedSourceAccessorImpl : MountedSourceAccessor
+ {
+     std::map<CanonPath, ref<SourceAccessor>> mounts;
+ 
+-    MountedSourceAccessor(std::map<CanonPath, ref<SourceAccessor>> _mounts)
++    MountedSourceAccessorImpl(std::map<CanonPath, ref<SourceAccessor>> _mounts)
+         : mounts(std::move(_mounts))
+     {
+         displayPrefix.clear();
+@@ -23,6 +23,12 @@ struct MountedSourceAccessor : SourceAccessor
+         return accessor->readFile(subpath);
+     }
+ 
++    Stat lstat(const CanonPath & path) override
++    {
++        auto [accessor, subpath] = resolve(path);
++        return accessor->lstat(subpath);
++    }
++
+     std::optional<Stat> maybeLstat(const CanonPath & path) override
+     {
+         auto [accessor, subpath] = resolve(path);
+@@ -69,11 +75,26 @@ struct MountedSourceAccessor : SourceAccessor
+         auto [accessor, subpath] = resolve(path);
+         return accessor->getPhysicalPath(subpath);
+     }
++
++    void mount(CanonPath mountPoint, ref<SourceAccessor> accessor) override
++    {
++        // FIXME: thread-safety
++        mounts.insert_or_assign(std::move(mountPoint), accessor);
++    }
++
++    std::shared_ptr<SourceAccessor> getMount(CanonPath mountPoint) override
++    {
++        auto i = mounts.find(mountPoint);
++        if (i != mounts.end())
++            return i->second;
++        else
++            return nullptr;
++    }
+ };
+ 
+-ref<SourceAccessor> makeMountedSourceAccessor(std::map<CanonPath, ref<SourceAccessor>> mounts)
++ref<MountedSourceAccessor> makeMountedSourceAccessor(std::map<CanonPath, ref<SourceAccessor>> mounts)
+ {
+-    return make_ref<MountedSourceAccessor>(std::move(mounts));
++    return make_ref<MountedSourceAccessorImpl>(std::move(mounts));
+ }
+ 
+ }
+diff --git a/src/nix-env/user-env.cc b/src/nix-env/user-env.cc
+index e149b6aeb..c49f2885d 100644
+--- a/src/nix-env/user-env.cc
++++ b/src/nix-env/user-env.cc
+@@ -110,7 +110,7 @@ bool createUserEnv(EvalState & state, PackageInfos & elems,
+        environment. */
+     auto manifestFile = ({
+         std::ostringstream str;
+-        printAmbiguous(manifest, state.symbols, str, nullptr, std::numeric_limits<int>::max());
++        printAmbiguous(state, manifest, str, nullptr, std::numeric_limits<int>::max());
+         StringSource source { toView(str) };
+         state.store->addToStoreFromDump(
+             source, "env-manifest.nix", FileSerialisationMethod::Flat, ContentAddressMethod::Raw::Text, HashAlgorithm::SHA256, references);
+diff --git a/src/nix-instantiate/nix-instantiate.cc b/src/nix-instantiate/nix-instantiate.cc
+index f7b218efc..89a8505bb 100644
+--- a/src/nix-instantiate/nix-instantiate.cc
++++ b/src/nix-instantiate/nix-instantiate.cc
+@@ -52,7 +52,10 @@ void processExpr(EvalState & state, const Strings & attrPaths,
+             else
+                 state.autoCallFunction(autoArgs, v, vRes);
+             if (output == okRaw)
+-                std::cout << *state.coerceToString(noPos, vRes, context, "while generating the nix-instantiate output");
++                std::cout <<
++                    state.devirtualize(
++                        *state.coerceToString(noPos, vRes, context, "while generating the nix-instantiate output"),
++                        context);
+                 // We intentionally don't output a newline here. The default PS1 for Bash in NixOS starts with a newline
+                 // and other interactive shells like Zsh are smart enough to print a missing newline before the prompt.
+             else if (output == okXML)
+@@ -63,7 +66,7 @@ void processExpr(EvalState & state, const Strings & attrPaths,
+             } else {
+                 if (strict) state.forceValueDeep(vRes);
+                 std::set<const void *> seen;
+-                printAmbiguous(vRes, state.symbols, std::cout, &seen, std::numeric_limits<int>::max());
++                printAmbiguous(state, vRes, std::cout, &seen, std::numeric_limits<int>::max());
+                 std::cout << std::endl;
+             }
+         } else {
+diff --git a/src/nix/app.cc b/src/nix/app.cc
+index c9a9f9caf..d3c14c062 100644
+--- a/src/nix/app.cc
++++ b/src/nix/app.cc
+@@ -92,6 +92,9 @@ UnresolvedApp InstallableValue::toApp(EvalState & state)
+                         .path = o.path,
+                     };
+                 },
++                [&](const NixStringContextElem::Path & p) -> DerivedPath {
++                    throw Error("'program' attribute of an 'app' output cannot have no context");
++                },
+             }, c.raw));
+         }
+ 
+diff --git a/src/nix/env.cc b/src/nix/env.cc
+index 277bd0fdd..a0b0e976b 100644
+--- a/src/nix/env.cc
++++ b/src/nix/env.cc
+@@ -6,6 +6,7 @@
+ #include "run.hh"
+ #include "nix/util/strings.hh"
+ #include "nix/util/executable-path.hh"
++#include "nix/util/mounted-source-accessor.hh"
+ 
+ using namespace nix;
+ 
+diff --git a/src/nix/flake.cc b/src/nix/flake.cc
+index 95cf85663..412a9ca3d 100644
+--- a/src/nix/flake.cc
++++ b/src/nix/flake.cc
+@@ -134,6 +134,7 @@ public:
+         lockFlags.recreateLockFile = updateAll;
+         lockFlags.writeLockFile = true;
+         lockFlags.applyNixConfig = true;
++        lockFlags.requireLockable = false;
+ 
+         lockFlake();
+     }
+@@ -166,6 +167,7 @@ struct CmdFlakeLock : FlakeCommand
+         lockFlags.writeLockFile = true;
+         lockFlags.failOnUnlocked = true;
+         lockFlags.applyNixConfig = true;
++        lockFlags.requireLockable = false;
+ 
+         lockFlake();
+     }
+@@ -212,11 +214,17 @@ struct CmdFlakeMetadata : FlakeCommand, MixJSON
+ 
+     void run(nix::ref<nix::Store> store) override
+     {
++        lockFlags.requireLockable = false;
+         auto lockedFlake = lockFlake();
+         auto & flake = lockedFlake.flake;
+ 
+-        // Currently, all flakes are in the Nix store via the rootFS accessor.
+-        auto storePath = store->printStorePath(store->toStorePath(flake.path.path.abs()).first);
++        /* Hack to show the store path if available. */
++        std::optional<StorePath> storePath;
++        if (store->isInStore(flake.path.path.abs())) {
++            auto path = store->toStorePath(flake.path.path.abs()).first;
++            if (store->isValidPath(path))
++                storePath = path;
++        }
+ 
+         if (json) {
+             nlohmann::json j;
+@@ -238,7 +246,8 @@ struct CmdFlakeMetadata : FlakeCommand, MixJSON
+                 j["revCount"] = *revCount;
+             if (auto lastModified = flake.lockedRef.input.getLastModified())
+                 j["lastModified"] = *lastModified;
+-            j["path"] = storePath;
++            if (storePath)
++                j["path"] = store->printStorePath(*storePath);
+             j["locks"] = lockedFlake.lockFile.toJSON().first;
+             if (auto fingerprint = lockedFlake.getFingerprint(store, fetchSettings))
+                 j["fingerprint"] = fingerprint->to_string(HashFormat::Base16, false);
+@@ -255,9 +264,10 @@ struct CmdFlakeMetadata : FlakeCommand, MixJSON
+                 logger->cout(
+                     ANSI_BOLD "Description:" ANSI_NORMAL "   %s",
+                     *flake.description);
+-            logger->cout(
+-                ANSI_BOLD "Path:" ANSI_NORMAL "          %s",
+-                storePath);
++            if (storePath)
++                logger->cout(
++                    ANSI_BOLD "Path:" ANSI_NORMAL "          %s",
++                    store->printStorePath(*storePath));
+             if (auto rev = flake.lockedRef.input.getRev())
+                 logger->cout(
+                     ANSI_BOLD "Revision:" ANSI_NORMAL "      %s",
+@@ -637,7 +647,7 @@ struct CmdFlakeCheck : FlakeCommand
+                         if (name == "checks") {
+                             state->forceAttrs(vOutput, pos, "");
+                             for (auto & attr : *vOutput.attrs()) {
+-                                std::string_view attr_name = state->symbols[attr.name];
++                                const auto & attr_name = state->symbols[attr.name];
+                                 checkSystemName(attr_name, attr.pos);
+                                 if (checkSystemType(attr_name, attr.pos)) {
+                                     state->forceAttrs(*attr.value, attr.pos, "");
+@@ -1088,7 +1098,10 @@ struct CmdFlakeArchive : FlakeCommand, MixJSON, MixDryRun
+ 
+         StorePathSet sources;
+ 
+-        auto storePath = store->toStorePath(flake.flake.path.path.abs()).first;
++        auto storePath =
++            dryRun
++            ? flake.flake.lockedRef.input.computeStorePath(*store)
++            : std::get<StorePath>(flake.flake.lockedRef.input.fetchToStore(store));
+ 
+         sources.insert(storePath);
+ 
+@@ -1104,7 +1117,7 @@ struct CmdFlakeArchive : FlakeCommand, MixJSON, MixDryRun
+                         storePath =
+                             dryRun
+                             ? (*inputNode)->lockedRef.input.computeStorePath(*store)
+-                            : (*inputNode)->lockedRef.input.fetchToStore(store).first;
++                            : std::get<StorePath>((*inputNode)->lockedRef.input.fetchToStore(store));
+                         sources.insert(*storePath);
+                     }
+                     if (json) {
+diff --git a/tests/functional/flakes/flakes.sh b/tests/functional/flakes/flakes.sh
+index e8b051198..0a52ba08c 100755
+--- a/tests/functional/flakes/flakes.sh
++++ b/tests/functional/flakes/flakes.sh
+@@ -77,6 +77,7 @@ hash1=$(echo "$json" | jq -r .revision)
+ echo foo > "$flake1Dir/foo"
+ git -C "$flake1Dir" add $flake1Dir/foo
+ [[ $(nix flake metadata flake1 --json --refresh | jq -r .dirtyRevision) == "$hash1-dirty" ]]
++[[ $(_NIX_TEST_FAIL_ON_LARGE_PATH=1 nix flake metadata flake1 --json --refresh --warn-large-path-threshold 1 --lazy-trees | jq -r .dirtyRevision) == "$hash1-dirty" ]]
+ [[ "$(nix flake metadata flake1 --json | jq -r .fingerprint)" != null ]]
+ 
+ echo -n '# foo' >> "$flake1Dir/flake.nix"
+diff --git a/tests/functional/flakes/source-paths.sh b/tests/functional/flakes/source-paths.sh
+index 4709bf2fc..3aa3683c2 100644
+--- a/tests/functional/flakes/source-paths.sh
++++ b/tests/functional/flakes/source-paths.sh
+@@ -12,6 +12,10 @@ cat > "$repo/flake.nix" <<EOF
+ {
+   outputs = { ... }: {
+     x = 1;
++    y = assert false; 1;
++    z = builtins.readFile ./foo;
++    a = import ./foo;
++    b = import ./dir;
+   };
+ }
+ EOF
+@@ -21,3 +25,33 @@ expectStderr 1 nix eval "$repo#x" | grepQuiet "error: Path 'flake.nix' in the re
+ git -C "$repo" add flake.nix
+ 
+ [[ $(nix eval "$repo#x") = 1 ]]
++
++expectStderr 1 nix eval "$repo#y" | grepQuiet "at $repo/flake.nix:"
++
++git -C "$repo" commit -a -m foo
++
++expectStderr 1 nix eval "git+file://$repo?ref=master#y" | grepQuiet "at «git+file://$repo?ref=master&rev=.*»/flake.nix:"
++
++expectStderr 1 nix eval "$repo#z" | grepQuiet "error: Path 'foo' does not exist in Git repository \"$repo\"."
++expectStderr 1 nix eval "git+file://$repo?ref=master#z" | grepQuiet "error: '«git+file://$repo?ref=master&rev=.*»/foo' does not exist"
++expectStderr 1 nix eval "$repo#a" | grepQuiet "error: Path 'foo' does not exist in Git repository \"$repo\"."
++
++echo 123 > "$repo/foo"
++
++expectStderr 1 nix eval "$repo#z" | grepQuiet "error: Path 'foo' in the repository \"$repo\" is not tracked by Git."
++expectStderr 1 nix eval "$repo#a" | grepQuiet "error: Path 'foo' in the repository \"$repo\" is not tracked by Git."
++
++git -C "$repo" add "$repo/foo"
++
++[[ $(nix eval --raw "$repo#z") = 123 ]]
++
++expectStderr 1 nix eval "$repo#b" | grepQuiet "error: Path 'dir' does not exist in Git repository \"$repo\"."
++
++mkdir -p "$repo/dir"
++echo 456 > "$repo/dir/default.nix"
++
++expectStderr 1 nix eval "$repo#b" | grepQuiet "error: Path 'dir' in the repository \"$repo\" is not tracked by Git."
++
++git -C "$repo" add "$repo/dir/default.nix"
++
++[[ $(nix eval "$repo#b") = 456 ]]
+diff --git a/tests/functional/flakes/unlocked-override.sh b/tests/functional/flakes/unlocked-override.sh
+index 512aca401..bd73929dc 100755
+--- a/tests/functional/flakes/unlocked-override.sh
++++ b/tests/functional/flakes/unlocked-override.sh
+@@ -36,6 +36,7 @@ expectStderr 1 nix flake lock "$flake2Dir" --override-input flake1 "$TEST_ROOT/f
+   grepQuiet "Will not write lock file.*because it has an unlocked input"
+ 
+ nix flake lock "$flake2Dir" --override-input flake1 "$TEST_ROOT/flake1" --allow-dirty-locks
++_NIX_TEST_FAIL_ON_LARGE_PATH=1 nix flake lock "$flake2Dir" --override-input flake1 "$TEST_ROOT/flake1" --allow-dirty-locks --warn-large-path-threshold 1 --lazy-trees
+ 
+ # Using a lock file with a dirty lock does not require --allow-dirty-locks, but should print a warning.
+ expectStderr 0 nix eval "$flake2Dir#x" |
+diff --git a/tests/functional/lang/eval-fail-hashfile-missing.err.exp b/tests/functional/lang/eval-fail-hashfile-missing.err.exp
+index 0d3747a6d..901dea2b5 100644
+--- a/tests/functional/lang/eval-fail-hashfile-missing.err.exp
++++ b/tests/functional/lang/eval-fail-hashfile-missing.err.exp
+@@ -10,4 +10,4 @@ error:
+ 
+        … while calling the 'hashFile' builtin
+ 
+-       error: opening file '/pwd/lang/this-file-is-definitely-not-there-7392097': No such file or directory
++       error: path '/pwd/lang/this-file-is-definitely-not-there-7392097' does not exist
+diff --git a/tests/nixos/github-flakes.nix b/tests/nixos/github-flakes.nix
+index 30ab1f333..91ba16a20 100644
+--- a/tests/nixos/github-flakes.nix
++++ b/tests/nixos/github-flakes.nix
+@@ -205,7 +205,7 @@ in
+       cat_log()
+ 
+       # ... otherwise it should use the API
+-      out = client.succeed("nix flake metadata private-flake --json --access-tokens github.com=ghp_000000000000000000000000000000000000 --tarball-ttl 0")
++      out = client.succeed("nix flake metadata private-flake --json --access-tokens github.com=ghp_000000000000000000000000000000000000 --tarball-ttl 0 --no-trust-tarballs-from-git-forges")
+       print(out)
+       info = json.loads(out)
+       assert info["revision"] == "${private-flake-rev}", f"revision mismatch: {info['revision']} != ${private-flake-rev}"
+@@ -224,6 +224,10 @@ in
+       hash = client.succeed(f"nix eval --no-trust-tarballs-from-git-forges --raw --expr '(fetchTree {info['url']}).narHash'")
+       assert hash == info['locked']['narHash']
+ 
++      # Fetching with an incorrect NAR hash should fail.
++      out = client.fail(f"nix eval --no-trust-tarballs-from-git-forges --raw --expr '(fetchTree \"github:fancy-enterprise/private-flake/{info['revision']}?narHash=sha256-HsrRFZYg69qaVe/wDyWBYLeS6ca7ACEJg2Z%2BGpEFw4A%3D\").narHash' 2>&1")
++      assert "NAR hash mismatch in input" in out, "NAR hash check did not fail with the expected error"
++
+       # Fetching without a narHash should succeed if trust-github is set and fail otherwise.
+       client.succeed(f"nix eval --raw --expr 'builtins.fetchTree github:github:fancy-enterprise/private-flake/{info['revision']}'")
+       out = client.fail(f"nix eval --no-trust-tarballs-from-git-forges --raw --expr 'builtins.fetchTree github:github:fancy-enterprise/private-flake/{info['revision']}' 2>&1")
+-- 
+2.49.0
+

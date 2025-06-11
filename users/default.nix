@@ -38,7 +38,9 @@
       system = "x86_64-linux";
       stateVersion = "24.11";
       agenix = true;
-      modules = [ ./zero/home.nix ] ++ lib.optional config.parts.homeConfigurations."moni@weasel".agenix ./moni/age.nix;
+      modules = [
+        ./zero/home.nix
+      ] ++ lib.optional config.parts.homeConfigurations."moni@weasel".agenix ./moni/age.nix;
     };
   };
 }

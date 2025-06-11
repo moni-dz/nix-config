@@ -21,10 +21,7 @@
     infuse
       (inputs'.nix.packages.default.appendPatches [
         # Lazy trees v2
-        (pkgs.fetchpatch2 {
-          url = "https://patch-diff.githubusercontent.com/raw/NixOS/nix/pull/13225.patch";
-          hash = "sha256-NsJfyOq1fX7Em9l3ukaowBQDRl9urkpAM7EjkJGmtvY=";
-        })
+	../../packages/patches/0001-Lazy-trees-v2.patch
 
         # Improve the "dirty" message, by clarifying what the jargon means
         (pkgs.fetchpatch2 {

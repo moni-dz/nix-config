@@ -59,14 +59,14 @@ let
                   inherit (ctx) nix nixpkgs;
                   _module.args = ctx.extraModuleArgs;
                   networking.hostName = name;
-                  
+
                   system = {
                     stateVersion = config.stateVersion;
                     rebuild.enableNg = true;
                   };
 
                   environment = {
-                    enableAllTerminfo = true;
+                    enableAllTerminfo = false;
                     systemPackages = ctx.basePackagesFor pkgs;
                   };
                 }
@@ -78,7 +78,7 @@ let
               {
                 wsl.enable = true;
               }
-              
+
             ];
         }
       );

@@ -28,7 +28,6 @@
 
   nixpkgs.overlays = lib.mkOverride 10 [
     inputs.nix-minecraft.overlay
-    inputs.crowdsec.overlays.default
   ];
 
   programs = {

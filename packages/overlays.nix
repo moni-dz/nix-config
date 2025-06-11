@@ -5,7 +5,9 @@
     default = final: prev: {
       lib = prev.lib.extend (
         lfinal: lprev: {
-          inherit ((import "${inputs.infuse.outPath}/default.nix" { inherit (inputs.nixpkgs) lib; }).v1) infuse;
+          inherit ((import "${inputs.infuse.outPath}/default.nix" { inherit (inputs.nixpkgs) lib; }).v1)
+            infuse
+            ;
         }
       );
 

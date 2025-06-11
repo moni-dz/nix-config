@@ -12,10 +12,10 @@
         "systems": "systems"
       },
       "locked": {
-        "lastModified": 1747575206,
+        "lastModified": 1750173260,
         "owner": "ryantm",
         "repo": "agenix",
-        "rev": "4835b1dc898959d8547a871ef484930675cb47f1",
+        "rev": "531beac616433bac6f9e2a19feb8e99a22a66baf",
         "type": "github"
       },
       "original": {
@@ -47,10 +47,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1749194393,
+        "lastModified": 1750618568,
         "owner": "lnl7",
         "repo": "nix-darwin",
-        "rev": "19346808c445f23b08652971be198b9df6c33edc",
+        "rev": "1dd19f19e4b53a1fd2e8e738a08dd5fe635ec7e5",
         "type": "github"
       },
       "original": {
@@ -163,10 +163,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1749628652,
+        "lastModified": 1750798083,
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "450f06ec3cd0d86f67db58a7245db8848773e895",
+        "rev": "ff31a4677c1a8ae506aa7e003a3dba08cb203f82",
         "type": "github"
       },
       "original": {
@@ -214,10 +214,10 @@
     },
     "master": {
       "locked": {
-        "lastModified": 1749642880,
+        "lastModified": 1750874545,
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "fd2e9003eaaf9c247d5ff0ee9da1842c5d82805b",
+        "rev": "e1a2d75db36ddc90f6baaeff3bb168be7cf893ca",
         "type": "github"
       },
       "original": {
@@ -241,10 +241,10 @@
         "nixpkgs-regression": "nixpkgs-regression"
       },
       "locked": {
-        "lastModified": 1749596259,
+        "lastModified": 1750773778,
         "owner": "NixOS",
         "repo": "nix",
-        "rev": "b3c1b70c1981f14cf4950659df765eece74d09a8",
+        "rev": "448cfb71eafbb3f2932b025aa2600c80b6d383f1",
         "type": "github"
       },
       "original": {
@@ -279,10 +279,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1749355504,
+        "lastModified": 1750565152,
         "owner": "Mic92",
         "repo": "nix-index-database",
-        "rev": "40a6e15e44b11fbf8f2b1df9d64dbfc117625e94",
+        "rev": "78cd697acc2e492b4e92822a4913ffad279c20e6",
         "type": "github"
       },
       "original": {
@@ -300,10 +300,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1749607590,
+        "lastModified": 1750823009,
         "owner": "Infinidoge",
         "repo": "nix-minecraft",
-        "rev": "83aaf9c7e3caa39608992e723cfb997624920a35",
+        "rev": "67cc1a9c77957e6749f38851c04ffbee6e0d4a4d",
         "type": "github"
       },
       "original": {
