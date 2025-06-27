@@ -1,4 +1,4 @@
-From 077da512210365304b33de7edbeeba2db7685fae Mon Sep 17 00:00:00 2001
+From ccc83ee214084eef82ce436699588485a519b6b2 Mon Sep 17 00:00:00 2001
 From: Eelco Dolstra <edolstra@gmail.com>
 Date: Mon, 19 May 2025 16:45:53 +0200
 Subject: [PATCH] Lazy trees v2
@@ -30,7 +30,7 @@ print a warning about this.
  .../include/nix/expr/print-ambiguous.hh       |  8 +-
  src/libexpr/include/nix/expr/value/context.hh | 33 ++++++-
  src/libexpr/paths.cc                          | 85 +++++++++++++++++++
- src/libexpr/primops.cc                        | 44 +++++++++-
+ src/libexpr/primops.cc                        | 46 +++++++++-
  src/libexpr/primops/context.cc                | 28 +++++-
  src/libexpr/primops/fetchMercurial.cc         |  2 +-
  src/libexpr/primops/fetchTree.cc              |  8 +-
@@ -44,7 +44,7 @@ print a warning about this.
  src/libfetchers/github.cc                     |  7 ++
  .../include/nix/fetchers/fetchers.hh          |  2 +-
  .../nix/fetchers/filtering-source-accessor.hh |  2 +
- src/libflake/flake.cc                         | 60 +++++--------
+ src/libflake/flake.cc                         | 62 ++++++--------
  src/libflake/include/nix/flake/flake.hh       | 11 ++-
  src/libstore/store-api.cc                     |  8 +-
  src/libutil/include/nix/util/meson.build      |  1 +
@@ -61,7 +61,7 @@ print a warning about this.
  tests/functional/flakes/unlocked-override.sh  |  1 +
  .../lang/eval-fail-hashfile-missing.err.exp   |  2 +-
  tests/nixos/github-flakes.nix                 |  6 +-
- 41 files changed, 539 insertions(+), 133 deletions(-)
+ 41 files changed, 541 insertions(+), 135 deletions(-)
  create mode 100644 src/libutil/include/nix/util/mounted-source-accessor.hh
 
 diff --git a/src/libcmd/installable-value.cc b/src/libcmd/installable-value.cc
@@ -159,7 +159,7 @@ index 0d732f59c..72a6b60ea 100644
                          break;
                      }
 diff --git a/src/libexpr/eval.cc b/src/libexpr/eval.cc
-index 7346a7651..e493a7e23 100644
+index ae422a3d4..5cebcb997 100644
 --- a/src/libexpr/eval.cc
 +++ b/src/libexpr/eval.cc
 @@ -16,6 +16,7 @@
@@ -245,7 +245,7 @@ index 7346a7651..e493a7e23 100644
              !canonicalizePath && !copyToStore
              ? // FIXME: hack to preserve path literals that end in a
 @@ -2371,7 +2384,16 @@ BackedStringView EvalState::coerceToString(
-               v.payload.path.path
+               v.pathStr()
              : copyToStore
              ? store->printStorePath(copyPathToStore(context, v.path()))
 -            : std::string(v.path().path.abs());
@@ -317,7 +317,7 @@ index 7346a7651..e493a7e23 100644
                  .msg = HintFmt("Nix search path entry '%1%' does not exist, ignoring", value)
              });
 diff --git a/src/libexpr/include/nix/expr/eval-settings.hh b/src/libexpr/include/nix/expr/eval-settings.hh
-index 9ff73138a..7f6741021 100644
+index f88f13874..afb13bceb 100644
 --- a/src/libexpr/include/nix/expr/eval-settings.hh
 +++ b/src/libexpr/include/nix/expr/eval-settings.hh
 @@ -279,6 +279,11 @@ struct EvalSettings : Config
@@ -588,18 +588,18 @@ index c5107de3a..fa8ebea48 100644
 +
  }
 diff --git a/src/libexpr/primops.cc b/src/libexpr/primops.cc
-index 48bc272f9..433800306 100644
+index 174f11153..690ce79ac 100644
 --- a/src/libexpr/primops.cc
 +++ b/src/libexpr/primops.cc
-@@ -14,6 +14,7 @@
- #include "nix/expr/value-to-xml.hh"
+@@ -15,6 +15,7 @@
  #include "nix/expr/primops.hh"
  #include "nix/fetchers/fetch-to-store.hh"
+ #include "nix/util/sort.hh"
 +#include "nix/util/mounted-source-accessor.hh"
  
  #include <boost/container/small_vector.hpp>
  #include <nlohmann/json.hpp>
-@@ -75,7 +76,10 @@ StringMap EvalState::realiseContext(const NixStringContext & context, StorePathS
+@@ -76,7 +77,10 @@ StringMap EvalState::realiseContext(const NixStringContext & context, StorePathS
                  ensureValid(b.drvPath->getBaseStorePath());
              },
              [&](const NixStringContextElem::Opaque & o) {
@@ -611,7 +611,7 @@ index 48bc272f9..433800306 100644
                  if (maybePathsOut)
                      maybePathsOut->emplace(o.path);
              },
-@@ -85,6 +89,9 @@ StringMap EvalState::realiseContext(const NixStringContext & context, StorePathS
+@@ -86,6 +90,9 @@ StringMap EvalState::realiseContext(const NixStringContext & context, StorePathS
                  if (maybePathsOut)
                      maybePathsOut->emplace(d.drvPath);
              },
@@ -621,7 +621,7 @@ index 48bc272f9..433800306 100644
          }, c.raw);
      }
  
-@@ -1448,6 +1455,10 @@ static void derivationStrictInternal(
+@@ -1449,6 +1456,10 @@ static void derivationStrictInternal(
      /* Everything in the context of the strings in the derivation
         attributes should be added as dependencies of the resulting
         derivation. */
@@ -632,7 +632,7 @@ index 48bc272f9..433800306 100644
      for (auto & c : context) {
          std::visit(overloaded {
              /* Since this allows the builder to gain access to every
-@@ -1470,11 +1481,24 @@ static void derivationStrictInternal(
+@@ -1471,11 +1482,24 @@ static void derivationStrictInternal(
                  drv.inputDrvs.ensureSlot(*b.drvPath).value.insert(b.output);
              },
              [&](const NixStringContextElem::Opaque & o) {
@@ -658,8 +658,12 @@ index 48bc272f9..433800306 100644
      /* Do we have all required attributes? */
      if (drv.builder == "")
          state.error<EvalError>("required attribute 'builder' missing")
-@@ -2378,10 +2402,21 @@ static void prim_toFile(EvalState & state, const PosIdx pos, Value * * args, Val
-     std::string contents(state.forceString(*args[1], context, pos, "while evaluating the second argument passed to builtins.toFile"));
+@@ -2376,13 +2400,24 @@ static void prim_toFile(EvalState & state, const PosIdx pos, Value * * args, Val
+ {
+     NixStringContext context;
+     auto name = state.forceStringNoCtx(*args[0], pos, "while evaluating the first argument passed to builtins.toFile");
+-    auto contents = state.forceString(*args[1], context, pos, "while evaluating the second argument passed to builtins.toFile");
++    auto contents = std::string(state.forceString(*args[1], context, pos, "while evaluating the second argument passed to builtins.toFile"));
  
      StorePathSet refs;
 +    StringMap rewrites;
@@ -680,7 +684,7 @@ index 48bc272f9..433800306 100644
          else
              state.error<EvalError>(
                  "files created by %1% may not reference derivations, but %2% references %3%",
-@@ -2391,6 +2426,8 @@ static void prim_toFile(EvalState & state, const PosIdx pos, Value * * args, Val
+@@ -2392,6 +2427,8 @@ static void prim_toFile(EvalState & state, const PosIdx pos, Value * * args, Val
              ).atPos(pos).debugThrow();
      }
  
@@ -689,7 +693,7 @@ index 48bc272f9..433800306 100644
      auto storePath = settings.readOnlyMode
          ? state.store->makeFixedOutputPathFromCA(name, TextInfo {
              .hash = hashString(HashAlgorithm::SHA256, contents),
-@@ -2540,6 +2577,7 @@ static void addPath(
+@@ -2541,6 +2578,7 @@ static void addPath(
                  {}));
  
          if (!expectedHash || !state.store->isValidPath(*expectedStorePath)) {
@@ -697,7 +701,7 @@ index 48bc272f9..433800306 100644
              auto dstPath = fetchToStore(
                  state.fetchSettings,
                  *state.store,
-@@ -2571,7 +2609,7 @@ static void prim_filterSource(EvalState & state, const PosIdx pos, Value * * arg
+@@ -2572,7 +2610,7 @@ static void prim_filterSource(EvalState & state, const PosIdx pos, Value * * arg
          "while evaluating the second argument (the path to filter) passed to 'builtins.filterSource'");
      state.forceFunction(*args[0], pos, "while evaluating the first argument passed to builtins.filterSource");
  
@@ -707,7 +711,7 @@ index 48bc272f9..433800306 100644
  
  static RegisterPrimOp primop_filterSource({
 diff --git a/src/libexpr/primops/context.cc b/src/libexpr/primops/context.cc
-index 6a7284e05..28153c778 100644
+index 496678884..7145353b0 100644
 --- a/src/libexpr/primops/context.cc
 +++ b/src/libexpr/primops/context.cc
 @@ -7,9 +7,15 @@ namespace nix {
@@ -793,7 +797,7 @@ index 189bd1f73..843beb4d1 100644
      auto attrs2 = state.buildBindings(8);
      state.mkStorePathString(storePath, attrs2.alloc(state.sOutPath));
 diff --git a/src/libexpr/primops/fetchTree.cc b/src/libexpr/primops/fetchTree.cc
-index bdd65b4c6..8cb597edf 100644
+index 5b6dd6531..11cc8f804 100644
 --- a/src/libexpr/primops/fetchTree.cc
 +++ b/src/libexpr/primops/fetchTree.cc
 @@ -10,6 +10,8 @@
@@ -878,7 +882,7 @@ index 0646783c2..e5bfe3ccd 100644
                      str << "(nullptr)";
                  str << " ";
 diff --git a/src/libexpr/print.cc b/src/libexpr/print.cc
-index 06bae9c5c..2badbb1bb 100644
+index f0e0eed2d..8a9432106 100644
 --- a/src/libexpr/print.cc
 +++ b/src/libexpr/print.cc
 @@ -249,7 +249,11 @@ private:
@@ -1077,7 +1081,7 @@ index 2b59f03ca..1a90fe9ef 100644
  
      DirEntries readDirectory(const CanonPath & path) override;
 diff --git a/src/libflake/flake.cc b/src/libflake/flake.cc
-index 24252d710..788f120a7 100644
+index 3a9bdf43a..4b45b8108 100644
 --- a/src/libflake/flake.cc
 +++ b/src/libflake/flake.cc
 @@ -14,6 +14,7 @@
@@ -1169,11 +1173,13 @@ index 24252d710..788f120a7 100644
  
      if (lockFlags.applyNixConfig) {
          flake.config.apply(settings);
-@@ -579,7 +565,8 @@ LockedFlake lockFlake(
+@@ -578,8 +564,9 @@ LockedFlake lockFlake(
+                             return getFlake(
                                  state,
                                  ref,
-                                 useRegistries,
+-                                useRegistries,
 -                                inputAttrPath);
++                                useRegistriesInputs,
 +                                inputAttrPath,
 +                                true);
                          }
@@ -1262,7 +1268,7 @@ index 296f2251a..33d04e041 100644
      dumpPath(path, *sink, fsm, filter);
      sink->finish();
 diff --git a/src/libutil/include/nix/util/meson.build b/src/libutil/include/nix/util/meson.build
-index e30b8dacd..329d40612 100644
+index 22438c1d0..138c14d90 100644
 --- a/src/libutil/include/nix/util/meson.build
 +++ b/src/libutil/include/nix/util/meson.build
 @@ -43,6 +43,7 @@ headers = files(
@@ -1448,7 +1454,7 @@ index 277bd0fdd..a0b0e976b 100644
  using namespace nix;
  
 diff --git a/src/nix/flake.cc b/src/nix/flake.cc
-index 95cf85663..412a9ca3d 100644
+index 13f7363fc..df493afc3 100644
 --- a/src/nix/flake.cc
 +++ b/src/nix/flake.cc
 @@ -134,6 +134,7 @@ public:
@@ -1542,7 +1548,7 @@ index 95cf85663..412a9ca3d 100644
                      }
                      if (json) {
 diff --git a/tests/functional/flakes/flakes.sh b/tests/functional/flakes/flakes.sh
-index e8b051198..0a52ba08c 100755
+index ce695a6cb..f454db8ee 100755
 --- a/tests/functional/flakes/flakes.sh
 +++ b/tests/functional/flakes/flakes.sh
 @@ -77,6 +77,7 @@ hash1=$(echo "$json" | jq -r .revision)
@@ -1603,11 +1609,11 @@ index 4709bf2fc..3aa3683c2 100644
 +
 +[[ $(nix eval "$repo#b") = 456 ]]
 diff --git a/tests/functional/flakes/unlocked-override.sh b/tests/functional/flakes/unlocked-override.sh
-index 512aca401..bd73929dc 100755
+index ed05440de..ed4d131b7 100755
 --- a/tests/functional/flakes/unlocked-override.sh
 +++ b/tests/functional/flakes/unlocked-override.sh
 @@ -36,6 +36,7 @@ expectStderr 1 nix flake lock "$flake2Dir" --override-input flake1 "$TEST_ROOT/f
-   grepQuiet "Will not write lock file.*because it has an unlocked input"
+   grepQuiet "Not writing lock file.*because it has an unlocked input"
  
  nix flake lock "$flake2Dir" --override-input flake1 "$TEST_ROOT/flake1" --allow-dirty-locks
 +_NIX_TEST_FAIL_ON_LARGE_PATH=1 nix flake lock "$flake2Dir" --override-input flake1 "$TEST_ROOT/flake1" --allow-dirty-locks --warn-large-path-threshold 1 --lazy-trees
@@ -1625,7 +1631,7 @@ index 0d3747a6d..901dea2b5 100644
 -       error: opening file '/pwd/lang/this-file-is-definitely-not-there-7392097': No such file or directory
 +       error: path '/pwd/lang/this-file-is-definitely-not-there-7392097' does not exist
 diff --git a/tests/nixos/github-flakes.nix b/tests/nixos/github-flakes.nix
-index 30ab1f333..91ba16a20 100644
+index 06142c2ef..f5e8108c8 100644
 --- a/tests/nixos/github-flakes.nix
 +++ b/tests/nixos/github-flakes.nix
 @@ -205,7 +205,7 @@ in

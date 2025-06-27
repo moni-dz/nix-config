@@ -21,7 +21,7 @@
     infuse
       (inputs'.nix.packages.default.appendPatches [
         # Lazy trees v2
-	../../packages/patches/0001-Lazy-trees-v2.patch
+        ../../packages/patches/0001-Lazy-trees-v2.patch
 
         # Improve the "dirty" message, by clarifying what the jargon means
         (pkgs.fetchpatch2 {
