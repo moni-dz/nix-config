@@ -115,7 +115,6 @@
           ];
 
           push = "origin";
-          push-bookmark-prefix = "moni/";
         };
 
         signing = {
@@ -141,6 +140,8 @@
         };
 
         templates = {
+	  git_push_bookmark = ''"moni/" ++ change_id.short()'';
+
           log = ''
             if(root,
               separate(" ",

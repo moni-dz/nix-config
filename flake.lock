@@ -163,10 +163,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1751429452,
+        "lastModified": 1751693185,
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "df12269039dcf752600b1bcc176bacf2786ec384",
+        "rev": "36c57c6a1d03a5efbf5e23c04dbe21259d25f992",
         "type": "github"
       },
       "original": {
@@ -214,10 +214,10 @@
     },
     "master": {
       "locked": {
-        "lastModified": 1751446096,
+        "lastModified": 1751712503,
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "0e71da91f045d9a7b66f483b9409cbf4cb6f2e35",
+        "rev": "7fbc08f69f3f1585a96552eb8379cbb59b0e561f",
         "type": "github"
       },
       "original": {
@@ -241,10 +241,10 @@
         "nixpkgs-regression": "nixpkgs-regression"
       },
       "locked": {
-        "lastModified": 1751391295,
+        "lastModified": 1751650052,
         "owner": "NixOS",
         "repo": "nix",
-        "rev": "5879ab15771ee04fa963603373767d312fcde6cb",
+        "rev": "6bf997e0bdeb65ea6381eb430248e69fd2c0f952",
         "type": "github"
       },
       "original": {
@@ -300,10 +300,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1751422033,
+        "lastModified": 1751594842,
         "owner": "Infinidoge",
         "repo": "nix-minecraft",
-        "rev": "0cdaa3f548238b39c02c9a386ef954df03a7f5b9",
+        "rev": "2831e6d199ca5ac7df8108e4adc3f12974c9807f",
         "type": "github"
       },
       "original": {
