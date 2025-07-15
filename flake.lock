@@ -62,11 +62,11 @@
     "flake-compat": {
       "flake": false,
       "locked": {
-        "lastModified": 1733328505,
-        "narHash": "sha256-NeCCThCEP3eCl2l/+27kNNK7QrwZB1IJCrXfrbv5oqU=",
+        "lastModified": 1696426674,
+        "narHash": "sha256-kvjfFW7WAETZlt09AgDn1MrtKzP7t90Vf7vypd3OL1U=",
         "owner": "edolstra",
         "repo": "flake-compat",
-        "rev": "ff81ac966bb2cae68946d5ed5fc4994f96d0ffec",
+        "rev": "0f9255e01c2351cc7d116c072cb317785dd33b33",
         "type": "github"
       },
       "original": {
@@ -127,33 +127,26 @@
     },
     "git-hooks-nix": {
       "inputs": {
-        "flake-compat": [
-          "nix"
-        ],
+        "flake-compat": "flake-compat",
         "gitignore": [
           "nix"
         ],
         "nixpkgs": [
           "nix",
           "nixpkgs"
-        ],
-        "nixpkgs-stable": [
-          "nix",
-          "nixpkgs"
         ]
       },
       "locked": {
-        "lastModified": 1734279981,
-        "narHash": "sha256-NdaCraHPp8iYMWzdXAt5Nv6sA3MUzlCiGiR586TCwo0=",
-        "owner": "cachix",
-        "repo": "git-hooks.nix",
-        "rev": "aa9f40c906904ebd83da78e7f328cd8aeaeae785",
-        "type": "github"
+        "lastModified": 1747372754,
+        "narHash": "sha256-2Y53NGIX2vxfie1rOW0Qb86vjRZ7ngizoo+bnXU9D9k=",
+        "rev": "80479b6ec16fefd9c1db3ea13aeb038c60530f46",
+        "revCount": 1026,
+        "type": "tarball",
+        "url": "https://api.flakehub.com/f/pinned/cachix/git-hooks.nix/0.1.1026%2Brev-80479b6ec16fefd9c1db3ea13aeb038c60530f46/0196d79a-1b35-7b8e-a021-c894fb62163d/source.tar.gz"
       },
       "original": {
-        "owner": "cachix",
-        "repo": "git-hooks.nix",
-        "type": "github"
+        "type": "tarball",
+        "url": "https://flakehub.com/f/cachix/git-hooks.nix/0.1.941"
       }
     },
     "home": {
@@ -163,10 +156,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1751760902,
+        "lastModified": 1752814804,
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "8b0180dde1d6f4cf632e046309e8f963924dfbd0",
+        "rev": "d0300c8808e41da81d6edfc202f3d3833c157daf",
         "type": "github"
       },
       "original": {
@@ -214,10 +207,10 @@
     },
     "master": {
       "locked": {
-        "lastModified": 1751806570,
+        "lastModified": 1753041373,
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "9827cb3b71fd727977537ebf42a61376206e8ae6",
+        "rev": "8b222dbf1365f05e50e7d14baecba5d38c1d5fee",
         "type": "github"
       },
       "original": {
@@ -229,7 +222,6 @@
     },
     "nix": {
       "inputs": {
-        "flake-compat": "flake-compat",
         "flake-parts": [
           "parts"
         ],
@@ -241,16 +233,16 @@
         "nixpkgs-regression": "nixpkgs-regression"
       },
       "locked": {
-        "lastModified": 1751650052,
-        "owner": "NixOS",
-        "repo": "nix",
-        "rev": "6bf997e0bdeb65ea6381eb430248e69fd2c0f952",
+        "lastModified": 1752864574,
+        "owner": "DeterminateSystems",
+        "repo": "nix-src",
+        "rev": "aa49e142fc30f0598f954abdc0b83c2f290f12d1",
         "type": "github"
       },
       "original": {
-        "owner": "NixOS",
-        "ref": "master",
-        "repo": "nix",
+        "owner": "DeterminateSystems",
+        "ref": "detsys-main",
+        "repo": "nix-src",
         "type": "github"
       }
     },
@@ -279,10 +271,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1751774635,
+        "lastModified": 1752985182,
         "owner": "Mic92",
         "repo": "nix-index-database",
-        "rev": "85686025ba6d18df31cc651a91d5adef63378978",
+        "rev": "fafdcb505ba605157ff7a7eeea452bc6d6cbc23c",
         "type": "github"
       },
       "original": {
@@ -300,10 +292,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1751594842,
+        "lastModified": 1752902428,
         "owner": "Infinidoge",
         "repo": "nix-minecraft",
-        "rev": "2831e6d199ca5ac7df8108e4adc3f12974c9807f",
+        "rev": "0004c25356ce4f89b311b9f26ac22fa13c64ebf2",
         "type": "github"
       },
       "original": {
@@ -320,10 +312,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1749574455,
+        "lastModified": 1752682362,
         "owner": "nix-community",
         "repo": "nixos-wsl",
-        "rev": "917af390377c573932d84b5e31dd9f2c1b5c0f09",
+        "rev": "20001f9bf0aaf2b1c307e43a5eec8cf8f800fe14",
         "type": "github"
       },
       "original": {

@@ -42,7 +42,7 @@
     agenix.url = "github:ryantm/agenix";
     darwin.url = "github:lnl7/nix-darwin";
     home.url = "github:nix-community/home-manager/master";
-    nix.url = "github:NixOS/nix/master";
+    nix.url = "github:DeterminateSystems/nix-src/detsys-main";
     nix-colors.url = "github:Misterio77/nix-colors";
     nix-index-database.url = "github:Mic92/nix-index-database";
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";

@@ -17,33 +17,20 @@
     rev = inputs.nixpkgs.rev;
   };
 
+  /*
   package =
     infuse
       (inputs'.nix.packages.default.appendPatches [
-        # Lazy trees v2
-        ../../packages/patches/0001-Lazy-trees-v2.patch
 
-        # Improve the "dirty" message, by clarifying what the jargon means
-        (pkgs.fetchpatch2 {
-          url = "https://patch-diff.githubusercontent.com/raw/DeterminateSystems/nix-src/pull/32.patch";
-          hash = "sha256-3ceSM+I8NI2t7OxbDnpWlm9DhPN0THxQCAtVaqylQ44=";
-        })
-
-        # nix flake prefetch-inputs
-        ../../packages/patches/0001-nix-flake-prefetch-inputs-Add.patch
-
-        # nix store delete: show why deletion fails
-        (pkgs.fetchpatch2 {
-          url = "https://patch-diff.githubusercontent.com/raw/NixOS/nix/pull/13421.patch";
-          hash = "sha256-PjJX7CIlWNB/bd5E/GCRnxpjq0adyyCwM7H3OKq3IvE=";
-        })
-
-        # fix eval caching for path flakes
-        ../../packages/patches/0001-Fix-eval-caching-for-path-flakes.patch
       ])
       {
         __output.doCheck.__assign = false;
       };
+  */
+
+  package = infuse (inputs'.nix.packages.default) {
+    __output.doCheck.__assign = false;
+  };
 
   settings = lib.mkMerge [
     {
