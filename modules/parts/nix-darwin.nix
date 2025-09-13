@@ -46,10 +46,16 @@ let
           inherit (ctx) system;
 
           modules = config.modules ++ [
+	    inputs.determinate.darwinModules.default
+
+	    {
+              determinate-nix.customSettings = ctx.nix.settings; 
+	    }
+
             (
               { pkgs, ... }:
               {
-                inherit (ctx) nix nixpkgs;
+                inherit (ctx) nixpkgs;
                 _module.args = ctx.extraModuleArgs;
                 networking.hostName = name;
                 system.stateVersion = config.stateVersion;

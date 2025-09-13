@@ -10,13 +10,6 @@
 {
   nixPath = [ "nixpkgs=${inputs.nixpkgs.outPath}" ];
 
-  registry.nixpkgs.to = {
-    type = "github";
-    owner = "NixOS";
-    repo = "nixpkgs";
-    rev = inputs.nixpkgs.rev;
-  };
-
   /*
   package =
     infuse
@@ -37,7 +30,6 @@
       keep-outputs = true;
       keep-derivations = true;
       keep-going = true;
-      lazy-trees = true;
       builders-use-substitutes = true;
       allow-unsafe-native-code-during-evaluation = true;
       accept-flake-config = true;
@@ -56,6 +48,8 @@
         "flakes"
         "nix-command"
         "pipe-operators"
+        # Determinate Nix
+        "parallel-eval"
       ];
 
       max-jobs = "auto";
@@ -77,6 +71,10 @@
         "root"
         "moni"
       ];
+
+      # Determinate Nix
+      eval-cores = 0;
+      lazy-trees = true;
     }
 
     (lib.mkIf (pkgs.stdenv.isDarwin && pkgs.stdenv.isAarch64) { extra-platforms = "x86_64-darwin"; })

@@ -72,7 +72,7 @@
       };
 
       settings = {
-        core.fsmonitor = "watchman";
+        fsmonitor.backend = "watchman";
         format.tree-level-conflicts = true;
 
         aliases = {

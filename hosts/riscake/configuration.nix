@@ -7,6 +7,9 @@
 }:
 
 {
+  nix.enable = false;
+  system.primaryUser = "moni";
+
   environment = {
     shells = __attrValues { inherit (pkgs) fish nushell; };
 

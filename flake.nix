@@ -40,9 +40,10 @@
   inputs = {
     # Flake inputs
     agenix.url = "github:ryantm/agenix";
-    darwin.url = "github:lnl7/nix-darwin";
+    darwin.url = "github:nix-darwin/nix-darwin";
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
     home.url = "github:nix-community/home-manager/master";
-    nix.url = "github:DeterminateSystems/nix-src/detsys-main";
+    nix.url = "github:NixOS/nix/master";
     nix-colors.url = "github:Misterio77/nix-colors";
     nix-index-database.url = "github:Mic92/nix-index-database";
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
