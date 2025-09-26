@@ -50,7 +50,7 @@ let
             config.modules
             ++ lib.optionals (!config.server && !config.wsl) [
               # Shared configuration across all NixOS machines
-              ../shared/nixos
+              ../base/nixos
             ]
             ++ [
               (
@@ -61,7 +61,7 @@ let
                   networking.hostName = name;
 
                   system = {
-                    stateVersion = config.stateVersion;
+                    inherit (config) stateVersion;
                     rebuild.enableNg = true;
                   };
 

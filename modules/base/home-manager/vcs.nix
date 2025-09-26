@@ -140,7 +140,7 @@
         };
 
         templates = {
-	  git_push_bookmark = ''"moni/" ++ change_id.short()'';
+          git_push_bookmark = ''"moni/" ++ change_id.short()'';
 
           log = ''
             if(root,

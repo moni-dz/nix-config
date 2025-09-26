@@ -46,11 +46,11 @@ let
           inherit (ctx) system;
 
           modules = config.modules ++ [
-	    inputs.determinate.darwinModules.default
+            inputs.determinate.darwinModules.default
 
-	    {
-              determinate-nix.customSettings = ctx.nix.settings; 
-	    }
+            {
+              determinate-nix.customSettings = ctx.nix.settings;
+            }
 
             (
               { pkgs, ... }:

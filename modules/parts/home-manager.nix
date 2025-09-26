@@ -61,7 +61,7 @@ let
               inputs.nix-index-database.hmModules.nix-index
 
               # Shared configuration across all users
-              ../shared/home-manager
+              ../base/home-manager
 
               (
                 {

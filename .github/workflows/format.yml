@@ -9,9 +9,9 @@ jobs:
     - uses: actions/checkout@v3.5.3
       with:
           fetch-depth: 0
-    - uses: cachix/install-nix-action@v22
+    - uses: cachix/install-nix-action@v31.7.0
       with:
-        install_url: https://github.com/numtide/nix-unstable-installer/releases/download/nix-2.10.0pre20220629_b7eb4ac/install
+        install_url: https://github.com/nix-community/nix-unstable-installer/releases/download/nix-2.23.0pre20240603_da92ad7/install
         extra_nix_config: |
           experimental-features = nix-command flakes
     - run: nix run nixpkgs#nixfmt-rfc-style -- -c .

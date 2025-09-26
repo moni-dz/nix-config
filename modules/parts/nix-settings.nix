@@ -11,17 +11,17 @@
   nixPath = [ "nixpkgs=${inputs.nixpkgs.outPath}" ];
 
   /*
-  package =
-    infuse
-      (inputs'.nix.packages.default.appendPatches [
+    package =
+      infuse
+        (inputs'.nix.packages.default.appendPatches [
 
-      ])
-      {
-        __output.doCheck.__assign = false;
-      };
+        ])
+        {
+          __output.doCheck.__assign = false;
+        };
   */
 
-  package = infuse (inputs'.nix.packages.default) {
+  package = infuse inputs'.nix.packages.default {
     __output.doCheck.__assign = false;
   };
 

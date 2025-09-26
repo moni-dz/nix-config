@@ -44,9 +44,7 @@
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
     home.url = "github:nix-community/home-manager/master";
     nix.url = "github:NixOS/nix/master";
-    nix-colors.url = "github:Misterio77/nix-colors";
     nix-index-database.url = "github:Mic92/nix-index-database";
-    nix-minecraft.url = "github:Infinidoge/nix-minecraft";
     nixos-wsl.url = "github:nix-community/nixos-wsl";
     parts.url = "github:hercules-ci/flake-parts";
 
@@ -70,7 +68,6 @@
     nix.inputs.nixpkgs.follows = "nixpkgs";
     nix.inputs.flake-parts.follows = "parts";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
-    nix-minecraft.inputs.nixpkgs.follows = "nixpkgs";
     nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
   };
 }

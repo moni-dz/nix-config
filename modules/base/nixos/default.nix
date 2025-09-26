@@ -2,10 +2,6 @@
   config,
   lib,
   pkgs,
-  options,
-  self',
-  inputs,
-  system,
   ...
 }:
 
@@ -85,33 +81,7 @@
     };
   };
 
-  console = {
-    keyMap = "us";
-
-    colors =
-      let
-        colorscheme = inputs.nix-colors.colorSchemes.material-darker;
-      in
-      with colorscheme.palette;
-      [
-        base01
-        base08
-        base0B
-        base0A
-        base0D
-        base0E
-        base0C
-        base06
-        base02
-        base08
-        base0B
-        base0A
-        base0D
-        base0E
-        base0C
-        base07
-      ];
-  };
+  console.keyMap = "us";
 
   documentation.man =
     let
@@ -147,18 +117,10 @@
     packages = __attrValues {
       inherit (pkgs)
         fantasque-sans-mono
-        # NOTE: use only when current is outdated
-        # iosevka-ft
-        # iosevka-ft-qp
         sarasa-gothic
         symbola
         terminus_font
         twemoji-color-font
-        ;
-
-      inherit (self'.packages)
-        iosevka-ft-bin
-        iosevka-ft-qp-bin
         ;
     };
 
