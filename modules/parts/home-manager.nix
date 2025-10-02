@@ -58,7 +58,7 @@ let
           modules =
             config.modules
             ++ [
-              inputs.nix-index-database.hmModules.nix-index
+              inputs.nix-index-database.homeModules.nix-index
 
               # Shared configuration across all users
               ../base/home-manager

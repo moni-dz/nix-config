@@ -18,6 +18,7 @@
         nix-output-monitor
         parallel
         fd
+        iproute2mac
         ripgrep
         jq
         krabby

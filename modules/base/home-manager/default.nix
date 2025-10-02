@@ -23,7 +23,7 @@
 
   home = {
     packages = __attrValues {
-      inherit (pkgs) eternal-terminal mosh ripgrep;
+      inherit (pkgs) eternal-terminal mosh msedit ripgrep;
       inherit (inputs'.agenix.packages) agenix;
 
       nvim = infuse self'.packages.neovim {
@@ -94,7 +94,4 @@
 
     nix-index-database.comma.enable = lib.mkDefault true;
   };
-
-  xdg.configFile."nvim".source =
-    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/nix-config/nvim";
 }
