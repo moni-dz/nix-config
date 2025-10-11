@@ -21,7 +21,7 @@
 
   services = {
     skhd = {
-      enable = true;
+      enable = false;
 
       skhdConfig =
         let
