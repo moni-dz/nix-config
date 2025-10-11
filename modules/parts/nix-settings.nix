@@ -8,8 +8,6 @@
 }:
 
 {
-  nixPath = [ "nixpkgs=${inputs.nixpkgs.outPath}" ];
-
   /*
     package =
       infuse
@@ -35,9 +33,25 @@
       accept-flake-config = true;
       http-connections = 0;
       use-xdg-base-directories = true;
+      download-buffer-size = 524288000;
+
+      nix-path = [ "nixpkgs=${inputs.nixpkgs.outPath}" ];
 
       flake-registry = __toFile "begone-evil.json" (__toJSON {
-        flakes = [ ];
+        flakes = [
+          {
+            from = {
+              id = "nixpkgs";
+              type = "indirect";
+            };
+            to = {
+              inherit (inputs.nixpkgs) rev;
+              type = "github";
+              owner = "NixOS";
+              repo = "nixpkgs";
+            };
+          }
+        ];
         version = 2;
       });
 

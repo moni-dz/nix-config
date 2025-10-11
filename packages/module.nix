@@ -49,7 +49,6 @@ in
 
       inherit (inputs.nixpkgs-wayland.packages."x86_64-linux")
         dunst
-        waybar
         grim
         slurp
         swaybg

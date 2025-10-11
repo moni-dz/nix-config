@@ -23,7 +23,12 @@
 
   home = {
     packages = __attrValues {
-      inherit (pkgs) eternal-terminal mosh msedit ripgrep;
+      inherit (pkgs)
+        eternal-terminal
+        mosh
+        msedit
+        ripgrep
+        ;
       inherit (inputs'.agenix.packages) agenix;
 
       nvim = infuse self'.packages.neovim {
