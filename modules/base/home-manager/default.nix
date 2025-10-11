@@ -49,7 +49,7 @@
     };
 
     htop = {
-      enable = pkgs.stdenv.isLinux;
+      enable = true;
 
       settings = {
         detailed_cpu_time = true;
