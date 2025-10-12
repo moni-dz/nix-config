@@ -4,10 +4,6 @@ when:
 
 engine: nixery
 
-dependencies:
-  nixpkgs:
-    - nixfmt-rfc-style
-
 steps:
   - name: "format check"
-    command: "nixfmt -c ."
+    command: "nix --extra-experimental-features 'ca-derivations nix-command flakes' fmt -- --ci"
