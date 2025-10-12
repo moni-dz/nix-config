@@ -35,7 +35,7 @@
       use-xdg-base-directories = true;
       download-buffer-size = 524288000;
 
-      nix-path = [ "nixpkgs=${inputs.nixpkgs.outPath}" ];
+      extra-nix-path = [ "nixpkgs=${inputs.nixpkgs.outPath}" ];
 
       flake-registry = __toFile "begone-evil.json" (__toJSON {
         flakes = [
@@ -55,7 +55,7 @@
         version = 2;
       });
 
-      experimental-features = [
+      extra-experimental-features = [
         "auto-allocate-uids"
         "ca-derivations"
         "dynamic-derivations"
@@ -68,20 +68,7 @@
 
       max-jobs = "auto";
 
-      trusted-substituters = [
-        "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store?priority=10"
-        "https://nix-mirror.freetls.fastly.net?priority=11"
-        "https://cache.nixos.org?priority=12"
-        "https://nix-community.cachix.org?priority=13"
-      ];
-
-      trusted-public-keys = [
-        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-        "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
-      ];
-
-      trusted-users = [
+      extra-trusted-users = [
         "root"
         "moni"
       ];
@@ -90,6 +77,23 @@
       eval-cores = 0;
       lazy-trees = true;
     }
+    
+    (let
+      caches = [
+        "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store?priority=10"
+        "https://nix-mirror.freetls.fastly.net?priority=11"
+        "https://cache.nixos.org?priority=12"
+        "https://nix-community.cachix.org?priority=13"
+      ];
+    in {
+      extra-substituters = caches;
+      extra-trusted-substituters = caches;
+      
+      extra-trusted-public-keys = [
+        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+        "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
+      ];
+    })
 
     (lib.mkIf (pkgs.stdenv.isDarwin && pkgs.stdenv.isAarch64) { extra-platforms = "x86_64-darwin"; })
     (lib.mkIf pkgs.stdenv.isDarwin { sandbox = "relaxed"; })
