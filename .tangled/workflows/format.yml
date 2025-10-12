@@ -1,0 +1,13 @@
+when:
+  - event: ["push", "manual", "pull_request"]
+    branch: ["master"]
+
+engine: nixery
+
+dependencies:
+  nixpkgs:
+    - nixfmt-rfc-style
+
+steps:
+  - name: "format check"
+    command: "nixfmt -c ."

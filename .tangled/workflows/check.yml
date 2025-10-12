@@ -1,0 +1,9 @@
+when:
+  - event: ["push", "manual", "pull_request"]
+    branch: ["master"]
+
+engine: nixery
+
+steps:
+  - name: "nix flake check"
+    command: "nix --extra-experimental-features 'ca-derivations nix-command flakes' flake check --show-trace"
