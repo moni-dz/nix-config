@@ -1,6 +1,5 @@
 {
   description = "A somewhat huge NixOS/nix-darwin/home-manager configuration using Nix Flakes.";
-  nixConfig.commit-lockfile-summary = "flake: bump system inputs";
 
   outputs =
     inputs:

@@ -77,23 +77,26 @@
       eval-cores = 0;
       lazy-trees = true;
     }
-    
-    (let
-      caches = [
-        "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store?priority=10"
-        "https://nix-mirror.freetls.fastly.net?priority=11"
-        "https://cache.nixos.org?priority=12"
-        "https://nix-community.cachix.org?priority=13"
-      ];
-    in {
-      extra-substituters = caches;
-      extra-trusted-substituters = caches;
-      
-      extra-trusted-public-keys = [
-        "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-        "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
-      ];
-    })
+
+    (
+      let
+        caches = [
+          "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store?priority=10"
+          "https://nix-mirror.freetls.fastly.net?priority=11"
+          "https://cache.nixos.org?priority=12"
+          "https://nix-community.cachix.org?priority=13"
+        ];
+      in
+      {
+        extra-substituters = caches;
+        extra-trusted-substituters = caches;
+
+        extra-trusted-public-keys = [
+          "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+          "nixpkgs-wayland.cachix.org-1:3lwxaILxMRkVhehr5StQprHdEo4IrE8sRho9R9HOLYA="
+        ];
+      }
+    )
 
     (lib.mkIf (pkgs.stdenv.isDarwin && pkgs.stdenv.isAarch64) { extra-platforms = "x86_64-darwin"; })
     (lib.mkIf pkgs.stdenv.isDarwin { sandbox = "relaxed"; })
