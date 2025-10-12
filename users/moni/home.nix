@@ -67,7 +67,7 @@
         open $"(getconf DARWIN_USER_TEMP_DIR)/agenix/tokens" | split column " " | get column2 | split column "=" | reduce -f {} {|it, acc| $acc | upsert $it.column1 $it.column2 } | load-env
         $env.BUN_INSTALL = ($env.HOME | path join ".bun")
         $env.path ++= ["/Users/moni/.local/state/nix/profiles/profile/bin" "/run/current-system/sw/bin" "/usr/bin" "/usr/local/bin" "/opt/homebrew/bin" "/Users/moni/.modular/bin" "/opt/local/bin" "/opt/homebrew/opt/llvm/bin" "/Users/moni/.local/share/modular/pkg/packages.modular.com_mojo/bin" ($env.BUN_INSTALL | path join "bin") "/Users/Shared/DBngin/postgresql/17.0/bin" "/Users/moni/.local/bin" "/nix/var/nix/profiles/default/bin"]
-        $env.config.buffer_editor = "nvim"
+        $env.config.buffer_editor = "edit"
         $env.config.show_banner = false
       '';
     };

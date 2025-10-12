@@ -123,22 +123,6 @@
           key = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
         };
 
-        merge-tools.diffconflicts = {
-          program = "nvim";
-          merge-tool-edits-conflict-markers = true;
-
-          merge-args = [
-            "-c"
-            "let g:jj_diffconflicts_marker_length=$marker_length"
-            "-c"
-            "JJDiffConflicts!"
-            "$output"
-            "$base"
-            "$left"
-            "$right"
-          ];
-        };
-
         templates = {
           git_push_bookmark = ''"moni/" ++ change_id.short()'';
 
@@ -206,7 +190,7 @@
         };
 
         ui = {
-          editor = "nvim";
+          editor = "edit";
           graph.style = "square";
           show-cryptographic-signatures = false;
 
@@ -223,12 +207,6 @@
             "--color=always"
             "$left"
             "$right"
-          ];
-
-          diff-editor = [
-            "nvim"
-            "-c"
-            "DiffEditor $left $right $output"
           ];
 
           paginate = "never";

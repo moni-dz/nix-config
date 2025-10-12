@@ -39,7 +39,6 @@ in
         // {
           inherit (inputs'.nixpkgs-f2k.packages) iosevka-ft-bin iosevka-ft-qp-bin;
           inherit (inputs'.jj.packages) jujutsu;
-          inherit (inputs'.nvim.packages) neovim;
         };
     };
 

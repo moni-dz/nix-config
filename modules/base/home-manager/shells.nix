@@ -44,9 +44,8 @@
         mv = "mv -i";
         cp = "cp -i";
         rm = "rm -i";
-        vi = "nvim";
-        vim = "nvim";
-        vimdiff = "nvim -d";
+        vi = "edit";
+        vim = "edit";
       };
 
       interactiveShellInit = ''
@@ -58,9 +57,8 @@
       enable = true;
 
       shellAliases = {
-        vi = "nvim";
-        vim = "nvim";
-        vimdiff = "nvim -d";
+        vi = "edit";
+        vim = "edit";
       };
     };
 
