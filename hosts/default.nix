@@ -5,6 +5,7 @@
   parts.darwinConfigurations.riscake = {
     system = "aarch64-darwin";
     stateVersion = 5; # only change this if you know what you are doing.
+    determinate = true; # use Determinate Nix
     modules = [ ./riscake/configuration.nix ];
   };
 

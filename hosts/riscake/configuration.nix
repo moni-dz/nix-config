@@ -7,7 +7,6 @@
 }:
 
 {
-  nix.enable = false;
   system.primaryUser = "moni";
 
   environment = {

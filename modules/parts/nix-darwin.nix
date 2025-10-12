@@ -27,6 +27,8 @@ let
           description = "nix-darwin state version, changing this value DOES NOT update your system.";
         };
 
+        determinate = lib.mkEnableOption "Determinate Nix (install it manually first!)";
+
         modules = lib.mkOption {
           type = types.listOf types.unspecified;
           description = "List of nix-darwin modules to include in the configuration.";
@@ -45,24 +47,31 @@ let
           inherit inputs;
           inherit (ctx) system;
 
-          modules = config.modules ++ [
-            inputs.determinate.darwinModules.default
+          modules =
+            config.modules
+            ++ lib.optionals config.determinate [
+              inputs.determinate.darwinModules.default
 
-            {
-              determinate-nix.customSettings = ctx.nix.settings;
-            }
-
-            (
-              { pkgs, ... }:
               {
-                inherit (ctx) nixpkgs;
-                _module.args = ctx.extraModuleArgs;
-                networking.hostName = name;
-                system.stateVersion = config.stateVersion;
-                environment.systemPackages = ctx.basePackagesFor pkgs;
+                nix.enable = false;
+                determinate-nix.customSettings = ctx.nix.settings;
               }
-            )
-          ];
+            ]
+            ++ lib.optionals (!config.determinate) [
+              { inherit (ctx) nix; }
+            ]
+            ++ [
+              (
+                { pkgs, ... }:
+                {
+                  inherit (ctx) nixpkgs;
+                  _module.args = ctx.extraModuleArgs;
+                  networking.hostName = name;
+                  system.stateVersion = config.stateVersion;
+                  environment.systemPackages = ctx.basePackagesFor pkgs;
+                }
+              )
+            ];
         }
       );
     };
