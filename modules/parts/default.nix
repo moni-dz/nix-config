@@ -28,7 +28,7 @@
           inherit infuse;
 
           # nix the package manager configuration
-          nix = import ./nix-settings.nix {
+          nix = import ../base/nix-settings.nix {
             inherit
               lib
               inputs
