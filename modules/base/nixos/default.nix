@@ -16,11 +16,6 @@
   boot = {
     consoleLogLevel = 0;
 
-    initrd = {
-      systemd.enable = true;
-      verbose = false;
-    };
-
     /*
       NOTE: replace this with your desired kernel, see: https://nixos.wiki/wiki/Linux_kernel for reference.
 
@@ -69,19 +64,13 @@
       "net.ipv4.tcp_congestion_control" = "bbr2";
     };
 
-    loader = {
-      efi.canTouchEfiVariables = true;
-
-      systemd-boot = {
-        enable = true;
-        configurationLimit = 3;
-        consoleMode = "max";
-        editor = false;
-      };
-    };
+    loader.efi.canTouchEfiVariables = true;
   };
 
-  console.keyMap = "us";
+  console = {
+    keyMap = "us";
+    font = "Lat2-Terminus16";
+  };
 
   documentation.man =
     let
@@ -113,62 +102,21 @@
     shells = with pkgs; [ zsh ];
   };
 
-  fonts = {
-    packages = __attrValues {
-      inherit (pkgs)
-        fantasque-sans-mono
-        sarasa-gothic
-        symbola
-        terminus_font
-        twemoji-color-font
-        ;
-    };
-
-    fontconfig = {
-      enable = lib.mkDefault true;
-
-      defaultFonts = {
-        serif = [
-          "Sarasa Gothic C"
-          "Sarasa Gothic J"
-          "Sarasa Gothic K"
-        ];
-
-        sansSerif = [
-          "Sarasa Gothic C"
-          "Sarasa Gothic J"
-          "Sarasa Gothic K"
-        ];
-
-        monospace = [
-          "Iosevka FT"
-          "Iosevka Nerd Font"
-          "Sarasa Mono C"
-          "Sarasa Mono J"
-          "Sarasa Mono K"
-        ];
-
-        emoji = [ "Twitter Color Emoji" ];
-      };
-    };
-  };
-
   i18n = {
     defaultLocale = "en_US.UTF-8";
     supportedLocales = [ "en_US.UTF-8/UTF-8" ];
   };
 
+  networking.networkmanager.enable = true;
   powerManagement.cpuFreqGovernor = "performance";
 
   programs = {
-    bash.interactiveShellInit = ''export HISTFILE=$HOME/.config/.bash_history'';
+    bash.interactiveShellInit = "export HISTFILE=$HOME/.config/.bash_history";
     command-not-found.enable = false;
     dconf.enable = true;
     ssh.pubkeyAcceptedKeyTypes = [ "ssh-ed25519" ];
     fish.enable = true;
   };
-
-  qt.platformTheme = "qt5ct";
 
   security = {
     sudo.wheelNeedsPassword = false;
@@ -228,10 +176,7 @@
     };
   };
 
-  time = {
-    hardwareClockInLocalTime = true;
-    timeZone = "Asia/Manila";
-  };
+  time.timeZone = "Asia/Manila";
 
   users.users.moni = {
     isNormalUser = true;

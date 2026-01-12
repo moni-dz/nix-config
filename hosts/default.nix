@@ -11,6 +11,13 @@
 
   # NixOS configurations
   parts.nixosConfigurations = {
+    hydrophilic = {
+      system = "x86_64-linux";
+      stateVersion = "25.11";
+      determinate = true;
+      modules = [ ./hydrophilic/configuration.nix ];
+    };
+
     weasel = {
       system = "x86_64-linux";
       stateVersion = "24.11";

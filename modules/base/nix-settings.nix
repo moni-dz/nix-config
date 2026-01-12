@@ -19,9 +19,11 @@
         };
   */
 
-  package = infuse inputs'.nix.packages.default {
-    __output.doCheck.__assign = false;
-  };
+  package = lib.mkDefault (
+    infuse inputs'.nix.packages.default {
+      __output.doCheck.__assign = false;
+    }
+  );
 
   settings = lib.mkMerge [
     {

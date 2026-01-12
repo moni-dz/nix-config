@@ -29,6 +29,7 @@ let
           description = "NixOS state version, changing this value DOES NOT update your system.";
         };
 
+        determinate = lib.mkEnableOption "Determinate Nix";
         wsl = lib.mkEnableOption "nixos-wsl";
 
         modules = lib.mkOption {
@@ -48,6 +49,9 @@ let
         inputs.nixpkgs.lib.nixosSystem {
           modules =
             config.modules
+            ++ lib.optionals config.determinate [
+              inputs.determinate.nixosModules.default
+            ]
             ++ lib.optionals (!config.server && !config.wsl) [
               # Shared configuration across all NixOS machines
               ../base/nixos
@@ -62,7 +66,6 @@ let
 
                   system = {
                     inherit (config) stateVersion;
-                    rebuild.enableNg = true;
                   };
 
                   environment = {

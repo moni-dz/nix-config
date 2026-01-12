@@ -18,6 +18,17 @@
       ++ lib.optional config.parts.homeConfigurations."moni@riscake".agenix ./moni/age.nix;
     };
 
+    "moni@hydrophilic" = {
+      system = "x86_64-linux";
+      stateVersion = "25.11";
+      agenix = true;
+
+      modules = [
+        ./omni/home.nix
+      ]
+      ++ lib.optional config.parts.homeConfigurations."moni@hydrophilic".agenix ./moni/age.nix;
+    };
+
     "moni@weasel" = {
       system = "x86_64-linux";
       stateVersion = "24.11";

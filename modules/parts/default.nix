@@ -69,7 +69,7 @@
             pkgs:
             __attrValues {
               inherit (pkgs)
-                nano
+                msedit
                 curl
                 fd
                 ripgrep

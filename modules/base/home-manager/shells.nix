@@ -96,7 +96,7 @@
 
         git_commit = {
           style = "fg:black bg:purple";
-          format = ''[ $hash$tag ]($style)'';
+          format = "[ $hash$tag ]($style)";
         };
 
         git_state = {
@@ -117,7 +117,7 @@
           renamed = "≡";
           stashed = "▽";
           untracked = "?";
-          format = ''[( $all_status$ahead_behind )]($style)'';
+          format = "[( $all_status$ahead_behind )]($style)";
         };
 
         git_branch = {

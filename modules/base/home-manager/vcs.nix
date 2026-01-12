@@ -10,8 +10,7 @@
 {
   home.packages = lib.mkMerge [
     (__attrValues {
-      inherit (pkgs.gitAndTools) gh;
-      inherit (pkgs) gnupg;
+      inherit (pkgs) gnupg gh;
     })
 
     (lib.mkIf config.programs.jujutsu.enable [ pkgs.watchman ])
