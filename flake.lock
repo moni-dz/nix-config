@@ -368,16 +368,16 @@
     },
     "master": {
       "locked": {
-        "lastModified": 1768287492,
-        "narHash": "sha256-mXTWGZpE9Feu4hvc2eyfIWIhXecjyQLpgAM32rlg8tw=",
-        "owner": "moni-dz",
+        "lastModified": 1768295796,
+        "narHash": "sha256-FeAmeX81/kBe6IY6BKjFdqDfaNlyUUiX6RvIr4BBZE8=",
+        "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "f15ca35c59c830ceee92db82bb87bd1a0ad910a1",
+        "rev": "bac5c6ce3354572012c1bbc01c966bce3498a305",
         "type": "github"
       },
       "original": {
-        "owner": "moni-dz",
-        "ref": "kpm-bcachefs",
+        "owner": "NixOS",
+        "ref": "master",
         "repo": "nixpkgs",
         "type": "github"
       }

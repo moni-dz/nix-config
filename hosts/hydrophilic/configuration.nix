@@ -9,7 +9,7 @@
 }:
 
 {
-  imports = [ ./hardware-configuration.nix ];
+  imports = [ ./hardware-configuration.nix ./kernel.nix ];
 
   boot.loader.limine = {
     enable = true;
@@ -99,6 +99,7 @@
         protonvpn-gui
         sbctl
         libva-utils
+        zed-editor
         ;
 
       nvtop = pkgs.nvtopPackages.full;
