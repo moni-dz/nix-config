@@ -20,21 +20,21 @@
     git = {
       enable = true;
 
-      aliases = {
-        df = "difftool";
-        a = "add";
-        p = "push";
-        r = "rebase";
-        ri = "rebase -i";
-        cm = "commit";
-        pl = "pull";
-        s = "status";
-        st = "stash";
-        ck = "checkout";
-        rl = "reflog";
-      };
+      settings = {
+        aliases = {
+          df = "difftool";
+          a = "add";
+          p = "push";
+          r = "rebase";
+          ri = "rebase -i";
+          cm = "commit";
+          pl = "pull";
+          s = "status";
+          st = "stash";
+          ck = "checkout";
+          rl = "reflog";
+        };
 
-      extraConfig = {
         diff.tool = "difftastic";
         pager.difftool = true;
 

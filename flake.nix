@@ -41,6 +41,7 @@
     agenix.url = "github:ryantm/agenix";
     darwin.url = "github:nix-darwin/nix-darwin";
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
+    ghostty.url = "github:ghostty-org/ghostty";
     home.url = "github:nix-community/home-manager/master";
     nix.url = "github:NixOS/nix/master";
     nix-index-database.url = "github:Mic92/nix-index-database";
@@ -63,6 +64,7 @@
     agenix.inputs.nixpkgs.follows = "nixpkgs";
     agenix.inputs.darwin.follows = "darwin";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
+    ghostty.inputs.nixpkgs.follows = "nixpkgs";
     home.inputs.nixpkgs.follows = "nixpkgs";
     nix.inputs.nixpkgs.follows = "nixpkgs";
     nix.inputs.flake-parts.follows = "parts";

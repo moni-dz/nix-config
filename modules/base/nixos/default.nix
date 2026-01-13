@@ -102,13 +102,29 @@
     shells = with pkgs; [ zsh ];
   };
 
+  fonts = {
+    packages = __attrValues {
+      inherit (pkgs) inter twemoji-color-font;
+    };
+
+    fontconfig = {
+      enable = lib.mkDefault true;
+
+      defaultFonts = {
+        serif = [ "Inter" ];
+        sansSerif = [ "Inter" ];
+        emoji = [ "Twitter Color Emoji" ];
+      };
+    };
+  };
+
   i18n = {
     defaultLocale = "en_US.UTF-8";
     supportedLocales = [ "en_US.UTF-8/UTF-8" ];
   };
 
   networking.networkmanager.enable = true;
-  powerManagement.cpuFreqGovernor = "performance";
+  powerManagement.cpuFreqGovernor = lib.mkForce "performance";
 
   programs = {
     bash.interactiveShellInit = "export HISTFILE=$HOME/.config/.bash_history";
