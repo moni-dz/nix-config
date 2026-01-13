@@ -42,15 +42,7 @@
   };
 
   hardware = {
-    graphics = {
-      enable = true;
-
-      extraPackages = __attrValues {
-        inherit (pkgs)
-          intel-media-driver
-          ;
-      };
-    };
+    graphics.enable = true;
 
     openrazer = {
       enable = true;
@@ -66,25 +58,37 @@
   programs.firefox = {
     enable = true;
 
-    preferences = {
-      "media.ffmpeg.vaapi.enabled" = true;
-      "media.hardware-video-decoding.force-enabled" = true;
-      "media.rdd-ffmpeg.enabled" = true;
+    preferences = let v = config.programs.firefox.package.version; in  {
+      "media.ffmpeg.vaapi.enabled" = lib.versionOlder v "137.0.0";
+      "media.hardware-video-decoding.force-enabled" = lib.versionAtLeast v "137.0.0";
+      "media.rdd-ffmpeg.enabled" = lib.versionOlder v "97.0.0";
       "media.av1.enabled" = true;
       "gfx.x11-egl.force-enabled" = true;
       "widget.dmabuf.force-enabled" = true;
+      "gfx.webrender.all" = true;
     };
   };
 
   environment = {
-    sessionVariables.LIBVA_DRIVER_NAME = "nvidia";
+    variables = {
+      MOZ_DISABLE_RDD_SANDBOX = "1";
+      MOZ_DRM_DEVICE = "/dev/dri/card0";
+    };
+    
+    sessionVariables = {
+      LIBVA_DRIVER_NAME = "nvidia";
+      NVD_BACKEND = "direct";
+    };
 
     systemPackages = __attrValues {
       inherit (pkgs)
         proton-vpn-cli
         protonvpn-gui
         sbctl
+        libva-utils
         ;
+        
+      nvtop = pkgs.nvtopPackages.full;
 
       nixpkgs-review = infuse pkgs.nixpkgs-review {
         __input.nix.__assign = config.nix.package;
