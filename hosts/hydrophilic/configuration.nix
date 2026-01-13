@@ -35,10 +35,7 @@
       };
     };
 
-    xserver = {
-      enable = false;
-      videoDrivers = [ "nvidia" ];
-    };
+    xserver.videoDrivers = lib.mkForce [ "nvidia" ];
   };
 
   hardware = {
@@ -52,7 +49,8 @@
     nvidia = {
       package = config.boot.kernelPackages.nvidiaPackages.beta;
       open = true;
-      
+      modesetting.enable = true;
+
       prime = {
         sync.enable = true;
         intelBusId = "PCI:0:2:0";
@@ -61,18 +59,27 @@
     };
   };
 
-  programs.firefox = {
-    enable = true;
+  programs = {
+    firefox = {
+      enable = true;
+      package = pkgs.firefox-devedition;
 
-    preferences = let v = config.programs.firefox.package.version; in  {
-      "media.ffmpeg.vaapi.enabled" = lib.versionOlder v "137.0.0";
-      "media.hardware-video-decoding.force-enabled" = lib.versionAtLeast v "137.0.0";
-      "media.rdd-ffmpeg.enabled" = lib.versionOlder v "97.0.0";
-      "media.av1.enabled" = true;
-      "gfx.x11-egl.force-enabled" = true;
-      "widget.dmabuf.force-enabled" = true;
-      "gfx.webrender.all" = true;
+      preferences =
+        let
+          v = config.programs.firefox.package.version;
+        in
+        {
+          "media.ffmpeg.vaapi.enabled" = lib.versionOlder v "137.0.0";
+          "media.hardware-video-decoding.force-enabled" = lib.versionAtLeast v "137.0.0";
+          "media.rdd-ffmpeg.enabled" = lib.versionOlder v "97.0.0";
+          "media.av1.enabled" = true;
+          "gfx.x11-egl.force-enabled" = true;
+          "widget.dmabuf.force-enabled" = true;
+          "gfx.webrender.all" = true;
+        };
     };
+
+    partition-manager.enable = true;
   };
 
   environment = {
@@ -80,7 +87,7 @@
       MOZ_DISABLE_RDD_SANDBOX = "1";
       MOZ_DRM_DEVICE = "/dev/dri/card0";
     };
-    
+
     sessionVariables = {
       LIBVA_DRIVER_NAME = "nvidia";
       NVD_BACKEND = "direct";
@@ -93,7 +100,7 @@
         sbctl
         libva-utils
         ;
-        
+
       nvtop = pkgs.nvtopPackages.full;
 
       nixpkgs-review = infuse pkgs.nixpkgs-review {
