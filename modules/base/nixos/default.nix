@@ -70,6 +70,25 @@
   console = {
     keyMap = "us";
     font = "Lat2-Terminus16";
+
+    colors = [
+      "3b4252"
+      "df8c8f"
+      "a9a874"
+      "c1ad89"
+      "7ca8dd"
+      "a9a0bf"
+      "6fb1ba"
+      "e5e9f0"
+      "4c566a"
+      "df8c8c"
+      "a9a874"
+      "c1ad89"
+      "7ca8dd"
+      "a9a0bf"
+      "6fb1ba"
+      "eceff4"
+    ];
   };
 
   documentation.man =

@@ -14,16 +14,33 @@
     ./kernel.nix
   ];
 
-  boot.loader.limine = {
-    enable = true;
-    secureBoot.enable = true;
-    maxGenerations = 5;
+  boot.loader = {
+    timeout = 30;
+    limine = {
+      enable = true;
+      secureBoot.enable = true;
+      maxGenerations = 5;
 
-    extraEntries = ''
-      /Windows
-        protocol: efi
-        path: uuid(61b09bee-2f93-4700-ba06-19f2f1a03c5b):/EFI/Microsoft/Boot/bootmgfw.efi
-    '';
+      extraEntries = ''
+        /Windows
+          protocol: efi
+          path: uuid(61b09bee-2f93-4700-ba06-19f2f1a03c5b):/EFI/Microsoft/Boot/bootmgfw.efi
+          comment: Windows Boot Manager
+      '';
+
+      style = {
+        wallpapers = [];
+
+        graphicalTerminal = {
+          palette = "3b4252;df8c8f;a9a874;c1ad89;7ca8dd;a9a0bf;6fb1ba;e5e9f0";
+          brightPalette = "4c566a;df8c8c;a9a874;c1ad89;7ca8dd;a9a0bf;6fb1ba;eceff4";
+          background = "1a1a1a";
+          foreground = "d8dee9";
+          brightBackground = "4c566a";
+          brightForeground = "eceff4";
+        };
+      };
+    };
   };
 
   services = {
