@@ -9,7 +9,10 @@
 }:
 
 {
-  imports = [ ./hardware-configuration.nix ./kernel.nix ];
+  imports = [
+    ./hardware-configuration.nix
+    ./kernel.nix
+  ];
 
   boot.loader.limine = {
     enable = true;
