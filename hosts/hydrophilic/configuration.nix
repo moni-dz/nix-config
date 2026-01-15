@@ -29,7 +29,7 @@
       '';
 
       style = {
-        wallpapers = [];
+        wallpapers = [ ];
 
         graphicalTerminal = {
           palette = "3b4252;df8c8f;a9a874;c1ad89;7ca8dd;a9a0bf;6fb1ba;e5e9f0";

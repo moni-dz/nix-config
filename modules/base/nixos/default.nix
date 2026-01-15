@@ -16,6 +16,11 @@
   boot = {
     consoleLogLevel = 0;
 
+    initrd = {
+      systemd.enable = true;
+      kernelModules.dm_mod = lib.mkForce config.services.lvm.enable;
+    };
+
     /*
       NOTE: replace this with your desired kernel, see: https://nixos.wiki/wiki/Linux_kernel for reference.
 
@@ -70,6 +75,7 @@
   console = {
     keyMap = "us";
     font = "Lat2-Terminus16";
+    earlySetup = config.boot.initrd.systemd.enable;
 
     colors = [
       "3b4252"
@@ -123,15 +129,25 @@
 
   fonts = {
     packages = __attrValues {
-      inherit (pkgs) inter twemoji-color-font;
+      inherit (pkgs) inter sarasa-gothic twemoji-color-font;
     };
 
     fontconfig = {
       enable = lib.mkDefault true;
 
       defaultFonts = {
-        serif = [ "Inter" ];
-        sansSerif = [ "Inter" ];
+        serif = [
+          "Inter"
+          "Sarasa Gothic C"
+          "Sarasa Gothic J"
+          "Sarasa Gothic K"
+        ];
+        sansSerif = [
+          "Inter"
+          "Sarasa Gothic C"
+          "Sarasa Gothic J"
+          "Sarasa Gothic K"
+        ];
         emoji = [ "Twitter Color Emoji" ];
       };
     };
@@ -174,6 +190,7 @@
     dbus.implementation = "broker";
 
     journald.extraConfig = lib.mkForce "";
+    lvm.enable = false;
 
     openssh = {
       enable = true;
@@ -200,10 +217,14 @@
   };
 
   systemd = {
-    services.rtkit-daemon.serviceConfig.ExecStart = [
-      ""
-      "${pkgs.rtkit}/libexec/rtkit-daemon --our-realtime-priority=95 --max-realtime-priority=90"
-    ];
+    services = {
+      systemd-vconsole-setup.unitConfig.After = lib.mkIf config.boot.initrd.systemd.enable "local-fs.target";
+
+      rtkit-daemon.serviceConfig.ExecStart = [
+        ""
+        "${pkgs.rtkit}/libexec/rtkit-daemon --our-realtime-priority=95 --max-realtime-priority=90"
+      ];
+    };
 
     user.services = {
       pipewire.wantedBy = [ "default.target" ];
