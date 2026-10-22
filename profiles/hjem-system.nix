@@ -1,0 +1,3 @@
+{
+  hjem.clobberByDefault = true;
+}

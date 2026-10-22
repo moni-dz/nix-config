@@ -1,37 +1,73 @@
-{ inputs, ... }:
+{
+  self,
+  inputs,
+  withSystem,
+  ...
+}:
 
+/*
+  Shared profiles go after the host's own modules: list options (e.g. `extra-trusted-users`,
+  `environment.systemPackages`) merge in module order, and this keeps the order the systems had
+  when the builder appended them.
+*/
 {
   # nix-darwin configurations
-  parts.darwinConfigurations.riscake = {
-    system = "aarch64-darwin";
-    stateVersion = 5; # only change this if you know what you are doing.
-    determinate = true; # use Determinate Nix
-    modules = [
-      inputs.agenix.darwinModules.default
-      inputs.hjem.darwinModules.default
-      inputs.nix-index-database.darwinModules.nix-index
-      ../modules/common/identity.nix
-      ../profiles/identity.nix
-      ./riscake/configuration.nix
-      ../users/moni
-    ];
-  };
+  flake.darwinConfigurations.riscake = withSystem "aarch64-darwin" (
+    { inputs', self', ... }:
+    inputs.darwin.lib.darwinSystem {
+      specialArgs = {
+        inherit
+          inputs
+          self
+          inputs'
+          self'
+          ;
+      };
+      modules = [
+        inputs.agenix.darwinModules.default
+        inputs.determinate.darwinModules.default
+        inputs.nix-index-database.darwinModules.nix-index
+        ../modules/common/identity.nix
+        ../modules/darwin/hjem.nix
+        ./riscake/configuration.nix
+        ../users/moni
+        ../profiles/identity.nix
+        ../profiles/nixpkgs.nix
+        ../profiles/hjem-system.nix
+        ../profiles/base-packages.nix
+        ../profiles/determinate-darwin.nix
+      ];
+    }
+  );
 
   # NixOS configurations
-  parts.nixosConfigurations = {
+  flake.nixosConfigurations = {
     # Steam Deck (Jovian-NixOS)
-    hands = {
-      system = "x86_64-linux";
-      stateVersion = "26.05";
-      modules = [
-        inputs.agenix.nixosModules.default
-        inputs.hjem.nixosModules.default
-        inputs.jovian.nixosModules.default
-        inputs.rex.nixosModules.default
-        ../modules/common/identity.nix
-        ../profiles/identity.nix
-        ./hands/configuration.nix
-      ];
-    };
+    hands = withSystem "x86_64-linux" (
+      { inputs', self', ... }:
+      inputs.nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit
+            inputs
+            self
+            inputs'
+            self'
+            ;
+        };
+        modules = [
+          inputs.agenix.nixosModules.default
+          inputs.jovian.nixosModules.default
+          inputs.rex.nixosModules.default
+          ../modules/common/identity.nix
+          ../modules/nixos/hjem.nix
+          ./hands/configuration.nix
+          ../profiles/identity.nix
+          ../profiles/nixpkgs.nix
+          ../profiles/nix.nix
+          ../profiles/hjem-system.nix
+          ../profiles/base-packages.nix
+        ];
+      }
+    );
   };
 }

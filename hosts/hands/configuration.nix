@@ -3,12 +3,15 @@
   lib,
   pkgs,
   inputs',
-  infuse,
   ...
 }:
 
 {
   imports = [ ./hardware-configuration.nix ];
+
+  networking.hostName = "hands";
+  nixpkgs.hostPlatform = "x86_64-linux";
+  system.stateVersion = "26.05";
 
   age.secrets.netrc = {
     file = ../../secrets/netrc.age;
@@ -99,14 +102,17 @@
     fi
   '';
 
-  environment.variables.EDITOR = "nvim";
+  environment = {
+    enableAllTerminfo = false;
+    variables.EDITOR = "nvim";
+  };
 
   /*
     rex is built on some older nixpkgs commit, using follows will make it segfault
     it links libpam on runtime, so running a newer nixpkgs commit will cause it to segfault
     without manually rewriting the RPATH
   */
-  services.rex.package = infuse inputs'.rex.packages.rex {
+  services.rex.package = pkgs.lib.infuse inputs'.rex.packages.rex {
     __output = {
       nativeBuildInputs =
         old: lib.filter (p: lib.getName p != "auto-patchelf-hook") old ++ [ pkgs.patchelf ];

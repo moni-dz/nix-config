@@ -6,7 +6,13 @@
 }:
 
 {
-  system.primaryUser = "moni";
+  networking.hostName = "riscake";
+  nixpkgs.hostPlatform = "aarch64-darwin";
+
+  system = {
+    stateVersion = 5; # only change this if you know what you are doing.
+    primaryUser = "moni";
+  };
 
   determinateNix = {
     # merged into Determinate's netrc, see https://docs.determinate.systems/determinate-nix/determinate-nixd/

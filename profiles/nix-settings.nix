@@ -1,15 +1,16 @@
+# Not a module: a function returning `{ package, nixPath, settings }`, shared by
+# ./nix.nix (assigns it to `nix.*`) and ./determinate-darwin.nix (uses only `settings`).
 {
   lib,
   inputs,
   inputs',
-  infuse,
   pkgs,
   ...
 }:
 
 {
   package = lib.mkDefault (
-    infuse inputs'.nix.packages.default {
+    pkgs.lib.infuse inputs'.nix.packages.default {
       __output.doCheck.__assign = false;
     }
   );

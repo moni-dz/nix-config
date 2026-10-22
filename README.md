@@ -12,7 +12,7 @@ See also:
 
 - [hjem](https://github.com/feel-co/hjem) and [hjem-rum](https://github.com/snugnug/hjem-rum)
 - [flakes](https://wiki.nixos.org/wiki/Flakes)
-- [flake-parts](https://flake.parts), for the flake modules at [modules/parts](https://github.com/moni-dz/nix-config/blob/master/modules/parts)
+- [flake-parts](https://flake.parts), for the flake outputs, e.g. [my system configurations](https://github.com/moni-dz/nix-config/blob/master/hosts/default.nix)
 - [nix-darwin](https://github.com/LnL7/nix-darwin), for `hosts/riscake`
 
 Resources and configurations I used to base on:
@@ -31,4 +31,4 @@ Resources and configurations I used to base on:
 
 `flake-parts` allow reusable configuration powered by the module system everyone knows and loves.
 
-See [modules/parts](https://github.com/moni-dz/nix-config/blob/master/modules/parts), and its implementation in [my system configurations](https://github.com/moni-dz/nix-config/blob/master/hosts/default.nix).
+See [my system configurations](https://github.com/moni-dz/nix-config/blob/master/hosts/default.nix), which build each system directly with `withSystem`.

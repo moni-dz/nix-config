@@ -11,7 +11,6 @@
 
       imports = [
         inputs.parts.flakeModules.partitions
-        ./modules/parts
         ./hosts
       ];
 
