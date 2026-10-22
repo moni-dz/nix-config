@@ -42,6 +42,12 @@ in
 
   environment.systemPackages = [ nixPackage ];
 
+  # darwin-rebuild puts root's ~/.nix-profile first in PATH, which the installer filled with stock nix
+  system.activationScripts.postActivation.text = ''
+    echo "pointing root's nix profile at the patched nix..." >&2
+    ${nixPackage}/bin/nix-env -p /nix/var/nix/profiles/per-user/root/profile --set ${nixPackage}
+  '';
+
   launchd.daemons.determinate-nix-daemon.serviceConfig = {
     Label = "systems.determinate.nix-daemon";
     ProgramArguments = [

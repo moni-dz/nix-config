@@ -13,11 +13,9 @@
       gnupg
       jq
       krabby
-      mosh
       msedit
       nixd
       nixfmt
-      nix-output-monitor
       parallel
       ripgrep
       tinymist

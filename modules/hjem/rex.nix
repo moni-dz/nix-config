@@ -23,7 +23,9 @@ in
           let word = ($before | split row -r '\s+' | last | default "")
           if ($word =~ '^(~|\.{1,2}$|.*/)') {
             commandline edit --replace $before  # keep the typed line; insert path goes after the cursor
-            rex do pane.insert_path
+            # background job keeps nu in the foreground: Rex resolves the popover's directory
+            # from the foreground process, and a just-exiting rex child makes it fall back to ~
+            job spawn { rex do pane.insert_path } | ignore
           } else {
             stty -echo  # keep the ctrl+x below from being echoed; reedline restores the tty at the next prompt
             rex send-key -s $env.REX_SESSION -b $env.REX_BLOCK ctrl+x

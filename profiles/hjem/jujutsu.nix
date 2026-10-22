@@ -19,8 +19,6 @@
         fsmonitor.backend = lib.mkDefault "watchman";
 
         aliases = {
-          df = [ "diff" ];
-
           lm = [
             "log"
             "-r"
@@ -31,11 +29,6 @@
             "b"
             "s"
             "-r"
-          ];
-
-          gp = [
-            "git"
-            "push"
           ];
 
           rba = [
