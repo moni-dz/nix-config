@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   imports = [ ./hardware-configuration.nix ];
@@ -14,8 +19,7 @@
     extra-trusted-users = [ "lyt" ];
   };
 
-  # Jovian vendors gamescope 3.16.30.1, but nixpkgs' patches target an older release.
-  # Drop the ones that no longer apply; GetUsrDir moved to src/Utils/DirHelpers.cpp.
+  # Jovian vendors gamescope 3.16.30.1, so drop the nixpkgs patch that is already in it.
   nixpkgs.overlays = [
     (_: prev: {
       jovianPackages = prev.jovianPackages.overrideScope (
@@ -24,17 +28,10 @@
             patches = builtins.filter (
               p:
               !(builtins.any (s: prev.lib.hasSuffix s (toString p)) [
-                "shaders-path.patch"
                 # wlroots libinput backport, already in 3.16.30.1
                 "c08d99437ec8bb56a703f04ad1ef199502c62d10.diff"
               ])
             ) old.patches;
-
-            postPatch =
-              builtins.replaceStrings
-                [ ''substituteInPlace src/reshade_effect_manager.cpp --replace-fail "@out@" "$out"'' ]
-                [ ''substituteInPlace src/Utils/DirHelpers.cpp --replace-fail '"/usr"' "\"$out\""'' ]
-                old.postPatch;
 
             # unit tests need catch2
             mesonFlags = old.mesonFlags ++ [ (prev.lib.mesonBool "enable_tests" false) ];
@@ -88,7 +85,33 @@
 
   users.users.lyt = {
     isNormalUser = true;
+    shell = pkgs.nushell;
     extraGroups = [ "wheel" ];
     packages = [ pkgs.nano ];
+  };
+
+  # hjem-rum has no bash module to load per-user session variables, so this is system wide
+  environment.variables.EDITOR = "nvim";
+
+  hjem.users.lyt = {
+    enable = true;
+    imports = [ ../../users/jujutsu.nix ];
+    rum.programs.neovim.enable = true;
+
+    # moni's jj config, minus what needs things only that machine has
+    rum.programs.jujutsu.settings = {
+      fsmonitor.backend = lib.mkForce "none";
+      signing.behavior = lib.mkForce "drop";
+    };
+
+    rum.programs.nushell = {
+      enable = true;
+      settings.show_banner = false;
+
+      # nushell doesn't read /etc/set-environment like POSIX shells, so put the NixOS profiles on PATH
+      envFile = ''
+        $env.path ++= ["/run/wrappers/bin" "/etc/profiles/per-user/lyt/bin" "/run/current-system/sw/bin" "/nix/var/nix/profiles/default/bin"]
+      '';
+    };
   };
 }

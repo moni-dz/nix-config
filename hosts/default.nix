@@ -23,6 +23,7 @@
       stateVersion = "26.05";
       modules = [
         inputs.agenix.nixosModules.default
+        inputs.hjem.nixosModules.default
         inputs.jovian.nixosModules.default
         inputs.rex.nixosModules.default
         ./hands/configuration.nix

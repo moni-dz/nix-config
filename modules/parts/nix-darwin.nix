@@ -54,7 +54,15 @@ let
 
               {
                 nix.enable = false;
-                determinateNix.customSettings = ctx.nix.settings;
+                determinateNix.customSettings = lib.mkMerge [
+                  ctx.nix.settings
+                  # only Determinate Nix knows these
+                  {
+                    eval-cores = 0;
+                    lazy-trees = true;
+                    extra-experimental-features = [ "parallel-eval" ];
+                  }
+                ];
               }
             ]
             ++ lib.optionals (!config.determinate) [

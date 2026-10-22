@@ -61,6 +61,15 @@ let
                     inherit (config) stateVersion;
                   };
 
+                  hjem = {
+                    clobberByDefault = true;
+                    specialArgs = ctx.extraModuleArgs;
+                    extraModules = [
+                      inputs.hjem-rum.hjemModules.default
+                      ../hjem
+                    ];
+                  };
+
                   environment = {
                     enableAllTerminfo = false;
                     systemPackages = ctx.basePackagesFor pkgs;

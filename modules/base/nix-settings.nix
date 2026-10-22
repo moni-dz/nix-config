@@ -53,8 +53,6 @@
         "flakes"
         "nix-command"
         "pipe-operators"
-        # Determinate Nix
-        "parallel-eval"
       ];
 
       max-jobs = "auto";
@@ -63,10 +61,6 @@
         "root"
         "moni"
       ];
-
-      # Determinate Nix
-      eval-cores = 0;
-      lazy-trees = true;
     }
 
     (

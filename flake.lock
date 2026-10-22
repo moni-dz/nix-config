@@ -308,6 +308,22 @@
         "type": "github"
       }
     },
+    "mellifluous-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1776682377,
+        "narHash": "sha256-EHYQyIvWTPfXop4gTw4pL7+vXDeanRxMBjbTf7/1tV8=",
+        "owner": "ramojus",
+        "repo": "mellifluous.nvim",
+        "rev": "ec0575bdb63594c5e7fba6eb9607b009aa1fb74e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "ramojus",
+        "repo": "mellifluous.nvim",
+        "type": "github"
+      }
+    },
     "nix": {
       "inputs": {
         "bdwgc": "bdwgc",
@@ -562,6 +578,7 @@
         "infuse": "infuse",
         "jovian": "jovian",
         "master": "master",
+        "mellifluous-nvim": "mellifluous-nvim",
         "nix": "nix_2",
         "nix-index-database": "nix-index-database",
         "nixpkgs": [

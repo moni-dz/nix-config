@@ -48,6 +48,11 @@
     rex.url = "https://pkgs.superlogical.com/rex/nix/snapshot.tar.gz";
 
     # Non-flake inputs
+    mellifluous-nvim = {
+      url = "github:ramojus/mellifluous.nvim";
+      flake = false;
+    };
+
     infuse = {
       url = "https://codeberg.org/amjoseph/infuse.nix/archive/364ea18b5611b5fd6a6acd7151411b430a70e194.tar.gz";
       flake = false;
