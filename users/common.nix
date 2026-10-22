@@ -17,7 +17,6 @@
     inherit (pkgs)
       curl
       difftastic
-      eternal-terminal
       fd
       gh
       gnupg
@@ -143,8 +142,6 @@
         render_right_prompt_on_last_line = true;
       };
 
-      # Tab on an obvious path (has a slash, or starts with ~ . ..) opens rex's insert path picker
-      # (rex follows the shell's cwd via osc7). Anything else goes to nushell's normal completion menu on ctrl+x.
       extraConfig = ''
         def rex-tab [] {
           let before = (commandline | str substring 0..<(commandline get-cursor))
@@ -190,7 +187,7 @@
 
       settings = {
         command_timeout = 3000;
-        format = "$hostname$username$nix_shell$character";
+        format = "$hostname\${custom.host}$username$nix_shell$character";
         right_format = "$directory\${custom.jjid}\${custom.jjbookmark}\${custom.jjstat}$git_state$git_commit$git_status";
 
         character = {
@@ -271,6 +268,18 @@
             jj-log = "jj log -r@ -n1 --no-graph --ignore-working-copy --color never -T";
           in
           {
+            host = {
+              description = "first label of the tailnet name, or the hostname";
+              when = ''[ -n "$REX_SESSION" ] && [ -z "$SSH_CONNECTION" ]'';
+              shell = [ "sh" ];
+              command = ''
+                n=$(rex --autostart=false whoami --json 2>/dev/null | jq -r '.tailscale.dns_name // empty' 2>/dev/null | cut -d. -f1)
+                echo "''${n:-$(uname -n)}"
+              '';
+              style = "fg:black bg:blue";
+              format = "[ ✦ $output ✦ ]($style)";
+            };
+
             jjid = {
               ignore_timeout = true;
               description = "current jj revision";
