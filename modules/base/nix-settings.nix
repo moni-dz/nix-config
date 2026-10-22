@@ -57,10 +57,7 @@
 
       max-jobs = "auto";
 
-      extra-trusted-users = [
-        "root"
-        "moni"
-      ];
+      extra-trusted-users = [ "root" ];
     }
 
     (

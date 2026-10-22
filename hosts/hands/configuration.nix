@@ -17,7 +17,10 @@
 
   nix.settings = {
     netrc-file = config.age.secrets.netrc.path;
-    extra-trusted-users = [ "lyt" ];
+    extra-trusted-users = [
+      "moni"
+      "lyt"
+    ];
   };
 
   nixpkgs.overlays = [
@@ -125,8 +128,8 @@
     enable = true;
     imports = [ ../../profiles/hjem ];
     rum.programs.jujutsu.settings = {
-      fsmonitor.backend = lib.mkForce "none";
-      signing.behavior = lib.mkForce "drop";
+      fsmonitor.backend = "none";
+      signing.behavior = "drop";
     };
 
     rum.programs.nushell = {

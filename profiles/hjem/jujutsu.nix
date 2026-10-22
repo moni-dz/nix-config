@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  osConfig,
   pkgs,
   ...
 }:
@@ -15,7 +16,7 @@
       };
 
       settings = {
-        fsmonitor.backend = "watchman";
+        fsmonitor.backend = lib.mkDefault "watchman";
 
         aliases = {
           df = [ "diff" ];
@@ -46,8 +47,7 @@
         };
 
         user = {
-          name = "Lythe Marvin L. Lacre";
-          email = "vcs@4rsxyzt.fyi";
+          inherit (osConfig.identity) name email;
         };
 
         git = {
@@ -60,7 +60,7 @@
         };
 
         signing = {
-          behavior = "own";
+          behavior = lib.mkDefault "own";
           backend = "ssh";
           key = "${config.directory}/.ssh/id_ed25519.pub";
         };

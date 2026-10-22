@@ -10,6 +10,8 @@
       inputs.agenix.darwinModules.default
       inputs.hjem.darwinModules.default
       inputs.nix-index-database.darwinModules.nix-index
+      ../modules/common/identity.nix
+      ../profiles/identity.nix
       ./riscake/configuration.nix
       ../users/moni
     ];
@@ -26,6 +28,8 @@
         inputs.hjem.nixosModules.default
         inputs.jovian.nixosModules.default
         inputs.rex.nixosModules.default
+        ../modules/common/identity.nix
+        ../profiles/identity.nix
         ./hands/configuration.nix
       ];
     };

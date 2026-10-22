@@ -8,10 +8,12 @@
 {
   system.primaryUser = "moni";
 
-  # merged into Determinate's netrc, see https://docs.determinate.systems/determinate-nix/determinate-nixd/
-  determinateNix.determinateNixd.authentication.additionalNetrcSources = [
-    config.age.secrets.netrc.path
-  ];
+  determinateNix = {
+    # merged into Determinate's netrc, see https://docs.determinate.systems/determinate-nix/determinate-nixd/
+    determinateNixd.authentication.additionalNetrcSources = [ config.age.secrets.netrc.path ];
+    # Determinate Nix reads its settings from here, not `nix.settings`
+    customSettings.extra-trusted-users = [ "moni" ];
+  };
 
   environment = {
     shells = __attrValues { inherit (pkgs) fish nushell; };
