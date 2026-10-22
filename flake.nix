@@ -74,5 +74,6 @@
     nix.inputs.nixpkgs.follows = "nixpkgs";
     nix.inputs.flake-parts.follows = "parts";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
+    rex.inputs.nixpkgs.follows = "nixpkgs";
   };
 }

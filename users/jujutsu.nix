@@ -44,7 +44,7 @@
 
         user = {
           name = "Lythe Marvin L. Lacre";
-          email = "lyt@4rsxyzt.fyi";
+          email = "vcs@4rsxyzt.fyi";
         };
 
         git = {

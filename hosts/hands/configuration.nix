@@ -2,13 +2,14 @@
   config,
   lib,
   pkgs,
+  inputs',
+  infuse,
   ...
 }:
 
 {
   imports = [ ./hardware-configuration.nix ];
 
-  # world readable like the old /etc/nix/netrc, since flake inputs are fetched by the client (lyt)
   age.secrets.netrc = {
     file = ../../secrets/netrc.age;
     mode = "444";
@@ -19,7 +20,6 @@
     extra-trusted-users = [ "lyt" ];
   };
 
-  # Jovian vendors gamescope 3.16.30.1, so drop the nixpkgs patch that is already in it.
   nixpkgs.overlays = [
     (_: prev: {
       jovianPackages = prev.jovianPackages.overrideScope (
@@ -85,30 +85,51 @@
 
   users.users.lyt = {
     isNormalUser = true;
-    shell = pkgs.nushell;
     extraGroups = [ "wheel" ];
     packages = [ pkgs.nano ];
   };
 
-  # hjem-rum has no bash module to load per-user session variables, so this is system wide
+  programs.bash.interactiveShellInit = ''
+    if [ "$(id -u)" != 0 ] && [ -z "$IN_NUSHELL" ]; then
+      export IN_NUSHELL=1
+      exec ${lib.getExe pkgs.nushell}
+    fi
+  '';
+
   environment.variables.EDITOR = "nvim";
+
+  /*
+    rex is built on some older nixpkgs commit, using follows will make it segfault
+    it links libpam on runtime, so running a newer nixpkgs commit will cause it to segfault
+    without manually rewriting the RPATH
+  */
+  services.rex.package = infuse inputs'.rex.packages.rex {
+    __output = {
+      nativeBuildInputs =
+        old: lib.filter (p: lib.getName p != "auto-patchelf-hook") old ++ [ pkgs.patchelf ];
+
+      postFixup.__assign = ''
+        patchelf --set-interpreter ${pkgs.stdenv.cc.bintools.dynamicLinker} $out/bin/rex
+        mv $out/bin/rex $out/bin/rex-real
+        cat > $out/bin/rex <<'EOF'
+        #!/bin/sh
+        export LD_LIBRARY_PATH="${lib.makeLibraryPath [ pkgs.pam ]}''${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+        exec "${placeholder "out"}/bin/rex-real" "$@"
+        EOF
+        chmod +x $out/bin/rex
+      '';
+    };
+  };
 
   hjem.users.lyt = {
     enable = true;
-    imports = [ ../../users/jujutsu.nix ];
-    rum.programs.neovim.enable = true;
-
-    # moni's jj config, minus what needs things only that machine has
+    imports = [ ../../users/common.nix ];
     rum.programs.jujutsu.settings = {
       fsmonitor.backend = lib.mkForce "none";
       signing.behavior = lib.mkForce "drop";
     };
 
     rum.programs.nushell = {
-      enable = true;
-      settings.show_banner = false;
-
-      # nushell doesn't read /etc/set-environment like POSIX shells, so put the NixOS profiles on PATH
       envFile = ''
         $env.path ++= ["/run/wrappers/bin" "/etc/profiles/per-user/lyt/bin" "/run/current-system/sw/bin" "/nix/var/nix/profiles/default/bin"]
       '';
