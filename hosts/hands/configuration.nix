@@ -1,7 +1,18 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 
 {
   imports = [ ./hardware-configuration.nix ];
+
+  # world readable like the old /etc/nix/netrc, since flake inputs are fetched by the client (lyt)
+  age.secrets.netrc = {
+    file = ../../secrets/netrc.age;
+    mode = "444";
+  };
+
+  nix.settings = {
+    netrc-file = config.age.secrets.netrc.path;
+    extra-trusted-users = [ "lyt" ];
+  };
 
   # Jovian vendors gamescope 3.16.30.1, but nixpkgs' patches target an older release.
   # Drop the ones that no longer apply; GetUsrDir moved to src/Utils/DirHelpers.cpp.

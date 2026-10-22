@@ -22,6 +22,7 @@
       system = "x86_64-linux";
       stateVersion = "26.05";
       modules = [
+        inputs.agenix.nixosModules.default
         inputs.jovian.nixosModules.default
         inputs.rex.nixosModules.default
         ./hands/configuration.nix

@@ -261,15 +261,13 @@
       "locked": {
         "lastModified": 1782538150,
         "narHash": "sha256-PFRrjDC62Mk7cgyst4l/riW0C7o39srZt/+rYq9Iovs=",
-        "ref": "refs/heads/trunk",
         "rev": "364ea18b5611b5fd6a6acd7151411b430a70e194",
-        "revCount": 57,
-        "type": "git",
-        "url": "https://codeberg.org/amjoseph/infuse.nix.git"
+        "type": "tarball",
+        "url": "https://codeberg.org/api/v1/repos/amjoseph/infuse.nix/archive/364ea18b5611b5fd6a6acd7151411b430a70e194.tar.gz"
       },
       "original": {
-        "type": "git",
-        "url": "https://codeberg.org/amjoseph/infuse.nix.git"
+        "type": "tarball",
+        "url": "https://codeberg.org/amjoseph/infuse.nix/archive/364ea18b5611b5fd6a6acd7151411b430a70e194.tar.gz"
       }
     },
     "jovian": {

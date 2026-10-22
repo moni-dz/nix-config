@@ -3,6 +3,7 @@
   lib,
   pkgs,
   osConfig,
+  self',
   ...
 }:
 
@@ -131,6 +132,7 @@
 
     jujutsu = {
       enable = true;
+      package = self'.packages.jujutsu;
       integrations.nushell.enable = true;
 
       settings = {

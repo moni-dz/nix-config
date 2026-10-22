@@ -77,11 +77,10 @@
                 subversion
                 ;
 
-              man-pages =
-                if pkgs.stdenv.hostPlatform.isLinux then pkgs.man-pages else self'.packages.man-pages-xnu;
               gnu-coreutils =
                 if pkgs.stdenv.hostPlatform.isLinux then pkgs.coreutils else pkgs.coreutils-prefixed;
-            };
+            }
+            ++ lib.optional pkgs.stdenv.hostPlatform.isLinux pkgs.man-pages;
         };
     };
 }

@@ -5,14 +5,12 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/master";
-    nixpkgs-f2k.url = "github:moni-dz/nixpkgs-f2k";
     jj.url = "github:jj-vcs/jj";
     infuse = {
-      url = "git+https://codeberg.org/amjoseph/infuse.nix.git";
+      url = "https://codeberg.org/amjoseph/infuse.nix/archive/364ea18b5611b5fd6a6acd7151411b430a70e194.tar.gz";
       flake = false;
     };
 
-    nixpkgs-f2k.inputs.nixpkgs.follows = "nixpkgs";
     jj.inputs.nixpkgs.follows = "nixpkgs";
   };
 }

@@ -37,19 +37,7 @@ in
           "lib"
         ]
         // {
-          inherit (inputs'.nixpkgs-f2k.packages) iosevka-ft-bin iosevka-ft-qp-bin;
           inherit (inputs'.jj.packages) jujutsu;
         };
     };
-
-  flake.packages = {
-    "aarch64-darwin" = {
-      # nixpkgs-f2k still uses the old `licenses.apsl20` name, renamed to `apple-psl20` upstream
-      man-pages-xnu = inputs.nixpkgs-f2k.packages."aarch64-darwin".man-pages-xnu.overrideAttrs (old: {
-        meta = old.meta // {
-          license = (pkgsFrom "aarch64-darwin").lib.licenses.apple-psl20;
-        };
-      });
-    };
-  };
 }

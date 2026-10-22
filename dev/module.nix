@@ -12,7 +12,6 @@
         "LICENSE"
         ".github/CODEOWNERS"
         "*.age"
-        "*.org"
         "*.jpg"
         "*.png"
         "*.toml"
