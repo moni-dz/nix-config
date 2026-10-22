@@ -11,11 +11,9 @@ let
   inherit (lib) types;
 
   nixosOpts =
-    opts@{ config, name, ... }:
+    { config, name, ... }:
     {
       options = {
-        server = lib.mkEnableOption "Host is a headless server configuration.";
-
         system = lib.mkOption {
           type = types.enum [
             "aarch64-linux"
@@ -30,7 +28,6 @@ let
         };
 
         determinate = lib.mkEnableOption "Determinate Nix";
-        wsl = lib.mkEnableOption "nixos-wsl";
 
         modules = lib.mkOption {
           type = types.listOf types.unspecified;
@@ -52,10 +49,6 @@ let
             ++ lib.optionals config.determinate [
               inputs.determinate.nixosModules.default
             ]
-            ++ lib.optionals (!config.server && !config.wsl) [
-              # Shared configuration across all NixOS machines
-              ../base/nixos
-            ]
             ++ [
               (
                 { pkgs, ... }:
@@ -74,14 +67,6 @@ let
                   };
                 }
               )
-            ]
-            ++ lib.optionals config.wsl [
-              inputs.nixos-wsl.nixosModules.default
-
-              {
-                wsl.enable = true;
-              }
-
             ];
         }
       );

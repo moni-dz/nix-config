@@ -10,15 +10,14 @@
 
 ** Description
 
-NixOS/nix-darwin/home-manager configuration that I use daily.
+NixOS/nix-darwin/hjem configuration that I use daily.
 
 See also:
- * [[https://github.com/nix-community/home-manager][home-manager]]
+ * [[https://github.com/feel-co/hjem][hjem]] and [[https://github.com/snugnug/hjem-rum][hjem-rum]]
  * [[https://wiki.nixos.org/wiki/Flakes][flakes]]
  * [[https://flake.parts][flake-parts]], for the flake modules at [[https://github.com/moni-dz/nix-config/blob/master/modules/parts][modules/parts]]
  * [[https://github.com/moni-dz/nixpkgs-f2k][nixpkgs-f2k]], my package collection
  * [[https://github.com/LnL7/nix-darwin][nix-darwin]], for =hosts/riscake=
- * [[https://github.com/nix-community/NixOS-WSL][NixOS-WSL]], for =hosts/weasel=
 
 Resources and configurations I used to base on:
  * [[https://github.com/colemickens/nixos-flake-example][colemickens/nixos-flake-example]]

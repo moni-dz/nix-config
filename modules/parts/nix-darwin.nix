@@ -68,6 +68,16 @@ let
                   _module.args = ctx.extraModuleArgs;
                   networking.hostName = name;
                   system.stateVersion = config.stateVersion;
+
+                  hjem = {
+                    clobberByDefault = true;
+                    specialArgs = ctx.extraModuleArgs;
+                    extraModules = [
+                      inputs.hjem-rum.hjemModules.default
+                      ../hjem
+                    ];
+                  };
+
                   environment.systemPackages = ctx.basePackagesFor pkgs;
                 }
               )

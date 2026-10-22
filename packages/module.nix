@@ -43,22 +43,6 @@ in
     };
 
   flake.packages = {
-    "x86_64-linux" = {
-      inherit (inputs.nixpkgs-f2k.packages."x86_64-linux") phocus-modified;
-
-      inherit (inputs.nixpkgs-wayland.packages."x86_64-linux")
-        dunst
-        grim
-        slurp
-        swaybg
-        swayidle
-        swaylock
-        wf-recorder
-        wl-clipboard
-        wlogout
-        ;
-    };
-
     "aarch64-darwin" = {
       inherit (inputs.nixpkgs-f2k.packages."aarch64-darwin") man-pages-xnu;
     };

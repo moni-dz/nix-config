@@ -6,4 +6,6 @@ engine: nixery
 
 steps:
   - name: "nix flake check"
-    command: "nix --extra-experimental-features 'ca-derivations nix-command flakes' flake check --show-trace"
+    command: "nix --extra-experimental-features 'nix-command flakes' flake check --show-trace"
+  - name: "format"
+    command: "nix --extra-experimental-features 'nix-command flakes' fmt -- --ci"

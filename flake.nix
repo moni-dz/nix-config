@@ -1,5 +1,5 @@
 {
-  description = "A somewhat huge NixOS/nix-darwin/home-manager configuration using Nix Flakes.";
+  description = "A somewhat huge NixOS/nix-darwin/hjem configuration using Nix Flakes.";
 
   outputs =
     inputs:
@@ -14,7 +14,6 @@
         ./modules/parts
         ./modules/nixos
         ./hosts
-        ./users
       ];
 
       partitions = {
@@ -41,12 +40,13 @@
     agenix.url = "github:ryantm/agenix";
     darwin.url = "github:nix-darwin/nix-darwin";
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
-    ghostty.url = "github:ghostty-org/ghostty";
-    home.url = "github:nix-community/home-manager/master";
+    hjem.url = "github:feel-co/hjem";
+    hjem-rum.url = "github:snugnug/hjem-rum";
+    jovian.url = "github:Jovian-Experiments/Jovian-NixOS/6ba37ebb7c68b1b6711027a67122aa41060d216e";
     nix.url = "github:NixOS/nix/master";
     nix-index-database.url = "github:Mic92/nix-index-database";
-    nixos-wsl.url = "github:nix-community/nixos-wsl";
     parts.url = "github:hercules-ci/flake-parts";
+    rex.url = "https://pkgs.superlogical.com/rex/nix/snapshot.tar.gz";
 
     # Non-flake inputs
     infuse = {
@@ -64,11 +64,12 @@
     agenix.inputs.nixpkgs.follows = "nixpkgs";
     agenix.inputs.darwin.follows = "darwin";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
-    ghostty.inputs.nixpkgs.follows = "nixpkgs";
-    home.inputs.nixpkgs.follows = "nixpkgs";
+    hjem.inputs.nixpkgs.follows = "nixpkgs";
+    hjem-rum.inputs.nixpkgs.follows = "nixpkgs";
+    hjem-rum.inputs.hjem.follows = "hjem";
+    jovian.inputs.nixpkgs.follows = "nixpkgs";
     nix.inputs.nixpkgs.follows = "nixpkgs";
     nix.inputs.flake-parts.follows = "parts";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
-    nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
   };
 }

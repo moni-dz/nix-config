@@ -1,4 +1,4 @@
-{ self, inputs, ... }:
+{ inputs, ... }:
 
 {
   # nix-darwin configurations
@@ -6,25 +6,25 @@
     system = "aarch64-darwin";
     stateVersion = 5; # only change this if you know what you are doing.
     determinate = true; # use Determinate Nix
-    modules = [ ./riscake/configuration.nix ];
+    modules = [
+      inputs.agenix.darwinModules.default
+      inputs.hjem.darwinModules.default
+      inputs.nix-index-database.darwinModules.nix-index
+      ./riscake/configuration.nix
+      ../users/moni
+    ];
   };
 
   # NixOS configurations
   parts.nixosConfigurations = {
-    hydrophilic = {
+    # Steam Deck (Jovian-NixOS)
+    hands = {
       system = "x86_64-linux";
-      stateVersion = "25.11";
-      determinate = true;
-      modules = [ ./hydrophilic/configuration.nix ];
-    };
-
-    weasel = {
-      system = "x86_64-linux";
-      stateVersion = "24.11";
-      wsl = true;
-
+      stateVersion = "26.05";
       modules = [
-        ./weasel/configuration.nix
+        inputs.jovian.nixosModules.default
+        inputs.rex.nixosModules.default
+        ./hands/configuration.nix
       ];
     };
   };

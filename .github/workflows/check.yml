@@ -1,17 +1,15 @@
-name: "nix-config flake check"
+name: "nix-config check"
 on:
   pull_request:
   push:
 jobs:
-  tests:
+  check:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3.5.3
-      with:
-          fetch-depth: 0
-    - uses: cachix/install-nix-action@v31.7.0
-      with:
-        install_url: https://github.com/nix-community/nix-unstable-installer/releases/download/nix-2.23.0pre20240603_da92ad7/install
-        extra_nix_config: |
-          experimental-features = ca-derivations nix-command flakes
-    - run: nix flake check --show-trace
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@main
+      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - run: nix flake check --show-trace
+      - run: nix fmt -- --ci
+      - run: nix run nixpkgs#statix -- check .
+      - run: nix run nixpkgs#deadnix -- --fail .

@@ -2,7 +2,6 @@
 
 {
   imports = [
-    ./home-manager.nix
     ./nix-darwin.nix
     ./nixos.nix
   ];
@@ -79,9 +78,6 @@
                 subversion
                 ;
 
-              home-manager = infuse inputs'.home.packages.home-manager {
-                __input.path.__assign = "${inputs.home}";
-              };
               man-pages = if pkgs.stdenv.isLinux then pkgs.man-pages else self'.packages.man-pages-xnu;
               gnu-coreutils = if pkgs.stdenv.isLinux then pkgs.coreutils else pkgs.coreutils-prefixed;
             };

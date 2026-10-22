@@ -1,7 +1,17 @@
+{ config, ... }:
+
 {
-  # NOTE: you should either change this or disable it completely by setting agenix = false;
-  age.secrets.tokens = {
-    file = ../../secrets/tokens.age;
-    mode = "600";
+  # NOTE: change or remove this if you are not me, the secret is encrypted to my keys.
+  age = {
+    identityPaths = [
+      "${config.users.users.moni.home}/.ssh/id_ed25519"
+      "/etc/ssh/ssh_host_ed25519_key"
+    ];
+
+    secrets.tokens = {
+      file = ../../secrets/tokens.age;
+      owner = "moni";
+      mode = "600";
+    };
   };
 }
