@@ -3,8 +3,6 @@
   lib,
   pkgs,
   osConfig,
-  self',
-  infuse,
   ...
 }:
 
@@ -88,7 +86,7 @@
       settings = {
         detailed_cpu_time = true;
         hide_kernel_threads = false;
-        show_cpu_frequency = pkgs.stdenv.isLinux;
+        show_cpu_frequency = pkgs.stdenv.hostPlatform.isLinux;
         show_cpu_usage = true;
         show_program_path = false;
         show_thread_names = true;
@@ -135,16 +133,8 @@
       enable = true;
       integrations.nushell.enable = true;
 
-      package = infuse self'.packages.jujutsu {
-        __output = {
-          version.__prepend = "0.29.0-";
-          doCheck.__assign = false;
-        };
-      };
-
       settings = {
         fsmonitor.backend = "watchman";
-        format.tree-level-conflicts = true;
 
         aliases = {
           df = [ "diff" ];
@@ -212,12 +202,12 @@
                             if(self.conflict(), label("conflict", "conflict")),
                             if(!empty, label("empty", "∆")),
                             if(empty && self.parents().len() > 1, label("empty", "git-merge")),
-                            format_short_change_id_with_hidden_and_divergent_info(self),
+                            format_short_change_id_with_change_offset(self),
                             format_short_commit_id(self.commit_id()),
                             self.bookmarks(),
                             self.tags(),
                             self.working_copies(),
-                            if(self.git_head(), label("git_head", "git_head()")),
+                            if(self.contained_in("first_parent(@)"), label("git_head", "git_head()")),
                             commit_timestamp(self).local().format("%Y-%m-%d"),
                             if(author.name() && author.email(), concat("by ", separate(" as ", author.email().local(), author.name()))),
                             if(author.name() && !author.email(), author.name()),
@@ -299,12 +289,53 @@
       settings = {
         show_banner = false;
         buffer_editor = "edit";
+        render_right_prompt_on_last_line = true;
       };
 
+      # Tab on an obvious path (has a slash, or starts with ~ . ..) opens rex's insert path picker
+      # (rex follows the shell's cwd via osc7). Anything else goes to nushell's normal completion menu on ctrl+x.
+      extraConfig = ''
+        def rex-tab [] {
+          let before = (commandline | str substring 0..<(commandline get-cursor))
+          let word = ($before | split row -r '\s+' | last | default "")
+          if ($word =~ '^(~|\.{1,2}$|.*/)') {
+            commandline edit --replace $before  # keep the typed line; insert path goes after the cursor
+            rex do pane.insert_path
+          } else {
+            stty -echo  # keep the ctrl+x below from being echoed; reedline restores the tty at the next prompt
+            rex send-key -s $env.REX_SESSION -b $env.REX_BLOCK ctrl+x
+          }
+        }
+
+        $env.config.keybindings ++= [
+          {
+            name: rex_tab
+            modifier: none
+            keycode: tab
+            mode: [emacs vi_normal vi_insert helix_normal helix_select helix_insert]
+            event: { until: [
+              { send: menunext }
+              { send: executehostcommand cmd: "rex-tab" }
+            ] }
+          }
+          {
+            name: normal_completion
+            modifier: control
+            keycode: char_x
+            mode: [emacs vi_normal vi_insert helix_normal helix_select helix_insert]
+            event: { until: [
+              { send: menu name: completion_menu }
+              { send: menunext }
+              { edit: complete }
+            ] }
+          }
+        ]
+      '';
+
       envFile = ''
-        open ${osConfig.age.secrets.tokens.path} | split column " " | get column2 | split column "=" | reduce -f {} {|it, acc| $acc | upsert $it.column1 $it.column2 } | load-env
+        open ${osConfig.age.secrets.tokens.path} | split column " " | get column1 | split column "=" | reduce -f {} {|it, acc| $acc | upsert $it.column0 $it.column1 } | load-env
         $env.BUN_INSTALL = ($env.HOME | path join ".bun")
-        $env.path ++= ["/etc/profiles/per-user/${config.user}/bin" "/run/current-system/sw/bin" "/usr/bin" "/usr/local/bin" "/opt/homebrew/bin" "${config.directory}/.modular/bin" "/opt/local/bin" "/opt/homebrew/opt/llvm/bin" "${config.directory}/.local/share/modular/pkg/packages.modular.com_mojo/bin" ($env.BUN_INSTALL | path join "bin") "/Users/Shared/DBngin/postgresql/17.0/bin" "${config.directory}/.local/bin" "/nix/var/nix/profiles/default/bin"]
+        $env.path ++= ["/etc/profiles/per-user/${config.user}/bin" "/run/current-system/sw/bin" "/usr/bin" "/usr/local/bin" "/opt/homebrew/bin" "${config.directory}/.modular/bin" "/opt/local/bin" "/opt/homebrew/opt/llvm/bin" "${config.directory}/.local/share/modular/pkg/packages.modular.com_mojo/bin" ($env.BUN_INSTALL | path join "bin") "/Users/Shared/DBngin/postgresql/17.0/bin" "${config.directory}/.local/bin" "${config.directory}/.cargo/bin" "/Applications/OrbStack.app/Contents/MacOS/bin" "/Applications/OrbStack.app/Contents/MacOS/xbin" "/nix/var/nix/profiles/default/bin"]
       '';
     };
 
@@ -428,7 +459,7 @@
                     if(divergent, "${config.rum.programs.starship.settings.git_status.diverged}"),
                     if(hidden, "${config.rum.programs.starship.settings.git_status.deleted}"),
                     if(immutable, "λ"),
-                    if(git_head, "★"),
+                    if(self.contained_in("first_parent(@)"), "★"),
                     if(root, "☆")
                   )
                 '

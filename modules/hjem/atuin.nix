@@ -40,7 +40,12 @@ in
     };
 
     rum.programs.nushell.extraConfig = mkIf cfg.integrations.nushell.enable (mkAfter ''
-      source ${pkgs.runCommand "atuin-init-nu" { } ''${getExe cfg.package} init nu > "$out"''}
+      source ${
+        pkgs.runCommand "atuin-init-nu" { } ''
+          export HOME=$TMPDIR
+          ${getExe cfg.package} init nu > "$out"
+        ''
+      }
     '');
   };
 }

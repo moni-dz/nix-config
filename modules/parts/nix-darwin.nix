@@ -54,7 +54,7 @@ let
 
               {
                 nix.enable = false;
-                determinate-nix.customSettings = ctx.nix.settings;
+                determinateNix.customSettings = ctx.nix.settings;
               }
             ]
             ++ lib.optionals (!config.determinate) [

@@ -8,27 +8,18 @@
 }:
 
 {
-  /*
-    package =
-      infuse
-        (inputs'.nix.packages.default.appendPatches [
-
-        ])
-        {
-          __output.doCheck.__assign = false;
-        };
-  */
-
   package = lib.mkDefault (
     infuse inputs'.nix.packages.default {
       __output.doCheck.__assign = false;
     }
   );
 
+  # Determinate Nix manages the Nix path itself, so this is only used on hosts without it
+  nixPath = [ "nixpkgs=${inputs.nixpkgs.outPath}" ];
+
   settings = lib.mkMerge [
     {
       keep-outputs = true;
-      keep-derivations = true;
       keep-going = true;
       builders-use-substitutes = true;
       allow-unsafe-native-code-during-evaluation = true;
@@ -37,9 +28,7 @@
       use-xdg-base-directories = true;
       download-buffer-size = 524288000;
 
-      extra-nix-path = [ "nixpkgs=${inputs.nixpkgs.outPath}" ];
-
-      flake-registry = __toFile "begone-evil.json" (__toJSON {
+      flake-registry = __toFile "flake-registry.json" (__toJSON {
         flakes = [
           {
             from = {
@@ -99,7 +88,9 @@
       }
     )
 
-    (lib.mkIf (pkgs.stdenv.isDarwin && pkgs.stdenv.isAarch64) { extra-platforms = "x86_64-darwin"; })
-    (lib.mkIf pkgs.stdenv.isDarwin { sandbox = "relaxed"; })
+    (lib.mkIf (pkgs.stdenv.hostPlatform.isDarwin && pkgs.stdenv.hostPlatform.isAarch64) {
+      extra-platforms = "x86_64-darwin";
+    })
+    (lib.mkIf pkgs.stdenv.hostPlatform.isDarwin { sandbox = "relaxed"; })
   ];
 }

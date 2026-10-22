@@ -42,7 +42,6 @@
             config = lib.mkForce {
               allowBroken = true;
               allowUnfree = true;
-              tarball-ttl = 0;
 
               # Experimental options, disable if you don't know what you are doing!
               contentAddressedByDefault = false;
@@ -78,8 +77,10 @@
                 subversion
                 ;
 
-              man-pages = if pkgs.stdenv.isLinux then pkgs.man-pages else self'.packages.man-pages-xnu;
-              gnu-coreutils = if pkgs.stdenv.isLinux then pkgs.coreutils else pkgs.coreutils-prefixed;
+              man-pages =
+                if pkgs.stdenv.hostPlatform.isLinux then pkgs.man-pages else self'.packages.man-pages-xnu;
+              gnu-coreutils =
+                if pkgs.stdenv.hostPlatform.isLinux then pkgs.coreutils else pkgs.coreutils-prefixed;
             };
         };
     };

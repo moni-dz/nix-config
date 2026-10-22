@@ -7,4 +7,5 @@ let
 in
 {
   "tokens.age".publicKeys = users;
+  "netrc.age".publicKeys = users;
 }

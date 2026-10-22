@@ -15,7 +15,7 @@ let
   ];
 in
 {
-  config = mkIf (pkgs.stdenv.isDarwin && config.rum.programs.nushell.enable) {
+  config = mkIf (pkgs.stdenv.hostPlatform.isDarwin && config.rum.programs.nushell.enable) {
     files = lib.mapAttrs' (n: _: {
       name = "Library/Application Support/nushell/${n}";
       value = {

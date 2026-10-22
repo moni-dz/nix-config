@@ -12,7 +12,6 @@
       imports = [
         inputs.parts.flakeModules.partitions
         ./modules/parts
-        ./modules/nixos
         ./hosts
       ];
 
@@ -55,14 +54,13 @@
     };
 
     # Nixpkgs branches
-    master.url = "github:NixOS/nixpkgs/master";
+    master.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
     # Default Nixpkgs for packages and modules
     nixpkgs.follows = "master";
 
     # Minimize duplicate instances of inputs
     agenix.inputs.nixpkgs.follows = "nixpkgs";
-    agenix.inputs.darwin.follows = "darwin";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     hjem.inputs.nixpkgs.follows = "nixpkgs";
     hjem-rum.inputs.nixpkgs.follows = "nixpkgs";

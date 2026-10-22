@@ -13,5 +13,12 @@
       owner = "moni";
       mode = "600";
     };
+
+    # read by determinate-nixd (root), see `determinateNix` in hosts/riscake
+    secrets.netrc = {
+      file = ../../secrets/netrc.age;
+      owner = "root";
+      mode = "600";
+    };
   };
 }
