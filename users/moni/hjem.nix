@@ -7,7 +7,7 @@
 }:
 
 {
-  imports = [ ../common.nix ];
+  imports = [ ../../profiles/hjem ];
 
   packages = __attrValues {
     inherit (pkgs) iproute2mac watchman;

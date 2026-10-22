@@ -123,7 +123,7 @@
 
   hjem.users.lyt = {
     enable = true;
-    imports = [ ../../users/common.nix ];
+    imports = [ ../../profiles/hjem ];
     rum.programs.jujutsu.settings = {
       fsmonitor.backend = lib.mkForce "none";
       signing.behavior = lib.mkForce "drop";
