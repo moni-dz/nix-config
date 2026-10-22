@@ -6,5 +6,6 @@
     ./jujutsu.nix
     ./neovim.nix
     ./nushell-darwin.nix
+    ./rex.nix
   ];
 }

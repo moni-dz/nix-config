@@ -1,8 +1,13 @@
 {
   config,
+  lib,
   ...
 }:
 
+let
+  inherit (lib) optionalString;
+  inherit (config.rum.programs) jujutsu rex;
+in
 {
   rum.programs = {
     starship = {
@@ -11,8 +16,15 @@
 
       settings = {
         command_timeout = 3000;
-        format = "$hostname\${custom.host}$username$nix_shell$character";
-        right_format = "$directory\${custom.jjid}\${custom.jjbookmark}\${custom.jjstat}$git_state$git_commit$git_status";
+        format =
+          "$hostname"
+          + optionalString rex.integrations.starship.enable "\${custom.host}"
+          + "$username$nix_shell$character";
+
+        right_format =
+          "$directory"
+          + optionalString jujutsu.integrations.starship.enable "\${custom.jjid}\${custom.jjbookmark}\${custom.jjstat}"
+          + "$git_state$git_commit$git_status";
 
         character = {
           success_symbol = "[ ♥ ](fg:black bg:cyan)";
@@ -86,64 +98,6 @@
           style = "fg:black bg:yellow";
           format = "[ $name ]($style)";
         };
-
-        custom =
-          let
-            jj-log = "jj log -r@ -n1 --no-graph --ignore-working-copy --color never -T";
-          in
-          {
-            host = {
-              description = "first label of the tailnet name, or the hostname";
-              when = ''[ -n "$REX_SESSION" ] && [ -z "$SSH_CONNECTION" ]'';
-              shell = [ "sh" ];
-              command = ''
-                n=$(rex --autostart=false whoami --json 2>/dev/null | jq -r '.tailscale.dns_name // empty' 2>/dev/null | cut -d. -f1)
-                echo "''${n:-$(uname -n)}"
-              '';
-              style = "fg:black bg:blue";
-              format = "[ ✦ $output ✦ ]($style)";
-            };
-
-            jjid = {
-              ignore_timeout = true;
-              description = "current jj revision";
-              when = "jj root";
-              command = "${jj-log} 'change_id.shortest(4)'";
-              style = "fg:black bg:green";
-              format = "[ $output ]($style)";
-            };
-
-            jjbookmark = {
-              ignore_timeout = true;
-              description = "jj bookmark of current revision";
-              when = "jj root";
-              command = "${jj-log} 'self.bookmarks()' | tr ' ' '
-  ' | sort -k1.1n | head -1";
-              style = "fg:black bg:purple";
-              format = "[( $output )]($style)";
-            };
-
-            jjstat = {
-              ignore_timeout = true;
-              description = "current jj bookmark status";
-              when = "jj root";
-              style = "fg:black bg:red";
-              format = "[( $output )]($style)";
-              command = ''
-                ${jj-log} '
-                  separate("",
-                    if(!empty, "∆"),
-                    if(conflict, "${config.rum.programs.starship.settings.git_status.conflicted}"),
-                    if(divergent, "${config.rum.programs.starship.settings.git_status.diverged}"),
-                    if(hidden, "${config.rum.programs.starship.settings.git_status.deleted}"),
-                    if(immutable, "λ"),
-                    if(self.contained_in("first_parent(@)"), "★"),
-                    if(root, "☆")
-                  )
-                '
-              '';
-            };
-          };
       };
     };
   };

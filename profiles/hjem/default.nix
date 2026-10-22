@@ -8,6 +8,7 @@
     ./neovim.nix
     ./nushell.nix
     ./packages.nix
+    ./rex.nix
     ./starship.nix
     ./zoxide.nix
   ];

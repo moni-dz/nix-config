@@ -9,7 +9,10 @@
   rum.programs = {
     jujutsu = {
       enable = true;
-      integrations.nushell.enable = true;
+      integrations = {
+        nushell.enable = true;
+        starship.enable = true;
+      };
 
       settings = {
         fsmonitor.backend = "watchman";
