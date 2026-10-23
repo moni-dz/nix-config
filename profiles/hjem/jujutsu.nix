@@ -140,6 +140,14 @@
 
         ui = {
           editor = "nvim";
+          diff-editor = [
+            "nvim"
+            "-c"
+            "DiffEditor $left $right $output"
+          ];
+
+          # hunk.nvim shows the diff itself, the instructions file would be a diff entry
+          diff-instructions = false;
           graph.style = "square";
           show-cryptographic-signatures = false;
 

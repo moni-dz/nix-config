@@ -57,6 +57,16 @@
       flake = false;
     };
 
+    vellum-nvim = {
+      url = "github:blackhat-7/vellum.nvim";
+      flake = false;
+    };
+
+    pulse-nvim = {
+      url = "github:willyelm/pulse.nvim";
+      flake = false;
+    };
+
     smart-splits-backend-rex = {
       url = "github:rawnly/smart-splits-backend-rex";
       flake = false;

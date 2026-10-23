@@ -791,6 +791,22 @@
         "type": "github"
       }
     },
+    "pulse-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1791209682,
+        "narHash": "sha256-w5Tx2OIvnxleekk2MjD0HvhXTQNxaNx9r+2wlPpXWMo=",
+        "owner": "willyelm",
+        "repo": "pulse.nvim",
+        "rev": "84928944aaec96d0563935ed8d8a98bd372afe5f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "willyelm",
+        "repo": "pulse.nvim",
+        "type": "github"
+      }
+    },
     "rex": {
       "inputs": {
         "nixpkgs": [
@@ -827,8 +843,10 @@
           "master"
         ],
         "parts": "parts",
+        "pulse-nvim": "pulse-nvim",
         "rex": "rex",
-        "smart-splits-backend-rex": "smart-splits-backend-rex"
+        "smart-splits-backend-rex": "smart-splits-backend-rex",
+        "vellum-nvim": "vellum-nvim"
       }
     },
     "smart-splits-backend-rex": {
@@ -865,6 +883,22 @@
       "original": {
         "owner": "numtide",
         "repo": "treefmt-nix",
+        "type": "github"
+      }
+    },
+    "vellum-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1790191215,
+        "narHash": "sha256-LZOKPiy9tpCEe84ZrbKKfdhBjqrTSsmSeVAjBbrqMFM=",
+        "owner": "blackhat-7",
+        "repo": "vellum.nvim",
+        "rev": "c9a8665c5d306bf56c6df89896fed8bfaf3110b3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "blackhat-7",
+        "repo": "vellum.nvim",
         "type": "github"
       }
     }
