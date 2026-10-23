@@ -179,16 +179,19 @@ in
     package = mkOption {
       type = types.package;
       description = "The wrapped Neovim, the config in {file}`neovim/lua/moni` is baked in.";
-      default = pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped {
-        inherit plugins;
-        luaRcContent = ''require("moni")'';
-        wrapperArgs = [
-          "--suffix"
-          "PATH"
-          ":"
-          (lib.makeBinPath cfg.extraPackages)
-        ];
-      };
+      default =
+        pkgs.wrapNeovimUnstable
+          inputs.neovim-nightly-overlay.packages.${pkgs.stdenv.hostPlatform.system}.default
+          {
+            inherit plugins;
+            luaRcContent = ''require("moni")'';
+            wrapperArgs = [
+              "--suffix"
+              "PATH"
+              ":"
+              (lib.makeBinPath cfg.extraPackages)
+            ];
+          };
     };
   };
 
