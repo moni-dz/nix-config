@@ -8,6 +8,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/nix-installer-action@main
+      - name: Authenticate to pkgs.superlogical.com
+        env:
+          REX_PACKAGE_TOKEN: ${{ secrets.REX_PACKAGE_TOKEN }}
+        run: |
+          sudo install -d /etc/determinate
+          printf 'machine pkgs.superlogical.com login rex password %s\n' "$REX_PACKAGE_TOKEN" \
+            | sudo tee /etc/determinate/rex.netrc >/dev/null
+          sudo chmod 600 /etc/determinate/rex.netrc
+          echo '{"authentication":{"additionalNetrcSources":["/etc/determinate/rex.netrc"]}}' \
+            | sudo tee /etc/determinate/config.json >/dev/null
+          sudo systemctl restart nix-daemon || true
       - uses: DeterminateSystems/magic-nix-cache-action@main
       - run: nix flake check --show-trace
       - run: nix fmt -- --ci
