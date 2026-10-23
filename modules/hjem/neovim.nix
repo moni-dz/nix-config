@@ -28,31 +28,39 @@ let
     src = inputs.smart-splits-backend-rex;
   };
 
-  plugins = [
-    mellifluous
-    pkgs.vimPlugins.fzf-lua
-    pkgs.vimPlugins.gitsigns-nvim
-    pkgs.vimPlugins.heirline-nvim
-    pkgs.vimPlugins.jj-nvim
-    pkgs.vimPlugins.smart-splits-nvim
-    smart-splits-backend-rex
-    (pkgs.vimPlugins.nvim-treesitter.withPlugins (p: [
-      p.bash
-      p.c
-      p.cpp
-      p.diff
-      p.gitcommit
-      p.jjdescription
-      p.json
-      p.lua
-      p.markdown
-      p.markdown_inline
-      p.nix
-      p.rust
-      p.toml
-      p.typst
-    ]))
-  ];
+  plugins = __attrValues {
+    inherit (pkgs.vimPlugins)
+      fzf-lua
+      gitsigns-nvim
+      heirline-nvim
+      jj-nvim
+      smart-splits-nvim
+      ;
+
+    inherit mellifluous smart-splits-backend-rex;
+
+    nvim-treesitter = pkgs.vimPlugins.nvim-treesitter.withPlugins (
+      p:
+      __attrValues {
+        inherit (p)
+          bash
+          c
+          cpp
+          diff
+          gitcommit
+          jjdescription
+          json
+          lua
+          markdown
+          markdown_inline
+          nix
+          rust
+          toml
+          typst
+          ;
+      }
+    );
+  };
 in
 {
   options.rum.programs.neovim = {
@@ -60,17 +68,19 @@ in
 
     extraPackages = mkOption {
       type = types.listOf types.package;
-      default = [
-        pkgs.clang-tools # clangd
-        pkgs.fd
-        pkgs.fzf
-        pkgs.git
-        pkgs.nixd
-        pkgs.nixfmt
-        pkgs.ripgrep
-        pkgs.rust-analyzer
-        pkgs.tinymist
-      ];
+      default = __attrValues {
+        inherit (pkgs)
+          clang-tools # clangd
+          fd
+          fzf
+          git
+          nixd
+          nixfmt
+          ripgrep
+          rust-analyzer
+          tinymist
+          ;
+      };
       description = "Language servers and tools put on Neovim's PATH, and nothing else's.";
     };
 
