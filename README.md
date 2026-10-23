@@ -23,6 +23,17 @@ Resources and configurations I used to base on:
 - [Nix Flakes talk by Eelco Dolstra on NixCon](https://www.youtube.com/watch?v=UeBX7Ide5a0)
 - [flake.parts module arguments](https://flake.parts/module-arguments.html)
 
+## Directory Map
+
+```text
+hosts/       per-machine configs (hands: NixOS, riscake: nix-darwin)
+modules/     custom modules (common, nixos, darwin, hjem)
+profiles/    reusable config shared between hosts (nix settings, hjem programs)
+packages/    overlays and custom packages (flake partition)
+dev/         dev tooling: treefmt (flake partition)
+secrets/     agenix-encrypted secrets
+```
+
 ### Why flakes?
 
 [jonringer](https://github.com/jonringer) gave a [brief explanation](https://discourse.nixos.org/t/what-are-nix-flakes-and-why-should-i-care/12910/3) as to why one might want to use Nix flakes.
