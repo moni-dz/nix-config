@@ -5,9 +5,14 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/nix-installer-action@main
+        with:
+          determinate: true
       - name: Authenticate to pkgs.superlogical.com
         env:
           REX_PACKAGE_TOKEN: ${{ secrets.REX_PACKAGE_TOKEN }}
@@ -16,10 +21,13 @@ jobs:
           printf 'machine pkgs.superlogical.com login rex password %s\n' "$REX_PACKAGE_TOKEN" \
             | sudo tee /etc/determinate/rex.netrc >/dev/null
           sudo chmod 600 /etc/determinate/rex.netrc
-          echo '{"authentication":{"additionalNetrcSources":["/etc/determinate/rex.netrc"]}}' \
-            | sudo tee /etc/determinate/config.json >/dev/null
+          cfg=/etc/determinate/config.json
+          [ -s "$cfg" ] || echo '{}' | sudo tee "$cfg" >/dev/null
+          jq '.authentication.additionalNetrcSources += ["/etc/determinate/rex.netrc"]' "$cfg" \
+            | sudo tee "$cfg.new" >/dev/null
+          sudo mv "$cfg.new" "$cfg"
           sudo systemctl restart nix-daemon || true
-      - uses: DeterminateSystems/magic-nix-cache-action@main
+      - uses: DeterminateSystems/flakehub-cache-action@main
       - run: nix flake check --show-trace
       - run: nix fmt -- --ci
       - run: nix run nixpkgs#statix -- check .
