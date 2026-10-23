@@ -25,6 +25,16 @@
             "present(@) | present(ancestors(bookmarks() & mine() & mutable(), 5))"
           ];
 
+          mm = [
+            "util"
+            "exec"
+            "--"
+            "sh"
+            "-c"
+            ''exec jj new "($1) | heads(bookmarks() & mine() & mutable())"''
+            "sh"
+          ];
+
           mv = [
             "b"
             "s"
