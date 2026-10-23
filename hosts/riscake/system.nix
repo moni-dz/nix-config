@@ -1,7 +1,6 @@
 {
   config,
   pkgs,
-  inputs',
   ...
 }:
 
@@ -25,7 +24,6 @@
     shells = __attrValues { inherit (pkgs) fish nushell; };
 
     systemPackages = __attrValues {
-      inherit (inputs'.agenix.packages) agenix;
       inherit (pkgs) nushell;
     };
   };

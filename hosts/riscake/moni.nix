@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   users.users.moni = {
@@ -17,22 +17,20 @@
     fi
   '';
 
-  # NOTE: change or remove this if you are not me, the secret is encrypted to my keys.
+  # NOTE: change or remove this if you are not me, the secrets are encrypted to my keys.
   age = {
-    identityPaths = [
-      "${config.users.users.moni.home}/.ssh/id_ed25519"
-      "/etc/ssh/ssh_host_ed25519_key"
-    ];
+    identityPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+    rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBJ5+EqB0hCxbEVqjh9DwROMOBNXsp40H7qWe8Bscxb/";
 
     secrets.tokens = {
-      file = ../../secrets/tokens.age;
+      rekeyFile = ../../secrets/tokens.age;
       owner = "moni";
       mode = "600";
     };
 
     # read by determinate-nixd (root), see `determinateNix` in ./system.nix
     secrets.netrc = {
-      file = ../../secrets/netrc.age;
+      rekeyFile = ../../secrets/netrc.age;
       owner = "root";
       mode = "600";
     };

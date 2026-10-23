@@ -24,6 +24,7 @@
       };
       modules = [
         inputs.agenix.darwinModules.default
+        inputs.agenix-rekey.darwinModules.default
         inputs.determinate.darwinModules.default
         inputs.nix-index-database.darwinModules.nix-index
         ../../modules/common/identity.nix
@@ -31,6 +32,7 @@
         ./system.nix
         ./moni.nix
         ../../profiles/identity.nix
+        ../../profiles/secrets.nix
         ../../profiles/nixpkgs.nix
         ../../profiles/hjem-system.nix
         ../../profiles/base-packages.nix

@@ -31,7 +31,7 @@ modules/     custom modules (common, nixos, darwin, hjem)
 profiles/    reusable config shared between hosts (nix settings, hjem programs)
 packages/    overlays and custom packages (flake partition)
 dev/         dev tooling: treefmt (flake partition)
-secrets/     agenix-encrypted secrets
+secrets/     agenix-rekey secrets (`agenix` in the dev shell), with per-host copies in `rekeyed/`
 ```
 
 ### Why flakes?

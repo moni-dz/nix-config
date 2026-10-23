@@ -25,6 +25,7 @@
       };
       modules = [
         inputs.agenix.nixosModules.default
+        inputs.agenix-rekey.nixosModules.default
         inputs.determinate.nixosModules.default
         inputs.jovian.nixosModules.default
         inputs.rex.nixosModules.default
@@ -36,6 +37,7 @@
         ./rex.nix
         ./lyt.nix
         ../../profiles/identity.nix
+        ../../profiles/secrets.nix
         ../../profiles/nixpkgs.nix
         ../../profiles/nix.nix
         ../../profiles/determinate-nixos.nix

@@ -10,9 +10,13 @@
   nixpkgs.hostPlatform = "x86_64-linux";
   system.stateVersion = "26.05";
 
-  age.secrets.netrc = {
-    file = ../../secrets/netrc.age;
-    mode = "444";
+  age = {
+    rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDSEtKx+3rpaqqahgigzvhkaxF7Y7DjOhxg7R3NVjGD9";
+
+    secrets.netrc = {
+      rekeyFile = ../../secrets/netrc.age;
+      mode = "444";
+    };
   };
 
   nix.settings.extra-trusted-users = [

@@ -12,6 +12,7 @@
       imports = [
         inputs.parts.flakeModules.partitions
         ./modules
+        ./secrets/module.nix
         ./hosts/riscake
         ./hosts/hands
       ];
@@ -38,6 +39,7 @@
   inputs = {
     # Flake inputs
     agenix.url = "github:ryantm/agenix";
+    agenix-rekey.url = "github:oddlama/agenix-rekey";
     darwin.url = "github:nix-darwin/nix-darwin";
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
     hjem.url = "github:feel-co/hjem";
@@ -73,6 +75,8 @@
 
     # Minimize duplicate instances of inputs
     agenix.inputs.nixpkgs.follows = "nixpkgs";
+    agenix-rekey.inputs.nixpkgs.follows = "nixpkgs";
+    agenix-rekey.inputs.flake-parts.follows = "parts";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
     hjem.inputs.nixpkgs.follows = "nixpkgs";
     hjem-rum.inputs.nixpkgs.follows = "nixpkgs";
