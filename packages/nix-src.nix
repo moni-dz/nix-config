@@ -4,7 +4,7 @@ let
   nix-src = import inputs.nix-src.inputs.nixpkgs {
     localSystem = pkgs.stdenv.hostPlatform.system;
     overlays = [
-      (final: prev: { libgit2 = prev.libgit2.overrideAttrs { doCheck = false; }; })
+      (_: prev: { libgit2 = prev.libgit2.overrideAttrs { doCheck = false; }; })
       inputs.nix-src.overlays.internal
     ];
   };
