@@ -13,9 +13,14 @@ in
   options.rum.programs.rex.integrations = {
     nushell.enable = mkEnableOption "Rex tab completion keybindings for nushell";
     starship.enable = mkEnableOption "Rex host segment for starship";
+    smart-splits.enable = mkEnableOption "Rex key bindings for smart-splits.nvim, pane navigation and resizing across Neovim";
   };
 
   config = mkMerge [
+    (mkIf cfg.integrations.smart-splits.enable {
+      xdg.config.files."rex/init.lua".source = ./rex/smart-splits.lua;
+    })
+
     (mkIf cfg.integrations.nushell.enable {
       rum.programs.nushell.extraConfig = ''
         def rex-tab [] {

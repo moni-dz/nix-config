@@ -55,6 +55,11 @@
       flake = false;
     };
 
+    smart-splits-backend-rex = {
+      url = "github:rawnly/smart-splits-backend-rex";
+      flake = false;
+    };
+
     infuse = {
       url = "https://codeberg.org/amjoseph/infuse.nix/archive/364ea18b5611b5fd6a6acd7151411b430a70e194.tar.gz";
       flake = false;

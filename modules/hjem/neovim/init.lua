@@ -109,6 +109,20 @@ vim.keymap.set("n", "<leader>jd", "<Cmd>J describe<CR>", { desc = "jj describe" 
 vim.keymap.set("n", "<leader>jn", "<Cmd>J new<CR>", { desc = "jj new" })
 vim.keymap.set("n", "<leader>jf", "<Cmd>J diff<CR>", { desc = "jj diff of this file" })
 
+-- smart-splits: ctrl-hjkl moves across nvim windows and Rex panes, alt-hjkl resizes
+-- (Rex must pass ctrl+hjkl through when nvim is foreground, see smart-splits-backend-rex's README)
+require("smart-splits-backend-rex").setup({})
+require("smart-splits").setup({ mux = { backend = "smart-splits-backend-rex" } })
+local ss = require("smart-splits")
+vim.keymap.set("n", "<C-h>", ss.move_cursor_left, { desc = "focus left" })
+vim.keymap.set("n", "<C-j>", ss.move_cursor_down, { desc = "focus down" })
+vim.keymap.set("n", "<C-k>", ss.move_cursor_up, { desc = "focus up" })
+vim.keymap.set("n", "<C-l>", ss.move_cursor_right, { desc = "focus right" })
+vim.keymap.set("n", "<A-h>", ss.resize_left, { desc = "resize left" })
+vim.keymap.set("n", "<A-j>", ss.resize_down, { desc = "resize down" })
+vim.keymap.set("n", "<A-k>", ss.resize_up, { desc = "resize up" })
+vim.keymap.set("n", "<A-l>", ss.resize_right, { desc = "resize right" })
+
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format)
 vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
 -- fzf-lua: fd/rg/fzf do the work, no icons so any font renders it

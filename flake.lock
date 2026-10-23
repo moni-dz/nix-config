@@ -701,7 +701,24 @@
           "master"
         ],
         "parts": "parts",
-        "rex": "rex"
+        "rex": "rex",
+        "smart-splits-backend-rex": "smart-splits-backend-rex"
+      }
+    },
+    "smart-splits-backend-rex": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1792565865,
+        "narHash": "sha256-oIEWpTcnfsGOK6N8yRFZgATkEoZ8jHa3G7FpJtQBJuM=",
+        "owner": "rawnly",
+        "repo": "smart-splits-backend-rex",
+        "rev": "a0daf876f11ce64686e1d6d6c73a46cee1899aaa",
+        "type": "github"
+      },
+      "original": {
+        "owner": "rawnly",
+        "repo": "smart-splits-backend-rex",
+        "type": "github"
       }
     }
   },

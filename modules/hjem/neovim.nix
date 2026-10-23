@@ -22,12 +22,20 @@ let
     src = inputs.mellifluous-nvim;
   };
 
+  smart-splits-backend-rex = pkgs.vimUtils.buildVimPlugin {
+    pname = "smart-splits-backend-rex";
+    version = inputs.smart-splits-backend-rex.shortRev or "dirty";
+    src = inputs.smart-splits-backend-rex;
+  };
+
   plugins = [
     mellifluous
     pkgs.vimPlugins.fzf-lua
     pkgs.vimPlugins.gitsigns-nvim
     pkgs.vimPlugins.heirline-nvim
     pkgs.vimPlugins.jj-nvim
+    pkgs.vimPlugins.smart-splits-nvim
+    smart-splits-backend-rex
     (pkgs.vimPlugins.nvim-treesitter.withPlugins (p: [
       p.bash
       p.c
