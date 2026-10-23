@@ -8,11 +8,18 @@
     };
   };
 
-  jovian.steam = {
-    enable = true;
-    autoStart = true;
-    user = "lyt";
-    desktopSession = "plasma";
+  jovian = {
+    devices.steamdeck = {
+      enable = true;
+      autoUpdate = true;
+    };
+
+    steam = {
+      enable = true;
+      autoStart = true;
+      user = "lyt";
+      desktopSession = "plasma";
+    };
   };
 
   nixpkgs.overlays = [
