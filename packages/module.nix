@@ -38,6 +38,7 @@ in
         ]
         // {
           inherit (inputs'.jj.packages) jujutsu;
+          nix-src = import ./nix-src.nix { inherit inputs pkgs; };
         };
     };
 }

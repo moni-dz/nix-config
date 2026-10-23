@@ -3,22 +3,13 @@
   lib,
   inputs,
   inputs',
+  self',
   pkgs,
   ...
 }:
 
 let
-  nix-src = import inputs.nix-src.inputs.nixpkgs {
-    localSystem = pkgs.stdenv.hostPlatform.system;
-    overlays = [
-      (final: prev: { libgit2 = prev.libgit2.overrideAttrs { doCheck = false; }; })
-      inputs.nix-src.overlays.internal
-    ];
-  };
-
-  nixPackage = pkgs.lib.infuse nix-src.nixComponents2.nix-everything {
-    __output.doCheck.__assign = false;
-  };
+  nixPackage = self'.packages.nix-src;
 
   limits = {
     NumberOfFiles = 1048576;

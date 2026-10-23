@@ -25,6 +25,7 @@
       };
       modules = [
         inputs.agenix.nixosModules.default
+        inputs.determinate.nixosModules.default
         inputs.jovian.nixosModules.default
         inputs.rex.nixosModules.default
         ../../modules/common/identity.nix
@@ -47,13 +48,21 @@
               mode = "444";
             };
 
-            nix.settings = {
-              netrc-file = config.age.secrets.netrc.path;
-              extra-trusted-users = [
-                "moni"
-                "lyt"
-              ];
-            };
+            nix.settings.extra-trusted-users = [
+              "moni"
+              "lyt"
+            ];
+
+            environment.etc."determinate/config.json".text = lib.mkForce (
+              builtins.toJSON (
+                {
+                  authentication.additionalNetrcSources = [ config.age.secrets.netrc.path ];
+                }
+                // lib.optionalAttrs (config.determinate.edgeCacheSubstituters != null) {
+                  inherit (config.determinate) edgeCacheSubstituters;
+                }
+              )
+            );
 
             boot = {
               kernelPackages = pkgs.linuxPackages_latest;
@@ -98,6 +107,7 @@
         ../../profiles/identity.nix
         ../../profiles/nixpkgs.nix
         ../../profiles/nix.nix
+        ../../profiles/determinate-nixos.nix
         ../../profiles/hjem-system.nix
         ../../profiles/base-packages.nix
       ];
