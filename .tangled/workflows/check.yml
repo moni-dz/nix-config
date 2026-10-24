@@ -1,11 +1,20 @@
 when:
-  - event: ["push", "manual", "pull_request"]
+  - event: ["push", "manual"]
     branch: ["master"]
 
 engine: nixery
 
+environment:
+  NIX_CONFIG: |
+    experimental-features = nix-command flakes
+    netrc-file = /tmp/rex.netrc
+
 steps:
+  - name: "authenticate to pkgs.superlogical.com"
+    command: |
+      printf 'machine pkgs.superlogical.com login rex password %s\n' "$REX_PACKAGE_TOKEN" > /tmp/rex.netrc
+      chmod 600 /tmp/rex.netrc
   - name: "nix flake check"
-    command: "nix --extra-experimental-features 'nix-command flakes' flake check --show-trace"
+    command: "nix flake check --show-trace"
   - name: "format"
-    command: "nix --extra-experimental-features 'nix-command flakes' fmt -- --ci"
+    command: "nix fmt -- --ci"
