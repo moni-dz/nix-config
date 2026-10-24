@@ -73,7 +73,7 @@ in
           echo "''${n:-$(uname -n)}"
         '';
         style = "fg:black bg:blue";
-        format = "[ ✦ $output ✦ ]($style)";
+        format = "[ ⌂ $output ]($style)";
       };
     })
   ];

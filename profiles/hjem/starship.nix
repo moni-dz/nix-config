@@ -47,8 +47,8 @@ in
           style = "fg:black bg:blue";
           ssh_only = true;
           ssh_symbol = "";
-          format = "[ ✦ $hostname ✦ ]($style)";
-          disabled = false;
+          format = "[ $hostname ]($style)";
+          disabled = true;
         };
 
         git_commit = {
