@@ -47,32 +47,11 @@
     jovian.url = "github:Jovian-Experiments/Jovian-NixOS/6ba37ebb7c68b1b6711027a67122aa41060d216e";
     nix.url = "github:NixOS/nix/master";
     nix-index-database.url = "github:Mic92/nix-index-database";
-    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     nix-src.url = "github:moni-dz/nix-src/all-mine";
     parts.url = "github:hercules-ci/flake-parts";
     rex.url = "https://pkgs.superlogical.com/rex/nix/snapshot.tar.gz";
 
     # Non-flake inputs
-    mellifluous-nvim = {
-      url = "github:ramojus/mellifluous.nvim";
-      flake = false;
-    };
-
-    vellum-nvim = {
-      url = "github:blackhat-7/vellum.nvim";
-      flake = false;
-    };
-
-    pulse-nvim = {
-      url = "github:willyelm/pulse.nvim";
-      flake = false;
-    };
-
-    smart-splits-backend-rex = {
-      url = "github:rawnly/smart-splits-backend-rex";
-      flake = false;
-    };
-
     infuse = {
       url = "https://codeberg.org/amjoseph/infuse.nix/archive/364ea18b5611b5fd6a6acd7151411b430a70e194.tar.gz";
       flake = false;
@@ -95,8 +74,6 @@
     jovian.inputs.nixpkgs.follows = "nixpkgs";
     nix.inputs.nixpkgs.follows = "nixpkgs";
     nix.inputs.flake-parts.follows = "parts";
-    neovim-nightly-overlay.inputs.nixpkgs.follows = "nixpkgs";
-    neovim-nightly-overlay.inputs.flake-parts.follows = "parts";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
     nix-src.inputs.flake-parts.follows = "parts";
     rex.inputs.nixpkgs.follows = "nixpkgs";

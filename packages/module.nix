@@ -39,6 +39,19 @@ in
         // {
           inherit (inputs'.jj.packages) jujutsu;
           nix-src = import ./nix-src.nix { inherit inputs pkgs; };
+
+          neovim = pkgs.callPackage ./neovim {
+            neovim = inputs'.neovim-nightly-overlay.packages.default;
+
+            sources = {
+              inherit (inputs)
+                mellifluous-nvim
+                pulse-nvim
+                smart-splits-backend-rex
+                vellum-nvim
+                ;
+            };
+          };
         };
     };
 }
