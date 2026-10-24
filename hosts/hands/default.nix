@@ -40,6 +40,7 @@
         ../../profiles/secrets.nix
         ../../profiles/nixpkgs.nix
         ../../profiles/nix.nix
+        ../../profiles/remote-builders.nix
         ../../profiles/determinate-nixos.nix
         ../../profiles/hjem-system.nix
         ../../profiles/base-packages.nix

@@ -1,5 +1,6 @@
 # Determinate Nix on nix-darwin (install it manually first!), needs inputs.determinate.darwinModules.default
 {
+  config,
   lib,
   inputs,
   inputs',
@@ -66,6 +67,7 @@ in
 
   determinateNix.customSettings = lib.mkMerge [
     nix.settings
+    { inherit (config.nix.settings) builders; }
     # only Determinate Nix knows these
     {
       eval-cores = 0;

@@ -37,6 +37,7 @@
         ../../profiles/hjem-system.nix
         ../../profiles/base-packages.nix
         ../../profiles/determinate-darwin.nix
+        ../../profiles/remote-builders.nix
       ];
     }
   );
