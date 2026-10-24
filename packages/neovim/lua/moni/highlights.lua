@@ -2,10 +2,11 @@ local color = require("moni.colors")
 local set = vim.api.nvim_set_hl
 
 local function number_colors()
-  local dim, tan = color.palette("comments"), color.palette("yellow")
-  if not (dim and tan) then
+  local fg, bg, tan = color.palette("fg"), color.theme_bg(), color.palette("yellow")
+  if not (fg and bg and tan) then
     return
   end
+  local dim = color.mix(fg, bg, 0.4)
   for name, fg in pairs({ LineNr = dim, CursorLineNr = tan }) do
     local hl = vim.api.nvim_get_hl(0, { name = name, link = false })
     set(0, name, vim.tbl_extend("force", hl, { fg = fg, bold = name == "CursorLineNr" }))
@@ -112,6 +113,9 @@ local function quiet_colors()
     set(0, name, hl)
   end
   set(0, "FoldMark", { fg = mix(fg, bg, 0.3) })
+  for _, name in ipairs({ "DropBarIconUISeparator", "DropBarIconUIIndicator" }) do
+    set(0, name, { fg = mix(fg, bg, 0.4) })
+  end
 end
 quiet_colors()
 vim.api.nvim_create_autocmd("ColorScheme", {

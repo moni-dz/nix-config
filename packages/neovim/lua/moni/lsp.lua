@@ -58,7 +58,13 @@ vim.lsp.config("bashls", {
   root_markers = { ".git" },
 })
 
-vim.lsp.enable({ "nixd", "tinymist", "clangd", "rust_analyzer", "lua_ls", "taplo", "jsonls", "bashls" })
+vim.lsp.config("svelte", {
+  cmd = { "svelteserver", "--stdio" },
+  filetypes = { "svelte" },
+  root_markers = { "svelte.config.js", "svelte.config.ts", "package.json", ".git" },
+})
+
+vim.lsp.enable({ "nixd", "tinymist", "clangd", "rust_analyzer", "lua_ls", "taplo", "jsonls", "bashls", "svelte" })
 
 vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, { desc = "format" })
 vim.keymap.set("n", "<leader>H", function()

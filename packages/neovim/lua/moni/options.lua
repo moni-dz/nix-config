@@ -1,7 +1,7 @@
 vim.g.mapleader = " "
 
 local o = vim.o
-o.number = true
+o.number = false
 o.signcolumn = "yes"
 o.cursorline = true
 o.scrolloff = 8
@@ -25,3 +25,7 @@ vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
 o.wildoptions = "pum,fuzzy"
+
+vim.keymap.set("n", "<leader>N", function()
+  vim.wo.number = not vim.wo.number
+end, { desc = "toggle line numbers" })

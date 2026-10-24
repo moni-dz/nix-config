@@ -19,6 +19,7 @@
       nixfmt
       ripgrep
       rust-analyzer
+      svelte-language-server
       taplo
       tinymist
       vscode-json-languageserver
@@ -149,6 +150,7 @@ let
           rust
           scss
           sql
+          svelte
           terraform
           toml
           tsx
