@@ -39,13 +39,15 @@ in
       source = toml.generate "atuin-config.toml" cfg.settings;
     };
 
-    rum.programs.nushell.extraConfig = mkIf cfg.integrations.nushell.enable (mkAfter ''
-      source ${
-        pkgs.runCommand "atuin-init-nu" { } ''
-          export HOME=$TMPDIR
-          ${getExe cfg.package} init nu > "$out"
-        ''
-      }
-    '');
+    rum.programs.nushell.extraConfig =
+      mkIf (cfg.integrations.nushell.enable && config.rum.programs.nushell.enable)
+        (mkAfter ''
+          source ${
+            pkgs.runCommand "atuin-init-nu" { } ''
+              export HOME=$TMPDIR
+              ${getExe cfg.package} init nu > "$out"
+            ''
+          }
+        '');
   };
 }

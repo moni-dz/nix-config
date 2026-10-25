@@ -21,7 +21,7 @@ in
       xdg.config.files."rex/init.lua".source = ./rex/smart-splits.lua;
     })
 
-    (mkIf cfg.integrations.nushell.enable {
+    (mkIf (cfg.integrations.nushell.enable && config.rum.programs.nushell.enable) {
       rum.programs.nushell.extraConfig = ''
         def rex-tab [] {
           let before = (commandline | str substring 0..<(commandline get-cursor))
@@ -63,7 +63,7 @@ in
       '';
     })
 
-    (mkIf cfg.integrations.starship.enable {
+    (mkIf (cfg.integrations.starship.enable && config.rum.programs.starship.enable) {
       rum.programs.starship.settings.custom.host = {
         description = "first label of the tailnet name, or the hostname";
         when = ''[ -n "$REX_SESSION" ] && [ -z "$SSH_CONNECTION" ]'';

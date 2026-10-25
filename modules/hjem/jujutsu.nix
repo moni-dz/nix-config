@@ -46,14 +46,16 @@ in
         source = toml.generate "jj-config.toml" cfg.settings;
       };
 
-      rum.programs.nushell.extraConfig = mkIf cfg.integrations.nushell.enable (mkAfter ''
-        source ${
-          pkgs.runCommand "jj-completion-nu" { } ''${getExe cfg.package} util completion nushell > "$out"''
-        }
-      '');
+      rum.programs.nushell.extraConfig =
+        mkIf (cfg.integrations.nushell.enable && config.rum.programs.nushell.enable)
+          (mkAfter ''
+            source ${
+              pkgs.runCommand "jj-completion-nu" { } ''${getExe cfg.package} util completion nushell > "$out"''
+            }
+          '');
     }
 
-    (mkIf cfg.integrations.starship.enable {
+    (mkIf (cfg.integrations.starship.enable && config.rum.programs.starship.enable) {
       rum.programs.starship.settings.custom = {
         jjid = {
           ignore_timeout = true;
