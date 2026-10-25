@@ -63,7 +63,9 @@ let
   });
 
   dropbar = vimPlugins.dropbar-nvim.overrideAttrs (old: {
-    postPatch = (old.postPatch or "") + swapNerdGlyphs;
+    postPatch = (old.postPatch or "") + swapNerdGlyphs + ''
+      sed -i 's/vim\.F\.npcall/vim.npcall/g' lua/dropbar/sources/treesitter.lua
+    '';
   });
 
   vellum = vimUtils.buildVimPlugin {
