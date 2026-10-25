@@ -54,6 +54,7 @@
         "flakes"
         "nix-command"
         "pipe-operators"
+        "recursive-nix"
       ];
 
       max-jobs = "auto";
