@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   ...
 }:
@@ -19,6 +20,11 @@
     # Determinate Nix reads its settings from here, not `nix.settings`
     customSettings.extra-trusted-users = [ "moni" ];
   };
+
+  # `customSettings` can only render `key = value`, so append the include ourselves
+  environment.etc."nix/nix.custom.conf".text = lib.mkAfter ''
+    !include ${config.age.secrets.nix-access-tokens.path}
+  '';
 
   environment = {
     shells = __attrValues { inherit (pkgs) fish nushell; };
