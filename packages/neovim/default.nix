@@ -12,13 +12,13 @@
       bash-language-server
       clang-tools
       ghostscript
-      git
+      gitMinimal
       imagemagick
       lua-language-server
       nixd
       nixfmt
       ripgrep
-      rust-analyzer
+      rust-analyzer-unwrapped
       svelte-language-server
       taplo
       tinymist

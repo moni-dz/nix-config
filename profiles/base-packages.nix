@@ -11,7 +11,7 @@
         ripgrep
         man-pages-posix
         wget
-        git
+        gitMinimal
         subversion
         ;
 

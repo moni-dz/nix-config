@@ -1,10 +1,20 @@
 {
   config,
+  inputs,
   lib,
   pkgs,
   ...
 }:
 
+let
+  nix-tools = pkgs.callPackage "${inputs.darwin}/pkgs/nix-tools" {
+    git = pkgs.gitMinimal;
+    inherit (config.system) profile;
+    inherit (config.environment) systemPath;
+    nixPath = lib.optionalString config.nix.enable (lib.concatStringsSep ":" config.nix.nixPath);
+    nixPackage = if config.nix.enable then config.nix.package else null;
+  };
+in
 {
   networking.hostName = "riscake";
   nixpkgs.hostPlatform = "aarch64-darwin";
@@ -27,14 +37,21 @@
   '';
 
   environment = {
-    shells = __attrValues { inherit (pkgs) fish nushell; };
+    shells = __attrValues { inherit (pkgs) nushell; };
 
     systemPackages = __attrValues {
       inherit (pkgs) nushell;
+      inherit (nix-tools) darwin-option darwin-rebuild darwin-version;
     };
   };
 
-  programs.fish.enable = true;
+  documentation.info.enable = false;
+
+  system.tools = {
+    darwin-option.enable = false;
+    darwin-rebuild.enable = false;
+    darwin-version.enable = false;
+  };
 
   security.pam.services.sudo_local = {
     reattach = true;

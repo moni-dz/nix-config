@@ -8,6 +8,7 @@
   rum.programs = {
     git = {
       enable = true;
+      package = pkgs.gitMinimal;
 
       settings = {
         alias = {
