@@ -74,6 +74,7 @@
   services = {
     openssh.enable = true;
     resolved.enable = true;
+    nscd.enable = false;
     tailscale.enable = true;
   };
 
@@ -81,6 +82,9 @@
     isNormalUser = true;
     extraGroups = [ "wheel" ];
   };
+
+  system.nssModules = lib.mkForce [ ];
+  systemd.oomd.enable = false;
 
   nix.settings.extra-trusted-users = [ "moni" ];
   environment.variables.EDITOR = "nvim";
