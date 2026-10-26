@@ -14,7 +14,8 @@ let
   };
 
   hosts = self.nixosConfigurations // self.darwinConfigurations;
-  peers = removeAttrs hosts [ me ];
+  # hosts without a trusted builder user (e.g. VMs) don't take part
+  peers = removeAttrs (lib.filterAttrs (host: _: users ? ${host}) hosts) [ me ];
 
   pubkey = host: lib.removeSuffix "\n" (builtins.readFile (self + "/secrets/builders/${host}.pub"));
 in

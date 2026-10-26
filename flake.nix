@@ -15,6 +15,7 @@
         ./secrets/module.nix
         ./hosts/riscake
         ./hosts/hands
+        ./hosts/hyper-v
       ];
 
       partitions = {
