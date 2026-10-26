@@ -16,23 +16,23 @@
         show_program_path = false;
         show_thread_names = true;
 
-        # PID USER PRIORITY NICE M_SIZE M_RESIDENT M_SHARE STATE PERCENT_CPU PERCENT_MEM TIME COMM
+        tree_view = true;
+
+        # PID USER M_SIZE STATE PERCENT_CPU PERCENT_MEM TIME COMM
         fields = [
           0
           48
-          17
-          18
           39
-          40
-          41
           2
           46
           47
           49
           1
         ];
+
+        # split CPUs across both columns so high core counts stay readable
         left_meters = [
-          "AllCPUs"
+          "LeftCPUs8"
           "Memory"
           "Swap"
         ];
@@ -42,11 +42,13 @@
           1
         ];
         right_meters = [
+          "RightCPUs8"
           "Tasks"
           "LoadAverage"
           "Uptime"
         ];
         right_meter_modes = [
+          1
           2
           2
           2
