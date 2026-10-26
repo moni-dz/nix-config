@@ -10,11 +10,25 @@ let
 
   users = {
     hands = "lyt";
+    hyper-v = "moni";
     riscake = "moni";
   };
 
+  weights = {
+    hyper-v = {
+      jobs = "16";
+      speed = "8";
+    };
+  };
+
+  weight =
+    host:
+    weights.${host} or {
+      jobs = "8";
+      speed = "1";
+    };
+
   hosts = self.nixosConfigurations // self.darwinConfigurations;
-  # hosts without a trusted builder user (e.g. VMs) don't take part
   peers = removeAttrs (lib.filterAttrs (host: _: users ? ${host}) hosts) [ me ];
 
   pubkey = host: lib.removeSuffix "\n" (builtins.readFile (self + "/secrets/builders/${host}.pub"));
@@ -61,8 +75,8 @@ in
             "ssh-ng://${users.${host}}@${host}"
             peer.config.nixpkgs.hostPlatform.system
             config.age.secrets.builder-key.path
-            "8"
-            "1"
+            (weight host).jobs
+            (weight host).speed
             "big-parallel,benchmark"
             "-"
           ]
