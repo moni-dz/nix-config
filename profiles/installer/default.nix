@@ -93,8 +93,31 @@ in
 
       boot = {
         kernelPackages = lib.mkForce target.config.boot.kernelPackages;
-        supportedFilesystems.bcachefs = true;
+
+        supportedFilesystems = {
+          bcachefs = true;
+          zfs = lib.mkForce false;
+        };
+
+        initrd = {
+          inherit (target.config.boot.initrd) includeDefaultModules;
+
+          availableKernelModules = lib.mkForce (
+            lib.unique (
+              target.config.boot.initrd.availableKernelModules
+              ++ [
+                "iso9660"
+                "overlay"
+                "sr_mod"
+                "squashfs"
+              ]
+              ++ lib.optional (cfg.host == "hands") "uas"
+            )
+          );
+        };
       };
+
+      hardware.enableAllHardware = lib.mkForce false;
 
       isoImage = {
         storeContents = [
