@@ -7,7 +7,8 @@
 
 {
   age = {
-    rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDSEtKx+3rpaqqahgigzvhkaxF7Y7DjOhxg7R3NVjGD9";
+    rekey.hostPubkey = lib.removeSuffix "
+" (builtins.readFile ../../secrets/host-keys/hands.pub);
 
     secrets.netrc = {
       rekeyFile = ../../secrets/netrc.age;

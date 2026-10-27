@@ -7,7 +7,8 @@
 
 {
   age = {
-    rekey.hostPubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICCT2klS66tOnx6Lr6ArLvINMrqyNh8Wf8r770/kaCB5";
+    rekey.hostPubkey = lib.removeSuffix "
+" (builtins.readFile ../../secrets/host-keys/hyper-v.pub);
 
     secrets = {
       tokens = {
