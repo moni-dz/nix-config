@@ -91,6 +91,11 @@ in
       networking.hostName = "installer-${cfg.host}";
       system.stateVersion = config.system.nixos.release;
 
+      boot = {
+        kernelPackages = lib.mkForce target.config.boot.kernelPackages;
+        supportedFilesystems.bcachefs = true;
+      };
+
       isoImage = {
         storeContents = [
           target.config.system.build.toplevel
