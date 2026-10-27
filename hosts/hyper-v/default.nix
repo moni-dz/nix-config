@@ -26,6 +26,7 @@
         inputs.rex.nixosModules.default
         ./system.nix
         ./hardware.nix
+        ./kernel.nix
         ./rex.nix
         ./moni.nix
         ../../modules/common/identity.nix

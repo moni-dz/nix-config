@@ -50,8 +50,6 @@
   '';
 
   boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
-
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
@@ -103,6 +101,7 @@
   nix.channel.enable = false;
   programs.nano.enable = false;
   systemd.coredump.enable = false;
+  powerManagement.enable = false;
 
   xdg = {
     autostart.enable = false;

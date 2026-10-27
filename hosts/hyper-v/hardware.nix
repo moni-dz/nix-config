@@ -1,6 +1,9 @@
 { lib, ... }:
 
 {
+  # the stock list is for bare metal (ahci, nvme, usb, hid), hyper-v only needs its own modules
+  boot.initrd.includeDefaultModules = false;
+
   boot.initrd.availableKernelModules = [
     "sd_mod"
     "sr_mod"
