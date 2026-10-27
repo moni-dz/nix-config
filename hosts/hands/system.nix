@@ -20,6 +20,7 @@
       enable = true;
       efiSupport = true;
       maxGenerations = 4;
+      extraConfig = "interface_rotation: 90";
     };
 
     efi.canTouchEfiVariables = true;
