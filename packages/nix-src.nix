@@ -9,13 +9,17 @@ let
     ];
   };
 
-  stdenv = nix-src.stdenvAdapters.useMoldLinker nix-src.clangStdenv;
+  inherit (nix-src) lib;
+  inherit (nix-src.stdenv.hostPlatform) isLinux;
+
+  stdenv =
+    if isLinux then nix-src.stdenvAdapters.useMoldLinker nix-src.clangStdenv else nix-src.stdenv;
 
   components =
     (nix-src.nixComponents2.overrideScope (
-      _: prev: {
-        inherit stdenv;
-
+      _: prev:
+      lib.optionalAttrs isLinux { inherit stdenv; }
+      // {
         # unity builds merge every component into one giant translation unit (`unity_size=8192`),
         # which saves total cpu time but compiles on a single core
         withUnityBuild = false;
@@ -34,9 +38,11 @@ let
         _: prev: {
           # every release build turns on `b_lto`, which with clang is full LTO: the whole
           # link is one single-threaded pass, thin LTO spreads it over all the cores
-          preConfigure = (prev.preConfigure or "") + ''
-            appendToVar mesonFlags -Db_lto_mode=thin -Db_lto_threads=$NIX_BUILD_CORES
-          '';
+          preConfigure =
+            (prev.preConfigure or "")
+            + lib.optionalString isLinux ''
+              appendToVar mesonFlags -Db_lto_mode=thin -Db_lto_threads=$NIX_BUILD_CORES
+            '';
         }
       );
 in
