@@ -140,6 +140,9 @@ let
 
   modules = loaded ++ onDemand;
   kernel = pkgs.linuxPackages_latest.kernel;
+  llvm = pkgs.llvmPackages;
+
+  stdenv = pkgs.overrideCC llvm.stdenv (llvm.clang.override { inherit (llvm) bintools; });
 
   stripped = kernel.override {
     ignoreConfigErrors = true;
@@ -150,7 +153,7 @@ let
     "Module Size Used by\n" + lib.concatMapStringsSep "\n" (m: "${m} 0 0") modules
   );
 
-  configfile = pkgs.stdenv.mkDerivation {
+  configfile = stdenv.mkDerivation {
     name = "linux-localmodconfig-${kernel.version}";
     inherit (kernel) src;
     nativeBuildInputs = kernel.nativeBuildInputs or [ ];
@@ -162,7 +165,7 @@ let
       cp ${stripped.configfile} .config
       chmod +w .config
       set +o pipefail
-      yes "" | make ARCH=x86_64 LSMOD=${lsmod} localmodconfig
+      yes "" | make ARCH=x86_64 CC=clang HOSTCC=cc LSMOD=${lsmod} localmodconfig
       set -o pipefail
       patchShebangs scripts/config
       scripts/config --disable MODULE_COMPRESS_XZ --enable MODULE_COMPRESS_ZSTD
@@ -182,7 +185,7 @@ let
         --disable EVM \
         --set-str LSM "landlock,yama,bpf"
 
-      make ARCH=x86_64 olddefconfig
+      make ARCH=x86_64 CC=clang HOSTCC=cc olddefconfig
     '';
 
     installPhase = "cp .config $out";
@@ -190,7 +193,7 @@ let
 
   hyper-v = pkgs.linuxKernel.manualConfig {
     inherit (kernel) src version features;
-    inherit configfile;
+    inherit configfile stdenv;
     modDirVersion = lib.versions.pad 3 kernel.version;
     allowImportFromDerivation = true;
 
