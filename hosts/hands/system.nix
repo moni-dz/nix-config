@@ -60,7 +60,22 @@
     "lyt"
   ];
 
-  nixpkgs.hostPlatform = "x86_64-linux";
+  nixpkgs = {
+    hostPlatform = "x86_64-linux";
+
+    overlays = [
+      # its D-Bus tests fail inside the build sandbox (LegacyDBusNameTests, amd_pstate_upower),
+      # and `-Dtests` stays on regardless of `doCheck`, which then wants umockdev at configure time
+      (final: prev: {
+        power-profiles-daemon = final.lib.infuse prev.power-profiles-daemon {
+          __output = {
+            doCheck.__assign = false;
+            mesonFlags.__append = [ "-Dtests=false" ];
+          };
+        };
+      })
+    ];
+  };
 
   programs.bash.interactiveShellInit = ''
     if [ "$(id -u)" != 0 ] && [ -z "$IN_NUSHELL" ]; then
