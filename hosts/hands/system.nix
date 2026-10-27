@@ -15,17 +15,13 @@
     };
   };
 
-  boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
-
-    loader = {
-      limine = {
-        enable = true;
-        efiSupport = true;
-      };
-
-      efi.canTouchEfiVariables = true;
+  boot.loader = {
+    limine = {
+      enable = true;
+      efiSupport = true;
     };
+
+    efi.canTouchEfiVariables = true;
   };
 
   environment = {
