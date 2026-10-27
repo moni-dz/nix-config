@@ -162,6 +162,21 @@ let
       patchShebangs scripts/config
       scripts/config --disable MODULE_COMPRESS_XZ --enable MODULE_COMPRESS_ZSTD
       scripts/config --module CRYPTO_LZ4HC --module CRYPTO_CRC32C
+
+      # see `security.lsm`
+      scripts/config \
+        --disable SECURITY_SELINUX \
+        --disable SECURITY_APPARMOR \
+        --disable SECURITY_SMACK \
+        --disable SECURITY_TOMOYO \
+        --disable SECURITY_IPE \
+        --disable SECURITY_LOADPIN \
+        --disable SECURITY_SAFESETID \
+        --disable SECURITY_LOCKDOWN_LSM \
+        --disable IMA \
+        --disable EVM \
+        --set-str LSM "landlock,yama,bpf"
+
       make ARCH=x86_64 olddefconfig
     '';
 
