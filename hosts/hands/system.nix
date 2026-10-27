@@ -66,14 +66,27 @@
     overlays = [
       # its D-Bus tests fail inside the build sandbox (LegacyDBusNameTests, amd_pstate_upower),
       # and `-Dtests` stays on regardless of `doCheck`, which then wants umockdev at configure time
-      (final: prev: {
-        power-profiles-daemon = final.lib.infuse prev.power-profiles-daemon {
-          __output = {
-            doCheck.__assign = false;
-            mesonFlags.__append = [ "-Dtests=false" ];
+      (
+        final: prev:
+        let
+          mold = final.stdenvAdapters.useMoldLinker final.clangStdenv;
+        in
+        {
+          power-profiles-daemon = final.lib.infuse prev.power-profiles-daemon {
+            __output = {
+              doCheck.__assign = false;
+              mesonFlags.__append = [ "-Dtests=false" ];
+            };
           };
-        };
-      })
+
+          jovianPackages = prev.jovianPackages.overrideScope (
+            _: super: {
+              mesa-radeonsi = final.lib.infuse super.mesa-radeonsi { __input.stdenv.__assign = mold; };
+              mesa-radv = final.lib.infuse super.mesa-radv { __input.stdenv.__assign = mold; };
+            }
+          );
+        }
+      )
     ];
   };
 
