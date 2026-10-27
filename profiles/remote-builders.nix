@@ -14,6 +14,9 @@ let
     riscake = "moni";
   };
 
+  serverOnly = [ "hyper-v" ];
+  isClient = !(lib.elem me serverOnly);
+
   weights = {
     hyper-v = {
       jobs = "16";
@@ -31,10 +34,12 @@ let
   hosts = self.nixosConfigurations // self.darwinConfigurations;
   peers = removeAttrs (lib.filterAttrs (host: _: users ? ${host}) hosts) [ me ];
 
+  clients = lib.filterAttrs (host: _: !(lib.elem host serverOnly)) peers;
+
   pubkey = host: lib.removeSuffix "\n" (builtins.readFile (self + "/secrets/builders/${host}.pub"));
 in
 {
-  age.secrets.builder-key = {
+  age.secrets.builder-key = lib.mkIf isClient {
     rekeyFile = self + "/secrets/builders/${me}.age";
     generator.script =
       {
@@ -56,13 +61,15 @@ in
 
   users.users.${users.${me}}.openssh.authorizedKeys.keys = lib.mapAttrsToList (
     host: _: pubkey host
-  ) peers;
+  ) clients;
 
-  programs.ssh.knownHosts = lib.mapAttrs (_: peer: {
-    publicKey = peer.config.age.rekey.hostPubkey;
-  }) peers;
+  programs.ssh.knownHosts = lib.mkIf isClient (
+    lib.mapAttrs (_: peer: {
+      publicKey = peer.config.age.rekey.hostPubkey;
+    }) peers
+  );
 
-  nix.settings = {
+  nix.settings = lib.mkIf isClient {
     builders-use-substitutes = true;
 
     # ew, but determinate nix compatibility
