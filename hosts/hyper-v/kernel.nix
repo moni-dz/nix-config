@@ -169,6 +169,7 @@ let
       set -o pipefail
       patchShebangs scripts/config
       scripts/config --disable MODULE_COMPRESS_XZ --enable MODULE_COMPRESS_ZSTD
+      scripts/config --disable CC_OPTIMIZE_FOR_PERFORMANCE --enable CC_OPTIMIZE_FOR_SIZE
       scripts/config --module CRYPTO_LZ4HC --module CRYPTO_CRC32C
 
       # see `security.lsm`
