@@ -11,7 +11,7 @@ let
   diff = ''
     if [ -e /run/current-system ]; then
       echo "closure diff:" >&2
-      ${dix}/bin/dix diff /run/current-system "$systemConfig" >&2 || true
+      ${dix}/bin/dix diff --full --color=always /run/current-system "$systemConfig" >&2 || true
     fi
   '';
 in
