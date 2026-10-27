@@ -61,6 +61,7 @@
   networking = {
     useDHCP = false;
     useNetworkd = true;
+    nftables.enable = true;
   };
 
   systemd.network.networks."10-lan" = {
@@ -81,10 +82,27 @@
     journald.settings.Journal.Audit = false;
   };
 
-  boot.kexec.enable = false;
+  boot = {
+    kexec.enable = false;
+    bcache.enable = false;
+  };
 
-  documentation.nixos.enable = false;
-  environment.defaultPackages = [ ];
+  documentation = {
+    nixos.enable = false;
+    info.enable = false;
+    doc.enable = false;
+  };
+
+  environment = {
+    defaultPackages = [ ];
+    systemPackages = __attrValues { inherit (pkgs) curl gitMinimal; };
+    stub-ld.enable = false;
+  };
+
+  fonts.fontconfig.enable = false;
+  nix.channel.enable = false;
+  programs.nano.enable = false;
+  systemd.coredump.enable = false;
 
   xdg = {
     autostart.enable = false;

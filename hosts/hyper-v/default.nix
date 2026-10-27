@@ -37,7 +37,6 @@
         ../../profiles/remote-builders.nix
         ../../profiles/determinate-nixos.nix
         ../../profiles/hjem-system.nix
-        ../../profiles/base-packages.nix
         ../../profiles/dix.nix
         ../../profiles/inshellah.nix
       ];
