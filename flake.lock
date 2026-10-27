@@ -446,6 +446,21 @@
         "url": "https://codeberg.org/amjoseph/infuse.nix/archive/364ea18b5611b5fd6a6acd7151411b430a70e194.tar.gz"
       }
     },
+    "inshellah": {
+      "locked": {
+        "lastModified": 1792996869,
+        "narHash": "sha256-zCcxIa3JGDKFwaDhTnc1YO1+/Rpl1rZ3YJLqIhmg9YM=",
+        "owner": "manic-systems",
+        "repo": "inshellah",
+        "rev": "9dfede87d142e9c7362256d3575c7fdc3d75f5b3",
+        "type": "github"
+      },
+      "original": {
+        "owner": "manic-systems",
+        "repo": "inshellah",
+        "type": "github"
+      }
+    },
     "jovian": {
       "inputs": {
         "nix-github-actions": "nix-github-actions",
@@ -822,6 +837,7 @@
         "hjem": "hjem",
         "hjem-rum": "hjem-rum",
         "infuse": "infuse",
+        "inshellah": "inshellah",
         "jovian": "jovian",
         "master": "master",
         "nix": "nix_2",

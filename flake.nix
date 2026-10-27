@@ -46,6 +46,7 @@
     dix.url = "github:manic-systems/dix";
     hjem.url = "github:feel-co/hjem";
     hjem-rum.url = "github:snugnug/hjem-rum";
+    inshellah.url = "github:manic-systems/inshellah";
     jovian.url = "github:Jovian-Experiments/Jovian-NixOS/6ba37ebb7c68b1b6711027a67122aa41060d216e";
     nix.url = "github:NixOS/nix/master";
     nix-index-database.url = "github:Mic92/nix-index-database";

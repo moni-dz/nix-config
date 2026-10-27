@@ -26,6 +26,7 @@
         inputs.agenix.darwinModules.default
         inputs.agenix-rekey.darwinModules.default
         inputs.determinate.darwinModules.default
+        inputs.inshellah.darwinModules.default
         inputs.nix-index-database.darwinModules.nix-index
         ../../modules/common/identity.nix
         ../../modules/darwin/hjem.nix
@@ -37,6 +38,7 @@
         ../../profiles/hjem-system.nix
         ../../profiles/base-packages.nix
         ../../profiles/dix.nix
+        ../../profiles/inshellah.nix
         ../../profiles/determinate-darwin.nix
         ../../profiles/remote-builders.nix
       ];

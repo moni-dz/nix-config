@@ -27,6 +27,7 @@
         inputs.agenix.nixosModules.default
         inputs.agenix-rekey.nixosModules.default
         inputs.determinate.nixosModules.default
+        inputs.inshellah.nixosModules.default
         inputs.jovian.nixosModules.default
         inputs.rex.nixosModules.default
         ../../modules/common/identity.nix
@@ -45,6 +46,7 @@
         ../../profiles/hjem-system.nix
         ../../profiles/base-packages.nix
         ../../profiles/dix.nix
+        ../../profiles/inshellah.nix
       ];
     }
   );
