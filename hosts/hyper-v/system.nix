@@ -122,6 +122,8 @@
   services = {
     openssh.enable = true;
     resolved.enable = true;
+    dbus.brokerPackage = pkgs.dbus-broker.override { systemd = config.systemd.package; };
+    timesyncd.enable = false;
     nscd.enable = false;
     tailscale.enable = true;
     lvm.enable = false;
@@ -140,6 +142,17 @@
   };
 
   systemd = {
+    # systemdMinimal drops the units this host needs, so turn those back on
+    package = pkgs.systemdMinimal.override {
+      withNetworkd = true;
+      withResolved = true;
+      withLogind = true;
+      withPam = true;
+      withVConsole = true;
+      withHwdb = true;
+      withQrencode = true;
+    };
+
     coredump.enable = false;
     enableEmergencyMode = false;
     oomd.enable = false;
