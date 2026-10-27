@@ -16,6 +16,7 @@
         ./hosts/riscake
         ./hosts/hands
         ./hosts/hyper-v
+        ./hosts/installers.nix
       ];
 
       partitions = {
