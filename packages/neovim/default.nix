@@ -1,6 +1,7 @@
 {
   lib,
   pkgs,
+  stdenv,
   vimUtils,
   vimPlugins,
   wrapNeovimUnstable,
@@ -26,6 +27,7 @@
       ;
   },
   extraPackages ? defaultExtraPackages,
+  waylandSupport ? stdenv.hostPlatform.isLinux,
   extraPlugins ? [ ],
   plugins ? null,
 }:
@@ -174,6 +176,7 @@ in
 (wrapNeovimUnstable neovim {
   plugins = (if plugins == null then defaultPlugins else plugins) ++ extraPlugins;
   luaRcContent = ''require("moni")'';
+  inherit waylandSupport;
 
   wrapperArgs = [
     "--suffix"

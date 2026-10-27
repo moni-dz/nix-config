@@ -17,6 +17,8 @@
           rum.programs = {
             jujutsu.settings.fsmonitor.backend = "none";
 
+            neovim.waylandSupport = false;
+
             neovim.extraPackages = __attrValues {
               inherit (pkgs)
                 gitMinimal
