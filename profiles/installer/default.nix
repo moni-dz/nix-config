@@ -15,13 +15,26 @@ let
       modules = [ { disko.devices.disk.main.device = lib.mkForce "/dev/@DEVICE@"; } ];
     }).config.system.build.diskoScript;
 
+  secretFile =
+    path:
+    let
+      file = builtins.path {
+        inherit path;
+        name = baseNameOf path;
+      };
+    in
+    assert lib.assertMsg (
+      !(lib.hasInfix "-source/" file)
+    ) "${path} must not point into the flake source";
+    file;
+
   installHost = import ./script.nix { inherit pkgs; } {
     targetSystem = target.config.system.build.toplevel;
     inherit diskoScript;
     inherit (cfg) user defaultDevice;
     hostName = cfg.host;
-    passwordAge = ../../secrets/default-password.age;
-    hostKeyAge = ../../secrets/host-keys + "/${cfg.host}.age";
+    passwordAge = secretFile ../../secrets/default-password.age;
+    hostKeyAge = secretFile (../../secrets/host-keys + "/${cfg.host}.age");
     masterPubkey = (lib.head target.config.age.rekey.masterIdentities).pubkey;
   };
 
