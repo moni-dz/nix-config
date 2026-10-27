@@ -18,8 +18,6 @@
       nixfmt
       parallel
       ripgrep
-      tinymist
-      typst
       ;
   };
 }

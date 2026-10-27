@@ -4,11 +4,25 @@
     imports = [
       ../../profiles/hjem
       (
-        { osConfig, ... }:
+        { osConfig, pkgs, ... }:
 
         {
+          disabledModules = [
+            ../../profiles/hjem/typst.nix
+            ../../profiles/hjem/yazi.nix
+          ];
+
           rum.programs = {
             jujutsu.settings.fsmonitor.backend = "none";
+
+            neovim.extraPackages = __attrValues {
+              inherit (pkgs)
+                gitMinimal
+                nixd
+                nixfmt
+                ripgrep
+                ;
+            };
 
             nushell.envFile = ''
               open --raw ${osConfig.age.secrets.tokens.path} | lines | parse "export {key}={value}" | reduce -f {} {|it, acc| $acc | upsert $it.key $it.value } | load-env

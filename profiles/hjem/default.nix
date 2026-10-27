@@ -10,6 +10,7 @@
     ./packages.nix
     ./rex.nix
     ./starship.nix
+    ./typst.nix
     ./yazi.nix
     ./zoxide.nix
   ];
