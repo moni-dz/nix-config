@@ -8,6 +8,8 @@
 
         {
           disabledModules = [
+            ../../profiles/hjem/atuin.nix
+            ../../profiles/hjem/gh.nix
             ../../profiles/hjem/typst.nix
             ../../profiles/hjem/yazi.nix
           ];

@@ -5,7 +5,6 @@
   environment.systemPackages =
     __attrValues {
       inherit (pkgs)
-        msedit
         curl
         fd
         ripgrep

@@ -9,11 +9,8 @@
       curl
       difftastic
       fd
-      gh
       gnupg
       jq
-      krabby
-      msedit
       nixd
       nixfmt
       parallel

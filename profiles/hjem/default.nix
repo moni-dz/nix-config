@@ -2,6 +2,7 @@
   imports = [
     ./atuin.nix
     ./direnv.nix
+    ./gh.nix
     ./git.nix
     ./htop.nix
     ./jujutsu.nix

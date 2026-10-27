@@ -1,0 +1,8 @@
+{
+  pkgs,
+  ...
+}:
+
+{
+  packages = [ pkgs.gh ];
+}
