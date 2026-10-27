@@ -22,10 +22,12 @@
         inputs.agenix.nixosModules.default
         inputs.agenix-rekey.nixosModules.default
         inputs.determinate.nixosModules.default
+        inputs.disko.nixosModules.default
         inputs.inshellah.nixosModules.default
         inputs.rex.nixosModules.default
         ./system.nix
         ./hardware.nix
+        ./disko.nix
         ./kernel.nix
         ./moni.nix
         ../../modules/common/identity.nix
