@@ -43,6 +43,7 @@
     agenix-rekey.url = "github:oddlama/agenix-rekey";
     darwin.url = "github:nix-darwin/nix-darwin";
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
+    disko.url = "github:nix-community/disko";
     dix.url = "github:manic-systems/dix";
     hjem.url = "github:feel-co/hjem";
     hjem-rum.url = "github:snugnug/hjem-rum";
@@ -71,6 +72,7 @@
     agenix-rekey.inputs.nixpkgs.follows = "nixpkgs";
     agenix-rekey.inputs.flake-parts.follows = "parts";
     darwin.inputs.nixpkgs.follows = "nixpkgs";
+    disko.inputs.nixpkgs.follows = "nixpkgs";
     dix.inputs.nixpkgs.follows = "nixpkgs";
     hjem.inputs.nixpkgs.follows = "nixpkgs";
     hjem-rum.inputs.nixpkgs.follows = "nixpkgs";
