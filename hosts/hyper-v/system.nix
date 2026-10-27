@@ -76,6 +76,22 @@
     resolved.enable = true;
     nscd.enable = false;
     tailscale.enable = true;
+    lvm.enable = false;
+    logrotate.enable = false;
+    journald.settings.Journal.Audit = false;
+  };
+
+  boot.kexec.enable = false;
+
+  documentation.nixos.enable = false;
+  environment.defaultPackages = [ ];
+
+  xdg = {
+    autostart.enable = false;
+    icons.enable = false;
+    menus.enable = false;
+    mime.enable = false;
+    sounds.enable = false;
   };
 
   users.users.moni = {
