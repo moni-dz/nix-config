@@ -49,6 +49,7 @@
     nixos.enable = false;
     info.enable = false;
     doc.enable = false;
+    man.enable = false;
   };
 
   environment = {
@@ -95,7 +96,24 @@
     settings.extra-trusted-users = [ "moni" ];
   };
 
-  nixpkgs.hostPlatform = "x86_64-linux";
+  nixpkgs = {
+    hostPlatform = "x86_64-linux";
+
+    overlays = [
+      (final: prev: {
+        dbus = prev.dbus.override { systemdMinimal = config.systemd.package; };
+
+        coreutils-full = prev.coreutils;
+
+        gitMinimal = (prev.gitMinimal.override { nlsSupport = false; }).overrideAttrs (old: {
+          nativeBuildInputs = old.nativeBuildInputs ++ [ prev.removeReferencesTo ];
+          postFixup = (old.postFixup or "") + ''
+            find "$out" -type f -exec remove-references-to -t ${prev.gettext} '{}' +
+          '';
+        });
+      })
+    ];
+  };
   powerManagement.enable = false;
 
   programs = {
@@ -138,11 +156,13 @@
   system = {
     stateVersion = "26.05";
     nssModules = lib.mkForce [ ];
-    tools.nixos-generate-config.enable = false;
+    tools = {
+      nixos-generate-config.enable = false;
+      nixos-option.enable = false;
+    };
   };
 
   systemd = {
-    # systemdMinimal drops the units this host needs, so turn those back on
     package = pkgs.systemdMinimal.override {
       withNetworkd = true;
       withResolved = true;
