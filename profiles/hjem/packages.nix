@@ -13,7 +13,6 @@
       jq
       nixd
       nixfmt
-      parallel
       ripgrep
       ;
   };

@@ -50,6 +50,7 @@
     inshellah.url = "github:manic-systems/inshellah";
     jovian.url = "github:Jovian-Experiments/Jovian-NixOS/6ba37ebb7c68b1b6711027a67122aa41060d216e";
     nix.url = "github:NixOS/nix/master";
+    nixos-core.url = "github:manic-systems/nixos-core";
     nix-index-database.url = "github:Mic92/nix-index-database";
     nix-src.url = "github:moni-dz/nix-src/all-mine";
     parts.url = "github:hercules-ci/flake-parts";
@@ -78,6 +79,7 @@
     hjem-rum.inputs.nixpkgs.follows = "nixpkgs";
     hjem-rum.inputs.hjem.follows = "hjem";
     jovian.inputs.nixpkgs.follows = "nixpkgs";
+    nixos-core.inputs.nixpkgs.follows = "nixpkgs";
     nix.inputs.nixpkgs.follows = "nixpkgs";
     nix.inputs.flake-parts.follows = "parts";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";

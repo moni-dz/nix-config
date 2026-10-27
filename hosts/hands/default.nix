@@ -48,6 +48,7 @@
         ../../profiles/base-packages.nix
         ../../profiles/dix.nix
         ../../profiles/inshellah.nix
+        ../../profiles/nixos-core.nix
         ../../profiles/rex.nix
       ];
     }

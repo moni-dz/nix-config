@@ -636,6 +636,26 @@
         "type": "github"
       }
     },
+    "nixos-core": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1792822547,
+        "narHash": "sha256-zWTz3A7cZyjCV8a9z/d20cDborKQgt+2YfDLIsnZkVQ=",
+        "owner": "manic-systems",
+        "repo": "nixos-core",
+        "rev": "13d9c52c1ea8275e5c5b99878f96a8435bebad9f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "manic-systems",
+        "repo": "nixos-core",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1792949843,
@@ -864,6 +884,7 @@
         "nix": "nix_2",
         "nix-index-database": "nix-index-database",
         "nix-src": "nix-src",
+        "nixos-core": "nixos-core",
         "nixpkgs": [
           "master"
         ],
