@@ -27,6 +27,7 @@
         inputs.agenix.nixosModules.default
         inputs.agenix-rekey.nixosModules.default
         inputs.determinate.nixosModules.default
+        inputs.disko.nixosModules.default
         inputs.inshellah.nixosModules.default
         inputs.jovian.nixosModules.default
         inputs.rex.nixosModules.default
@@ -34,6 +35,7 @@
         ../../modules/nixos/hjem.nix
         ./system.nix
         ./hardware.nix
+        ./disko.nix
         ./desktop.nix
         ./lyt.nix
         ../../profiles/identity.nix
