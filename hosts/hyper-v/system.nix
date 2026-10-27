@@ -135,6 +135,7 @@
   system = {
     stateVersion = "26.05";
     nssModules = lib.mkForce [ ];
+    tools.nixos-generate-config.enable = false;
   };
 
   systemd = {
