@@ -5,20 +5,31 @@
 }:
 
 let
-  inherit (lib) mkEnableOption mkIf mkMerge;
+  inherit (lib)
+    concatMapStringsSep
+    mkEnableOption
+    mkIf
+    mkMerge
+    optional
+    ;
 
   cfg = config.rum.programs.rex;
+
+  initLua =
+    optional cfg.integrations.smart-splits.enable ./rex/smart-splits.lua
+    ++ optional cfg.integrations.agent-reaper.enable ./rex/reap-all-agents.lua;
 in
 {
   options.rum.programs.rex.integrations = {
     nushell.enable = mkEnableOption "Rex tab completion keybindings for nushell";
     starship.enable = mkEnableOption "Rex host segment for starship";
     smart-splits.enable = mkEnableOption "Rex key bindings for smart-splits.nvim, pane navigation and resizing across Neovim";
+    agent-reaper.enable = mkEnableOption "Rex actions that start agent-reaper.lua, which closes the panes and scratch sessions that agents leave behind";
   };
 
   config = mkMerge [
-    (mkIf cfg.integrations.smart-splits.enable {
-      xdg.config.files."rex/init.lua".source = ./rex/smart-splits.lua;
+    (mkIf (initLua != [ ]) {
+      xdg.config.files."rex/init.lua".text = concatMapStringsSep "\n" builtins.readFile initLua;
     })
 
     (mkIf (cfg.integrations.nushell.enable && config.rum.programs.nushell.enable) {
