@@ -151,6 +151,8 @@
       withVConsole = true;
       withHwdb = true;
       withQrencode = true;
+      withEfi = true;
+      withBootloader = true;
     };
 
     coredump.enable = false;
