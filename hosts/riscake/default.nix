@@ -36,6 +36,7 @@
         ../../profiles/nixpkgs.nix
         ../../profiles/hjem-system.nix
         ../../profiles/base-packages.nix
+        ../../profiles/dix.nix
         ../../profiles/determinate-darwin.nix
         ../../profiles/remote-builders.nix
       ];

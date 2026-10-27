@@ -179,6 +179,26 @@
         "type": "github"
       }
     },
+    "dix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1793050261,
+        "narHash": "sha256-h2InUYEbQsy8Kool/91/V2ykomtDm9yL3YIAdct7U5g=",
+        "owner": "manic-systems",
+        "repo": "dix",
+        "rev": "17e3373e53eaf18806af25e6e1dc86439891ee67",
+        "type": "github"
+      },
+      "original": {
+        "owner": "manic-systems",
+        "repo": "dix",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -798,6 +818,7 @@
         "agenix-rekey": "agenix-rekey",
         "darwin": "darwin",
         "determinate": "determinate",
+        "dix": "dix",
         "hjem": "hjem",
         "hjem-rum": "hjem-rum",
         "infuse": "infuse",

@@ -37,6 +37,7 @@
         ../../profiles/determinate-nixos.nix
         ../../profiles/hjem-system.nix
         ../../profiles/base-packages.nix
+        ../../profiles/dix.nix
       ];
     }
   );
