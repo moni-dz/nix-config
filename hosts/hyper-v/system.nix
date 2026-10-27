@@ -33,6 +33,7 @@
   boot = {
     kexec.enable = false;
     bcache.enable = false;
+    initrd.systemd.tpm2.enable = false;
 
     loader = {
       systemd-boot = {
@@ -140,6 +141,7 @@
 
   systemd = {
     coredump.enable = false;
+    enableEmergencyMode = false;
     oomd.enable = false;
 
     network = {
