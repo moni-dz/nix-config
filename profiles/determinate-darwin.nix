@@ -30,8 +30,6 @@ in
 {
   nix.enable = false;
 
-  determinateNix.enable = true;
-
   environment.systemPackages = [ nixPackage ];
 
   # darwin-rebuild puts root's ~/.nix-profile first in PATH, which the installer filled with stock nix
@@ -65,14 +63,18 @@ in
     HardResourceLimits = limits;
   };
 
-  determinateNix.customSettings = lib.mkMerge [
-    nix.settings
-    { inherit (config.nix.settings) builders; }
-    # only Determinate Nix knows these
-    {
-      eval-cores = 0;
-      lazy-trees = true;
-      extra-experimental-features = [ "parallel-eval" ];
-    }
-  ];
+  determinateNix = {
+    enable = true;
+
+    customSettings = lib.mkMerge [
+      nix.settings
+      { inherit (config.nix.settings) builders; }
+      # only Determinate Nix knows these
+      {
+        eval-cores = 0;
+        lazy-trees = true;
+        extra-experimental-features = [ "parallel-eval" ];
+      }
+    ];
+  };
 }

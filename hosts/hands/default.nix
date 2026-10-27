@@ -35,7 +35,6 @@
         ./system.nix
         ./hardware.nix
         ./desktop.nix
-        ./rex.nix
         ./lyt.nix
         ../../profiles/identity.nix
         ../../profiles/secrets.nix
@@ -47,6 +46,7 @@
         ../../profiles/base-packages.nix
         ../../profiles/dix.nix
         ../../profiles/inshellah.nix
+        ../../profiles/rex.nix
       ];
     }
   );

@@ -16,14 +16,6 @@ let
   };
 in
 {
-  networking.hostName = "riscake";
-  nixpkgs.hostPlatform = "aarch64-darwin";
-
-  system = {
-    stateVersion = 5; # only change this if you know what you are doing.
-    primaryUser = "moni";
-  };
-
   determinateNix = {
     # merged into Determinate's netrc, see https://docs.determinate.systems/determinate-nix/determinate-nixd/
     determinateNixd.authentication.additionalNetrcSources = [ config.age.secrets.netrc.path ];
@@ -31,10 +23,7 @@ in
     customSettings.extra-trusted-users = [ "moni" ];
   };
 
-  # `customSettings` can only render `key = value`, so append the include ourselves
-  environment.etc."nix/nix.custom.conf".text = lib.mkAfter ''
-    !include ${config.age.secrets.nix-access-tokens.path}
-  '';
+  documentation.info.enable = false;
 
   environment = {
     shells = __attrValues { inherit (pkgs) nushell; };
@@ -43,15 +32,19 @@ in
       inherit (pkgs) nushell;
       inherit (nix-tools) darwin-option darwin-rebuild darwin-version;
     };
+
+    # `customSettings` can only render `key = value`, so append the include ourselves
+    etc."nix/nix.custom.conf".text = lib.mkAfter ''
+      !include ${config.age.secrets.nix-access-tokens.path}
+    '';
   };
 
-  documentation.info.enable = false;
-
-  system.tools = {
-    darwin-option.enable = false;
-    darwin-rebuild.enable = false;
-    darwin-version.enable = false;
+  fonts.packages = __attrValues {
+    inherit (pkgs) comic-neue;
   };
+
+  networking.hostName = "riscake";
+  nixpkgs.hostPlatform = "aarch64-darwin";
 
   security.pam.services.sudo_local = {
     reattach = true;
@@ -59,7 +52,14 @@ in
     watchIdAuth = true;
   };
 
-  fonts.packages = __attrValues {
-    inherit (pkgs) comic-neue;
+  system = {
+    stateVersion = 5; # only change this if you know what you are doing.
+    primaryUser = "moni";
+
+    tools = {
+      darwin-option.enable = false;
+      darwin-rebuild.enable = false;
+      darwin-version.enable = false;
+    };
   };
 }

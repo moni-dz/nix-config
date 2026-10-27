@@ -1,26 +1,30 @@
 { lib, ... }:
 
 {
-  # the stock list is for bare metal (ahci, nvme, usb, hid), hyper-v only needs its own modules
-  boot.initrd.includeDefaultModules = false;
+  boot.initrd = {
+    # the stock list is for bare metal (ahci, nvme, usb, hid), hyper-v only needs its own modules
+    includeDefaultModules = false;
 
-  boot.initrd.availableKernelModules = [
-    "sd_mod"
-    "sr_mod"
-  ];
-
-  fileSystems."/" = {
-    device = "UUID=ece3ba18-84ef-4763-85f5-bec59018e23c";
-    fsType = "bcachefs";
+    availableKernelModules = [
+      "sd_mod"
+      "sr_mod"
+    ];
   };
 
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/E32D-F93B";
-    fsType = "vfat";
-    options = [
-      "fmask=0077"
-      "dmask=0077"
-    ];
+  fileSystems = {
+    "/" = {
+      device = "UUID=ece3ba18-84ef-4763-85f5-bec59018e23c";
+      fsType = "bcachefs";
+    };
+
+    "/boot" = {
+      device = "/dev/disk/by-uuid/E32D-F93B";
+      fsType = "vfat";
+      options = [
+        "fmask=0077"
+        "dmask=0077"
+      ];
+    };
   };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";

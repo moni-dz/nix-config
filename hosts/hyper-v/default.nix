@@ -27,7 +27,6 @@
         ./system.nix
         ./hardware.nix
         ./kernel.nix
-        ./rex.nix
         ./moni.nix
         ../../modules/common/identity.nix
         ../../modules/nixos/hjem.nix
@@ -40,6 +39,7 @@
         ../../profiles/hjem-system.nix
         ../../profiles/dix.nix
         ../../profiles/inshellah.nix
+        ../../profiles/rex.nix
       ];
     }
   );
