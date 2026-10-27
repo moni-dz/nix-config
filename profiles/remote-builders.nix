@@ -24,6 +24,8 @@ let
     };
   };
 
+  extraSystems.hyper-v = [ "i686-linux" ];
+
   weight =
     host:
     weights.${host} or {
@@ -80,7 +82,9 @@ in
           host: peer:
           lib.concatStringsSep " " [
             "ssh-ng://${users.${host}}@${host}"
-            peer.config.nixpkgs.hostPlatform.system
+            (lib.concatStringsSep "," (
+              [ peer.config.nixpkgs.hostPlatform.system ] ++ extraSystems.${host} or [ ]
+            ))
             config.age.secrets.builder-key.path
             (weight host).jobs
             (weight host).speed
