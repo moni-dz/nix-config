@@ -61,6 +61,11 @@ let
     "DRM_AST"
     "DRM_MGAG200"
 
+    # tracing and suspend
+    "FTRACE"
+    "KPROBES"
+    "HIBERNATION"
+
     # board and laptop plumbing
     "COMEDI"
     "PWM"
