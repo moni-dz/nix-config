@@ -61,7 +61,7 @@
     };
 
     # Nixpkgs branches
-    master.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    master.url = "github:NixOS/nixpkgs/master";
 
     # Default Nixpkgs for packages and modules
     nixpkgs.follows = "master";
