@@ -3,7 +3,7 @@
 let
   installHost = import ./script.nix { inherit pkgs; } {
     targetSystem = "/nix/store/test-system";
-    diskoScript = pkgs.writeText "disko-script" "wipe @DEVICE@\n";
+    diskoScript = pkgs.writeText "disko-script" "wipe /dev/@DEVICE@\n";
     user = "tester";
     passwordAge = "/nonexistent";
     hostKeyAge = "/nonexistent";

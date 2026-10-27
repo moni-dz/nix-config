@@ -12,7 +12,7 @@ let
 
   diskoScript =
     (target.extendModules {
-      modules = [ { disko.devices.disk.main.device = lib.mkForce "@DEVICE@"; } ];
+      modules = [ { disko.devices.disk.main.device = lib.mkForce "/dev/@DEVICE@"; } ];
     }).config.system.build.diskoScript;
 
   installHost = import ./script.nix { inherit pkgs; } {
@@ -25,10 +25,9 @@ let
     masterPubkey = (lib.head target.config.age.rekey.masterIdentities).pubkey;
   };
 
-  readmeText = lib.replaceStrings
-    [ "@host@" "@user@" "@defaultDevice@" ]
-    [ cfg.host cfg.user cfg.defaultDevice ]
-    (builtins.readFile ./README.txt);
+  readmeText =
+    lib.replaceStrings [ "@host@" "@user@" "@defaultDevice@" ] [ cfg.host cfg.user cfg.defaultDevice ]
+      (builtins.readFile ./README.txt);
 
   hasWifi = cfg.host == "hands";
 
@@ -76,61 +75,60 @@ in
 
   config = lib.mkMerge [
     {
-    networking.hostName = "installer-${cfg.host}";
-    system.stateVersion = config.system.nixos.release;
+      networking.hostName = "installer-${cfg.host}";
+      system.stateVersion = config.system.nixos.release;
 
-    isoImage = {
-      storeContents = [
-        target.config.system.build.toplevel
-        diskoScript
-      ];
-      squashfsCompression = "zstd -Xcompression-level 19";
-    };
-
-    environment = {
-      systemPackages = [ installHost ] ++ lib.optional hasWifi installerWifi;
-      etc."installer-README".text = readmeText;
-
-      interactiveShellInit = ''
-        if [ -z "''${INSTALLER_README_SHOWN:-}" ]; then
-          export INSTALLER_README_SHOWN=1
-          cat /etc/installer-README
-        fi
-      ''
-      + lib.optionalString hasWifi ''
-        if [ -z "$(ip route show default)" ]; then installer-wifi; fi
-      '';
-    };
-
-    users.motd = readmeText;
-
-    # local console fallback if the network or Tailscale is down
-    services.getty.autologinUser = lib.mkForce "root";
-
-    services.tailscale.enable = true;
-
-    systemd.services.installer-tailscale-up = {
-      wantedBy = [ "multi-user.target" ];
-      wants = [ "network-online.target" ];
-      after = [
-        "network-online.target"
-        "tailscaled.service"
-      ];
-      serviceConfig = {
-        Type = "oneshot";
-        RemainAfterExit = true;
-        TimeoutStartSec = "infinity";
-        StandardOutput = "journal+console";
-        StandardError = "journal+console";
-        ExecStart = "${lib.getExe config.services.tailscale.package} up --hostname=${config.networking.hostName}";
+      isoImage = {
+        storeContents = [
+          target.config.system.build.toplevel
+          diskoScript
+        ];
+        squashfsCompression = "zstd -Xcompression-level 19";
       };
-    };
 
-    services.rex.loginServer = {
-      enable = true;
-      accounts.root.principals = [ cfg.rexPrincipal ];
-      tailscaleServe.enable = true;
-    };
+      environment = {
+        systemPackages = [ installHost ] ++ lib.optional hasWifi installerWifi;
+        etc."installer-README".text = readmeText;
+
+        interactiveShellInit = ''
+          if [ -z "''${INSTALLER_README_SHOWN:-}" ]; then
+            export INSTALLER_README_SHOWN=1
+            cat /etc/installer-README
+          fi
+        ''
+        + lib.optionalString hasWifi ''
+          if [ -z "$(ip route show default)" ]; then installer-wifi; fi
+        '';
+      };
+
+      users.motd = readmeText;
+
+      services.getty.autologinUser = lib.mkForce "root";
+
+      services.tailscale.enable = true;
+
+      systemd.services.installer-tailscale-up = {
+        wantedBy = [ "multi-user.target" ];
+        wants = [ "network-online.target" ];
+        after = [
+          "network-online.target"
+          "tailscaled.service"
+        ];
+        serviceConfig = {
+          Type = "oneshot";
+          RemainAfterExit = true;
+          TimeoutStartSec = "infinity";
+          StandardOutput = "journal+console";
+          StandardError = "journal+console";
+          ExecStart = "${lib.getExe config.services.tailscale.package} up --hostname=${config.networking.hostName}";
+        };
+      };
+
+      services.rex.loginServer = {
+        enable = true;
+        accounts.root.principals = [ cfg.rexPrincipal ];
+        tailscaleServe.enable = true;
+      };
     }
 
     (lib.mkIf hasWifi {

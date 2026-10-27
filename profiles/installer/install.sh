@@ -8,7 +8,7 @@ HOST_KEY_AGE="@hostKeyAge@"
 MASTER_PUBKEY="@masterPubkey@"
 DEFAULT_DEVICE="@defaultDevice@"
 HOST_NAME="@hostName@"
-placeholder="@""DEVICE""@"
+placeholder="/dev/@""DEVICE""@"
 
 dry=${INSTALLER_DRY_RUN:-}
 if [[ -n $dry ]]; then
