@@ -43,3 +43,35 @@ secrets/     agenix-rekey secrets (`agenix` in the dev shell), with per-host cop
 `flake-parts` allow reusable configuration powered by the module system everyone knows and loves.
 
 See [my system configurations](https://github.com/moni-dz/nix-config/blob/master/hosts/default.nix), which build each system directly with `withSystem`.
+
+## Installer ISOs
+
+`hands` and `hyper-v` each have an installer ISO that bakes in the host's system and installs it with
+almost no input. Both erase the target disk.
+
+One-time setup (needs the master key, `~/.ssh/id_ed25519`):
+
+```sh
+# a host key per host, encrypted to the master key; hostPubkey comes from secrets/host-keys/<host>.pub
+agenix rekey -a
+printf %s "$password" | age -r "$(cat ~/.ssh/id_ed25519.pub)" -o secrets/default-password.age
+```
+
+Build (needs a Linux builder, `hyper-v` works; `hands` also needs `i686-linux`):
+
+```sh
+nix build .#nixosConfigurations.installer-hyper-v.config.system.build.isoImage
+nix build .#nixosConfigurations.installer-hands.config.system.build.isoImage
+```
+
+Boot the ISO, approve the Tailscale login URL on the console, then from the Mac:
+
+```sh
+rex -S https://root@installer-<host>
+install-host
+```
+
+`install-host` asks for the target device, a typed confirmation, and the master private key. It
+installs the host, places its agenix host key, and sets the default password for the login user, which
+you can change afterwards with `passwd`. A machine still running with an old host key has to be
+reinstalled with the ISO rather than switched to the rekeyed configuration.
