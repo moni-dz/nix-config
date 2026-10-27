@@ -19,6 +19,7 @@
     limine = {
       enable = true;
       efiSupport = true;
+      maxGenerations = 4;
     };
 
     efi.canTouchEfiVariables = true;
