@@ -26,6 +26,11 @@ let
         fennel --globals rex --compile ${./rex/agent-reaper.fnl} > $out
       '';
 
+  # fennel-ls reads the rex API's docs from here; see rex/flsproject.fnl
+  rexDocset = pkgs.runCommand "rex-docset.lua" { nativeBuildInputs = [ pkgs.luaPackages.fennel ]; } ''
+    fennel --compile ${./rex/types/rex-docset.fnl} > $out
+  '';
+
   # Each compiled chunk runs as a function of its own: the compiler can end one with
   # `return`, which would otherwise end the whole file and skip the chunks after it.
   initLua = pkgs.runCommand "rex-init.lua" { nativeBuildInputs = [ pkgs.luaPackages.fennel ]; } ''
@@ -41,12 +46,17 @@ in
     nushell.enable = mkEnableOption "Rex tab completion keybindings for nushell";
     starship.enable = mkEnableOption "Rex host segment for starship";
     smart-splits.enable = mkEnableOption "Rex key bindings for smart-splits.nvim, pane navigation and resizing across Neovim";
+    types.enable = mkEnableOption "the fennel-ls docset for Rex's Lua API, so the Fennel files that script Rex get completion and hover";
     agent-reaper.enable = mkEnableOption "Rex actions that start agent-reaper.lua, which closes the panes and scratch sessions that agents leave behind, and install it to ~/.claude/bin";
   };
 
   config = mkMerge [
     (mkIf (initSources != [ ]) {
       xdg.config.files."rex/init.lua".source = initLua;
+    })
+
+    (mkIf cfg.integrations.types.enable {
+      xdg.data.files."fennel-ls/docsets/rex.lua".source = rexDocset;
     })
 
     # the "Reap All Agents" action runs this script, and CLAUDE.md names the path

@@ -6,5 +6,6 @@ _:
     nushell.enable = true;
     smart-splits.enable = true;
     starship.enable = true;
+    types.enable = true;
   };
 }
