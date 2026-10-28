@@ -29,6 +29,17 @@
       flake = false;
     };
 
+    # Fennel macros for Neovim config
+    nvim-laurel = {
+      url = "github:aileot/nvim-laurel";
+      flake = false;
+    };
+
+    nvim-thyme = {
+      url = "github:aileot/nvim-thyme";
+      flake = false;
+    };
+
     smart-splits-backend-rex = {
       url = "github:rawnly/smart-splits-backend-rex";
       flake = false;

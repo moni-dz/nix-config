@@ -141,6 +141,38 @@
         "type": "github"
       }
     },
+    "nvim-laurel": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1789308916,
+        "narHash": "sha256-S/7JKPW5hl7DLtSvB5tkT9I8XG5maqhoBk9V9HSRIUE=",
+        "owner": "aileot",
+        "repo": "nvim-laurel",
+        "rev": "5ba4f29d6a7545bee5a511b3c444b2866caf8fe4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "aileot",
+        "repo": "nvim-laurel",
+        "type": "github"
+      }
+    },
+    "nvim-thyme": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1761688705,
+        "narHash": "sha256-H0PkGDIECGTcCU9WIgltnExnrVmEdZF5CGyxW9+AMXQ=",
+        "owner": "aileot",
+        "repo": "nvim-thyme",
+        "rev": "13b2a55dad7b86ae6c83d51fc640eb00b45c4525",
+        "type": "github"
+      },
+      "original": {
+        "owner": "aileot",
+        "repo": "nvim-thyme",
+        "type": "github"
+      }
+    },
     "parts": {
       "inputs": {
         "nixpkgs-lib": "nixpkgs-lib"
@@ -182,6 +214,8 @@
         "mellifluous-nvim": "mellifluous-nvim",
         "neovim-nightly-overlay": "neovim-nightly-overlay",
         "nixpkgs": "nixpkgs",
+        "nvim-laurel": "nvim-laurel",
+        "nvim-thyme": "nvim-thyme",
         "parts": "parts",
         "pulse-nvim": "pulse-nvim",
         "smart-splits-backend-rex": "smart-splits-backend-rex",

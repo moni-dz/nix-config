@@ -46,6 +46,8 @@ in
             sources = {
               inherit (inputs)
                 mellifluous-nvim
+                nvim-laurel
+                nvim-thyme
                 pulse-nvim
                 smart-splits-backend-rex
                 vellum-nvim
