@@ -35,6 +35,7 @@
         overlays = "drvs";
         packages = "drvs";
         formatter = "dev";
+        checks = "dev";
       };
     };
 

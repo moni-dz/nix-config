@@ -19,7 +19,7 @@
       ghostscript
       gitMinimal
       imagemagick
-      lua-language-server
+      emmylua-ls
       nixd
       nixfmt
       ripgrep
