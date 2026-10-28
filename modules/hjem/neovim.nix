@@ -42,5 +42,11 @@ in
 
   config = mkIf cfg.enable {
     packages = [ cfg.package ];
+
+    # nvim-thyme reads its options from the config dir, not from the plugin the config is baked into.
+    xdg.config.files."nvim/.nvim-thyme.fnl".source = ./neovim/nvim-thyme.fnl;
+
+    # ...and it only looks for Fennel modules in the config dir, not on the runtimepath.
+    xdg.config.files."nvim/fnl".source = "${cfg.package.passthru.moni-config}/fnl";
   };
 }

@@ -2,3 +2,4 @@
 result*
 *.swp
 .DS_Store
+packages/neovim/.laurel

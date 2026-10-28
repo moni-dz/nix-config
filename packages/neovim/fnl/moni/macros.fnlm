@@ -1,0 +1,21 @@
+;;; Macros shared by the moni modules: (import-macros {: setup!} :moni.macros)
+
+(λ setup! [module ...]
+  "Require `module` and call its setup function with the remaining arguments."
+  `(let [mod# (require ,module)]
+     ((. mod# :setup) ,...)))
+
+(λ lazy [module field ...]
+  "Call `module`'s function `field` with the remaining arguments.
+The require happens when the call runs, not when the caller is loaded, so use
+this inside callbacks that would otherwise load a module too early or form a
+require cycle."
+  `(let [mod# (require ,module)]
+     ((. mod# ,field) ,...)))
+
+(λ on! [events args ...]
+  "Run `...` when `events` fire, with `args` bound to the autocmd's info table.
+The callback always returns nil: a callback returning true deletes its autocmd."
+  `(vim.api.nvim_create_autocmd ,events {:callback (λ ,args ,... nil)}))
+
+{: setup! : lazy : on!}

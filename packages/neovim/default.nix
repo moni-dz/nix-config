@@ -2,6 +2,8 @@
   lib,
   pkgs,
   stdenv,
+  runCommand,
+  luaPackages,
   vimUtils,
   vimPlugins,
   wrapNeovimUnstable,
@@ -12,6 +14,8 @@
     inherit (pkgs)
       bash-language-server
       clang-tools
+      fennel-ls
+      fnlfmt
       ghostscript
       gitMinimal
       imagemagick
@@ -43,8 +47,27 @@ let
     doCheck = false;
     src = lib.fileset.toSource {
       root = ./.;
-      fileset = ./lua;
+      fileset = ./fnl;
     };
+  };
+
+  # nvim-thyme finds the compiler as `require("fennel")` on the runtimepath.
+  fennel-nvim = runCommand "fennel-nvim" { } ''
+    install -Dm444 ${luaPackages.fennel}/share/lua/*/fennel.lua $out/lua/fennel.lua
+  '';
+
+  nvim-thyme = vimUtils.buildVimPlugin {
+    pname = "nvim-thyme";
+    version = sources.nvim-thyme.shortRev or "dirty";
+    src = sources.nvim-thyme;
+    doCheck = false;
+  };
+
+  nvim-laurel = vimUtils.buildVimPlugin {
+    pname = "nvim-laurel";
+    version = sources.nvim-laurel.shortRev or "dirty";
+    src = sources.nvim-laurel;
+    doCheck = false;
   };
 
   mellifluous = vimUtils.buildVimPlugin {
@@ -102,6 +125,7 @@ let
       nvim-tree-lua
       nvim-treesitter-textobjects
       nvim-ufo
+      parinfer-rust
       smart-splits-nvim
       snacks-nvim
       which-key-nvim
@@ -110,8 +134,11 @@ let
     inherit
       blink-cmp
       dropbar
+      fennel-nvim
       mellifluous
       moni-config
+      nvim-laurel
+      nvim-thyme
       pulse
       smart-splits-backend-rex
       vellum
@@ -128,6 +155,7 @@ let
           css
           diff
           dockerfile
+          fennel
           fish
           git_config
           gitattributes
@@ -175,7 +203,7 @@ let
 in
 (wrapNeovimUnstable neovim {
   plugins = (if plugins == null then defaultPlugins else plugins) ++ extraPlugins;
-  luaRcContent = ''require("moni")'';
+  luaRcContent = builtins.readFile ./init.lua;
   inherit waylandSupport;
 
   wrapperArgs = [
@@ -187,6 +215,6 @@ in
 }).overrideAttrs
   (old: {
     passthru = (old.passthru or { }) // {
-      inherit defaultExtraPackages defaultPlugins;
+      inherit defaultExtraPackages defaultPlugins moni-config;
     };
   })
