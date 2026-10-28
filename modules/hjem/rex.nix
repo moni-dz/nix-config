@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 
@@ -15,21 +16,42 @@ let
 
   cfg = config.rum.programs.rex;
 
-  initLua =
-    optional cfg.integrations.smart-splits.enable ./rex/smart-splits.lua
-    ++ optional cfg.integrations.agent-reaper.enable ./rex/reap-all-agents.lua;
+  initSources =
+    optional cfg.integrations.smart-splits.enable ./rex/smart-splits.fnl
+    ++ optional cfg.integrations.agent-reaper.enable ./rex/reap-all-agents.fnl;
+
+  agentReaper =
+    pkgs.runCommand "agent-reaper.lua" { nativeBuildInputs = [ pkgs.luaPackages.fennel ]; }
+      ''
+        fennel --globals rex --compile ${./rex/agent-reaper.fnl} > $out
+      '';
+
+  # Each compiled chunk runs as a function of its own: the compiler can end one with
+  # `return`, which would otherwise end the whole file and skip the chunks after it.
+  initLua = pkgs.runCommand "rex-init.lua" { nativeBuildInputs = [ pkgs.luaPackages.fennel ]; } ''
+    : > $out
+    ${concatMapStringsSep "\n" (
+      src:
+      "{ echo 'do local function chunk()'; fennel --globals rex --compile ${src}; echo 'end chunk() end'; } >> $out"
+    ) initSources}
+  '';
 in
 {
   options.rum.programs.rex.integrations = {
     nushell.enable = mkEnableOption "Rex tab completion keybindings for nushell";
     starship.enable = mkEnableOption "Rex host segment for starship";
     smart-splits.enable = mkEnableOption "Rex key bindings for smart-splits.nvim, pane navigation and resizing across Neovim";
-    agent-reaper.enable = mkEnableOption "Rex actions that start agent-reaper.lua, which closes the panes and scratch sessions that agents leave behind";
+    agent-reaper.enable = mkEnableOption "Rex actions that start agent-reaper.lua, which closes the panes and scratch sessions that agents leave behind, and install it to ~/.claude/bin";
   };
 
   config = mkMerge [
-    (mkIf (initLua != [ ]) {
-      xdg.config.files."rex/init.lua".text = concatMapStringsSep "\n" builtins.readFile initLua;
+    (mkIf (initSources != [ ]) {
+      xdg.config.files."rex/init.lua".source = initLua;
+    })
+
+    # the "Reap All Agents" action runs this script, and CLAUDE.md names the path
+    (mkIf cfg.integrations.agent-reaper.enable {
+      files.".claude/bin/agent-reaper.lua".source = agentReaper;
     })
 
     (mkIf (cfg.integrations.nushell.enable && config.rum.programs.nushell.enable) {
