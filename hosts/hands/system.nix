@@ -99,7 +99,10 @@
   services = {
     openssh.enable = true;
     resolved.enable = true;
-    tailscale.enable = true;
+    tailscale = {
+      enable = true;
+      extraSetFlags = [ "--accept-dns=true" ];
+    };
   };
 
   system.stateVersion = "26.05";
