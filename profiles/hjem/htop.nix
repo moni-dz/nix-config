@@ -18,21 +18,18 @@
 
         tree_view = true;
 
-        # PID USER M_SIZE STATE PERCENT_CPU PERCENT_MEM TIME COMM
+        # PID USER PERCENT_CPU PERCENT_MEM COMM
         fields = [
           0
           48
-          39
-          2
           46
           47
-          49
           1
         ];
 
         # split CPUs across both columns so high core counts stay readable
         left_meters = [
-          "LeftCPUs8"
+          "LeftCPUs4"
           "Memory"
           "Swap"
         ];
@@ -42,7 +39,7 @@
           1
         ];
         right_meters = [
-          "RightCPUs8"
+          "RightCPUs4"
           "Tasks"
           "LoadAverage"
           "Uptime"
