@@ -23,11 +23,6 @@
         owner = "moni";
         mode = "600";
       };
-
-      netrc = {
-        rekeyFile = ../../secrets/netrc.age;
-        mode = "444";
-      };
     };
   };
 
@@ -61,10 +56,7 @@
 
     etc."determinate/config.json".text = lib.mkForce (
       builtins.toJSON (
-        {
-          authentication.additionalNetrcSources = [ config.age.secrets.netrc.path ];
-        }
-        // lib.optionalAttrs (config.determinate.edgeCacheSubstituters != null) {
+        lib.optionalAttrs (config.determinate.edgeCacheSubstituters != null) {
           inherit (config.determinate) edgeCacheSubstituters;
         }
       )

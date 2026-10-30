@@ -9,11 +9,6 @@
   age = {
     rekey.hostPubkey = lib.removeSuffix "
 " (builtins.readFile ../../secrets/host-keys/hands.pub);
-
-    secrets.netrc = {
-      rekeyFile = ../../secrets/netrc.age;
-      mode = "444";
-    };
   };
 
   boot.loader = {
@@ -33,10 +28,7 @@
 
     etc."determinate/config.json".text = lib.mkForce (
       builtins.toJSON (
-        {
-          authentication.additionalNetrcSources = [ config.age.secrets.netrc.path ];
-        }
-        // lib.optionalAttrs (config.determinate.edgeCacheSubstituters != null) {
+        lib.optionalAttrs (config.determinate.edgeCacheSubstituters != null) {
           inherit (config.determinate) edgeCacheSubstituters;
         }
       )

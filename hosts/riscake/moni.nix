@@ -35,13 +35,6 @@
         owner = "moni";
         mode = "600";
       };
-
-      # read by determinate-nixd (root), see `determinateNix` in ./system.nix
-      netrc = {
-        rekeyFile = ../../secrets/netrc.age;
-        owner = "root";
-        mode = "600";
-      };
     };
   };
 

@@ -7,13 +7,8 @@ engine: nixery
 environment:
   NIX_CONFIG: |
     experimental-features = nix-command flakes
-    netrc-file = /tmp/rex.netrc
 
 steps:
-  - name: "authenticate to pkgs.superlogical.com"
-    command: |
-      printf 'machine pkgs.superlogical.com login rex password %s\n' "$REX_PACKAGE_TOKEN" > /tmp/rex.netrc
-      chmod 600 /tmp/rex.netrc
   - name: "nix flake check"
     command: "nix flake check --show-trace"
   - name: "format"
