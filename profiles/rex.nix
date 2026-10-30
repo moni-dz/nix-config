@@ -7,6 +7,7 @@ in
   services.rex.loginServer = {
     enable = true;
     accounts = lib.mapAttrs (_: _: { principals = [ "tailscale:moni-dz@github" ]; }) users;
+    socketActivation = true;
     tailscaleServe.enable = true;
   };
 }
