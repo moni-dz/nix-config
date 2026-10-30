@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "bcachefs-tools": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1793339273,
+        "narHash": "sha256-qSLfqBj5xkCxaXtNOV7+Ly8jriyfg/F9ZO1XQovQENs=",
+        "owner": "koverstreet",
+        "repo": "bcachefs-tools",
+        "rev": "9ef26eefcaac53511b57d1bb1ebf983231956e98",
+        "type": "github"
+      },
+      "original": {
+        "owner": "koverstreet",
+        "repo": "bcachefs-tools",
+        "type": "github"
+      }
+    },
     "flake-utils": {
       "inputs": {
         "systems": "systems"
@@ -41,11 +57,11 @@
         "rust-overlay": "rust-overlay"
       },
       "locked": {
-        "lastModified": 1793341154,
-        "narHash": "sha256-MmvZbTo2OzTmud4pD+u/VEmKKP1pU3yprjbRyn6k9c4=",
+        "lastModified": 1793361791,
+        "narHash": "sha256-jiUrWTS8H+HDEIicf0p/C0+MQsXm09lf3LudLgSjJow=",
         "owner": "jj-vcs",
         "repo": "jj",
-        "rev": "4b659baa60b80c062277fe2bdcc7f56102ca2f41",
+        "rev": "633b5fcd1e560e5e70046b391d20db43873fe2f2",
         "type": "github"
       },
       "original": {
@@ -112,11 +128,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1793361614,
-        "narHash": "sha256-oAqwX6xryciNkcPQl4vmDyt64TuHqhwkz7gVuL5iEuI=",
+        "lastModified": 1793363240,
+        "narHash": "sha256-1tNYYIT8sMEjejX1ErV3U3N5ags0by0BCRgblqOLM80=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "38a88feadf1b69cda958c2ea6929d299646afe91",
+        "rev": "314fdd4533c7a0911ad4b25c1de333f58ba5e1b8",
         "type": "github"
       },
       "original": {
@@ -209,6 +225,7 @@
     },
     "root": {
       "inputs": {
+        "bcachefs-tools": "bcachefs-tools",
         "infuse": "infuse",
         "jj": "jj",
         "mellifluous-nvim": "mellifluous-nvim",

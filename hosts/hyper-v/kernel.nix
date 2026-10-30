@@ -60,6 +60,7 @@ let
     "DRM_GMA500"
     "DRM_AST"
     "DRM_MGAG200"
+    "DRM_PANIC_SCREEN_QR_CODE"
 
     # tracing and suspend
     "FTRACE"
@@ -161,6 +162,9 @@ let
     dontConfigure = true;
     dontPatch = true;
 
+    # without it Kconfig reports no Rust toolchain and olddefconfig drops RUST
+    env.RUST_LIB_SRC = pkgs.rustPlatform.rustLibSrc;
+
     buildPhase = ''
       cp ${stripped.configfile} .config
       chmod +w .config
@@ -198,10 +202,12 @@ let
     modDirVersion = lib.versions.pad 3 kernel.version;
     allowImportFromDerivation = true;
 
-    kernelPatches = [
-      pkgs.linuxKernel.kernelPatches.bridge_stp_helper
-      pkgs.linuxKernel.kernelPatches.request_key_helper
-    ];
+    kernelPatches = __attrValues {
+      inherit (pkgs.linuxKernel.kernelPatches)
+        bridge_stp_helper
+        request_key_helper
+        ;
+    };
 
     extraMeta.branch = lib.versions.majorMinor kernel.version;
   };

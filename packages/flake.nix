@@ -13,6 +13,11 @@
       flake = false;
     };
 
+    bcachefs-tools = {
+      url = "github:koverstreet/bcachefs-tools";
+      flake = false;
+    };
+
     # Neovim plugins that aren't in nixpkgs
     mellifluous-nvim = {
       url = "github:ramojus/mellifluous.nvim";
