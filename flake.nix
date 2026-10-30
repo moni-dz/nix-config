@@ -65,7 +65,7 @@
     };
 
     # Nixpkgs branches
-    master.url = "github:NixOS/nixpkgs/master";
+    master.url = "github:moni-dz/nixpkgs/vcs/uxvvnzlnvkvm";
 
     # Default Nixpkgs for packages and modules
     nixpkgs.follows = "master";
