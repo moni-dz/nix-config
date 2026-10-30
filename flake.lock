@@ -416,11 +416,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1793026809,
-        "narHash": "sha256-BohcZsIqBOd6YL6+jUkdM4GE+aQc72E6yrqVyt1z5X4=",
+        "lastModified": 1793333241,
+        "narHash": "sha256-hmlUXxCk6On7Hrop/TyS3//dgI2BLvaN4TEsOq1ma+Y=",
         "owner": "feel-co",
         "repo": "hjem",
-        "rev": "d219ef55ab7311d884cf33e114561082fec95f34",
+        "rev": "8408642aa3035135fa6d70269dc93e0814e2a4f6",
         "type": "github"
       },
       "original": {
@@ -505,11 +505,11 @@
     },
     "master": {
       "locked": {
-        "lastModified": 1793242224,
-        "narHash": "sha256-WVfYRSuP2ab3cYMOVMI7h3ju+CVP6TLZRPuccIr6594=",
+        "lastModified": 1793360540,
+        "narHash": "sha256-kr/Ax0e3i2S2YZ4uIL8dBS0M1CACk3rTBVGijGXhhaY=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "bc81305be8b95b08d9b31e49f51235da538e993a",
+        "rev": "f6e79918b9a121f4fc648ce42e78651eb3b04438",
         "type": "github"
       },
       "original": {
@@ -622,11 +622,11 @@
         "nixpkgs-regression": "nixpkgs-regression_2"
       },
       "locked": {
-        "lastModified": 1793226856,
-        "narHash": "sha256-QGSvEq7VRZ8fojUnkeaTBt3n0wZHDk2T6U+3h2jZh10=",
+        "lastModified": 1793301797,
+        "narHash": "sha256-onB7+ZA1EXZJh1BftgB93Mkwb16N3A/FIjlDEGI8p8U=",
         "owner": "NixOS",
         "repo": "nix",
-        "rev": "f2f74064ce3e558dc7ab9192f00852412f927ec8",
+        "rev": "8759435f7396e366a9227274751c950cb0a4fc5e",
         "type": "github"
       },
       "original": {
@@ -857,10 +857,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1793231964,
-        "narHash": "sha256-nQpelICT/XbtIxeEbh6Gl8OhWAgg0ELojVc/MZ+9nqA=",
+        "lastModified": 1793359647,
+        "narHash": "sha256-KftHzl6/AJFiWp/017WXP5HMzK2IIm5RfodqFwOmrkc=",
         "type": "tarball",
-        "url": "https://pkgs.superlogical.com/rex/nix/snapshot/0.0.1793231964-ga3e149.tar.gz"
+        "url": "https://pkgs.superlogical.com/rex/nix/snapshot/0.0.1793359647-g966596.tar.gz"
       },
       "original": {
         "type": "tarball",
