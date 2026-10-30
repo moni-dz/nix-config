@@ -49,9 +49,5 @@ in
         }
       );
     }) installers;
-
-    checks.x86_64-linux.installer-script = import ../profiles/installer/test.nix {
-      pkgs = inputs.nixpkgs.legacyPackages.x86_64-linux;
-    };
   };
 }

@@ -101,7 +101,7 @@
     hostPlatform = "x86_64-linux";
 
     overlays = [
-      (final: prev: {
+      (_: prev: {
         dbus = prev.dbus.override { systemdMinimal = config.systemd.package; };
 
         coreutils-full = prev.coreutils;
