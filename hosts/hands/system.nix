@@ -11,15 +11,19 @@
 " (builtins.readFile ../../secrets/host-keys/hands.pub);
   };
 
-  boot.loader = {
-    limine = {
-      enable = true;
-      efiSupport = true;
-      maxGenerations = 4;
-      extraConfig = "interface_rotation: 90";
-    };
+  boot = {
+    kernelPackages = pkgs.linuxKernel.packages.linux_xanmod_latest;
 
-    efi.canTouchEfiVariables = true;
+    loader = {
+      limine = {
+        enable = true;
+        efiSupport = true;
+        maxGenerations = 4;
+        extraConfig = "interface_rotation: 90";
+      };
+
+      efi.canTouchEfiVariables = true;
+    };
   };
 
   environment = {
