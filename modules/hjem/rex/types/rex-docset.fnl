@@ -65,7 +65,9 @@
        :action
          (fun :rex.action [:spec]
            (text "Define an action. `spec` has name, title and run (called as (fn [ctx "
-                 "args])), and optionally description, category, keywords, args and repeats."))
+                 "args])), and optionally description, category, keywords, args and repeats. `args` maps "
+                 "names to string, number, integer, boolean, object, array or any (a trailing "
+                 "? makes one optional), or is a JSON Schema table."))
 
        :invoke
          (fun :rex.invoke [:name :?args]
@@ -125,7 +127,7 @@
 
        :block
          (section :rex.block
-           "Block methods."
+           "Block methods. A terminal offers format, process, pwd, title, size, write, reset, resize, set_theme, program_status and list_dir."
            {:call
               (fun :rex.block.call [:creator :method :?args]
                 (text "Call a method on a block. `creator` is the full name of the kind of "
@@ -168,8 +170,9 @@
 
        :host
          (fun :rex.host [:spec]
-           (text "Declare another Rex server. `spec` has label, endpoints (or endpoint), "
-                 "and optionally id and icon. Configuration file only."))
+           (text "Declare another Rex server. `spec` has label, endpoints (or endpoint; "
+                 "addresses or a unix socket path), and optionally id and icon. "
+                 "Configuration file only."))
 
        :servers
          (fun :rex.servers []
@@ -179,7 +182,8 @@
        :server
          (fun :rex.server [:label]
            (text "Return a table with the same session, block and call functions as rex, "
-                 "whose calls go to that server. Raises an error for an unknown label."))
+                 "whose calls go to that server and don't fill in a session_id or block_id. "
+                 "Raises an error for an unknown label."))
 
        :exec
          (fun :rex.exec [:argv :?opts]

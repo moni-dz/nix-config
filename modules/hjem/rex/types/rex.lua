@@ -9,7 +9,7 @@
 ---@field session_id? string
 ---@field block_id? string
 ---@field client_id? string
----@field origin? string where the call came from, such as "timer"
+---@field origin? "key"|"palette"|"cli"|"api"|"script"|"timer"|string how the action was run
 ---@field server? string
 
 ---@class rex.KeyEvent
@@ -37,6 +37,9 @@
 ---@class rex.ModeOptions
 ---@field exclusive? boolean
 
+---A trailing `?` marks an argument as optional, such as "number?".
+---@alias rex.ArgType "string"|"number"|"integer"|"boolean"|"object"|"array"|"any"|string
+
 ---@class rex.ActionSpec
 ---@field name string lowercase letters, digits and underscores
 ---@field title string shown in the command palette
@@ -44,12 +47,12 @@
 ---@field description? string
 ---@field category? string defaults to "Actions"
 ---@field keywords? string extra words for search
----@field args? table<string, string>|table argument types, or a JSON Schema
+---@field args? table<string, rex.ArgType>|table argument types, or a JSON Schema (a table with a `type` key)
 ---@field repeats? boolean run again while the key is held
 
 ---@class rex.HostSpec
 ---@field label string
----@field endpoints? string[] tried in order
+---@field endpoints? string[] tried in order; a unix socket path also works
 ---@field endpoint? string in place of `endpoints`
 ---@field id? string a stable ID, so the host keeps its identity when renamed
 ---@field icon? string
@@ -155,12 +158,29 @@ function Timer:active() end
 ---@field detach rex.Call
 ---@field help rex.Call
 
+---The methods of a terminal block, for `rex.block.call("com.superlogical.terminal", ...)`:
+---`format`, `process`, `pwd`, `title`, `size`, `write`, `reset`, `resize`,
+---`set_theme`, `program_status` and `list_dir`.
+---@alias rex.TerminalMethod
+---| "format" the screen as text, HTML, or VT sequences
+---| "process" the terminal's child and foreground processes
+---| "pwd" the working directory the terminal last reported
+---| "title"
+---| "size" in cells and pixels
+---| "write" bytes, as if typed
+---| "reset"
+---| "resize"
+---| "set_theme" replace the default colors
+---| "program_status" the status records programs have reported
+---| "list_dir" the directories under a path
+---| string
+
 ---@class rex.BlockApi
 local BlockApi = {}
 
 ---Call a method on a block. `block_id` defaults to the current block.
 ---@param creator string the full name of the kind of block, such as "com.superlogical.terminal"
----@param method string
+---@param method rex.TerminalMethod|string
 ---@param args? table
 ---@return table? result
 ---@return string? err
@@ -174,6 +194,7 @@ local ClientApi = {}
 ---@param args? table
 function ClientApi.queue(name, args) end
 
+---Calls made through a server don't fill in a `session_id` or `block_id`.
 ---@class rex.Server
 ---@field session rex.SessionApi
 ---@field block rex.BlockApi
